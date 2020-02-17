@@ -1,0 +1,59 @@
+﻿<Window x:Class="EmissorNFe.View.Gerencial.EnvioRelatorioContabilidadeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmissorNFe.View.Gerencial"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#FFF0F0F0"
+        Title="Envio para contabilidade"
+        Height="200" Width="400"
+        x:Name="window"
+        DataContext="{Binding Source={StaticResource Locator}, Path=EnviarContabilidade}">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="177*"/>
+            <ColumnDefinition Width="221*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Selecione o período:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="5" FontSize="13"/>
+        <StackPanel Grid.Row="1" Margin="5">
+            <Label Content="Mês"/>
+            <ComboBox Template="{StaticResource ComboBoxControlTemplateCustom}" SelectedValuePath="Tag" SelectedValue="{Binding Mes}">
+                <ComboBoxItem Content="Janeiro" Tag="01"/>
+                <ComboBoxItem Content="Fevereiro" Tag="02"/>
+                <ComboBoxItem Content="Março" Tag="03"/>
+                <ComboBoxItem Content="Abril" Tag="04"/>
+                <ComboBoxItem Content="Maio" Tag="05"/>
+                <ComboBoxItem Content="Junho" Tag="06"/>
+                <ComboBoxItem Content="Julho" Tag="07"/>
+                <ComboBoxItem Content="Agosto" Tag="08"/>
+                <ComboBoxItem Content="Setembro" Tag="09"/>
+                <ComboBoxItem Content="Outubro" Tag="10"/>
+                <ComboBoxItem Content="Novembro" Tag="11"/>
+                <ComboBoxItem Content="Dezembro" Tag="12"/>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+            <Label Content="Ano"/>
+            <ComboBox Template="{StaticResource ComboBoxControlTemplateCustom}" SelectedValuePath="Content" SelectedValue="{Binding Ano}">
+                <ComboBoxItem Content="2017"/>
+                <ComboBoxItem Content="2018"/>
+                <ComboBoxItem Content="2019"/>
+                <ComboBoxItem Content="2020"/>
+                <ComboBoxItem Content="2021"/>
+                <ComboBoxItem Content="2022"/>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,0">
+            <Button Content="Enviar" Style="{StaticResource SaveButton}" Margin="5,0,0,0" Command="{Binding EnviarParaContabilidadeCmd}" CommandParameter="{Binding ElementName=window}" />
+        </StackPanel>
+    </Grid>
+</Window>

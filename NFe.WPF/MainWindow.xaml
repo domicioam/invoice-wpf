@@ -1,0 +1,144 @@
+﻿<Window x:Class="EmissorNFe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmissorNFe"
+        mc:Ignorable="d"
+        Title="Emissor Notas Fiscais"
+        Height="600"
+        Width="1115"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Background="#FFEEEEF2"
+        Icon="icone_nfe_4aG_icon.ico"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCmd}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="MenuItem">
+                <Setter Property="FontSize"
+                        Value="15" />
+            </Style>
+            <Style x:Key="MenuItem"
+                   TargetType="{x:Type MenuItem}">
+                <Setter Property="FontSize"
+                        Value="13.5" />
+            </Style>
+            <Image x:Key="newUser"
+                   Source="/Icons/NewUsage_16x.png" />
+            <Image x:Key="certificate"
+                   Source="/Icons/SigningKey_16x.png" />
+            <Image x:Key="property"
+                   Source="/Icons/Property_16x.png" />
+            <Image x:Key="sendEmail"
+                   Source="/Icons/SendEmail_16x.png" />
+            <Image x:Key="report"
+                   Source="/Icons/SwitchToPreview_16x.png" />
+            <Image x:Key="xml"
+                   x:Shared="False"
+                   Source="/Icons/ProjectXML_16x.png" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0"
+              Background="{x:Null}"
+              Margin="5,0,0,0">
+            <MenuItem Header="Empresa"
+                      Style="{StaticResource MenuItem}">
+                <MenuItem Header="Adicionar empresa"
+                          Click="MenuItem_Click_4"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource newUser}" />
+            </MenuItem>
+            <MenuItem Header="Certificado"
+                      Style="{StaticResource MenuItem}">
+                <MenuItem Header="Adicionar Certificado"
+                          Click="MenuItem_Click"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource certificate}" />
+            </MenuItem>
+            <MenuItem Header="Configurações"
+                      Style="{StaticResource MenuItem}">
+                <MenuItem Header="Opções"
+                          Click="MenuItem_Click_5"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource property}" />
+            </MenuItem>
+            <MenuItem Header="Gerencial"
+                      Style="{StaticResource MenuItem}">
+                <MenuItem Header="Enviar p/ contabilidade"
+                          Click="MenuItem_Click_7"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource sendEmail}" />
+                <MenuItem Header="Acompanhamento"
+                          Click="MenuItem_Click_8"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource report}"/>
+                <MenuItem Header="Importar XML"
+                          Click="MenuItem_Click_9"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource xml}"/>
+                <MenuItem Header="Importar XML Fornecedor"
+                          Click="MenuItem_Click_10"
+                          Style="{StaticResource MenuItem}"
+                          Icon="{StaticResource xml}" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="15"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  MinWidth="150" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Margin="0,42,0,30"
+                          Grid.Column="0"
+                          VerticalScrollBarVisibility="Auto">
+                <Menu BorderThickness="1"
+                      Background="WhiteSmoke"
+                      BorderBrush="#FFCCCEDB">
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+                    <MenuItem Header="Nota Fiscal"
+                              Padding="5,5,0,5"
+                              Click="MenuItem_Click_2" />
+                    <MenuItem Header="Destinatários"
+                              Padding="5,5,0,5"
+                              Click="MenuItem_Click_6" />
+                    <MenuItem Header="Produtos"
+                              Padding="5,5,0,5"
+                              Click="MenuItem_Click_1" />
+                    <MenuItem Header="Impostos"
+                              Padding="5,5,0,5"
+                              Click="MenuItem_Click_3" />
+                </Menu>
+            </ScrollViewer>
+
+            <Grid Grid.Column="2">
+                <ContentControl Name="ContentHolder" />
+            </Grid>
+            <GridSplitter ShowsPreview="True"
+                          Width="10"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          Grid.Column="1"
+                          Background="#00F0F0F0" />
+        </Grid>
+    </Grid>
+</Window>

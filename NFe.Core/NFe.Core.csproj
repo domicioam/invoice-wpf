@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B844A95A-B767-4C52-9E5A-80081421CEC4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NFe.Core</RootNamespace>
+    <AssemblyName>NFe.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64Bits|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\64Bits\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64Bits|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\64Bits\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64Bits|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\64Bits\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.2\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.2\lib\net40\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Zen.Barcode.Core, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zen.Barcode.Core.Code128.3.1.0\lib\net45\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.System.Drawing.4.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cadastro\Certificado\CertificadoService.cs" />
+    <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
+    <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
+    <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
+    <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
+    <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
+    <Compile Include="Cadastro\EstadoService.cs" />
+    <Compile Include="Cadastro\IEstadoService.cs" />
+    <Compile Include="Cadastro\IMunicipioService.cs" />
+    <Compile Include="Cadastro\INaturezaOperacaoService.cs" />
+    <Compile Include="Cadastro\Produto\IProdutoService.cs" />
+    <Compile Include="Entitities\CertificadoEntity.cs" />
+    <Compile Include="Entitities\CfopEntity.cs" />
+    <Compile Include="Entitities\ConfiguracaoEntity.cs" />
+    <Compile Include="Entitities\DestinatarioEntity.cs" />
+    <Compile Include="Entitities\EmitenteEntity.cs" />
+    <Compile Include="Entitities\EnderecoDestinatarioEntity.cs" />
+    <Compile Include="Entitities\EnderecoEntity.cs" />
+    <Compile Include="Entitities\EnderecoTransportadoraEntity.cs" />
+    <Compile Include="Entitities\Enums\TabelaCofinsCst.cs" />
+    <Compile Include="Entitities\Enums\TabelaIcmsCst.cs" />
+    <Compile Include="Entitities\Enums\TabelaPisCst.cs" />
+    <Compile Include="Entitities\EstadoEntity.cs" />
+    <Compile Include="Entitities\EventoEntity.cs" />
+    <Compile Include="Entitities\GrupoImposto.cs" />
+    <Compile Include="Entitities\HistoricoEnvioContabilidade.cs" />
+    <Compile Include="Entitities\IbptEntity.cs" />
+    <Compile Include="Entitities\Imposto.cs" />
+    <Compile Include="Entitities\MunicipioEntity.cs" />
+    <Compile Include="Entitities\NaturezaOperacaoEntity.cs" />
+    <Compile Include="Entitities\NotaFiscalEntity.cs" />
+    <Compile Include="Entitities\NotaInutilizadaEntity.cs" />
+    <Compile Include="Entitities\ProdutoEntity.cs" />
+    <Compile Include="Entitities\ProdutoNotaFiscal.cs" />
+    <Compile Include="Entitities\TransportadoraEntity.cs" />
+    <Compile Include="Interfaces\ICertificadoRepository.cs" />
+    <Compile Include="Interfaces\IConfiguracaoRepository.cs" />
+    <Compile Include="Interfaces\IDestinatarioRepository.cs" />
+    <Compile Include="Interfaces\IEmitenteRepository.cs" />
+    <Compile Include="Interfaces\IEstadoRepository.cs" />
+    <Compile Include="Interfaces\IEventoRepository.cs" />
+    <Compile Include="Interfaces\IGrupoImpostosRepository.cs" />
+    <Compile Include="Interfaces\IHistoricoEnvioContabilidadeRepository.cs" />
+    <Compile Include="Interfaces\IIbptRepository.cs" />
+    <Compile Include="Interfaces\IMunicipioRepository.cs" />
+    <Compile Include="Interfaces\INaturezaOperacaoRepository.cs" />
+    <Compile Include="Interfaces\INotaFiscalRepository.cs" />
+    <Compile Include="Interfaces\INotaInutilizadaRepository.cs" />
+    <Compile Include="Interfaces\IProdutoRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ITransportadoraRepository.cs" />
+    <Compile Include="Interfaces\IXmlFileWritable.cs" />
+    <Compile Include="NotasFiscais\IServiceFactory.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeConsulta2\INFeConsulta.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRecepcaoEvento\INFeCancelamento.cs" />
+    <Compile Include="NotasFiscais\Services\CancelaNotaFiscalService.cs" />
+    <Compile Include="NotasFiscais\Services\EventoService.cs" />
+    <Compile Include="NotasFiscais\Services\ICancelaNotaFiscalService.cs" />
+    <Compile Include="NotasFiscais\Services\IConsultaStatusServicoService.cs" />
+    <Compile Include="NotasFiscais\Services\IEventoService.cs" />
+    <Compile Include="NotasFiscais\Services\ImportadorXmlService.cs" />
+    <Compile Include="Cadastro\Imposto\ImpostoService.cs" />
+    <Compile Include="NotasFiscais\Services\IEnviaNotaFiscalService.cs" />
+    <Compile Include="NotasFiscais\Services\INotaInutilizadaService.cs" />
+    <Compile Include="NotasFiscais\Services\ModoOnlineService.cs" />
+    <Compile Include="Cadastro\MunicipioService.cs" />
+    <Compile Include="NotasFiscais\Services\EmiteNotaFiscalContingenciaService.cs" />
+    <Compile Include="NotasFiscais\Services\NotaInutilizadaService.cs" />
+    <Compile Include="NotasFiscais\NotaInutilizadaTO.cs" />
+    <Compile Include="NotasFiscais\Services\ConsultaStatusServicoService.cs" />
+    <Compile Include="Cadastro\Transportadora\TransportadoraService.cs" />
+    <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeConsultaProtocolo4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeInutilizacao4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeRecepcaoEvento4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NFeRetAutorizacao4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\NfeStatusServico4\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Assinatura\ICertificateManager.cs" />
+    <Compile Include="Utils\Log\Log.cs" />
+    <Compile Include="Utils\PDF\NotaCancelada.cs" />
+    <Compile Include="Utils\PDF\RelatorioGerencial\Emitente.cs" />
+    <Compile Include="Utils\PDF\RelatorioGerencial\Evento.cs" />
+    <Compile Include="Utils\PDF\RelatorioGerencial\NotaFiscal.cs" />
+    <Compile Include="Utils\PDF\RelatorioGerencial\NotaInutilizada.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeAutorizacao\MensagemRetornoTransmissaoNotasContingencia.cs" />
+    <Compile Include="NotasFiscais\Destinatario.cs" />
+    <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
+    <Compile Include="NotasFiscais\Endereco.cs" />
+    <Compile Include="NotasFiscais\CodMunicipioIBGE.cs" />
+    <Compile Include="NotasFiscais\Emitente.cs" />
+    <Compile Include="Cadastro\Emissor\EmissorService.cs" />
+    <Compile Include="Endereco.cs" />
+    <Compile Include="NotasFiscais\Estado.cs" />
+    <Compile Include="NotasFiscais\Ibpt.cs" />
+    <Compile Include="Cadastro\Imposto\IbptManager.cs" />
+    <Compile Include="NotasFiscais\IcmsTotal.cs" />
+    <Compile Include="NotasFiscais\IdentificacaoNFe.cs" />
+    <Compile Include="NotasFiscais\InfoAdicional.cs" />
+    <Compile Include="Cadastro\NaturezaOperacaoService.cs" />
+    <Compile Include="Cadastro\Produto\ProdutoService.cs" />
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="NotasFiscais\NotaFiscal.cs" />
+    <Compile Include="NotasFiscais\Services\EnviaNotaFiscalService.cs" />
+    <Compile Include="NotasFiscais\Cartao.cs" />
+    <Compile Include="NotasFiscais\Pagamento.cs" />
+    <Compile Include="NotasFiscais\Produto.cs" />
+    <Compile Include="NotasFiscais\TotalNFe.cs" />
+    <Compile Include="NotasFiscais\Transportadora.cs" />
+    <Compile Include="NotasFiscais\Transporte.cs" />
+    <Compile Include="NotasFiscais\Veiculo.cs" />
+    <Compile Include="NotasFiscais\ServiceFactory.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRecepcaoEvento\NFeCancelamento.cs" />
+    <Compile Include="MensagemRetornoEnvioNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeConsulta2\NFeConsulta.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeInutilizacao2\NFeInutilizacao.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeAutorizacao\RetornoNotaFiscal.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeStatusServico2\NFeStatusServico.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Acentuacao\Acentuacao.cs" />
+    <Compile Include="Utils\Assinatura\AssinaturaDigital.cs" />
+    <Compile Include="Utils\Assinatura\CertificateManager.cs" />
+    <Compile Include="Utils\Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
+    <Compile Include="Utils\Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
+    <Compile Include="Utils\Conversores\Enums\TUfConversor.cs" />
+    <Compile Include="Utils\Conversores\Enums\TUfDestConversor.cs" />
+    <Compile Include="Utils\Conversores\Enums\TUfEmiConversor.cs" />
+    <Compile Include="Utils\Conversores\UfToCodigoUfConversor.cs" />
+    <Compile Include="Utils\Conversores\UfToTCOrgaoIBGEConversor.cs" />
+    <Compile Include="Utils\CstListManager.cs" />
+    <Compile Include="Utils\Global.cs" />
+    <Compile Include="Utils\PDF\GeradorPDF.cs" />
+    <Compile Include="Utils\QrCode\QrCodeUtil.cs" />
+    <Compile Include="Utils\RijndaelManagedEncryption.cs" />
+    <Compile Include="Utils\SubstringExtensions.cs" />
+    <Compile Include="Utils\Xml\ValidadorXml.cs" />
+    <Compile Include="Utils\Xml\XmlExtensions.cs" />
+    <Compile Include="Utils\Xml\XmlFileHelper.cs" />
+    <Compile Include="Utils\Xml\XmlUtil.cs" />
+    <Compile Include="Utils\Zip\GeradorZip.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeAutorizacao\Retorno\TNfeProc.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeConsulta2\Retorno\TRetConsSitNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeConsulta2\Envio\TConsSitNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeInutilizacao2\Envio\TInutNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeInutilizacao2\Retorno\TProcInutNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeInutilizacao2\Retorno\TRetInutNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRecepcaoEvento\Cancelamento\Envio\EnvEventoCancNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRecepcaoEvento\Cancelamento\Retorno\ProcEventoNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRecepcaoEvento\Cancelamento\Retorno\RetEnvEventoCancNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRetAutorizacao\Envio\TConsReciNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeRetAutorizacao\Retorno\TRetConsReciNFe.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeStatusServico2\Envio\TConsStatServ.cs" />
+    <Compile Include="NotasFiscais\Sefaz\NfeStatusServico2\Retorno\TRetConsStatServ.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\NFeAutorizacao4\NFe.Core.NFeAutorizacao4.nfeAutorizacaoLoteResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeAutorizacao4\NFe.Core.NFeAutorizacao4.nfeAutorizacaoLoteZipResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeAutorizacao4\NFeAutorizacao4.wsdl" />
+    <None Include="Connected Services\NFeConsultaProtocolo4\NFe.Core.NFeConsultaProtocolo4.nfeConsultaNFResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeConsultaProtocolo4\NfeConsulta4.wsdl" />
+    <None Include="Connected Services\NFeInutilizacao4\NFe.Core.NFeInutilizacao4.nfeInutilizacaoNFResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeInutilizacao4\nfeinutilizacao4.wsdl" />
+    <None Include="Connected Services\NFeRecepcaoEvento4\NFe.Core.NFeRecepcaoEvento4.nfeRecepcaoEventoResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeRecepcaoEvento4\recepcaoevento4.wsdl" />
+    <None Include="Connected Services\NFeRetAutorizacao4\NFe.Core.NFeRetAutorizacao4.nfeRetAutorizacaoLoteResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NFeRetAutorizacao4\NFeRetAutorizacao4.wsdl" />
+    <None Include="Connected Services\NfeStatusServico4\NFe.Core.NfeStatusServico4.nfeStatusServicoNFResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\NfeStatusServico4\NfeStatusServico4.wsdl" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeInutilizacao4\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeInutilizacao4\configuration.svcinfo" />
+    <None Include="Connected Services\NFeInutilizacao4\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeConsultaProtocolo4\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeConsultaProtocolo4\configuration.svcinfo" />
+    <None Include="Connected Services\NFeConsultaProtocolo4\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NfeStatusServico4\configuration91.svcinfo" />
+    <None Include="Connected Services\NfeStatusServico4\configuration.svcinfo" />
+    <None Include="Connected Services\NfeStatusServico4\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeRecepcaoEvento4\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeRecepcaoEvento4\configuration.svcinfo" />
+    <None Include="Connected Services\NFeRecepcaoEvento4\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeAutorizacao4\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeAutorizacao4\configuration.svcinfo" />
+    <None Include="Connected Services\NFeAutorizacao4\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFeRetAutorizacao4\configuration91.svcinfo" />
+    <None Include="Connected Services\NFeRetAutorizacao4\configuration.svcinfo" />
+    <None Include="Connected Services\NFeRetAutorizacao4\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\consReciNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\consSitNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\consStatServ_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\envEventoCancNFe_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\enviNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\inutNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\leiauteConsSitNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\leiauteConsStatServ_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\leiauteEventoCancNFe_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\leiauteInutNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\leiauteNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\nfe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\procInutNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\procNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\retConsReciNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\retConsSitNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\retConsStatServ_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\retEnviNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\retInutNFe_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\tiposBasico_v1.03.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\tiposBasico_v4.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\xmldsig-core-schema_v1.01.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\procEventoCancNFe_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WS\XmlSchemas\XSD\Nota 4.0\retEnvEventoCancNFe_v1.00.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\NFeAutorizacao4\" />
+    <WCFMetadataStorage Include="Connected Services\NFeConsultaProtocolo4\" />
+    <WCFMetadataStorage Include="Connected Services\NFeInutilizacao4\" />
+    <WCFMetadataStorage Include="Connected Services\NFeRecepcaoEvento4\" />
+    <WCFMetadataStorage Include="Connected Services\NFeRetAutorizacao4\" />
+    <WCFMetadataStorage Include="Connected Services\NfeStatusServico4\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Dlls\Microsoft.ReportViewer.Common.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.DataVisualization.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.Design.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

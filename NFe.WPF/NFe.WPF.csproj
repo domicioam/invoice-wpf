@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D39ABFE9-3EA9-4A92-ADEE-E47F72FCD3A4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NFe.WPF</RootNamespace>
+    <AssemblyName>NFe.WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>C:\Users\domic\Desktop\Emissor\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64Bits|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\64Bits\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64Bits|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\64Bits\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '64Bits|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\64Bits\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>DE4106186616B836E39925B4595EBAE9C3553336</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>EmissorNFe_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icone_nfe_4aG_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.2.0\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dlls\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="QRCoder, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.2\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.4.3.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.4.3\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.110.0\lib\net46\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.110.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.110.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.2\lib\net40\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Zen.Barcode.Core, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zen.Barcode.Core.Code128.3.1.0\lib\net45\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ZKWeb.System.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZKWeb.System.Drawing.4.0.0\lib\net45\ZKWeb.System.Drawing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Acompanhamento\View\GroupsToTotalConverter.cs" />
+    <Compile Include="Model\Base\ObservableObjectValidation.cs" />
+    <Compile Include="Model\CertificadoModel.cs" />
+    <Compile Include="Model\DestinatarioModel.cs" />
+    <Compile Include="Model\EnderecoDestinatarioModel.cs" />
+    <Compile Include="Model\EnderecoTransportadoraModel.cs" />
+    <Compile Include="Model\NaturezaOperacaoModel.cs" />
+    <Compile Include="NotaFiscal\Model\NFeModel.cs" />
+    <Compile Include="NotaFiscal\Model\NFCeModel.cs" />
+    <Compile Include="NotaFiscal\Model\NotaFiscalModel.cs" />
+    <Compile Include="Model\PagamentoModel.cs" />
+    <Compile Include="Model\ReportNFCeReadModel.cs" />
+    <Compile Include="Model\ReportNFe\ReportNFeReadModel.cs" />
+    <Compile Include="Model\TransportadoraModel.cs" />
+    <Compile Include="Reports\PDF\GeradorPDF.cs" />
+    <Compile Include="NotaFiscal\Model\NotaCancelada.cs" />
+    <Compile Include="Utils\MailManager.cs" />
+    <Compile Include="Utils\RijndaelManagedEncryption.cs" />
+    <Compile Include="Acompanhamento\ViewModel\AcompanhamentoNotasViewModel.cs" />
+    <Compile Include="ViewModel\Base\ViewModelBaseValidation.cs" />
+    <Compile Include="NotaFiscal\ViewModel\CancelarNotaViewModel.cs" />
+    <Compile Include="ViewModel\CertificadoViewModel.cs" />
+    <Compile Include="NotaFiscal\ViewModel\EnviarNotaController.cs" />
+    <Compile Include="NotaFiscal\ViewModel\IEnviarNota.cs" />
+    <Compile Include="ViewModel\DestinatarioMainViewModel.cs" />
+    <Compile Include="ViewModel\DestinatarioViewModel.cs" />
+    <Compile Include="ViewModel\EmitenteViewModel.cs" />
+    <Compile Include="ViewModel\EnviarContabilidadeViewModel.cs" />
+    <Compile Include="ViewModel\EnviarEmailViewModel.cs" />
+    <Compile Include="ViewModel\ImportarXMLFornecedorViewModel.cs" />
+    <Compile Include="ViewModel\ImportarXMLViewModel.cs" />
+    <Compile Include="Imposto\ViewModel\ImpostoMainViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\Mementos\NotaFiscalMemento.cs" />
+    <Compile Include="NotaFiscal\ViewModel\NFeViewModel.cs" />
+    <Compile Include="NotaFiscal\ViewModel\NotaEnviadaEventHandler.cs" />
+    <Compile Include="NotaFiscal\ViewModel\NotaFiscalMainViewModel.cs" />
+    <Compile Include="NotaFiscal\ViewModel\NFCeViewModel.cs" />
+    <Compile Include="ViewModel\OpcoesViewModel.cs" />
+    <Compile Include="Produto\ViewModel\ProdutoListItem.cs" />
+    <Compile Include="Produto\ViewModel\ProdutoMainViewModel.cs" />
+    <Compile Include="Produto\ViewModel\ProdutoViewModel.cs" />
+    <Compile Include="ViewModel\Services\IClosable.cs" />
+    <Compile Include="NotaFiscal\ViewModel\VisualizarNotaEnviadaViewModel.cs" />
+    <Compile Include="Acompanhamento\View\AcompanhamentoNotas.xaml.cs">
+      <DependentUpon>AcompanhamentoNotas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Certificado\AdicionarCertificadoWindow.xaml.cs">
+      <DependentUpon>AdicionarCertificadoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Certificado\SenhaDialogWindow.xaml.cs">
+      <DependentUpon>SenhaDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Configurações\OpcoesWindows.xaml.cs">
+      <DependentUpon>OpcoesWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="View\Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="View\Converters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="View\Converters\BoolToStatusEnvioNotaConverter.cs" />
+    <Compile Include="View\Converters\InverseEnabledBoolToVisibilityConverter.cs" />
+    <Compile Include="View\Converters\StringToCpfCnpjConverter.cs" />
+    <Compile Include="View\Converters\StringToMaskConverter.cs" />
+    <Compile Include="View\Converters\StringToCurrencyConverter.cs" />
+    <Compile Include="View\Converters\StringToPlacaVeiculo.cs" />
+    <Compile Include="View\Destinatário\DestinatarioWindow.xaml.cs">
+      <DependentUpon>DestinatarioWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Destinatário\DestinatarioMainWindow.xaml.cs">
+      <DependentUpon>DestinatarioMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Emitente\CadastrarEmpresaWindow.xaml.cs">
+      <DependentUpon>CadastrarEmpresaWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Ferramentas\ImportarXMLFornecedorWindow.xaml.cs">
+      <DependentUpon>ImportarXMLFornecedorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Ferramentas\ImportarXMLWindow.xaml.cs">
+      <DependentUpon>ImportarXMLWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Gerencial\EnvioRelatorioContabilidadeWindow.xaml.cs">
+      <DependentUpon>EnvioRelatorioContabilidadeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Imposto\View\CadastroImpostoWindow.xaml.cs">
+      <DependentUpon>CadastroImpostoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Imposto\View\ImpostoMainWindow.xaml.cs">
+      <DependentUpon>ImpostoMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\MessageService.cs" />
+    <Compile Include="NotaFiscal\View\CancelarNotaWindow.xaml.cs">
+      <DependentUpon>CancelarNotaWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotaFiscal\View\EnviarEmailWindow.xaml.cs">
+      <DependentUpon>EnviarEmailWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotaFiscal\View\NFeWindow.xaml.cs">
+      <DependentUpon>NFeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotaFiscal\View\NotaFiscalMainWindow.xaml.cs">
+      <DependentUpon>NotaFiscalMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotaFiscal\View\NFCeWindow.xaml.cs">
+      <DependentUpon>NFCeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotaFiscal\View\VisualizarNotaEnviadaWindow.xaml.cs">
+      <DependentUpon>VisualizarNotaEnviadaWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produto\View\CadastroProdutoWindow.xaml.cs">
+      <DependentUpon>CadastroProdutoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Produto\View\ProdutoMainWindow.xaml.cs">
+      <DependentUpon>ProdutoMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Imposto\ViewModel\ImpostoViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\SplashScreenWindow.xaml.cs">
+      <DependentUpon>SplashScreenWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Transportadora\AdicionarTransportadoraWindow.xaml.cs">
+      <DependentUpon>AdicionarTransportadoraWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PagamentoVO.cs" />
+    <Compile Include="Produto\Model\ProdutoVO.cs" />
+    <Page Include="Acompanhamento\View\AcompanhamentoNotas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Certificado\AdicionarCertificadoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Certificado\SenhaDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Configurações\OpcoesWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Destinatário\DestinatarioWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Destinatário\DestinatarioMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Emitente\CadastrarEmpresaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Ferramentas\ImportarXMLFornecedorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Ferramentas\ImportarXMLWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Gerencial\EnvioRelatorioContabilidadeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Imposto\View\CadastroImpostoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Imposto\View\ImpostoMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="NotaFiscal\View\CancelarNotaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotaFiscal\View\EnviarEmailWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotaFiscal\View\NFeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotaFiscal\View\NotaFiscalMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotaFiscal\View\NFCeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotaFiscal\View\VisualizarNotaEnviadaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Produto\View\CadastroProdutoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Produto\View\ProdutoMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SplashScreenWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Transportadora\AdicionarTransportadoraWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Resource Include="Icons\NewUsage_16x.png" />
+    <Resource Include="Icons\SigningKey_16x.png" />
+    <Resource Include="Icons\Property_16x.png" />
+    <Resource Include="Icons\SendEmail_16x.png" />
+    <Resource Include="Icons\SwitchToPreview_16x.png" />
+    <Resource Include="Icons\ProjectXML_16x.png" />
+    <Content Include="Reports\ReportNfe.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\ReportNfceEmail.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="icone_nfe_4aG_icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Icons\mail.png" />
+    <Content Include="Dlls\Microsoft.ReportViewer.Common.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.DataVisualization.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.Design.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
+    <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
+    <Content Include="Reports\RelatorioGerencial.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports\ReportNfce.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="keys.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.Emissor.Emissor.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.Emissor.Endereco.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.ICMS.IcmsTotal.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.Identificacao.IdentificacaoNFe.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.InfoAdicional.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.Transp.Transportadora.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Domain.Services.Transp.Veiculo.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.Model.Produto.datasource" />
+    <None Include="Properties\DataSources\NFe.Core.TO.NotaFiscal.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFCeReadModel.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFe.Destinatario.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFe.Emissor.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFe.Pagamento.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFe.Produto.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFe.ReportNFeReadModel.datasource" />
+    <None Include="Properties\DataSources\NFe.WPF.Model.ReportNFe.Transportadora.datasource" />
+    <None Include="Properties\DataSources\NFeAPI.Model.Dest.Destinatario.datasource" />
+    <None Include="Properties\DataSources\NFeAPI.Model.Dest.Endereco.datasource" />
+    <None Include="Properties\DataSources\System.DateTime.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NFe.Repository\NFe.Repository.csproj">
+      <Project>{AD90D327-1E32-4EAE-A2C5-067634B7A545}</Project>
+      <Name>NFe.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
+      <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
+      <Name>NFe.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <SplashScreen Include="View\SplashScreen.png" />
+    <Resource Include="Icons\excluir.png" />
+    <Resource Include="Icons\edit.png" />
+    <Resource Include="Icons\visualizar.png" />
+    <Resource Include="Icons\repeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
