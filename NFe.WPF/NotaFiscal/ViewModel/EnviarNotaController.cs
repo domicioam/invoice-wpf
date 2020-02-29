@@ -46,26 +46,26 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             if (notaFiscalModel.HasErrors)
                 throw new ArgumentException("Nota fiscal contém erros de validação não resolvidos.");
 
-            if (notaFiscalModel.Pagamentos[0].FormaPagamento != "Sem Pagamento"
-                && notaFiscalModel.Produtos.Sum(c => c.QtdeProduto * c.ValorUnitario) !=
-                notaFiscalModel.Pagamentos.Sum(p => p.QtdeParcelas * p.ValorParcela))
+            double valorTotalProdutos = notaFiscalModel.Produtos.Sum(c => c.QtdeProduto * c.ValorUnitario);
+            double valorTotalPagamentos = notaFiscalModel.Pagamentos.Sum(p => p.QtdeParcelas * p.ValorParcela);
+            bool isNotaComPagamento = notaFiscalModel.Pagamentos[0].FormaPagamento != "Sem Pagamento";
+
+            if (isNotaComPagamento && valorTotalProdutos != valorTotalPagamentos)
             {
                 await _dialogService.ShowError("Valor total da nota não corresponde ao valor de pagamento.",
                     "Erro!", "Ok", null);
                 throw new ArgumentException("Valor total da nota não corresponde ao valor de pagamento.");
             }
 
-            Core.NotasFiscais.NotaFiscal notaFiscal = null;
             var config = _configuracaoService.GetConfiguracao();
             var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
 
             await Task.Run( () =>
             {
                 var modeloNota = modelo;
-                const TipoEmissao tipoEmissao = TipoEmissao.Normal; //verificar status do serviço e etc
+                const TipoEmissao tipoEmissao = TipoEmissao.Normal; 
                 var destinatario = GetDestinatario(notaFiscalModel, ambiente, modelo);
-                var documentoDanfe =
-                    destinatario != null ? destinatario.DocumentoDanfe : "CPF"; //Encapsular isso aqui
+                var documentoDanfe = destinatario != null ? destinatario.DocumentoDanfe : "CPF";
                 var emitente = _emissorService.GetEmissor();
                 var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
@@ -77,16 +77,16 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                 var infoAdicional = new InfoAdicional(produtos);
                 var transporte = GetTransporte(notaFiscalModel, modelo);
 
-                notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
+                Core.NotasFiscais.NotaFiscal notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
                     totalNFe, infoAdicional, produtos, pagamentos);
 
                 var cscId = ambiente == Ambiente.Homologacao ? config.CscIdHom : config.CscId;
                 var csc = ambiente == Ambiente.Homologacao ? config.CscHom : config.Csc;
-                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
+                _enviaNotaFiscalService.EnviarNotaFiscal(null, cscId, csc);
             });
 
-            NotaEnviadaEvent(notaFiscal);
-            return notaFiscal;
+            NotaEnviadaEvent(null);
+            return null;
         }
 
         public async Task ImprimirNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
