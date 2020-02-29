@@ -63,12 +63,12 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             await Task.Run(() =>
            {
                const TipoEmissao tipoEmissao = TipoEmissao.Normal;
-               var destinatario = GetDestinatario(notaFiscalModel, ambiente, modelo);
+               var destinatario = CreateDestinatario(notaFiscalModel, ambiente, modelo);
                var documentoDanfe = destinatario != null ? destinatario.DocumentoDanfe : "CPF";
                var emitente = _emissorService.GetEmissor();
                var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
-               var identificacao = GetIdentificacao(notaFiscalModel, codigoUF, DateTime.Now, emitente, modelo,
+               var identificacao = CreateIdentificacaoNFe(notaFiscalModel, codigoUF, DateTime.Now, emitente, modelo,
                    Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, ambiente, documentoDanfe);
                var produtos = GetProdutos(notaFiscalModel, config);
                var pagamentos = GetPagamentos(notaFiscalModel);
@@ -93,7 +93,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             await GeradorPDF.GerarPdfNotaFiscal(notaFiscal);
         }
 
-        private static Destinatario GetDestinatario(NotaFiscalModel notaFiscal, Ambiente ambiente, Modelo _modelo)
+        private static Destinatario CreateDestinatario(NotaFiscalModel notaFiscal, Ambiente ambiente, Modelo _modelo)
         {
             if (notaFiscal.DestinatarioSelecionado.Documento == null &&
                 string.IsNullOrEmpty(notaFiscal.Documento)) return null;
@@ -140,7 +140,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             return destinatario;
         }
 
-        private static IdentificacaoNFe GetIdentificacao(NotaFiscalModel NotaFiscal, CodigoUfIbge codigoUF, DateTime now,
+        private static IdentificacaoNFe CreateIdentificacaoNFe(NotaFiscalModel NotaFiscal, CodigoUfIbge codigoUF, DateTime now,
             Emissor emitente, Modelo modeloNota,
             int serie, string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, string documentoDanfe)
         {
