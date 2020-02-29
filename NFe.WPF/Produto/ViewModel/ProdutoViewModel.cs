@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.WPF.ViewModel.Services;
 
 namespace NFe.WPF.ViewModel
@@ -19,7 +20,7 @@ namespace NFe.WPF.ViewModel
     public class ProdutoViewModel : ViewModelBase
     {
         private GrupoImpostos _imposto;
-        private readonly ImpostoService _impostoService;
+        private readonly IGrupoImpostosRepository _grupoImpostosRepository;
         private readonly IProdutoService _produtoService;
 
         public event ProdutoAdicionadoEventHandler ProdutoAdicionadoEvent = delegate { };
@@ -46,7 +47,7 @@ namespace NFe.WPF.ViewModel
         public ICommand SalvarCmd { get; set; }
         public ICommand CancelarCmd { set; get; }
 
-        public ProdutoViewModel(IProdutoService produtoService, ImpostoService impostoService)
+        public ProdutoViewModel(IProdutoService produtoService, IGrupoImpostosRepository grupoImpostosRepository)
         {
             UnidadesComerciais = new List<string>() { "UN" };
 
@@ -55,7 +56,7 @@ namespace NFe.WPF.ViewModel
             CancelarCmd = new RelayCommand<object>(CancelarCmd_Execute, null);
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _produtoService = produtoService;
-            _impostoService = impostoService;
+            _grupoImpostosRepository = grupoImpostosRepository;
         }
 
         private void AlterarProduto_Execute(string produtoCodigo)
@@ -78,7 +79,7 @@ namespace NFe.WPF.ViewModel
 
         private void LoadedCmd_Execute()
         {
-            var impostosDb = _impostoService.GetAll();
+            var impostosDb = _grupoImpostosRepository.GetAll();
             Impostos = new ObservableCollection<GrupoImpostos>();
 
             foreach (var impostoDb in impostosDb)

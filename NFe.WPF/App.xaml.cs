@@ -270,7 +270,6 @@ namespace EmissorNFe
             container.Register<INFeCancelamento, NFeCancelamento>(Lifestyle.Singleton);
             container.Register<MailManager>(Lifestyle.Singleton);
             container.Register<ModoOnlineService>(Lifestyle.Singleton);
-            container.Register<ImpostoService>(Lifestyle.Singleton);
             container.Register<ProdutoService>(Lifestyle.Singleton);
             container.Register<IEstadoService, EstadoService>(Lifestyle.Singleton);
             container.Register<IDestinatarioService, DestinatarioService>(Lifestyle.Singleton);

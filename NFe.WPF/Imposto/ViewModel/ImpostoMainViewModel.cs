@@ -3,12 +3,13 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 
 namespace NFe.WPF.ViewModel
 {
     public class ImpostoMainViewModel
     {
-        private ImpostoService _impostoService;
+        private IGrupoImpostosRepository _grupoImpostosRepository;
         private ImpostoViewModel _impostoViewModel;
         public ObservableCollection<GrupoImpostos> Impostos { get; set; }
 
@@ -16,7 +17,7 @@ namespace NFe.WPF.ViewModel
         public ICommand AlterarImpostoCmd { get; set; }
 
 
-        public ImpostoMainViewModel(ImpostoService impostoService, ImpostoViewModel impostoViewModel)
+        public ImpostoMainViewModel(IGrupoImpostosRepository grupoImpostosRepository, ImpostoViewModel impostoViewModel)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             Impostos = new ObservableCollection<GrupoImpostos>();
@@ -24,7 +25,7 @@ namespace NFe.WPF.ViewModel
 
             impostoViewModel.ImpostoAdicionadoEvent += ImpostoVM_ImpostoAdicionadoEvent;
             _impostoViewModel = impostoViewModel;
-            _impostoService = impostoService;
+            _grupoImpostosRepository = grupoImpostosRepository;
         }
 
         private void AlterarImpostoCmd_Execute(GrupoImpostos obj)
@@ -46,7 +47,7 @@ namespace NFe.WPF.ViewModel
         {
             Impostos.Clear();
 
-            var impostos = _impostoService.GetAll();
+            var impostos = _grupoImpostosRepository.GetAll();
 
             foreach(var imposto in impostos)
             {

@@ -7,6 +7,7 @@ using EmissorNFe.Imposto;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.Core.Utils;
 using NFe.WPF.ViewModel.Base;
 
@@ -61,7 +62,7 @@ namespace NFe.WPF.ViewModel
         }
 
         private ObservableCollection<Imposto> _impostos;
-        private ImpostoService _impostoService;
+        private IGrupoImpostosRepository _grupoImpostosRepository;
 
         public ObservableCollection<Imposto> Impostos
         {
@@ -92,7 +93,7 @@ namespace NFe.WPF.ViewModel
         public ICommand ImpostoSelecionadoCmd { set; get; }
         public ICommand AdiciionarImpostoCmd { set; get; }
 
-        public ImpostoViewModel(ImpostoService impostoService)
+        public ImpostoViewModel(IGrupoImpostosRepository grupoImpostosRepository)
         {
             SalvarCmd = new RelayCommand<Window>(SalvarCmd_Execute, null);
             CancelarCmd = new RelayCommand<object>(CancelarCmd_Execute, null);
@@ -107,7 +108,7 @@ namespace NFe.WPF.ViewModel
 
             Imposto = new Imposto();
             Impostos = new ObservableCollection<Imposto>();
-            _impostoService = impostoService;
+            _grupoImpostosRepository = grupoImpostosRepository;
         }
 
         private void AdiciionarImpostoCmd_Execute()
@@ -180,7 +181,7 @@ namespace NFe.WPF.ViewModel
             grupoImpostos.Descricao = Descricao;
             grupoImpostos.Id = Id;
 
-            _impostoService.Salvar(grupoImpostos);
+            _grupoImpostosRepository.Salvar(grupoImpostos);
 
             ImpostoAdicionadoEvent();
             window.Close();

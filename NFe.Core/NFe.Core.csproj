@@ -236,7 +236,6 @@
     <Compile Include="NotasFiscais\Services\IConsultaStatusServicoService.cs" />
     <Compile Include="NotasFiscais\Services\IEventoService.cs" />
     <Compile Include="NotasFiscais\Services\ImportadorXmlService.cs" />
-    <Compile Include="Cadastro\Imposto\ImpostoService.cs" />
     <Compile Include="NotasFiscais\Services\IEnviaNotaFiscalService.cs" />
     <Compile Include="NotasFiscais\Services\INotaInutilizadaService.cs" />
     <Compile Include="NotasFiscais\Services\ModoOnlineService.cs" />
