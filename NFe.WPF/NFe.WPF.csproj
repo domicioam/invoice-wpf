@@ -278,6 +278,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Acompanhamento\View\GroupsToTotalConverter.cs" />
+    <Compile Include="Exceptions\NotaFiscalModelHasErrosException.cs" />
     <Compile Include="Model\Base\ObservableObjectValidation.cs" />
     <Compile Include="Model\CertificadoModel.cs" />
     <Compile Include="Model\DestinatarioModel.cs" />

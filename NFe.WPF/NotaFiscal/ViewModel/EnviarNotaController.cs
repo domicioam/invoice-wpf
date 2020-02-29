@@ -10,6 +10,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
+using NFe.WPF.Exceptions;
 using NFe.WPF.Model;
 using NFe.WPF.Reports.PDF;
 using Destinatario = NFe.Core.NotasFiscais.Destinatario;
@@ -44,7 +45,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             notaFiscalModel.ValidateModel();
 
             if (notaFiscalModel.HasErrors)
-                throw new ArgumentException("Nota fiscal contém erros de validação não resolvidos.");
+                throw new NotaFiscalModelHasErrorsException("Nota fiscal contém erros de validação não resolvidos.");
 
             double valorTotalProdutos = notaFiscalModel.Produtos.Sum(c => c.QtdeProduto * c.ValorUnitario);
             double valorTotalPagamentos = notaFiscalModel.Pagamentos.Sum(p => p.QtdeParcelas * p.ValorParcela);
