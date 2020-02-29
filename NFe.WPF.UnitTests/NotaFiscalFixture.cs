@@ -72,7 +72,7 @@ namespace NFe.WPF.UnitTests
             }
         }
 
-        public NFeModel NFeModel
+        public NFeModel NFeModelWithPagamento
         {
             get
             {
@@ -179,7 +179,7 @@ namespace NFe.WPF.UnitTests
                 notaFiscalModel.HoraSaida = DateTime.Now;
                 notaFiscalModel.IndicadorPresenca = PresencaComprador.Presencial;
                 notaFiscalModel.Finalidade = string.Empty;
-                notaFiscalModel.NaturezaOperacao = "Venda";
+                notaFiscalModel.NaturezaOperacao = string.Empty;
                 notaFiscalModel.DestinatarioSelecionado = new DestinatarioModel()
                 {
                     CNPJ = "25456879454314",

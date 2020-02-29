@@ -135,11 +135,11 @@ namespace NFe.WPF.UnitTests
 
             // Act
 
-            enviarNotaController.EnviarNota(_notaFiscalFixture.NFeModel, Modelo.Modelo55).Wait();
+            enviarNotaController.EnviarNota(_notaFiscalFixture.NFeModelWithPagamento, Modelo.Modelo55).Wait();
         }
 
         [Fact]
-        public async System.Threading.Tasks.Task NFeModel_EnviarNota_ArgumentExceptionValorTotalInválido()
+        public async Task NFeModel_EnviarNota_ArgumentExceptionValorTotalInválido()
         {
             // Arrange
 
