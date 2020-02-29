@@ -11,8 +11,8 @@ using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
@@ -25,7 +25,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFCeViewModel(DestinatarioViewModel destinatarioViewModel, IDialogService dialogService, IEnviarNota enviarNotaController, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoService produtoService, IDestinatarioService destinatarioService)
+        public NFCeViewModel(DestinatarioViewModel destinatarioViewModel, IDialogService dialogService, IEnviarNota enviarNotaController, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -47,7 +47,7 @@ namespace NFe.WPF.ViewModel
             _enviarNotaController = enviarNotaController;
             _naturezaOperacaoService = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
-            _produtoService = produtoService;
+            _produtoRepository = produtoRepository;
             _destinatarioService = destinatarioService;
 
             destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
@@ -162,7 +162,7 @@ namespace NFe.WPF.ViewModel
         private readonly IEnviarNota _enviarNotaController;
         private INaturezaOperacaoService _naturezaOperacaoService;
         private IConfiguracaoService _configuracaoService;
-        private IProdutoService _produtoService;
+        private IProdutoRepository _produtoRepository;
         private IDestinatarioService _destinatarioService;
 
 
@@ -316,7 +316,7 @@ namespace NFe.WPF.ViewModel
             NotaFiscal.IndicadorPresenca = PresencaComprador.Presencial;
             NotaFiscal.Finalidade = "Normal";
 
-            var produtos = _produtoService.GetProdutosByNaturezaOperacao("Venda");
+            var produtos = _produtoRepository.GetProdutosByNaturezaOperacao("Venda");
             foreach (var produto in produtos)
             {
                 ProdutosCombo.Add(produto);

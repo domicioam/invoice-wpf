@@ -12,7 +12,6 @@ using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
@@ -32,11 +31,11 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoService produtoService, IEnviaNotaFiscalService enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, TransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEnviaNotaFiscalService enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, TransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
-            var produtosDB = produtoService.GetAll();
+            var produtosDB = produtoRepository.GetAll();
             DestinatarioParaSalvar = new DestinatarioModel();
             TransportadoraParaSalvar = new TransportadoraModel();
             Destinatarios = new ObservableCollection<DestinatarioModel>();
@@ -46,7 +45,7 @@ namespace NFe.WPF.ViewModel
 
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _estadoService = estadoService;
-            _produtoService = produtoService;
+            _produtoRepository = produtoRepository;
             _emissorService = emissorService;
             _municipioService = municipioService;
             _transportadoraService = transportadoraService;
@@ -186,7 +185,7 @@ namespace NFe.WPF.ViewModel
         private void FiltrarProdutosCombo()
         {
             ProdutosCombo.Clear();
-            var produtosDB = _produtoService.GetProdutosByNaturezaOperacao(NaturezaOperacaoSelecionada.Descricao);
+            var produtosDB = _produtoRepository.GetProdutosByNaturezaOperacao(NaturezaOperacaoSelecionada.Descricao);
             foreach (var produtoDB in produtosDB)
             {
                 ProdutosCombo.Add(produtoDB);
@@ -246,7 +245,7 @@ namespace NFe.WPF.ViewModel
         private IDialogService _dialogService;
         private IEstadoService _estadoService;
         private IEnviaNotaFiscalService _enviaNotaFiscalService;
-        private IProdutoService _produtoService;
+        private IProdutoRepository _produtoRepository;
         private IEmissorService _emissorService;
         private IMunicipioService _municipioService;
         private TransportadoraService _transportadoraService;

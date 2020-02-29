@@ -8,7 +8,6 @@ using EmissorNFe.Produto;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.WPF.ViewModel.Services;
@@ -21,7 +20,7 @@ namespace NFe.WPF.ViewModel
     {
         private GrupoImpostos _imposto;
         private readonly IGrupoImpostosRepository _grupoImpostosRepository;
-        private readonly IProdutoService _produtoService;
+        private readonly IProdutoRepository _produtoRepository;
 
         public event ProdutoAdicionadoEventHandler ProdutoAdicionadoEvent = delegate { };
         public int Id { get; set; }
@@ -47,7 +46,7 @@ namespace NFe.WPF.ViewModel
         public ICommand SalvarCmd { get; set; }
         public ICommand CancelarCmd { set; get; }
 
-        public ProdutoViewModel(IProdutoService produtoService, IGrupoImpostosRepository grupoImpostosRepository)
+        public ProdutoViewModel(IProdutoRepository produtoRepository, IGrupoImpostosRepository grupoImpostosRepository)
         {
             UnidadesComerciais = new List<string>() { "UN" };
 
@@ -55,13 +54,13 @@ namespace NFe.WPF.ViewModel
             SalvarCmd = new RelayCommand<IClosable>(SalvarCmd_Execute, null);
             CancelarCmd = new RelayCommand<object>(CancelarCmd_Execute, null);
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
-            _produtoService = produtoService;
+            _produtoRepository = produtoRepository;
             _grupoImpostosRepository = grupoImpostosRepository;
         }
 
         private void AlterarProduto_Execute(string produtoCodigo)
         {
-            var produto = _produtoService.GetByCodigo(produtoCodigo);
+            var produto = _produtoRepository.GetByCodigo(produtoCodigo);
 
             Id = produto.Id;
             CodigoItem = produto.Codigo;
@@ -103,7 +102,7 @@ namespace NFe.WPF.ViewModel
 
         private void SalvarCmd_Execute(IClosable window)
         {
-            var produto = _produtoService.GetByCodigo(CodigoItem) ?? new ProdutoEntity();
+            var produto = _produtoRepository.GetByCodigo(CodigoItem) ?? new ProdutoEntity();
 
             produto.Id = Id;
             produto.Codigo = CodigoItem;
@@ -113,7 +112,7 @@ namespace NFe.WPF.ViewModel
             produto.ValorUnitario = ValorUnitario;
             produto.GrupoImpostosId = Imposto.Id;
 
-            _produtoService.Salvar(produto);
+            _produtoRepository.Salvar(produto);
             ProdutoAdicionadoEvent();
             window.Close();
         }

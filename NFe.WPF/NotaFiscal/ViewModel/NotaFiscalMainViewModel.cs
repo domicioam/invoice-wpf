@@ -18,7 +18,6 @@ using GalaSoft.MvvmLight.CommandWpf;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
@@ -54,7 +53,7 @@ namespace NFe.WPF.ViewModel
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
-        private readonly IProdutoService _produtoService;
+        private readonly IProdutoRepository _produtoRepository;
         private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;
 
@@ -62,7 +61,7 @@ namespace NFe.WPF.ViewModel
         public NotaFiscalMainViewModel(IEnviarNota enviarNotaController, OpcoesViewModel opcoesVm,
             CancelarNotaViewModel notaCanceladaVm, IEnviaNotaFiscalService enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, ICertificadoService certificadoService,
-            IProdutoService produtoService, IConsultaStatusServicoService consultaStatusServicoService,
+            IProdutoRepository produtoRepository, IConsultaStatusServicoService consultaStatusServicoService,
             IEmissorService emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
@@ -80,7 +79,7 @@ namespace NFe.WPF.ViewModel
             _notaFiscalRepository = notaFiscalRepository;
             _configuracaoService = configuracaoService;
             _certificadoService = certificadoService;
-            _produtoService = produtoService;
+            _produtoRepository = produtoRepository;
             _consultaStatusServicoService = consultaStatusServicoService;
             _emissorService = emissorService;
             _visualizarNotaEnviadaViewModel = visualizarNotaEnviadaViewModel;
@@ -200,7 +199,7 @@ namespace NFe.WPF.ViewModel
 
             foreach (var prod in notaFiscalBo.Produtos)
             {
-                var produtoDb = _produtoService.GetByCodigo(prod.Codigo);
+                var produtoDb = _produtoRepository.GetByCodigo(prod.Codigo);
                 prod.Id = produtoDb.Id;
             }
 

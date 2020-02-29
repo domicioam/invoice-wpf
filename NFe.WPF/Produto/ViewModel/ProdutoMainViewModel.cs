@@ -2,14 +2,14 @@
 using System.Globalization;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 
 namespace NFe.WPF.ViewModel
 {
     public class ProdutoMainViewModel
     {
-        private readonly IProdutoService _produtoService;
+        private readonly IProdutoRepository _produtoRepository;
         private readonly ProdutoViewModel _produtoViewModel;
         public ObservableCollection<ProdutoListItem> Produtos { get; set; }
 
@@ -17,13 +17,13 @@ namespace NFe.WPF.ViewModel
 
         public ICommand LoadedCmd { get; set; }
 
-        public ProdutoMainViewModel(IProdutoService produtoService, ProdutoViewModel produtoViewModel)
+        public ProdutoMainViewModel(IProdutoRepository produtoRepository, ProdutoViewModel produtoViewModel)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             Produtos = new ObservableCollection<ProdutoListItem>();
             AlterarProdutoCmd = new RelayCommand<ProdutoListItem>(AlterarProdutoCmd_Execute, null);
 
-            _produtoService = produtoService;
+            _produtoRepository = produtoRepository;
             produtoViewModel.ProdutoAdicionadoEvent += ProdutoVM_ProdutoAdicionadoEvent;
             _produtoViewModel = produtoViewModel;
         }
@@ -47,7 +47,7 @@ namespace NFe.WPF.ViewModel
         {
             Produtos.Clear();
 
-            var produtos = _produtoService.GetAll();
+            var produtos = _produtoRepository.GetAll();
 
             foreach (var produtoDb in produtos)
             {

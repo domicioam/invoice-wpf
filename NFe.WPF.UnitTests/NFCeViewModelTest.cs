@@ -10,8 +10,8 @@ using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
@@ -41,7 +41,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -73,7 +73,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -108,7 +108,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -146,7 +146,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -178,7 +178,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -214,7 +214,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -251,7 +251,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -288,7 +288,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -329,7 +329,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -372,7 +372,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -401,7 +401,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()
@@ -441,7 +441,7 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetConfiguracao())
                 .Returns(new ConfiguracaoEntity());
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetProdutosByNaturezaOperacao(It.IsAny<string>()))
                 .Returns(new List<ProdutoEntity>()

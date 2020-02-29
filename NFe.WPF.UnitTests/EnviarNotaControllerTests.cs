@@ -4,8 +4,8 @@ using GalaSoft.MvvmLight.Views;
 using Moq;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
 using Xunit;
@@ -40,7 +40,7 @@ namespace NFe.WPF.UnitTests
                     new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
                     string.Empty));
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetAll())
                 .Returns(new List<ProdutoEntity>()
@@ -98,7 +98,7 @@ namespace NFe.WPF.UnitTests
                     new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
                     string.Empty));
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetAll())
                 .Returns(new List<ProdutoEntity>()
@@ -154,7 +154,7 @@ namespace NFe.WPF.UnitTests
                     new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
                     string.Empty));
 
-            var produtoServiceMock = new Mock<IProdutoService>();
+            var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
                 .Setup(m => m.GetAll())
                 .Returns(new List<ProdutoEntity>()

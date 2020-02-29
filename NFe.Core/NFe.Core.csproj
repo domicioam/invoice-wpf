@@ -185,7 +185,6 @@
     <Compile Include="Cadastro\IEstadoService.cs" />
     <Compile Include="Cadastro\IMunicipioService.cs" />
     <Compile Include="Cadastro\INaturezaOperacaoService.cs" />
-    <Compile Include="Cadastro\Produto\IProdutoService.cs" />
     <Compile Include="Entitities\CertificadoEntity.cs" />
     <Compile Include="Entitities\CfopEntity.cs" />
     <Compile Include="Entitities\ConfiguracaoEntity.cs" />
@@ -297,7 +296,6 @@
     <Compile Include="NotasFiscais\IdentificacaoNFe.cs" />
     <Compile Include="NotasFiscais\InfoAdicional.cs" />
     <Compile Include="Cadastro\NaturezaOperacaoService.cs" />
-    <Compile Include="Cadastro\Produto\ProdutoService.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="NotasFiscais\NotaFiscal.cs" />
     <Compile Include="NotasFiscais\Services\EnviaNotaFiscalService.cs" />

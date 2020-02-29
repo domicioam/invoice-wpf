@@ -6,8 +6,8 @@ using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Produto;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
 using NFe.WPF.Model;
@@ -25,16 +25,16 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IEmissorService _emissorService;
-        private readonly IProdutoService _produtoService;
+        private readonly IProdutoRepository _produtoRepository;
 
         public EnviarNotaController(IDialogService dialogService, IEnviaNotaFiscalService enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoService produtoService)
+            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository)
         {
             _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoService = configuracaoService;
             _emissorService = emissorService;
-            _produtoService = produtoService;
+            _produtoRepository = produtoRepository;
         }
 
         public event NotaEnviadaEventHandler NotaEnviadaEvent = delegate { };
@@ -229,7 +229,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private List<Produto> GetProdutos(NotaFiscalModel notaFiscal, ConfiguracaoEntity config)
         {
             var idsProdutosSelecionados = notaFiscal.Produtos.Select(p => p.ProdutoSelecionado.Id);
-            var produtosTo = _produtoService.GetAll().Where(p => idsProdutosSelecionados.Contains(p.Id));
+            var produtosTo = _produtoRepository.GetAll().Where(p => idsProdutosSelecionados.Contains(p.Id));
             var produtos = new List<Produto>();
 
             foreach (var produtoNota in notaFiscal.Produtos)
