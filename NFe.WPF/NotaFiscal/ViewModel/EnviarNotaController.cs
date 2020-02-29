@@ -60,30 +60,29 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             var config = _configuracaoService.GetConfiguracao();
             var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
 
-            await Task.Run( () =>
-            {
-                var modeloNota = modelo;
-                const TipoEmissao tipoEmissao = TipoEmissao.Normal; 
-                var destinatario = GetDestinatario(notaFiscalModel, ambiente, modelo);
-                var documentoDanfe = destinatario != null ? destinatario.DocumentoDanfe : "CPF";
-                var emitente = _emissorService.GetEmissor();
-                var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
+            await Task.Run(() =>
+           {
+               const TipoEmissao tipoEmissao = TipoEmissao.Normal;
+               var destinatario = GetDestinatario(notaFiscalModel, ambiente, modelo);
+               var documentoDanfe = destinatario != null ? destinatario.DocumentoDanfe : "CPF";
+               var emitente = _emissorService.GetEmissor();
+               var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
-                var identificacao = GetIdentificacao(notaFiscalModel, codigoUF, DateTime.Now, emitente, modeloNota,
-                    Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, ambiente, documentoDanfe);
-                var produtos = GetProdutos(notaFiscalModel, config);
-                var pagamentos = GetPagamentos(notaFiscalModel);
-                var totalNFe = GetTotalNFe(notaFiscalModel);
-                var infoAdicional = new InfoAdicional(produtos);
-                var transporte = GetTransporte(notaFiscalModel, modelo);
+               var identificacao = GetIdentificacao(notaFiscalModel, codigoUF, DateTime.Now, emitente, modelo,
+                   Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, ambiente, documentoDanfe);
+               var produtos = GetProdutos(notaFiscalModel, config);
+               var pagamentos = GetPagamentos(notaFiscalModel);
+               var totalNFe = GetTotalNFe(notaFiscalModel);
+               var infoAdicional = new InfoAdicional(produtos);
+               var transporte = GetTransporte(notaFiscalModel, modelo);
 
-                Core.NotasFiscais.NotaFiscal notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
-                    totalNFe, infoAdicional, produtos, pagamentos);
+               Core.NotasFiscais.NotaFiscal notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
+                   totalNFe, infoAdicional, produtos, pagamentos);
 
-                var cscId = ambiente == Ambiente.Homologacao ? config.CscIdHom : config.CscId;
-                var csc = ambiente == Ambiente.Homologacao ? config.CscHom : config.Csc;
-                _enviaNotaFiscalService.EnviarNotaFiscal(null, cscId, csc);
-            });
+               var cscId = ambiente == Ambiente.Homologacao ? config.CscIdHom : config.CscId;
+               var csc = ambiente == Ambiente.Homologacao ? config.CscHom : config.Csc;
+               _enviaNotaFiscalService.EnviarNotaFiscal(null, cscId, csc);
+           });
 
             NotaEnviadaEvent(null);
             return null;
