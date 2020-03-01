@@ -198,6 +198,7 @@
     <Compile Include="Entitities\Enums\TabelaPisCst.cs" />
     <Compile Include="Entitities\EstadoEntity.cs" />
     <Compile Include="Entitities\EventoEntity.cs" />
+    <Compile Include="Entitities\GrupoImposto.cs" />
     <Compile Include="Entitities\HistoricoEnvioContabilidade.cs" />
     <Compile Include="Entitities\IbptEntity.cs" />
     <Compile Include="Entitities\Imposto.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Interfaces\IEmitenteRepository.cs" />
     <Compile Include="Interfaces\IEstadoRepository.cs" />
     <Compile Include="Interfaces\IEventoRepository.cs" />
+    <Compile Include="Interfaces\IGrupoImpostosRepository.cs" />
     <Compile Include="Interfaces\IHistoricoEnvioContabilidadeRepository.cs" />
     <Compile Include="Interfaces\IIbptRepository.cs" />
     <Compile Include="Interfaces\IMunicipioRepository.cs" />

@@ -50,6 +50,15 @@ namespace NFe.Repository.Repositories
             return _context.Produto.ToList();
         }
 
+        public List<ProdutoEntity> GetProdutosByNaturezaOperacao(string descricao)
+        {
+            var naturezaOperacao = _context.NaturezaOperacao.FirstOrDefault(n => n.Descricao == descricao);
+            var cfopsDescricao = _context.Cfop.Where(c => c.NaturezaOperacaoId == naturezaOperacao.Id).Select(c => c.Cfop);
+            var impostosId = _context.GrupoImpostos.Where(i => cfopsDescricao.Contains(i.CFOP)).Select(i => i.Id);
+
+            return _context.Produto.Where(p => impostosId.Contains(p.GrupoImpostosId)).ToList();
+        }
+
         public ProdutoEntity GetProdutoByNcm(string ncm)
         {
             return _context.Produto.FirstOrDefault(p => p.NCM.Equals(ncm));

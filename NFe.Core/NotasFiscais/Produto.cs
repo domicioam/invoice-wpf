@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
@@ -1566,11 +1565,11 @@ namespace NFe.Core.NotasFiscais
 
     public class Produto
     {
-        public Produto(IEnumerable<Imposto> impostos, int id, string cfop, string codigo, string descricao, string ncm,
+        public Produto(GrupoImpostos grupoImpostos, int id, string cfop, string codigo, string descricao, string ncm,
             int qtdeUnidadeComercial, string unidadeComercial,
             double valorUnidadeComercial, double valorDesconto, bool isProducao)
         {
-            Impostos = impostos;
+            GrupoImpostos = grupoImpostos;
             Id = id;
             Cfop = (TCfop) Enum.Parse(typeof(TCfop), "Item" + cfop);
             Codigo = codigo;
@@ -1593,7 +1592,7 @@ namespace NFe.Core.NotasFiscais
         public string Cest { get; set; }
         public TCfop Cfop { get; set; }
         public string UnidadeComercial { get; set; }
-        public IEnumerable<Imposto> Impostos { get; set; }
+        public GrupoImpostos GrupoImpostos { get; set; }
         public int QtdeUnidadeComercial { get; set; }
         public double ValorUnidadeComercial { get; set; }
 
@@ -1618,7 +1617,7 @@ namespace NFe.Core.NotasFiscais
 
         public string CstTexto
         {
-            get { return Impostos.FirstOrDefault(i => i.TipoImposto == TipoImposto.Icms).CST; }
+            get { return GrupoImpostos.Impostos.FirstOrDefault(i => i.TipoImposto == TipoImposto.Icms).CST; }
         }
 
         public string CfopTexto
@@ -1630,7 +1629,7 @@ namespace NFe.Core.NotasFiscais
         {
             get
             {
-                return Impostos.FirstOrDefault(i => i.TipoImposto == TipoImposto.Icms).Aliquota
+                return GrupoImpostos.Impostos.FirstOrDefault(i => i.TipoImposto == TipoImposto.Icms).Aliquota
                     .ToString("N2", new CultureInfo("pt-BR"));
             }
         }
@@ -1639,7 +1638,7 @@ namespace NFe.Core.NotasFiscais
         {
             get
             {
-                return Impostos.FirstOrDefault(i => i.TipoImposto == TipoImposto.Icms).BaseCalculo
+                return GrupoImpostos.Impostos.FirstOrDefault(i => i.TipoImposto == TipoImposto.Icms).BaseCalculo
                     .ToString("N2", new CultureInfo("pt-BR"));
             }
         }

@@ -44,10 +44,6 @@ namespace NFe.Core.Entitities
         [Required]
         public string Numero { get; set; }
 
-        [Required]
-        [StringLength(4)]
-        public string CFOP { get; set; }
-
         public DateTime DataEmissao { get; set; }
         private DateTime _dataAutorizacao = DateTime.Now;
         public DateTime DataAutorizacao
