@@ -115,14 +115,6 @@ namespace EmissorNFe.ViewModel
             }
         }
 
-        public ImpostoViewModel Imposto
-        {
-            get
-            {
-                return _container.GetInstance<ImpostoViewModel>();
-            }
-        }
-
         public ProdutoViewModel Produto
         {
             get
@@ -184,14 +176,6 @@ namespace EmissorNFe.ViewModel
             get
             {
                 return _container.GetInstance<ProdutoMainViewModel>();
-            }
-        }
-
-        public ImpostoMainViewModel ImpostoMain
-        {
-            get
-            {
-                return _container.GetInstance<ImpostoMainViewModel>();
             }
         }
 

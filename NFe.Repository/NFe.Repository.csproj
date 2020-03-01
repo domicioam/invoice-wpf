@@ -162,7 +162,6 @@
     <Compile Include="Repositories\EventoRepository.cs" />
     <Compile Include="Repositories\HistoricoEnvioContabilidadeRepository.cs" />
     <Compile Include="Repositories\IbptRepository.cs" />
-    <Compile Include="Repositories\ImpostoRepository.cs" />
     <Compile Include="Repositories\MunicipioRepository.cs" />
     <Compile Include="Repositories\NaturezaOperacaoRepository.cs" />
     <Compile Include="Repositories\NotaFiscalRepository.cs" />

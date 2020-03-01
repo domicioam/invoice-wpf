@@ -8,7 +8,6 @@ namespace NFe.Core.Interfaces
         int Salvar(ProdutoEntity produto);
         void Excluir(ProdutoEntity produto);
         List<ProdutoEntity> GetAll();
-        List<ProdutoEntity> GetProdutosByNaturezaOperacao(string descricao);
         ProdutoEntity GetProdutoByNcm(string ncm);
         ProdutoEntity GetByCodigo(string codigo);
     }

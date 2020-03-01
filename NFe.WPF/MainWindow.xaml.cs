@@ -1,5 +1,4 @@
 ﻿using EmissorNFe.Certificado;
-using EmissorNFe.Imposto;
 using EmissorNFe.NotaFiscal;
 using EmissorNFe.Produto;
 using EmissorNFe.View;
@@ -56,7 +55,7 @@ namespace EmissorNFe
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            ContentHolder.Content = new ImpostoMainWindow();
+            throw new NotImplementedException();
         }
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)

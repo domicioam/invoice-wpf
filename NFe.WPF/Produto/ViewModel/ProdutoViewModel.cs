@@ -18,8 +18,6 @@ namespace NFe.WPF.ViewModel
 
     public class ProdutoViewModel : ViewModelBase
     {
-        private GrupoImpostos _imposto;
-        private readonly IGrupoImpostosRepository _grupoImpostosRepository;
         private readonly IProdutoRepository _produtoRepository;
 
         public event ProdutoAdicionadoEventHandler ProdutoAdicionadoEvent = delegate { };
@@ -27,26 +25,16 @@ namespace NFe.WPF.ViewModel
         public string CodigoItem { get; set; }
         public string Descricao { get; set; }
         public string UnidadeComercial { get; set; }
-        public GrupoImpostos Imposto
-        {
-            get { return _imposto; }
-            set
-            {
-                _imposto = value;
-                RaisePropertyChanged("Imposto");
-            }
-        }
         public double ValorUnitario { get; set; }
         public string NCM { get; set; }
         public List<string> UnidadesComerciais { get; set; }
-        public ObservableCollection<GrupoImpostos> Impostos { get; set; }
 
         public ICommand AlterarProdutoCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
         public ICommand SalvarCmd { get; set; }
         public ICommand CancelarCmd { set; get; }
 
-        public ProdutoViewModel(IProdutoRepository produtoRepository, IGrupoImpostosRepository grupoImpostosRepository)
+        public ProdutoViewModel(IProdutoRepository produtoRepository)
         {
             UnidadesComerciais = new List<string>() { "UN" };
 
@@ -55,7 +43,6 @@ namespace NFe.WPF.ViewModel
             CancelarCmd = new RelayCommand<object>(CancelarCmd_Execute, null);
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _produtoRepository = produtoRepository;
-            _grupoImpostosRepository = grupoImpostosRepository;
         }
 
         private void AlterarProduto_Execute(string produtoCodigo)
@@ -66,7 +53,6 @@ namespace NFe.WPF.ViewModel
             CodigoItem = produto.Codigo;
             Descricao = produto.Descricao;
             UnidadeComercial = produto.UnidadeComercial;
-            Imposto = produto.GrupoImpostos;
             ValorUnitario = produto.ValorUnitario;
             NCM = produto.NCM;
 
@@ -78,21 +64,6 @@ namespace NFe.WPF.ViewModel
 
         private void LoadedCmd_Execute()
         {
-            var impostosDb = _grupoImpostosRepository.GetAll();
-            Impostos = new ObservableCollection<GrupoImpostos>();
-
-            foreach (var impostoDb in impostosDb)
-            {
-                var impostoModel = impostoDb;
-                Impostos.Add(impostoModel);
-            }
-
-            RaisePropertyChanged("Impostos");
-
-            if(Imposto != null)
-            {
-                Imposto = Impostos.FirstOrDefault(i => i.Id.Equals(Imposto.Id));
-            }
         }
 
         private void CancelarCmd_Execute(object obj)
@@ -110,7 +81,6 @@ namespace NFe.WPF.ViewModel
             produto.NCM = NCM;
             produto.UnidadeComercial = UnidadeComercial;
             produto.ValorUnitario = ValorUnitario;
-            produto.GrupoImpostosId = Imposto.Id;
 
             _produtoRepository.Salvar(produto);
             ProdutoAdicionadoEvent();

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,6 +10,7 @@ namespace NFe.Core.Entitities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProdutoEntity()
         {
+            Impostos = new HashSet<Imposto>();
         }
 
         public int Id { get; set; }
@@ -21,8 +23,6 @@ namespace NFe.Core.Entitities
         [StringLength(30)]
         public string Descricao { get; set; }
 
-        public int GrupoImpostosId { get; set; }
-
         public double ValorUnitario { get; set; }
 
         [Required]
@@ -33,6 +33,6 @@ namespace NFe.Core.Entitities
         [StringLength(20)]
         public string NCM { get; set; }
 
-        public virtual GrupoImpostos GrupoImpostos { get; set; }
+        public virtual ICollection<Imposto> Impostos { get; set; }
     }
 }

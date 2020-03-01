@@ -15,7 +15,6 @@ namespace NFe.Repository
             Database.SetInitializer<NFeContext>(null);
         }
 
-        public virtual DbSet<GrupoImpostos> GrupoImpostos { get; set; }
         public virtual DbSet<NotaFiscalEntity> NotaFiscal { get; set; }
         public virtual DbSet<ProdutoEntity> Produto { get; set; }
         public virtual DbSet<EmitenteEntity> Emitente { get; set; }
@@ -36,10 +35,10 @@ namespace NFe.Repository
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GrupoImpostos>()
+            modelBuilder.Entity<ProdutoEntity>()
                 .HasMany(e => e.Impostos)
-                .WithRequired(e => e.GrupoImpostos)
-                .WillCascadeOnDelete(false);
+                .WithRequired(e => e.Produto)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<NotaFiscalEntity>()
                 .Property(e => e.Modelo)

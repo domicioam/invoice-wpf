@@ -487,7 +487,7 @@ namespace NFe.Core.Utils.Xml
         {
             var imposto = new TNFeInfNFeDetImposto {Items = new object[1]};
 
-            switch (produto.GrupoImpostos.Impostos.First(i => i.TipoImposto == TipoImposto.Icms).CST)
+            switch (produto.Impostos.First(i => i.TipoImposto == TipoImposto.Icms).CST)
             {
                 case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
                     var icms = new TNFeInfNFeDetImpostoICMS();
@@ -514,7 +514,7 @@ namespace NFe.Core.Utils.Xml
             imposto.PIS = new TNFeInfNFeDetImpostoPIS();
             var pisNt = new TNFeInfNFeDetImpostoPISPISNT();
 
-            switch (produto.GrupoImpostos.Impostos.First(i => i.TipoImposto == TipoImposto.PIS).CST)
+            switch (produto.Impostos.First(i => i.TipoImposto == TipoImposto.PIS).CST)
             {
                 case TabelaPisCst.OperacaoTributavelMonofasicaRevendaAliquotaZero:
                     pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item04;

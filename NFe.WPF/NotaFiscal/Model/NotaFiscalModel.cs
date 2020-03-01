@@ -30,6 +30,7 @@ namespace NFe.WPF.Model
         private ObservableCollection<PagamentoVO> _pagamentos;
         private ObservableCollection<ProdutoVO> _produtos;
         private string _serie;
+        private string _cfop;
 
         public string Destinatario { get; set; }
         public string UfDestinatario { get; set; }
@@ -87,6 +88,14 @@ namespace NFe.WPF.Model
         {
             get { return _pagamentos; }
             set { SetProperty(ref _pagamentos, value); }
+        }
+
+        [Required]
+        [StringLength(4)]
+        public string CFOP
+        {
+            get { return _cfop; }
+            set { SetProperty(ref _cfop, value); }
         }
 
         public string Serie
