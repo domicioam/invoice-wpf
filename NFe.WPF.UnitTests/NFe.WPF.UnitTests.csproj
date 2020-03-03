@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="EnviarNotaControllerTests.cs" />
     <Compile Include="NFCeViewModelTest.cs" />
+    <Compile Include="NFeViewModelTest.cs" />
     <Compile Include="NotaFiscalFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
