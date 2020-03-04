@@ -4,7 +4,7 @@ using NFe.Core.Interfaces;
 
 namespace NFe.Core.Cadastro.Transportadora
 {
-    public class TransportadoraService
+    public class TransportadoraService : ITransportadoraService
     {
         private ITransportadoraRepository _transportadoraRepository;
 

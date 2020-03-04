@@ -167,7 +167,7 @@ namespace NFe.WPF.UnitTests
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
 
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
-            enviarNotaMock.Verify(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>()), Times.Once);
+            enviarNotaMock.Verify(m => m.EnviarNota(It.IsNotNull<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>()), Times.Once);
         }
 
         [Fact]

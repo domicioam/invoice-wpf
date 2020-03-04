@@ -271,10 +271,10 @@ namespace EmissorNFe
             container.Register<IEstadoService, EstadoService>(Lifestyle.Singleton);
             container.Register<IDestinatarioService, DestinatarioService>(Lifestyle.Singleton);
             container.Register<INaturezaOperacaoService, NaturezaOperacaoService>(Lifestyle.Singleton);
-            container.Register<MunicipioService>(Lifestyle.Singleton);
+            container.Register<IMunicipioService, MunicipioService>(Lifestyle.Singleton);
             container.Register<GeradorZip>(Lifestyle.Singleton);
             container.Register<GeradorPDF>(Lifestyle.Singleton);
-            container.Register<TransportadoraService>(Lifestyle.Singleton);
+            container.Register<ITransportadoraService, TransportadoraService>(Lifestyle.Singleton);
 
             container.Verify();
 

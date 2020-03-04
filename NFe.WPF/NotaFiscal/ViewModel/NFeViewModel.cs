@@ -31,7 +31,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEnviaNotaFiscalService enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, TransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEnviaNotaFiscalService enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -248,7 +248,7 @@ namespace NFe.WPF.ViewModel
         private IProdutoRepository _produtoRepository;
         private IEmissorService _emissorService;
         private IMunicipioService _municipioService;
-        private TransportadoraService _transportadoraService;
+        private ITransportadoraService _transportadoraService;
         private IDestinatarioService _destinatarioService;
         private INaturezaOperacaoService _naturezaOperacaoService;
         private IConfiguracaoService _configuracaoService;

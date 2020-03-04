@@ -185,6 +185,7 @@
     <Compile Include="Cadastro\IEstadoService.cs" />
     <Compile Include="Cadastro\IMunicipioService.cs" />
     <Compile Include="Cadastro\INaturezaOperacaoService.cs" />
+    <Compile Include="Cadastro\Transportadora\ITransportadoraService.cs" />
     <Compile Include="Entitities\CertificadoEntity.cs" />
     <Compile Include="Entitities\CfopEntity.cs" />
     <Compile Include="Entitities\ConfiguracaoEntity.cs" />

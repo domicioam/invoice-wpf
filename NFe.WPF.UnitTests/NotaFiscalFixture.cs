@@ -224,6 +224,8 @@ namespace NFe.WPF.UnitTests
                     }
                 };
 
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>() { new PagamentoVO() { FormaPagamento = "Sem Pagamento" } };
+
                 notaFiscalModel.TransportadoraSelecionada = new TransportadoraModel()
                 {
                     CpfCnpj = "12345678965432",

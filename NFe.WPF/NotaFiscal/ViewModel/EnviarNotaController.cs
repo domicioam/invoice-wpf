@@ -61,6 +61,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             var config = _configuracaoService.GetConfiguracao();
             var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
 
+            Core.NotasFiscais.NotaFiscal notaFiscal = null;
+
             await Task.Run(() =>
            {
                const TipoEmissao tipoEmissao = TipoEmissao.Normal;
@@ -77,16 +79,16 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                var infoAdicional = new InfoAdicional(produtos);
                var transporte = GetTransporte(notaFiscalModel, modelo);
 
-               Core.NotasFiscais.NotaFiscal notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
+               notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
                    totalNFe, infoAdicional, produtos, pagamentos);
 
                var cscId = ambiente == Ambiente.Homologacao ? config.CscIdHom : config.CscId;
                var csc = ambiente == Ambiente.Homologacao ? config.CscHom : config.Csc;
-               _enviaNotaFiscalService.EnviarNotaFiscal(null, cscId, csc);
+               _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
            });
 
-            NotaEnviadaEvent(null);
-            return null;
+            NotaEnviadaEvent(notaFiscal);
+            return notaFiscal;
         }
 
         public async Task ImprimirNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)

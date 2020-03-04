@@ -69,14 +69,20 @@ namespace NFe.WPF.UnitTests
                     }
                 });
 
+            Mock<IEnviaNotaFiscalService> notaFiscalServiceMock = new Mock<IEnviaNotaFiscalService>();
+            Mock<IEstadoService> estadoServiceMock = new Mock<IEstadoService>();
+            estadoServiceMock
+                .Setup(m => m.GetEstados())
+                .Returns(new List<EstadoEntity>() { new EstadoEntity() { CodigoUf = 53, Nome = "Distrito Federal", Uf = "DF" } });
+
             var dialogService = new Mock<IDialogService>().Object;
-            var notaFiscalService = new Mock<IEnviaNotaFiscalService>().Object;
+            var notaFiscalService = notaFiscalServiceMock.Object;
             var configuracaoService = configuracaoServiceMock.Object;
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
-            var estadoService = new Mock<IEstadoService>().Object;
+            var estadoService = estadoServiceMock.Object;
             var destinatarioService = new Mock<IDestinatarioService>().Object;
-            var municipioService = new Mock<MunicipioService>().Object;
+            var municipioService = new Mock<IMunicipioService>().Object;
 
             var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);
 
@@ -85,9 +91,10 @@ namespace NFe.WPF.UnitTests
 
 
             var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, new Mock<IEnviaNotaFiscalService>().Object, estadoService, emissorService, municipioService,
-                new Mock<TransportadoraService>().Object, destinatarioService, new Mock<INaturezaOperacaoService>().Object, configuracaoService, destinatarioVM, new Mock<INotaFiscalRepository>().Object);
+                new Mock<ITransportadoraService>().Object, destinatarioService, new Mock<INaturezaOperacaoService>().Object, configuracaoService, destinatarioVM, new Mock<INotaFiscalRepository>().Object);
 
             vm.EnviarNota(_notaFiscalFixture.NFeRemessa, Modelo.Modelo55, new Mock<IClosable>().Object).Wait();
+            notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsNotNull<NFe.Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>()));
         } 
     }
 }
