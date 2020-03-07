@@ -30,6 +30,7 @@ namespace NFe.WPF.ViewModel
 {
     public class NFeViewModel : ViewModelBaseValidation
     {
+        private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoService produtoService, IEnviaNotaFiscalService enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, TransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
@@ -354,10 +355,6 @@ namespace NFe.WPF.ViewModel
 
         private void UfSelecionadoCmd_Execute()
         {
-            //var context = new NFe();
-            //var municipioDAL = new MunicipioDAL(context);
-            //var municipios = municipioDAL.GetMunicipioByUf(TransportadoraParaSalvar.Endereco.UF);
-
             var municipios = _municipioService.GetMunicipioByUf(TransportadoraParaSalvar.Endereco.UF);
 
             Municipios.Clear();
@@ -449,7 +446,7 @@ namespace NFe.WPF.ViewModel
                     var natModel = new NaturezaOperacaoModel() { Id = naturezaDB.Id, Descricao = naturezaDB.Descricao };
                     NaturezasOperacoes.Add(natModel);
 
-                    if (natModel.Descricao.Equals("Remessa"))
+                    if (natModel.Descricao.Equals(DEFAULT_NATUREZA_OPERACAO))
                     {
                         NaturezaOperacaoSelecionada = natModel;
                     }
@@ -457,7 +454,7 @@ namespace NFe.WPF.ViewModel
             }
             else
             {
-                NaturezaOperacaoSelecionada = NaturezasOperacoes.FirstOrDefault(n => n.Descricao.Equals("Remessa"));
+                NaturezaOperacaoSelecionada = NaturezasOperacoes.FirstOrDefault(n => n.Descricao.Equals(DEFAULT_NATUREZA_OPERACAO));
             }
         }
 
