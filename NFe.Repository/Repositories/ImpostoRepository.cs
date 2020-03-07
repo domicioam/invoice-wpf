@@ -20,13 +20,14 @@ namespace NFe.Repository.Repositories
 
         public int Salvar(GrupoImpostos grupoImpostos)
         {
+            var entity = _context.GrupoImpostos.Where(g => g.Id == grupoImpostos.Id).FirstOrDefault();
             if (grupoImpostos.Id == 0)
             {
                 _context.Entry(grupoImpostos).State = EntityState.Added;
             }
             else
             {
-                _context.Entry(grupoImpostos).State = EntityState.Modified;
+                _context.Entry(entity).CurrentValues.SetValues(grupoImpostos);
             }
             _context.SaveChanges();
 

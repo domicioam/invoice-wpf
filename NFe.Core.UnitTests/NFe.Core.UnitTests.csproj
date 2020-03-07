@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="ConfiguracaoService\ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ConfiguracaoService\ConfiguracaoServiceTest.cs" />
+    <Compile Include="Converters\TUfConversorTest.cs" />
     <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
     <Compile Include="NotaFiscalService\ConfiguracaoRepositoryFake.cs" />
