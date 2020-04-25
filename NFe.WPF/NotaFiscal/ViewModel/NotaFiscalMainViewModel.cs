@@ -25,7 +25,6 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Conversores;
-using NFe.Core.Utils.Log;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Reports.PDF;
@@ -331,7 +330,6 @@ namespace NFe.WPF.ViewModel
             catch (Exception e)
             {
                 log.Error(e);
-                Log.GravarLogErro(e.ToString());
                 var x509Certificate2 = _certificadoService.GetX509Certificate2();
 
                 if (x509Certificate2.NotAfter < DateTime.Now) MessageBox.Show("Certificado vencido.", "Erro.");
