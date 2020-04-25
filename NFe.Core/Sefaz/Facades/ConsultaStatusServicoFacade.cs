@@ -9,13 +9,13 @@ using NFe.Core.Utils.Assinatura;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public class ConsultaStatusServicoService : IConsultaStatusServicoService
+    public class ConsultaStatusServicoFacade : IConsultaStatusServicoFacade
     {
         private readonly ICertificadoService _certificadoService;
         private readonly ICertificateManager _certificateManager;
         private readonly IEmissorService _emissorService;
 
-        public ConsultaStatusServicoService(IEmissorService emissorService, ICertificadoService certificadoService,
+        public ConsultaStatusServicoFacade(IEmissorService emissorService, ICertificadoService certificadoService,
             ICertificateManager certificateManager)
         {
             _emissorService = emissorService;

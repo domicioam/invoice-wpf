@@ -67,7 +67,7 @@ namespace NFe.WPF.UnitTests
                 });
 
             var dialogService = new Mock<IDialogService>().Object;
-            var notaFiscalService = new Mock<IEnviaNotaFiscalService>().Object;
+            var notaFiscalService = new Mock<IEnviaNotaFiscalFacade>().Object;
             var configuracaoService = configuracaoServiceMock.Object;
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
@@ -125,7 +125,7 @@ namespace NFe.WPF.UnitTests
                 });
 
             var dialogService = new Mock<IDialogService>().Object;
-            var notaFiscalService = new Mock<IEnviaNotaFiscalService>().Object;
+            var notaFiscalService = new Mock<IEnviaNotaFiscalFacade>().Object;
             var configuracaoService = configuracaoServiceMock.Object;
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
@@ -181,7 +181,7 @@ namespace NFe.WPF.UnitTests
                 });
 
             var dialogService = new Mock<IDialogService>().Object;
-            var notaFiscalService = new Mock<IEnviaNotaFiscalService>().Object;
+            var notaFiscalService = new Mock<IEnviaNotaFiscalFacade>().Object;
             var configuracaoService = configuracaoServiceMock.Object;
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
@@ -237,7 +237,7 @@ namespace NFe.WPF.UnitTests
                 });
 
             var dialogService = new Mock<IDialogService>().Object;
-            var notaFiscalService = new Mock<IEnviaNotaFiscalService>().Object;
+            var notaFiscalService = new Mock<IEnviaNotaFiscalFacade>().Object;
             var configuracaoService = configuracaoServiceMock.Object;
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;

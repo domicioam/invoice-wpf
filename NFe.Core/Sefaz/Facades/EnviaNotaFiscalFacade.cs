@@ -22,7 +22,7 @@ namespace NFe.Core.NotasFiscais.Services
 {
     public delegate void NotaEmitidaEmContingenciaEventHandler(string justificativa, DateTime horário);
 
-    public class EnviaNotaFiscalService : IEnviaNotaFiscalService
+    public class EnviaNotaFiscalFacade : IEnviaNotaFiscalFacade
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -35,12 +35,12 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly ICertificateManager _certificateManager;
         private readonly INFeConsulta _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
-        private readonly IEmiteNotaFiscalContingenciaService _emiteNotaFiscalContingenciaService;
+        private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
 
-        public EnviaNotaFiscalService(IConfiguracaoRepository configuracaoRepository,
+        public EnviaNotaFiscalFacade(IConfiguracaoRepository configuracaoRepository,
             INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository,
             IConfiguracaoService configuracaoService, IServiceFactory serviceFactory, INFeConsulta nfeConsulta,
-            ICertificateManager certificateManager, IEmiteNotaFiscalContingenciaService emiteNotaFiscalContingenciaService)
+            ICertificateManager certificateManager, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             _configuracaoRepository = configuracaoRepository;
             _notaFiscalRepository = notaFiscalRepository;

@@ -17,6 +17,7 @@ using NFe.Core.Utils.Assinatura;
 using NFe.WPF.ViewModel.Base;
 using Utils;
 using NFe.Core.Interfaces;
+using NFe.Core.Sefaz.Facades;
 
 namespace NFe.WPF.ViewModel
 {
@@ -34,10 +35,10 @@ namespace NFe.WPF.ViewModel
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IEmissorService _emissorService;
         private readonly ICertificadoService _certificadoService;
-        private readonly INotaInutilizadaService _notaInutilizadaService;
+        private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificateManager _certificateManager;
-        private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
+        private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
 
         [Required]
         [MinLength(15)]
@@ -126,7 +127,7 @@ namespace NFe.WPF.ViewModel
                 }
                 else //caso o número atual seja diferente, é necessário inutilizar
                 {
-                    var mensagemRetorno = _notaInutilizadaService.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, ambiente, emitente.CNPJ, modeloNota,
+                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, ambiente, emitente.CNPJ, modeloNota,
                         notaFiscal.Serie, notaFiscal.Numero, notaFiscal.Numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
@@ -164,7 +165,7 @@ namespace NFe.WPF.ViewModel
                 }
                 else
                 {
-                    var mensagemRetorno = _notaInutilizadaService.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, ambiente, emitente.CNPJ, modeloNota,
+                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, ambiente, emitente.CNPJ, modeloNota,
                          notaFiscal.Serie, notaFiscal.Numero, notaFiscal.Numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
@@ -219,13 +220,13 @@ namespace NFe.WPF.ViewModel
             new CancelarNotaWindow() { Owner = mainWindow }.ShowDialog();
         }
 
-        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoService certificadoService, INotaInutilizadaService notaInutilizadaService, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalService cancelaNotaFiscalService)
+        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
         {
             EnviarCancelamentoCmd = new RelayCommand<Window>(EnviarCancelamentoCmd_Execute, null);
             _configuracaoService = configuracaoService;
             _emissorService = emissorService;
             _certificadoService = certificadoService;
-            _notaInutilizadaService = notaInutilizadaService;
+            _notaInutilizadaFacade = notaInutilizadaFacade;
             _notaFiscalRepository = notaFiscalRepository;
             _certificateManager = certificateManager;
             _cancelaNotaFiscalService = cancelaNotaFiscalService;

@@ -60,7 +60,7 @@ namespace NFe.WPF.ViewModel
 
         private bool _isDestinatarioEstrangeiro;
         private IConfiguracaoService _configuracaoService;
-        private IEnviaNotaFiscalService _enviaNotaFiscalService;
+        private IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private CancelarNotaViewModel _cancelarNotaViewModel;
         private IEmissorService _emissorService;
         private INotaInutilizadaService _notaInutilizadaService;
@@ -142,7 +142,7 @@ namespace NFe.WPF.ViewModel
             return xml;
         }
 
-        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoService configuracaoService, CancelarNotaViewModel cancelarNotaViewModel, IEmissorService emissorService, INotaInutilizadaService notaInutilizadaService, INotaFiscalRepository notaFiscalRepository)
+        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService, IConfiguracaoService configuracaoService, CancelarNotaViewModel cancelarNotaViewModel, IEmissorService emissorService, INotaInutilizadaService notaInutilizadaService, INotaFiscalRepository notaFiscalRepository)
         {
             EmitirSegundaViaCmd = new RelayCommand(EmitirSegundaViaCmd_Execute, null);
             CancelarNotaCmd = new RelayCommand(CancelarNotaCmd_Execute, null);

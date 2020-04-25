@@ -69,7 +69,7 @@ namespace NFe.WPF.UnitTests
                     }
                 });
 
-            Mock<IEnviaNotaFiscalService> notaFiscalServiceMock = new Mock<IEnviaNotaFiscalService>();
+            Mock<IEnviaNotaFiscalFacade> notaFiscalServiceMock = new Mock<IEnviaNotaFiscalFacade>();
             Mock<IEstadoService> estadoServiceMock = new Mock<IEstadoService>();
             estadoServiceMock
                 .Setup(m => m.GetEstados())
@@ -90,7 +90,7 @@ namespace NFe.WPF.UnitTests
                 configuracaoService, emissorService, produtoService);
 
 
-            var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, new Mock<IEnviaNotaFiscalService>().Object, estadoService, emissorService, municipioService,
+            var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, new Mock<IEnviaNotaFiscalFacade>().Object, estadoService, emissorService, municipioService,
                 new Mock<ITransportadoraService>().Object, destinatarioService, new Mock<INaturezaOperacaoService>().Object, configuracaoService, destinatarioVM, new Mock<INotaFiscalRepository>().Object);
 
             vm.EnviarNota(_notaFiscalFixture.NFeRemessa, Modelo.Modelo55, new Mock<IClosable>().Object).Wait();

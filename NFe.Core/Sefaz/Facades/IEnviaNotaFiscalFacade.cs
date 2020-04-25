@@ -8,7 +8,7 @@ using NFe.Core.Interfaces;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public interface IEnviaNotaFiscalService
+    public interface IEnviaNotaFiscalFacade
     {
         event NotaEmitidaEmContingenciaEventHandler NotaEmitidaEmContingenciaEvent;
         int EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc);

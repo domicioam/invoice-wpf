@@ -26,7 +26,7 @@ namespace NFe.WPF.ViewModel
         }
 
         private DateTime _periodoFinal;
-        private IEnviaNotaFiscalService _enviaNotaFiscalService;
+        private IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private INotaFiscalRepository _notaFiscalRepository;
 
         public DateTime PeriodoFinal
@@ -38,7 +38,7 @@ namespace NFe.WPF.ViewModel
         public ICommand FiltrarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
 
-        public AcompanhamentoNotasViewModel(IEnviarNota enviarNotaController, IEnviaNotaFiscalService enviaNotaFiscalService, CancelarNotaViewModel cancelarNotaViewModel, OpcoesViewModel opcoesViewModel, NotaFiscalMainViewModel notaFiscalMainViewModel, INotaFiscalRepository notaFiscalRepository)
+        public AcompanhamentoNotasViewModel(IEnviarNota enviarNotaController, IEnviaNotaFiscalFacade enviaNotaFiscalService, CancelarNotaViewModel cancelarNotaViewModel, OpcoesViewModel opcoesViewModel, NotaFiscalMainViewModel notaFiscalMainViewModel, INotaFiscalRepository notaFiscalRepository)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             FiltrarCmd = new RelayCommand(FiltrarCmd_Execute, null);

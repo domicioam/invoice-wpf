@@ -7,13 +7,13 @@ using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public class CancelaNotaFiscalService : ICancelaNotaFiscalService
+    public class CancelaNotaFiscalFacade : ICancelaNotaFiscalFacade
     {
         private readonly IEventoService _eventoService;
         private readonly INFeCancelamento _nfeCancelamento;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        public CancelaNotaFiscalService(INFeCancelamento nfeCancelamento, INotaFiscalRepository notaFiscalRepository,
+        public CancelaNotaFiscalFacade(INFeCancelamento nfeCancelamento, INotaFiscalRepository notaFiscalRepository,
             IEventoService eventoService)
         {
             _nfeCancelamento = nfeCancelamento;

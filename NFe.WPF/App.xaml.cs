@@ -238,7 +238,7 @@ namespace EmissorNFe
             container.Register<INFeConsulta, NFeConsulta>(Lifestyle.Singleton);
             container.Register<ICertificateManager, CertificateManager>(Lifestyle.Singleton);
             container.Register<IEnviarNota, EnviarNotaController>(Lifestyle.Singleton);
-            container.Register<IEnviaNotaFiscalService, EnviaNotaFiscalService>(Lifestyle.Singleton);
+            container.Register<IEnviaNotaFiscalFacade, EnviaNotaFiscalFacade>(Lifestyle.Singleton);
             container.Register<IServiceFactory, ServiceFactory>(Lifestyle.Singleton);
             container.Register<INotaInutilizadaService, NotaInutilizadaService>(Lifestyle.Singleton);
             container.Register<IEventoService, EventoService>(Lifestyle.Singleton);
@@ -247,7 +247,7 @@ namespace EmissorNFe
             container.Register<IEmissorService, EmissorService>(Lifestyle.Singleton);
             container.Register<ICertificadoService, CertificadoService>(Lifestyle.Singleton);
             container.Register<IConfiguracaoService, ConfiguracaoService>(Lifestyle.Singleton);
-            container.Register<IConsultaStatusServicoService, ConsultaStatusServicoService>(Lifestyle.Singleton);
+            container.Register<IConsultaStatusServicoFacade, ConsultaStatusServicoFacade>(Lifestyle.Singleton);
             container.Register<IEventoRepository, EventoRepository>(Lifestyle.Singleton);
             container.Register<INotaFiscalRepository, NotaFiscalRepository>(Lifestyle.Singleton);
             container.Register<ICertificadoRepository, CertificadoRepository>(Lifestyle.Singleton);
@@ -262,8 +262,8 @@ namespace EmissorNFe
             container.Register<IMunicipioRepository, MunicipioRepository>(Lifestyle.Singleton);
             container.Register<INaturezaOperacaoRepository, NaturezaOperacaoRepository>(Lifestyle.Singleton);
             container.Register<IHistoricoEnvioContabilidadeRepository, HistoricoEnvioContabilidadeRepository>(Lifestyle.Singleton);
-            container.Register<IEmiteNotaFiscalContingenciaService, EmiteEmiteNotaFiscalContingenciaService>(Lifestyle.Singleton);
-            container.Register<ICancelaNotaFiscalService, CancelaNotaFiscalService>(Lifestyle.Singleton);
+            container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteEmiteNotaFiscalContingenciaFacade>(Lifestyle.Singleton);
+            container.Register<ICancelaNotaFiscalFacade, CancelaNotaFiscalFacade>(Lifestyle.Singleton);
             container.Register<NFeInutilizacao>(Lifestyle.Singleton);
             container.Register<INFeCancelamento, NFeCancelamento>(Lifestyle.Singleton);
             container.Register<MailManager>(Lifestyle.Singleton);

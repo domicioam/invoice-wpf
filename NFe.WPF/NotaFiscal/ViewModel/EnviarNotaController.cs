@@ -23,12 +23,12 @@ namespace NFe.WPF.NotaFiscal.ViewModel
     public class EnviarNotaController : IEnviarNota
     {
         private readonly IDialogService _dialogService;
-        private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
+        private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IEmissorService _emissorService;
         private readonly IProdutoRepository _produtoRepository;
 
-        public EnviarNotaController(IDialogService dialogService, IEnviaNotaFiscalService enviaNotaFiscalService,
+        public EnviarNotaController(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository)
         {
             _dialogService = dialogService;

@@ -17,6 +17,7 @@ using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NFeRetAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
@@ -29,14 +30,14 @@ using NFe.Core.XmlSchemas.NfeRetAutorizacao.Retorno;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public interface IEmiteNotaFiscalContingenciaService
+    public interface IEmiteNotaFiscalContingenciaFacade
     {
         int EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc);
         Task<List<string>> TransmitirNotasFiscalEmContingencia();
         void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar, INotaFiscalRepository notaFiscalRepository);
     }
 
-    public class EmiteEmiteNotaFiscalContingenciaService : IEmiteNotaFiscalContingenciaService
+    public class EmiteEmiteNotaFiscalContingenciaFacade : IEmiteNotaFiscalContingenciaFacade
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -54,10 +55,10 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly INFeConsulta _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly ICertificadoService _certificadoService;
-        private readonly INotaInutilizadaService _notaInutilizadaService;
-        private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
+        private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
+        private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
 
-        public EmiteEmiteNotaFiscalContingenciaService(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, INotaInutilizadaService notaInutilizadaService, ICancelaNotaFiscalService cancelaNotaFiscalService)
+        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;
@@ -67,7 +68,7 @@ namespace NFe.Core.NotasFiscais.Services
             _nfeConsulta = nfeConsulta;
             _serviceFactory = serviceFactory;
             _certificadoService = certificadoService;
-            _notaInutilizadaService = notaInutilizadaService;
+            _notaInutilizadaFacade = notaInutilizadaFacade;
             _cancelaNotaFiscalService = cancelaNotaFiscalService;
         }
 
@@ -223,7 +224,7 @@ namespace NFe.Core.NotasFiscais.Services
             }
             else
             {
-                var resultadoInutilizacao = _notaInutilizadaService.InutilizarNotaFiscal(ufEmissor, codigoUfEnum,
+                var resultadoInutilizacao = _notaInutilizadaFacade.InutilizarNotaFiscal(ufEmissor, codigoUfEnum,
                     ambiente, emitente.CNPJ, modelo, notaParaCancelar.Serie,
                     notaParaCancelar.Numero, notaParaCancelar.Numero);
 

@@ -39,7 +39,7 @@ namespace NFe.WPF.ViewModel
         private string _busyContent;
         private readonly ICertificadoService _certificadoService;
         private readonly IConfiguracaoService _configuracaoService;
-        private readonly IConsultaStatusServicoService _consultaStatusServicoService;
+        private readonly IConsultaStatusServicoFacade _consultaStatusServicoService;
         private readonly IEmissorService _emissorService;
         private readonly EnviarEmailViewModel _enviarEmailViewModel;
 
@@ -51,16 +51,16 @@ namespace NFe.WPF.ViewModel
         private readonly INFeConsulta _nfeConsulta;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
+        private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;
 
 
         public NotaFiscalMainViewModel(IEnviarNota enviarNotaController, OpcoesViewModel opcoesVm,
-            CancelarNotaViewModel notaCanceladaVm, IEnviaNotaFiscalService enviaNotaFiscalService,
+            CancelarNotaViewModel notaCanceladaVm, IEnviaNotaFiscalFacade enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, ICertificadoService certificadoService,
-            IProdutoRepository produtoRepository, IConsultaStatusServicoService consultaStatusServicoService,
+            IProdutoRepository produtoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
             IEmissorService emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,

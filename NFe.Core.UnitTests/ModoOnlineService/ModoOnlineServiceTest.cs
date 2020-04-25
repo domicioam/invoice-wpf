@@ -11,11 +11,11 @@ namespace NFe.Core.UnitTests.ModoOnlineService
         [Fact]
         public void AtivarModoOnline_TransmiteNotasFiscaisEmContingencia()
         {
-            var enviaNotaFiscalService = new Mock<IEnviaNotaFiscalService>().Object;
-            var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaService>();
-            IEmiteNotaFiscalContingenciaService emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
+            var enviaNotaFiscalService = new Mock<IEnviaNotaFiscalFacade>().Object;
+            var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
             IConfiguracaoRepository configuracaoRepository = new ConfiguracaoRepositoryFake();
-            IConsultaStatusServicoService consultaStatusServicoService = new Mock<IConsultaStatusServicoService>().Object;
+            IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService,
@@ -32,12 +32,12 @@ namespace NFe.Core.UnitTests.ModoOnlineService
         {
             // Arrange 
 
-            var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalService>();
-            IEnviaNotaFiscalService enviaNotaFiscalService = notaFiscalServiceMock.Object;
-            var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaService>();
-            IEmiteNotaFiscalContingenciaService emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
+            var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalFacade>();
+            IEnviaNotaFiscalFacade enviaNotaFiscalService = notaFiscalServiceMock.Object;
+            var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
             IConfiguracaoRepository configuracaoRepository = new ConfiguracaoRepositoryFake();
-            IConsultaStatusServicoService consultaStatusServicoService = new Mock<IConsultaStatusServicoService>().Object;
+            IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService, configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService);
@@ -63,13 +63,13 @@ namespace NFe.Core.UnitTests.ModoOnlineService
         {
             // Arrange 
 
-            var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalService>();
-            IEnviaNotaFiscalService enviaNotaFiscalService = notaFiscalServiceMock.Object;
+            var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalFacade>();
+            IEnviaNotaFiscalFacade enviaNotaFiscalService = notaFiscalServiceMock.Object;
             IConfiguracaoRepository configuracaoRepository = new ConfiguracaoRepositoryFake();
-            IConsultaStatusServicoService consultaStatusServicoService = new Mock<IConsultaStatusServicoService>().Object;
+            IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
-            var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaService>();
-            IEmiteNotaFiscalContingenciaService emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
+            var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService, configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService);
 

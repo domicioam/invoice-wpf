@@ -3,7 +3,7 @@ using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public interface ICancelaNotaFiscalService
+    public interface ICancelaNotaFiscalFacade
     {
         MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente,
             CodigoUfIbge codigoUf, Ambiente ambiente, string cnpjEmitente, string chaveNFe,

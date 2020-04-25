@@ -15,12 +15,10 @@ namespace NFe.Core.NotasFiscais.Services
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly INotaInutilizadaRepository _notaInutilizadaRepository;
-        private NFeInutilizacao _nfeInutilizacao;
 
-        public NotaInutilizadaService(INotaInutilizadaRepository notaInutilizadaRepository, NFeInutilizacao nfeInutilizacao)
+        public NotaInutilizadaService(INotaInutilizadaRepository notaInutilizadaRepository)
         {
             _notaInutilizadaRepository = notaInutilizadaRepository;
-            _nfeInutilizacao = nfeInutilizacao;
         }
 
         public List<NotaInutilizadaTO> GetNotasFiscaisPorMesAno(DateTime periodo, bool isProducao)
@@ -56,33 +54,7 @@ namespace NFe.Core.NotasFiscais.Services
             }
         }
 
-        public MensagemRetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf,
-            Ambiente ambiente, string cnpjEmitente, Modelo modeloNota,
-            string serie, string numeroInicial, string numeroFinal)
-        {
-            var mensagemRetorno = _nfeInutilizacao.InutilizarNotaFiscal(ufEmitente, codigoUf, ambiente, cnpjEmitente,
-                modeloNota,
-                serie, numeroInicial, numeroFinal);
 
-            if (mensagemRetorno.Status != Status.ERRO)
-            {
-                var notaInutilizada = new NotaInutilizadaTO
-                {
-                    DataInutilizacao = DateTime.Now,
-                    IdInutilizacao = mensagemRetorno.IdInutilizacao,
-                    IsProducao = ambiente == Ambiente.Producao,
-                    Modelo = modeloNota == Modelo.Modelo55 ? 55 : 65,
-                    Motivo = mensagemRetorno.MotivoInutilizacao,
-                    Numero = numeroInicial,
-                    Protocolo = mensagemRetorno.ProtocoloInutilizacao,
-                    Serie = serie
-                };
-
-                Salvar(notaInutilizada, mensagemRetorno.Xml);
-            }
-
-            return mensagemRetorno;
-        }
 
         public NotaInutilizadaTO GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData, bool isProducao)
         {
