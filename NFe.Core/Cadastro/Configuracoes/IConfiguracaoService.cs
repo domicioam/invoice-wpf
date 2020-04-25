@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
 
 namespace NFe.Core.Cadastro.Configuracoes

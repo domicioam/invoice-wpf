@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using NFe.Core.Entitities;
 
 namespace NFe.Core.Cadastro.Destinatario
 {

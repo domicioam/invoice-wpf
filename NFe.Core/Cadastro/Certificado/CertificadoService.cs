@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Security.Cryptography.X509Certificates;
-using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;

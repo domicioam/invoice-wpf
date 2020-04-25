@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 
 namespace NFe.WPF.ViewModel

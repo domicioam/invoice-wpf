@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;

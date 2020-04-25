@@ -8,7 +8,6 @@ using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Entitities;
 using NFe.Core.Utils.Assinatura;
 using NFe.WPF.ViewModel.Base;
 using Utils;

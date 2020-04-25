@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EmissorNFe.Model;
 using EmissorNFe.VO;
+using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Model;

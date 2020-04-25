@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Entitities;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel

@@ -154,21 +154,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\CertificadoRepository.cs" />
-    <Compile Include="Repositories\ConfiguracaoRepository.cs" />
-    <Compile Include="Repositories\DestinatarioRepository.cs" />
-    <Compile Include="Repositories\EmitenteRepository.cs" />
-    <Compile Include="Repositories\EstadoRepository.cs" />
-    <Compile Include="Repositories\EventoRepository.cs" />
-    <Compile Include="Repositories\HistoricoEnvioContabilidadeRepository.cs" />
-    <Compile Include="Repositories\IbptRepository.cs" />
-    <Compile Include="Repositories\ImpostoRepository.cs" />
-    <Compile Include="Repositories\MunicipioRepository.cs" />
-    <Compile Include="Repositories\NaturezaOperacaoRepository.cs" />
-    <Compile Include="Repositories\NotaFiscalRepository.cs" />
-    <Compile Include="Repositories\NotaInutilizadaRepository.cs" />
-    <Compile Include="Repositories\ProdutoRepository.cs" />
-    <Compile Include="Repositories\TransportadoraRepository.cs" />
     <Compile Include="NFeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -190,6 +175,9 @@
       <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
       <Name>NFe.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repositories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

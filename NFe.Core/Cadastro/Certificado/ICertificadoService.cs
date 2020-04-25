@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using NFe.Core.Entitities;
 
 namespace NFe.Core.Cadastro.Certificado
 {

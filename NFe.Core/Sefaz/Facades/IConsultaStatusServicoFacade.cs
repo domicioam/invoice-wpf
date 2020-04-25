@@ -1,4 +1,4 @@
-﻿using NFe.Core.Entitities;
+﻿using NFe.Core.Cadastro.Configuracoes;
 
 namespace NFe.Core.NotasFiscais.Services
 {

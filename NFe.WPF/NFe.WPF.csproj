@@ -584,10 +584,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NFe.Repository\NFe.Repository.csproj">
-      <Project>{AD90D327-1E32-4EAE-A2C5-067634B7A545}</Project>
-      <Name>NFe.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
       <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
       <Name>NFe.Core</Name>

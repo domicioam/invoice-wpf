@@ -1,4 +1,4 @@
-﻿using NFe.Core.Entitities;
+﻿using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 

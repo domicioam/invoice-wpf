@@ -4,6 +4,7 @@ using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;

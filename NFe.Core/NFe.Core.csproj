@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,6 +21,8 @@
     <SccProvider>
     </SccProvider>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -116,6 +119,12 @@
     <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -175,6 +184,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cadastro\Certificado\CertificadoRepository.cs" />
     <Compile Include="Cadastro\Certificado\CertificadoService.cs" />
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
@@ -184,65 +194,80 @@
     <Compile Include="Cadastro\EstadoService.cs" />
     <Compile Include="Cadastro\IEstadoService.cs" />
     <Compile Include="Cadastro\IMunicipioService.cs" />
-    <Compile Include="Cadastro\INaturezaOperacaoService.cs" />
+    <Compile Include="Cadastro\NaturezaOperacao\INaturezaOperacaoService.cs" />
+    <Compile Include="Cadastro\Configuracoes\ConfiguracaoRepository.cs" />
+    <Compile Include="Cadastro\Destinatario\DestinatarioRepository.cs" />
+    <Compile Include="Cadastro\Emissor\EmitenteRepository.cs" />
+    <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoRepository.cs" />
+    <Compile Include="Cadastro\Repositories\EstadoRepository.cs" />
+    <Compile Include="Cadastro\Ibpt\IbptRepository.cs" />
+    <Compile Include="Cadastro\Imposto\ImpostoRepository.cs" />
+    <Compile Include="Cadastro\Repositories\MunicipioRepository.cs" />
+    <Compile Include="Cadastro\Produto\ProdutoRepository.cs" />
+    <Compile Include="Cadastro\Transportadora\TransportadoraRepository.cs" />
     <Compile Include="Cadastro\Transportadora\ITransportadoraService.cs" />
-    <Compile Include="Entitities\CertificadoEntity.cs" />
-    <Compile Include="Entitities\CfopEntity.cs" />
-    <Compile Include="Entitities\ConfiguracaoEntity.cs" />
-    <Compile Include="Entitities\DestinatarioEntity.cs" />
-    <Compile Include="Entitities\EmitenteEntity.cs" />
-    <Compile Include="Entitities\EnderecoDestinatarioEntity.cs" />
-    <Compile Include="Entitities\EnderecoEntity.cs" />
-    <Compile Include="Entitities\EnderecoTransportadoraEntity.cs" />
-    <Compile Include="Entitities\Enums\TabelaCofinsCst.cs" />
-    <Compile Include="Entitities\Enums\TabelaIcmsCst.cs" />
-    <Compile Include="Entitities\Enums\TabelaPisCst.cs" />
-    <Compile Include="Entitities\EstadoEntity.cs" />
-    <Compile Include="Entitities\EventoEntity.cs" />
-    <Compile Include="Entitities\GrupoImposto.cs" />
-    <Compile Include="Entitities\HistoricoEnvioContabilidade.cs" />
-    <Compile Include="Entitities\IbptEntity.cs" />
-    <Compile Include="Entitities\Imposto.cs" />
-    <Compile Include="Entitities\MunicipioEntity.cs" />
-    <Compile Include="Entitities\NaturezaOperacaoEntity.cs" />
-    <Compile Include="Entitities\NotaFiscalEntity.cs" />
-    <Compile Include="Entitities\NotaInutilizadaEntity.cs" />
-    <Compile Include="Entitities\ProdutoEntity.cs" />
-    <Compile Include="Entitities\ProdutoNotaFiscal.cs" />
-    <Compile Include="Entitities\TransportadoraEntity.cs" />
-    <Compile Include="Interfaces\ICertificadoRepository.cs" />
-    <Compile Include="Interfaces\IConfiguracaoRepository.cs" />
-    <Compile Include="Interfaces\IDestinatarioRepository.cs" />
-    <Compile Include="Interfaces\IEmitenteRepository.cs" />
-    <Compile Include="Interfaces\IEstadoRepository.cs" />
-    <Compile Include="Interfaces\IEventoRepository.cs" />
-    <Compile Include="Interfaces\IGrupoImpostosRepository.cs" />
-    <Compile Include="Interfaces\IHistoricoEnvioContabilidadeRepository.cs" />
-    <Compile Include="Interfaces\IIbptRepository.cs" />
-    <Compile Include="Interfaces\IMunicipioRepository.cs" />
-    <Compile Include="Interfaces\INaturezaOperacaoRepository.cs" />
-    <Compile Include="Interfaces\INotaFiscalRepository.cs" />
-    <Compile Include="Interfaces\INotaInutilizadaRepository.cs" />
-    <Compile Include="Interfaces\IProdutoRepository.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\ITransportadoraRepository.cs" />
+    <Compile Include="Cadastro\Certificado\CertificadoEntity.cs" />
+    <Compile Include="Cadastro\Imposto\CfopEntity.cs" />
+    <Compile Include="Cadastro\Configuracoes\ConfiguracaoEntity.cs" />
+    <Compile Include="Cadastro\Destinatario\DestinatarioEntity.cs" />
+    <Compile Include="Cadastro\Emissor\EmitenteEntity.cs" />
+    <Compile Include="Cadastro\Destinatario\EnderecoDestinatarioEntity.cs" />
+    <Compile Include="Cadastro\EnderecoEntity.cs" />
+    <Compile Include="Cadastro\Transportadora\EnderecoTransportadoraEntity.cs" />
+    <Compile Include="Cadastro\Enums\TabelaCofinsCst.cs" />
+    <Compile Include="Cadastro\Enums\TabelaIcmsCst.cs" />
+    <Compile Include="Cadastro\Enums\TabelaPisCst.cs" />
+    <Compile Include="Cadastro\EstadoEntity.cs" />
+    <Compile Include="NFeContext.cs" />
+    <Compile Include="NotasFiscais\Repositories\EventoEntity.cs" />
+    <Compile Include="Cadastro\Imposto\GrupoImposto.cs" />
+    <Compile Include="Contabilidade\HistoricoEnvioContabilidade.cs" />
+    <Compile Include="Cadastro\Ibpt\IbptEntity.cs" />
+    <Compile Include="Cadastro\Imposto\Imposto.cs" />
+    <Compile Include="Cadastro\MunicipioEntity.cs" />
+    <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoEntity.cs" />
+    <Compile Include="Contabilidade\HistoricoEnvioContabilidadeRepository.cs" />
+    <Compile Include="NotasFiscais\Repositories\EventoRepository.cs" />
+    <Compile Include="NotasFiscais\Repositories\NotaFiscalRepository.cs" />
+    <Compile Include="NotasFiscais\Repositories\NotaInutilizadaRepository.cs" />
+    <Compile Include="NotasFiscais\Repositories\NotaFiscalEntity.cs" />
+    <Compile Include="NotasFiscais\Repositories\NotaInutilizadaEntity.cs" />
+    <Compile Include="Cadastro\Produto\ProdutoEntity.cs" />
+    <Compile Include="NotasFiscais\Repositories\ProdutoNotaFiscal.cs" />
+    <Compile Include="Cadastro\Transportadora\TransportadoraEntity.cs" />
+    <Compile Include="Interfaces\Repository\ICertificadoRepository.cs" />
+    <Compile Include="Interfaces\Repository\IConfiguracaoRepository.cs" />
+    <Compile Include="Interfaces\Repository\IDestinatarioRepository.cs" />
+    <Compile Include="Interfaces\Repository\IEmitenteRepository.cs" />
+    <Compile Include="Interfaces\Repository\IEstadoRepository.cs" />
+    <Compile Include="Interfaces\Repository\IEventoRepository.cs" />
+    <Compile Include="Interfaces\Repository\IGrupoImpostosRepository.cs" />
+    <Compile Include="Interfaces\Repository\IHistoricoEnvioContabilidadeRepository.cs" />
+    <Compile Include="Interfaces\Repository\IIbptRepository.cs" />
+    <Compile Include="Interfaces\Repository\IMunicipioRepository.cs" />
+    <Compile Include="Interfaces\Repository\INaturezaOperacaoRepository.cs" />
+    <Compile Include="Interfaces\Repository\INotaFiscalRepository.cs" />
+    <Compile Include="Interfaces\Repository\INotaInutilizadaRepository.cs" />
+    <Compile Include="Interfaces\Repository\IProdutoRepository.cs" />
+    <Compile Include="Interfaces\Repository\IRepository.cs" />
+    <Compile Include="Interfaces\Repository\ITransportadoraRepository.cs" />
     <Compile Include="Interfaces\IXmlFileWritable.cs" />
-    <Compile Include="NotasFiscais\IServiceFactory.cs" />
+    <Compile Include="Sefaz\Clients\IServiceFactory.cs" />
     <Compile Include="Sefaz\Clients\NfeConsulta2\INFeConsulta.cs" />
     <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\INFeCancelamento.cs" />
     <Compile Include="Sefaz\Facades\CancelaNotaFiscalFacade.cs" />
     <Compile Include="NotasFiscais\Services\EventoService.cs" />
     <Compile Include="Sefaz\Facades\ICancelaNotaFiscalFacade.cs" />
     <Compile Include="Sefaz\Facades\IConsultaStatusServicoFacade.cs" />
-    <Compile Include="NotasFiscais\Services\IEventoService.cs" />
+    <Compile Include="Interfaces\Services\IEventoService.cs" />
     <Compile Include="NotasFiscais\Services\ImportadorXmlService.cs" />
     <Compile Include="Sefaz\Facades\IEnviaNotaFiscalFacade.cs" />
-    <Compile Include="NotasFiscais\Services\INotaInutilizadaService.cs" />
+    <Compile Include="Interfaces\Services\INotaInutilizadaService.cs" />
     <Compile Include="NotasFiscais\Services\ModoOnlineService.cs" />
     <Compile Include="Cadastro\MunicipioService.cs" />
     <Compile Include="Sefaz\Facades\EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="NotasFiscais\Services\NotaInutilizadaService.cs" />
-    <Compile Include="NotasFiscais\NotaInutilizadaTO.cs" />
+    <Compile Include="NotasFiscais\Entities\NotaInutilizadaTO.cs" />
     <Compile Include="Sefaz\Facades\ConsultaStatusServicoFacade.cs" />
     <Compile Include="Cadastro\Transportadora\TransportadoraService.cs" />
     <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
@@ -283,31 +308,31 @@
     <Compile Include="Utils\PDF\RelatorioGerencial\NotaFiscal.cs" />
     <Compile Include="Utils\PDF\RelatorioGerencial\NotaInutilizada.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\MensagemRetornoTransmissaoNotasContingencia.cs" />
-    <Compile Include="NotasFiscais\Destinatario.cs" />
+    <Compile Include="NotasFiscais\Entities\Destinatario.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
-    <Compile Include="NotasFiscais\Endereco.cs" />
-    <Compile Include="NotasFiscais\CodMunicipioIBGE.cs" />
-    <Compile Include="NotasFiscais\Emitente.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\Endereco.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\CodMunicipioIBGE.cs" />
+    <Compile Include="NotasFiscais\Entities\Emitente.cs" />
     <Compile Include="Cadastro\Emissor\EmissorService.cs" />
     <Compile Include="Endereco.cs" />
-    <Compile Include="NotasFiscais\Estado.cs" />
-    <Compile Include="NotasFiscais\Ibpt.cs" />
-    <Compile Include="Cadastro\Imposto\IbptManager.cs" />
-    <Compile Include="NotasFiscais\IcmsTotal.cs" />
-    <Compile Include="NotasFiscais\IdentificacaoNFe.cs" />
-    <Compile Include="NotasFiscais\InfoAdicional.cs" />
-    <Compile Include="Cadastro\NaturezaOperacaoService.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\Estado.cs" />
+    <Compile Include="NotasFiscais\Entities\Ibpt.cs" />
+    <Compile Include="Cadastro\Ibpt\IbptManager.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\IcmsTotal.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\IdentificacaoNFe.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\InfoAdicional.cs" />
+    <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoService.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="NotasFiscais\NotaFiscal.cs" />
+    <Compile Include="NotasFiscais\Entities\NotaFiscal.cs" />
     <Compile Include="Sefaz\Facades\EnviaNotaFiscalFacade.cs" />
-    <Compile Include="NotasFiscais\Cartao.cs" />
-    <Compile Include="NotasFiscais\Pagamento.cs" />
-    <Compile Include="NotasFiscais\Produto.cs" />
-    <Compile Include="NotasFiscais\TotalNFe.cs" />
-    <Compile Include="NotasFiscais\Transportadora.cs" />
-    <Compile Include="NotasFiscais\Transporte.cs" />
-    <Compile Include="NotasFiscais\Veiculo.cs" />
-    <Compile Include="NotasFiscais\ServiceFactory.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\Cartao.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\Pagamento.cs" />
+    <Compile Include="NotasFiscais\Entities\Produto.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\TotalNFe.cs" />
+    <Compile Include="NotasFiscais\Entities\Transportadora.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\Transporte.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\Veiculo.cs" />
+    <Compile Include="Sefaz\Clients\ServiceFactory.cs" />
     <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\NFeCancelamento.cs" />
     <Compile Include="MensagemRetornoEnvioNFe.cs" />
     <Compile Include="Sefaz\Clients\NfeConsulta2\NFeConsulta.cs" />
@@ -565,6 +590,14 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
