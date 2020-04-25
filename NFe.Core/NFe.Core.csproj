@@ -276,7 +276,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Utils\Assinatura\ICertificateManager.cs" />
-    <Compile Include="Utils\Log\Log.cs" />
     <Compile Include="Utils\PDF\NotaCancelada.cs" />
     <Compile Include="Utils\PDF\RelatorioGerencial\Emitente.cs" />
     <Compile Include="Utils\PDF\RelatorioGerencial\Evento.cs" />
