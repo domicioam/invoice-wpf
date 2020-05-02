@@ -7,8 +7,8 @@ namespace NFe.Core.Interfaces
     public interface INotaInutilizadaRepository
     {
         int Salvar(NotaInutilizadaEntity notaInutilizada);
-        IQueryable<NotaInutilizadaEntity> GetNotasFiscaisPorMesAno(DateTime mesAno, bool isProducao);
-        NotaInutilizadaEntity GetNotaInutilizada(string idInutilizacao, bool isProducao);
+        IQueryable<NotaInutilizadaEntity> GetNotasFiscaisPorMesAno(DateTime mesAno);
+        NotaInutilizadaEntity GetNotaInutilizada(string idInutilizacao);
         void Insert(NotaInutilizadaEntity novaNotaInutilizada);
         void Save();
     }

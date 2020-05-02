@@ -21,9 +21,9 @@ namespace NFe.Core.NotasFiscais.Services
             _notaInutilizadaRepository = notaInutilizadaRepository;
         }
 
-        public List<NotaInutilizadaTO> GetNotasFiscaisPorMesAno(DateTime periodo, bool isProducao)
+        public List<NotaInutilizadaTO> GetNotasFiscaisPorMesAno(DateTime periodo)
         {
-            var notasInutilizadasDB = _notaInutilizadaRepository.GetNotasFiscaisPorMesAno(periodo, isProducao);
+            var notasInutilizadasDB = _notaInutilizadaRepository.GetNotasFiscaisPorMesAno(periodo);
 
             var notasInutilizadas = new List<NotaInutilizadaTO>();
 
@@ -56,11 +56,10 @@ namespace NFe.Core.NotasFiscais.Services
 
 
 
-        public NotaInutilizadaTO GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData, bool isProducao)
+        public NotaInutilizadaTO GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData)
         {
             var notaInutilizada =
-                (NotaInutilizadaTO) _notaInutilizadaRepository.GetNotaInutilizada(idInutilizacao,
-                    isProducao);
+                (NotaInutilizadaTO) _notaInutilizadaRepository.GetNotaInutilizada(idInutilizacao);
 
             if (isLoadXmlData && notaInutilizada != null) notaInutilizada.LoadXml();
 
@@ -77,7 +76,6 @@ namespace NFe.Core.NotasFiscais.Services
             notaInutilizada.Serie = envInfInut.serie;
             notaInutilizada.Numero = envInfInut.nNFFin;
             notaInutilizada.Modelo = envInfInut.mod == TMod.Item55 ? 55 : 65;
-            notaInutilizada.IsProducao = envInfInut.tpAmb == TAmb.Item1;
             notaInutilizada.DataInutilizacao = DateTime.ParseExact(retInfInut.dhRecbto, "yyyy-MM-ddTHH:mm:sszzz",
                 CultureInfo.InvariantCulture);
             notaInutilizada.IdInutilizacao = envInfInut.Id;

@@ -49,7 +49,7 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2
             var certificado = _certificadoService.GetX509Certificate2();
             var node = AssinaturaDigital.AssinarInutilizacao(xml, "#" + infInut.Id, certificado);
 
-            var servico = _serviceFactory.GetService(modeloNota, ambiente, Servico.INUTILIZACAO, codigoUf, certificado);
+            var servico = _serviceFactory.GetService(modeloNota, Servico.INUTILIZACAO, codigoUf, certificado);
 
             var client = (NFeInutilizacao4SoapClient)servico.SoapClient;
 

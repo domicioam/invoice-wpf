@@ -15,8 +15,6 @@ namespace NFe.Core.Entitities
         [Required]
         public int Modelo { get; set; }
         [Required]
-        public bool IsProducao { get; set; }
-        [Required]
         public DateTime DataInutilizacao { get; set; }
         [Required]
         public string IdInutilizacao { get; set; }

@@ -10,6 +10,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Sefaz;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Services;
 using System;
@@ -84,11 +85,12 @@ namespace NFe.WPF.UnitTests
             var estadoService = estadoServiceMock.Object;
             var destinatarioService = new Mock<IDestinatarioService>().Object;
             var municipioService = new Mock<IMunicipioService>().Object;
+            var sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
 
             var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService);
+                configuracaoService, emissorService, produtoService, sefazSettings);
 
 
             var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, new Mock<IEnviaNotaFiscalFacade>().Object, estadoService, emissorService, municipioService,

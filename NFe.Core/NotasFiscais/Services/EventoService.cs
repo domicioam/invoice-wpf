@@ -75,7 +75,7 @@ namespace NFe.Core.NotasFiscais.Services
             var envInfEvento = procEvento.evento.infEvento;
 
             var notaFiscal =
-                notaFiscalRepository.GetNotaFiscalByChave(envInfEvento.chNFe, (int) envInfEvento.tpAmb + 1);
+                notaFiscalRepository.GetNotaFiscalByChave(envInfEvento.chNFe);
 
             if (notaFiscal == null)
                 throw new ArgumentException("Nota fiscal relacionada ao evento não existe na base de dados.");

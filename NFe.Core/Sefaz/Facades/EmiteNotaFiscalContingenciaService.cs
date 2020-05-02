@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,7 @@ using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NFeRetAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
@@ -43,7 +45,7 @@ namespace NFe.Core.NotasFiscais.Services
 
         private const string MensagemErro =
             "Tentativa de transmissão de notas em contingência falhou. Serviço continua indisponível.";
-
+        private const string SEFAZ_ENVIRONMENT_STAGING = "staging";
         private readonly IConfiguracaoService _configuracaoService;
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly ICertificateManager _certificateManager;
@@ -57,8 +59,9 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly ICertificadoService _certificadoService;
         private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
         private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
+        private readonly SefazSettings _sefazSettings;
 
-        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
+        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalFacade cancelaNotaFiscalService, SefazSettings sefazSettings)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;
@@ -70,6 +73,7 @@ namespace NFe.Core.NotasFiscais.Services
             _certificadoService = certificadoService;
             _notaInutilizadaFacade = notaInutilizadaFacade;
             _cancelaNotaFiscalService = cancelaNotaFiscalService;
+            _sefazSettings = sefazSettings;
         }
 
         public int EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc)
@@ -99,7 +103,7 @@ namespace NFe.Core.NotasFiscais.Services
             else
                 certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 
-            if (notaFiscal.Identificacao.Ambiente == Ambiente.Homologacao)
+            if (_sefazSettings.Ambiente == Ambiente.Homologacao)
                 notaFiscal.Produtos[0].Descricao = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
 
             var refUri = "#NFe" + notaFiscal.Identificacao.Chave;
@@ -110,8 +114,9 @@ namespace NFe.Core.NotasFiscais.Services
 
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
             {
+            // Pegar ambiente no App.Config
                 qrCode = QrCodeUtil.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
-                    digVal, notaFiscal.Identificacao.Ambiente,
+                    digVal, _sefazSettings.Ambiente,
                     notaFiscal.Identificacao.DataHoraEmissao,
                     notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
                     notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture), cscId,
@@ -137,8 +142,7 @@ namespace NFe.Core.NotasFiscais.Services
             notaFiscal.Identificacao.Status = Status.CONTINGENCIA;
 
             var idNotaCopiaSeguranca =  _notaFiscalRepository.SalvarNotaFiscalPendente(notaFiscal,
-                XmlUtil.GerarNfeProcXml(nfe, qrCode),
-                notaFiscal.Identificacao.Ambiente);
+                XmlUtil.GerarNfeProcXml(nfe, qrCode));
 
             var notaFiscalEntity =  _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
             notaFiscalEntity.Status = (int)Status.CONTINGENCIA;
@@ -210,26 +214,25 @@ namespace NFe.Core.NotasFiscais.Services
             var codigoUf = UfToCodigoUfConversor.GetCodigoUf(ufEmissor);
 
             var certificado = _certificadoService.GetX509Certificate2();
-            var ambiente = (Ambiente)notaParaCancelar.Ambiente - 1;
             var modelo = notaParaCancelar.Modelo.Equals("55") ? Modelo.Modelo55 : Modelo.Modelo65;
 
             var result =
-                _nfeConsulta.ConsultarNotaFiscal(notaParaCancelar.Chave, codigoUf, certificado, ambiente, modelo);
+                _nfeConsulta.ConsultarNotaFiscal(notaParaCancelar.Chave, codigoUf, certificado, modelo);
             var codigoUfEnum = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
             if (result.IsEnviada)
             {
-                _cancelaNotaFiscalService.CancelarNotaFiscal(ufEmissor, codigoUfEnum, ambiente, emitente.CNPJ,
+                _cancelaNotaFiscalService.CancelarNotaFiscal(ufEmissor, codigoUfEnum, emitente.CNPJ,
                     notaParaCancelar.Chave, result.Protocolo.infProt.nProt, modelo, "Nota duplicada em contingência");
             }
             else
             {
                 var resultadoInutilizacao = _notaInutilizadaFacade.InutilizarNotaFiscal(ufEmissor, codigoUfEnum,
-                    ambiente, emitente.CNPJ, modelo, notaParaCancelar.Serie,
+                    emitente.CNPJ, modelo, notaParaCancelar.Serie,
                     notaParaCancelar.Numero, notaParaCancelar.Numero);
 
                 if (resultadoInutilizacao.Status != Sefaz.NfeInutilizacao2.Status.ERRO)
-                    _notaFiscalRepository.ExcluirNota(notaParaCancelar.Chave, ambiente);
+                    _notaFiscalRepository.ExcluirNota(notaParaCancelar.Chave);
             }
         }
 
@@ -289,7 +292,6 @@ namespace NFe.Core.NotasFiscais.Services
                             nota.Chave,
                             emitente.Endereco.CodigoUF,
                             certificado,
-                            config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao,
                             nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55
                         );
 
@@ -342,8 +344,9 @@ namespace NFe.Core.NotasFiscais.Services
 
             var consultaRecibo = new TConsReciNFe
             {
+                // Pegar ambiente do App.Config
                 versao = "4.00",
-                tpAmb = config.IsProducao ? XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item1 : XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item2,
+                tpAmb = _sefazSettings.Ambiente == Ambiente.Producao ? XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item1 : XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item2,
                 nRec = nRec
             };
 
@@ -352,13 +355,12 @@ namespace NFe.Core.NotasFiscais.Services
             var node = new XmlDocument();
             node.LoadXml(parametroXml);
 
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
             var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
 
             try
             {
                 var servico =
-                    _serviceFactory.GetService(modelo, ambiente, Servico.RetAutorizacao, codigoUf, certificado);
+                    _serviceFactory.GetService(modelo, Servico.RetAutorizacao, codigoUf, certificado);
                 var client = (NFeRetAutorizacao4SoapClient)servico.SoapClient;
 
                 var result = client.nfeRetAutorizacaoLote(node);
@@ -415,9 +417,6 @@ namespace NFe.Core.NotasFiscais.Services
             document.LoadXml(parametroXml);
             var node = document.DocumentElement;
 
-            var config = _configuracaoService.GetConfiguracao();
-
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
             var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
             X509Certificate2 certificado;
 
@@ -431,7 +430,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             try
             {
-                var servico = _serviceFactory.GetService(modelo, ambiente, Servico.AUTORIZACAO, codigoUf, certificado);
+                var servico = _serviceFactory.GetService(modelo, Servico.AUTORIZACAO, codigoUf, certificado);
                 var client = (NFeAutorizacao4SoapClient)servico.SoapClient;
 
                 var result = client.nfeAutorizacaoLote(node);

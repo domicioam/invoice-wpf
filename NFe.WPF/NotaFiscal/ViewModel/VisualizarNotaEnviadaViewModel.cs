@@ -135,7 +135,6 @@ namespace NFe.WPF.ViewModel
         private async Task<string> GetNotaXmlAsync()
         {
             var config = await _configuracaoService.GetConfiguracaoAsync();
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
 
             var notaDb = _notaFiscalRepository.GetNotaFiscalByChave(NotaFiscal.Chave);
             string xml = await notaDb.LoadXmlAsync();

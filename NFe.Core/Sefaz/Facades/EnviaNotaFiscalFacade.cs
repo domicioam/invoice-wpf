@@ -208,8 +208,7 @@ namespace NFe.Core.NotasFiscais.Services
 
         private NFeAutorizacao4Soap CriarClientWS(NotaFiscal notaFiscal, X509Certificate2 certificado, CodigoUfIbge codigoUf)
         {
-            var servico = _serviceFactory.GetService(notaFiscal.Identificacao.Modelo,
-                notaFiscal.Identificacao.Ambiente, Servico.AUTORIZACAO, codigoUf, certificado);
+            var servico = _serviceFactory.GetService(notaFiscal.Identificacao.Modelo, Servico.AUTORIZACAO, codigoUf, certificado);
             var client = (NFeAutorizacao4Soap)servico.SoapClient;
             return client;
         }
@@ -242,7 +241,7 @@ namespace NFe.Core.NotasFiscais.Services
             notaFiscal.Identificacao.Status = Status.PENDENTE;
 
             idNotaCopiaSeguranca = _notaFiscalRepository.SalvarNotaFiscalPendente(notaFiscal,
-                XmlUtil.GerarNfeProcXml(nfe, qrCode), notaFiscal.Identificacao.Ambiente);
+                XmlUtil.GerarNfeProcXml(nfe, qrCode));
             return idNotaCopiaSeguranca;
         }
 
@@ -306,7 +305,7 @@ namespace NFe.Core.NotasFiscais.Services
         {
             var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave,
                 notaFiscal.Emitente.Endereco.CodigoUF,
-                certificado, notaFiscal.Identificacao.Ambiente, notaFiscal.Identificacao.Modelo);
+                certificado, notaFiscal.Identificacao.Modelo);
 
             if (!retornoConsulta.IsEnviada)
                 return notaFiscalEntity;
@@ -330,8 +329,7 @@ namespace NFe.Core.NotasFiscais.Services
             string nFeNamespaceName, X509Certificate2 certificado, TNFe nfe, int idNotaCopiaSeguranca)
         {
             var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave,
-                notaFiscal.Emitente.Endereco.CodigoUF, certificado,
-                notaFiscal.Identificacao.Ambiente, notaFiscal.Identificacao.Modelo);
+                notaFiscal.Emitente.Endereco.CodigoUF, certificado, notaFiscal.Identificacao.Modelo);
 
             var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, nFeNamespaceName);
             var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);

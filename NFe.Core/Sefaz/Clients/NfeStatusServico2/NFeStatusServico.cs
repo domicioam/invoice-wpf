@@ -36,27 +36,13 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2
 
                 string endpoint = "";
 
-                if (ambiente == Ambiente.Homologacao)
+                if (modelo == Modelo.Modelo55)
                 {
-                    if (modelo == Modelo.Modelo55)
-                    {
-                        endpoint = "NfeStatusServico2Hom";
-                    }
-                    else
-                    {
-                        endpoint = "NfceStatusServico2Hom";
-                    }
+                    endpoint = "NfeStatusServico2";
                 }
                 else
                 {
-                    if (modelo == Modelo.Modelo55)
-                    {
-                        endpoint = "NfeStatusServico2Prod";
-                    }
-                    else
-                    {
-                        endpoint = "NfceStatusServico2Prod";
-                    }
+                    endpoint = "NfceStatusServico2";
                 }
 
                 var soapClient = new NfeStatusServico4SoapClient(endpoint);

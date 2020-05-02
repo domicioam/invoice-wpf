@@ -41,6 +41,7 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.Utils.Assinatura;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Utils;
+using NFe.Core.Sefaz;
 
 namespace EmissorNFe
 {
@@ -274,6 +275,7 @@ namespace EmissorNFe
             container.Register<GeradorZip>(Lifestyle.Transient);
             container.Register<GeradorPDF>(Lifestyle.Transient);
             container.Register<ITransportadoraService, TransportadoraService>(Lifestyle.Transient);
+            container.Register<SefazSettings>(Lifestyle.Transient);
 
             container.Verify();
 

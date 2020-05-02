@@ -39,9 +39,6 @@ namespace NFe.Core.Entitities
         public string Serie { get; set; }
 
         [Required]
-        public int Ambiente { get; set; }
-
-        [Required]
         public string Numero { get; set; }
 
         public DateTime DataEmissao { get; set; }
@@ -90,8 +87,6 @@ namespace NFe.Core.Entitities
         public string UfDestinatario { get; set; }
 
         public string DocumentoDestinatario { get; set; }
-        [Required]
-        public bool IsProducao { get; set; }
 
         [NotMapped]
         public string FileName

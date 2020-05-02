@@ -13,16 +13,7 @@ namespace NFe.WPF.ViewModel
     {
         public ConfiguracaoAlteradaEventHandler ConfiguracaoAlteradaEvent = delegate { };
 
-        private bool _isProducao;
         private ConfiguracaoEntity _configuracao;
-
-        private string _serieNFeHom;
-        private string _proximoNumNFeHom;
-        private string _proximoNumNFCeHom;
-        private string _serieNFCeHom;
-        private string _cscIDHom;
-        private string _cscHom;
-        private string _emailContabilidadeHom;
 
         private string _serieNFeProd;
         private string _proximoNumNFeProd;
@@ -32,106 +23,6 @@ namespace NFe.WPF.ViewModel
         private string _cscProd;
         private string _emailContabilidadeProd;
         private IConfiguracaoService _configuracaoService;
-
-        public bool IsProducao
-        {
-            get
-            {
-                return _isProducao;
-            }
-            set
-            {
-                SetProperty(ref _isProducao, value);
-                LoadConfig(_isProducao);
-            }
-        }
-
-
-        [Required]
-        public string SerieNFeHom
-        {
-            get
-            {
-                return _serieNFeHom;
-            }
-            set
-            {
-                SetProperty(ref _serieNFeHom, value);
-            }
-        }
-
-        [Required]
-        public string ProximoNumNFeHom
-        {
-            get
-            {
-                return _proximoNumNFeHom;
-            }
-            set
-            {
-                SetProperty(ref _proximoNumNFeHom, value);
-            }
-        }
-
-        [Required]
-        public string ProximoNumNFCeHom
-        {
-            get
-            {
-                return _proximoNumNFCeHom;
-            }
-            set
-            {
-                SetProperty(ref _proximoNumNFCeHom, value);
-            }
-        }
-
-        [Required]
-        public string SerieNFCeHom
-        {
-            get
-            {
-                return _serieNFCeHom;
-            }
-            set
-            {
-                SetProperty(ref _serieNFCeHom, value);
-            }
-        }
-
-        [Required]
-        public string CscIdHom
-        {
-            get
-            {
-                return _cscIDHom;
-            }
-            set
-            {
-                SetProperty(ref _cscIDHom, value);
-            }
-        }
-
-        [Required]
-        public string CscHom
-        {
-            get { return _cscHom; }
-            set
-            {
-                SetProperty(ref _cscHom, value);
-            }
-        }
-
-        [Required]
-        [EmailAddress]
-        public string EmailContabilidadeHom
-        {
-            get { return _emailContabilidadeHom; }
-            set
-            {
-                SetProperty(ref _emailContabilidadeHom, value);
-            }
-        }
 
         [Required]
         public string SerieNFeProd
@@ -219,26 +110,6 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void LoadConfig(bool isProducao)
-        {
-            _configuracao = _configuracaoService.GetConfiguracao();
-
-            CscHom = _configuracao.CscHom;
-            CscIdHom = _configuracao.CscIdHom;
-            EmailContabilidadeHom = _configuracao.EmailContabilidadeHom;
-            ProximoNumNFCeHom = _configuracao.ProximoNumNFCeHom;
-            ProximoNumNFeHom = _configuracao.ProximoNumNFeHom;
-            SerieNFCeHom = _configuracao.SerieNFCeHom;
-            SerieNFeHom = _configuracao.SerieNFeHom;
-
-            CscProd = _configuracao.Csc;
-            CscIdProd = _configuracao.CscId;
-            EmailContabilidadeProd = _configuracao.EmailContabilidade;
-            ProximoNumNFCeProd = _configuracao.ProximoNumNFCe;
-            ProximoNumNFeProd = _configuracao.ProximoNumNFe;
-            SerieNFCeProd = _configuracao.SerieNFCe;
-            SerieNFeProd = _configuracao.SerieNFe;
-        }
         public ICommand SalvarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
 
@@ -255,15 +126,6 @@ namespace NFe.WPF.ViewModel
 
             if (configuracao == null)
                 return;
-            IsProducao = configuracao.IsProducao;
-
-            CscHom = configuracao.CscHom;
-            CscIdHom = configuracao.CscIdHom;
-            EmailContabilidadeHom = configuracao.EmailContabilidadeHom;
-            ProximoNumNFCeHom = configuracao.ProximoNumNFCeHom;
-            ProximoNumNFeHom = configuracao.ProximoNumNFeHom;
-            SerieNFCeHom = configuracao.SerieNFCeHom;
-            SerieNFeHom = configuracao.SerieNFeHom;
 
             CscProd = configuracao.Csc;
             CscIdProd = configuracao.CscId;
@@ -292,16 +154,6 @@ namespace NFe.WPF.ViewModel
                 {
                     configuracao = _configuracaoService.GetConfiguracao();
                 }
-
-                configuracao.IsProducao = IsProducao;
-
-                configuracao.CscHom = CscHom;
-                configuracao.CscIdHom = CscIdHom;
-                configuracao.EmailContabilidadeHom = EmailContabilidadeHom;
-                configuracao.ProximoNumNFCeHom = ProximoNumNFCeHom;
-                configuracao.ProximoNumNFeHom = ProximoNumNFeHom;
-                configuracao.SerieNFCeHom = SerieNFCeHom;
-                configuracao.SerieNFeHom = SerieNFeHom;
 
                 configuracao.Csc = CscProd;
                 configuracao.CscId = CscIdProd;

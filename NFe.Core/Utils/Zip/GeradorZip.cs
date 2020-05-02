@@ -44,7 +44,7 @@ namespace NFe.Core.Utils.Zip
          {
             var config = _configuracaoService.GetConfiguracao();
 
-            var notasNoPeriodo = _notaFiscalRepository.GetNotasFiscaisPorMesAno(periodo, config.IsProducao, true);
+            var notasNoPeriodo = _notaFiscalRepository.GetNotasFiscaisPorMesAno(periodo, true);
             var nfeNoPeriodo = notasNoPeriodo.Where(n => n.Modelo.Equals("55")).ToList();
             var nfceNoPeriodo = notasNoPeriodo.Where(n => n.Modelo.Equals("65")).ToList();
 
@@ -58,7 +58,7 @@ namespace NFe.Core.Utils.Zip
 
             var notasZip = notasNoPeriodo.ToList();
 
-            var notasInutilizadas = _notaInutilizadaService.GetNotasFiscaisPorMesAno(periodo, config.IsProducao).ToList();
+            var notasInutilizadas = _notaInutilizadaService.GetNotasFiscaisPorMesAno(periodo).ToList();
 
             string startPath = Path.Combine(Path.GetTempPath(), "EmissorNFe");
 

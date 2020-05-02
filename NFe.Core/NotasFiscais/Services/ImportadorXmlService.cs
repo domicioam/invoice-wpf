@@ -101,9 +101,7 @@ namespace NFe.Core.NotasFiscais.Services
                         notaFiscalEntity.ValorProdutos = notaFiscal.ValorTotalProdutos;
                         notaFiscalEntity.ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro;
                         notaFiscalEntity.ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe;
-                        notaFiscalEntity.Ambiente = notaFiscal.Identificacao.Ambiente == Ambiente.Homologacao ? 2 : 1;
                         notaFiscalEntity.Numero = notaFiscal.Identificacao.Numero;
-                        notaFiscalEntity.IsProducao = notaFiscal.Identificacao.Ambiente == Ambiente.Producao;
                         notaFiscalEntity.DataAutorizacao = DateTime.ParseExact(notaFiscal.DhAutorizacao,
                             "yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
                         notaFiscalEntity.Protocolo = notaFiscal.ProtocoloAutorizacao;
@@ -133,8 +131,7 @@ namespace NFe.Core.NotasFiscais.Services
 
                         var notaInutilizada = _notaInutilizadaService.GetNotaInutilizadaFromXml(xml);
                         var notaInutilizadaDb =
-                            _notaInutilizadaService.GetNotaInutilizada(notaInutilizada.IdInutilizacao, false,
-                                notaInutilizada.IsProducao);
+                            _notaInutilizadaService.GetNotaInutilizada(notaInutilizada.IdInutilizacao, false);
 
                         if (notaInutilizadaDb != null) return;
 

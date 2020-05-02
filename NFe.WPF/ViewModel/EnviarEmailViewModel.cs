@@ -67,7 +67,7 @@ namespace NFe.WPF.ViewModel
         private async void EnviarEmailCmd_Execute(IClosable closable)
         {
             var config = await _configuracaoService.GetConfiguracaoAsync();
-            var notaFiscal =  _notaFiscalRepository.GetNotaFiscalByChave(Chave, config.IsProducao ? 1 : 2);
+            var notaFiscal =  _notaFiscalRepository.GetNotaFiscalByChave(Chave);
             string xmlPath = notaFiscal.XmlPath;
             _mailManager.EnviarEmailDestinatario(Email, xmlPath, notaFiscal);
             Email = string.Empty;

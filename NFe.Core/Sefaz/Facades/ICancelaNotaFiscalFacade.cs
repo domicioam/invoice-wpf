@@ -6,7 +6,7 @@ namespace NFe.Core.NotasFiscais.Services
     public interface ICancelaNotaFiscalFacade
     {
         MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente,
-            CodigoUfIbge codigoUf, Ambiente ambiente, string cnpjEmitente, string chaveNFe,
+            CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
             string protocoloAutorizacao, Modelo modeloNota, string justificativa);
     }
 }

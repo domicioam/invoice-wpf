@@ -9,6 +9,7 @@ using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Sefaz;
 using NFe.WPF.Exceptions;
 using NFe.WPF.Model;
 using NFe.WPF.Reports.PDF;
@@ -26,15 +27,17 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IEmissorService _emissorService;
         private readonly IProdutoRepository _produtoRepository;
+        private readonly SefazSettings _sefazSettings;
 
         public EnviarNotaController(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository)
+            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings)
         {
             _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoService = configuracaoService;
             _emissorService = emissorService;
             _produtoRepository = produtoRepository;
+            _sefazSettings = sefazSettings;
         }
 
         public event NotaEnviadaEventHandler NotaEnviadaEvent = delegate { };
@@ -58,20 +61,18 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             }
 
             var config = _configuracaoService.GetConfiguracao();
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
-
             Core.NotasFiscais.NotaFiscal notaFiscal = null;
 
             await Task.Run(() =>
            {
                const TipoEmissao tipoEmissao = TipoEmissao.Normal;
-               var destinatario = CreateDestinatario(notaFiscalModel, ambiente, modelo);
+               var destinatario = CreateDestinatario(notaFiscalModel, _sefazSettings.Ambiente, modelo);
                var documentoDanfe = destinatario != null ? destinatario.DocumentoDanfe : "CPF";
                var emitente = _emissorService.GetEmissor();
                var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
                var identificacao = CreateIdentificacaoNFe(notaFiscalModel, codigoUF, DateTime.Now, emitente, modelo,
-                   Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, ambiente, documentoDanfe);
+                   Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, _sefazSettings.Ambiente, documentoDanfe);
                var produtos = GetProdutos(notaFiscalModel, config);
                var pagamentos = GetPagamentos(notaFiscalModel);
                var totalNFe = GetTotalNFe(notaFiscalModel);
@@ -81,8 +82,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
                    totalNFe, infoAdicional, produtos, pagamentos);
 
-               var cscId = ambiente == Ambiente.Homologacao ? config.CscIdHom : config.CscId;
-               var csc = ambiente == Ambiente.Homologacao ? config.CscHom : config.Csc;
+               var cscId = config.CscId;
+               var csc = config.Csc;
                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
            });
 
@@ -241,7 +242,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     produtoEntity.GrupoImpostos.CFOP, produtoEntity.Codigo, produtoEntity.Descricao, produtoEntity.NCM,
                     notaFiscal.Produtos.First(p => p.ProdutoSelecionado.Id == produtoEntity.Id).QtdeProduto,
                     produtoEntity.UnidadeComercial,
-                    produtoNota.ValorUnitario, produtoNota.Descontos, !config.IsProducao);
+                    produtoNota.ValorUnitario, produtoNota.Descontos, _sefazSettings.Ambiente == Ambiente.Homologacao);
 
                 produtos.Add(produto);
             }

@@ -51,7 +51,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService);
+            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
@@ -153,7 +153,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
 
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService);
+            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
@@ -193,14 +193,9 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             {
                 Id = 1,
                 SerieNFCe = "001",
-                SerieNFCeHom = "001",
                 SerieNFe = "001",
-                SerieNFeHom = "001",
                 ProximoNumNFCe = "1",
-                ProximoNumNFCeHom = "1",
                 ProximoNumNFe = "1",
-                ProximoNumNFeHom = "1",
-                IsProducao = false
             };
 
             var configuracaoServiceMock = new Mock<IConfiguracaoService>();
@@ -216,7 +211,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
 
             var serviceFactoryMock = new Mock<IServiceFactory>();
             serviceFactoryMock
-                .Setup(m => m.GetService(It.IsAny<Modelo>(), It.IsAny<Ambiente>(), It.IsAny<Servico>(),
+                .Setup(m => m.GetService(It.IsAny<Modelo>(), It.IsAny<Servico>(),
                     It.IsAny<CodigoUfIbge>(), It.IsAny<X509Certificate2>())).Returns(() =>
                     {
                         return new Service { SoapClient = nfeAutorizacao4Mock.Object };

@@ -17,7 +17,7 @@ namespace NFe.Core.NotasFiscais
 
     public class ServiceFactory : IServiceFactory
     {
-        public Service GetService(Modelo modelo, Ambiente ambiente, Servico servico, CodigoUfIbge UF, X509Certificate2 certificado)
+        public Service GetService(Modelo modelo, Servico servico, CodigoUfIbge UF, X509Certificate2 certificado)
         {
             string endpoint;
             if (modelo == Modelo.Modelo55)

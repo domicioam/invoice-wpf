@@ -22,10 +22,10 @@ namespace NFe.Core.NotasFiscais.Services
         }
 
         public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente,
-            CodigoUfIbge codigoUf, Ambiente ambiente, string cnpjEmitente, string chaveNFe,
+            CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
             string protocoloAutorizacao, Modelo modeloNota, string justificativa)
         {
-            var resultadoCancelamento = _nfeCancelamento.CancelarNotaFiscal(ufEmitente, codigoUf, ambiente,
+            var resultadoCancelamento = _nfeCancelamento.CancelarNotaFiscal(ufEmitente, codigoUf,
                 cnpjEmitente,
                 chaveNFe,
                 protocoloAutorizacao, modeloNota, justificativa);

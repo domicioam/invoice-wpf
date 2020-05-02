@@ -32,16 +32,6 @@ namespace NFe.Core.Cadastro.Configuracoes
 
             if (config == null) config = new ConfiguracaoEntity();
 
-            config.IsProducao = configuracao.IsProducao;
-
-            config.CscHom = configuracao.CscHom;
-            config.CscIdHom = configuracao.CscIdHom;
-            config.EmailContabilidadeHom = configuracao.EmailContabilidadeHom;
-            config.ProximoNumNFCeHom = configuracao.ProximoNumNFCeHom;
-            config.ProximoNumNFeHom = configuracao.ProximoNumNFeHom;
-            config.SerieNFCeHom = configuracao.SerieNFCeHom;
-            config.SerieNFeHom = configuracao.SerieNFeHom;
-
             config.Csc = configuracao.Csc;
             config.CscId = configuracao.CscId;
             config.EmailContabilidade = configuracao.EmailContabilidade;
@@ -67,17 +57,11 @@ namespace NFe.Core.Cadastro.Configuracoes
 
             if (modelo == Modelo.Modelo55)
             {
-                if (ambiente == Ambiente.Homologacao)
-                    config.ProximoNumNFeHom = (Convert.ToInt32(config.ProximoNumNFeHom) + 1).ToString();
-                else
-                    config.ProximoNumNFe = (Convert.ToInt32(config.ProximoNumNFe) + 1).ToString();
+                config.ProximoNumNFe = (Convert.ToInt32(config.ProximoNumNFe) + 1).ToString();
             }
             else
             {
-                if (ambiente == Ambiente.Homologacao)
-                    config.ProximoNumNFCeHom = (Convert.ToInt32(config.ProximoNumNFCeHom) + 1).ToString();
-                else
-                    config.ProximoNumNFCe = (Convert.ToInt32(config.ProximoNumNFCe) + 1).ToString();
+                config.ProximoNumNFCe = (Convert.ToInt32(config.ProximoNumNFCe) + 1).ToString();
             }
 
             Salvar(config);
@@ -87,14 +71,13 @@ namespace NFe.Core.Cadastro.Configuracoes
         {
             var config = GetConfiguracao();
 
-            if(modelo == Modelo.Modelo55)
+            if (modelo == Modelo.Modelo55)
             {
-                return config.IsProducao ? config.ProximoNumNFe : config.ProximoNumNFeHom;
-
+                return config.ProximoNumNFe;
             }
             else
             {
-                return config.IsProducao? config.ProximoNumNFCe: config.ProximoNumNFCeHom;
+                return config.ProximoNumNFCe;
             }
         }
     }

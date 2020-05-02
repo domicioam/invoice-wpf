@@ -25,19 +25,19 @@ namespace NFe.Repository.Repositories
             return notaInutilizada.Id;
         }
 
-        public IQueryable<NotaInutilizadaEntity> GetNotasFiscaisPorMesAno(DateTime mesAno, bool isProducao)
+        public IQueryable<NotaInutilizadaEntity> GetNotasFiscaisPorMesAno(DateTime mesAno)
         {
-            return _context.NotaInutilizada.Where(n => n.DataInutilizacao.Month.Equals(mesAno.Month) && n.DataInutilizacao.Year == mesAno.Year && n.IsProducao == isProducao);
+            return _context.NotaInutilizada.Where(n => n.DataInutilizacao.Month.Equals(mesAno.Month) && n.DataInutilizacao.Year == mesAno.Year);
         }
 
-        public NotaInutilizadaEntity GetNotaInutilizada(string idInutilizacao, bool isProducao)
+        public NotaInutilizadaEntity GetNotaInutilizada(string idInutilizacao)
         {
-            return _context.NotaInutilizada.FirstOrDefault(n => n.IdInutilizacao == idInutilizacao && n.IsProducao == isProducao);
+            return _context.NotaInutilizada.FirstOrDefault(n => n.IdInutilizacao == idInutilizacao);
         }
 
         public virtual void Insert(NotaInutilizadaEntity novaNotaInutilizada)
         {
-            bool isNotaInutilizadaJáExiste = GetNotaInutilizada(novaNotaInutilizada.IdInutilizacao, novaNotaInutilizada.IsProducao) != null;
+            bool isNotaInutilizadaJáExiste = GetNotaInutilizada(novaNotaInutilizada.IdInutilizacao) != null;
 
             if (!isNotaInutilizadaJáExiste)
             {

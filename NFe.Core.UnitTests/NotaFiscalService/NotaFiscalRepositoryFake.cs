@@ -19,7 +19,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             _notasFiscais = new List<NotaFiscalEntity>();
         }
 
-        public void ExcluirNota(string chave, Ambiente ambiente)
+        public void ExcluirNota(string chave)
         {
             throw new NotImplementedException();
         }
@@ -61,11 +61,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             throw new NotImplementedException();
         }
 
-
-
-
-
-        public List<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime periodo, bool isProducao, bool v)
+        public List<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime periodo, bool v)
         {
             throw new NotImplementedException();
         }
@@ -115,7 +111,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             return Salvar(notaFiscalEntity);
         }
 
-        public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string v, Ambiente ambiente)
+        public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string v)
         {
             var NotaFiscalEntity = new NotaFiscalEntity();
 
@@ -142,9 +138,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             NotaFiscalEntity.ValorProdutos = notaFiscal.ValorTotalProdutos;
             NotaFiscalEntity.ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro;
             NotaFiscalEntity.ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe;
-            NotaFiscalEntity.Ambiente = ambiente == Ambiente.Homologacao ? 2 : 1;
             NotaFiscalEntity.Numero = notaFiscal.Identificacao.Numero;
-            NotaFiscalEntity.IsProducao = ambiente == Ambiente.Producao;
 
             return Salvar(NotaFiscalEntity);
         }

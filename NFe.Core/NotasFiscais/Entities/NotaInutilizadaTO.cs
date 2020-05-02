@@ -10,7 +10,6 @@ namespace NFe.Core.NotasFiscais
         public string Serie { get; set; }
         public string Numero { get; set; }
         public int Modelo { get; set; }
-        public bool IsProducao { get; set; }
         public DateTime DataInutilizacao { get; set; }
         public string IdInutilizacao { get; set; }
         public string Protocolo { get; set; }
@@ -33,7 +32,6 @@ namespace NFe.Core.NotasFiscais
                 Numero = emitenteEntity.Numero,
                 DataInutilizacao = emitenteEntity.DataInutilizacao,
                 IdInutilizacao = emitenteEntity.IdInutilizacao,
-                IsProducao = emitenteEntity.IsProducao,
                 Modelo = emitenteEntity.Modelo,
                 Motivo = emitenteEntity.Motivo,
                 Protocolo = emitenteEntity.Protocolo,
@@ -50,7 +48,6 @@ namespace NFe.Core.NotasFiscais
                 Numero = emitenteEntity.Numero,
                 DataInutilizacao = emitenteEntity.DataInutilizacao,
                 IdInutilizacao = emitenteEntity.IdInutilizacao,
-                IsProducao = emitenteEntity.IsProducao,
                 Modelo = emitenteEntity.Modelo,
                 Motivo = emitenteEntity.Motivo,
                 Protocolo = emitenteEntity.Protocolo,

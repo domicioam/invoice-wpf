@@ -56,7 +56,6 @@ namespace NFe.WPF.ViewModel
         public string Protocolo { get; private set; }
         public Modelo ModeloNota { get; private set; }
         public X509Certificate2 Certificado { get; private set; }
-        public Ambiente Ambiente { get; private set; }
 
         private void EnviarCancelamentoCmd_Execute(Window window)
         {
@@ -64,7 +63,7 @@ namespace NFe.WPF.ViewModel
 
             if (!HasErrors)
             {
-                var mensagemRetorno = _cancelaNotaFiscalService.CancelarNotaFiscal(UF, CodigoUF, Ambiente, Cnpj, Chave, Protocolo,
+                var mensagemRetorno = _cancelaNotaFiscalService.CancelarNotaFiscal(UF, CodigoUF, Cnpj, Chave, Protocolo,
                 ModeloNota, MotivoCancelamento);
 
                 if (mensagemRetorno.Status == StatusEvento.SUCESSO)
@@ -100,39 +99,31 @@ namespace NFe.WPF.ViewModel
 
             var emitente = _emissorService.GetEmissor();
             var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
             var modeloNota = notaFiscal.Modelo.Contains("NFC-e") ? Modelo.Modelo65 : Modelo.Modelo55;
 
             if (modeloNota == Modelo.Modelo55) //NF-e
             {
-                string proximoNumNFe = ambiente == Ambiente.Homologacao ? config.ProximoNumNFeHom : config.ProximoNumNFe;
+                string proximoNumNFe = config.ProximoNumNFe;
                 var numAtual = (int.Parse(proximoNumNFe) - 1).ToString();
 
                 //Se o número atual não tiver mudado, significa que ela não foi enviada e pode ser excluída sem inutilizar.
                 if (notaFiscal.Numero == numAtual)
                 {
-                    if (ambiente == Ambiente.Homologacao)
-                    {
-                        config.ProximoNumNFeHom = numAtual;
-                    }
-                    else
-                    {
-                        config.ProximoNumNFe = numAtual;
-                    }
+                    config.ProximoNumNFe = numAtual;
 
                     var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
-                    _notaFiscalRepository.ExcluirNota(notaFiscal.Chave, ambiente);
+                    _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
                     NotaInutilizadaEvent(notaFiscal);
                     _configuracaoService.Salvar(config);
                 }
                 else //caso o número atual seja diferente, é necessário inutilizar
                 {
-                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, ambiente, emitente.CNPJ, modeloNota,
+                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, emitente.CNPJ, modeloNota,
                         notaFiscal.Serie, notaFiscal.Numero, notaFiscal.Numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
-                        _notaFiscalRepository.ExcluirNota(notaFiscal.Chave, ambiente);
+                        _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
                         NotaInutilizadaEvent(notaFiscal);
                         _configuracaoService.Salvar(config);
                     }
@@ -144,33 +135,26 @@ namespace NFe.WPF.ViewModel
             }
             else //NFC-e
             {
-                string proximoNumNFCe = ambiente == Ambiente.Homologacao ? config.ProximoNumNFeHom : config.ProximoNumNFe;
+                string proximoNumNFCe = config.ProximoNumNFe;
                 var numAtual = (int.Parse(proximoNumNFCe) - 1).ToString();
 
                 if (notaFiscal.Numero == numAtual)
                 {
-                    if (ambiente == Ambiente.Homologacao)
-                    {
-                        config.ProximoNumNFCeHom = numAtual;
-                    }
-                    else
-                    {
-                        config.ProximoNumNFCe = numAtual;
-                    }
+                    config.ProximoNumNFCe = numAtual;
 
                     var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
-                    _notaFiscalRepository.ExcluirNota(notaFiscal.Chave, ambiente);
+                    _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
                     NotaInutilizadaEvent(notaFiscal);
                     _configuracaoService.Salvar(config);
                 }
                 else
                 {
-                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, ambiente, emitente.CNPJ, modeloNota,
+                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, emitente.CNPJ, modeloNota,
                          notaFiscal.Serie, notaFiscal.Numero, notaFiscal.Numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
-                        _notaFiscalRepository.ExcluirNota(notaFiscal.Chave, ambiente);
+                        _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
                         NotaInutilizadaEvent(notaFiscal);
                         _configuracaoService.Salvar(config);
                     }
@@ -191,7 +175,6 @@ namespace NFe.WPF.ViewModel
 
             var emitente = _emissorService.GetEmissor();
             var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
 
             var certificadoEntity = _certificadoService.GetCertificado();
 
@@ -212,7 +195,6 @@ namespace NFe.WPF.ViewModel
             Protocolo = notaFiscalModel.Protocolo;
             ModeloNota = modeloNota;
             Certificado = certificado;
-            Ambiente = ambiente;
 
             var app = Application.Current;
             var mainWindow = app.MainWindow;

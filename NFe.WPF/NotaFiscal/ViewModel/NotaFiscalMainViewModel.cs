@@ -189,7 +189,6 @@ namespace NFe.WPF.ViewModel
                 return;
             }
 
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
             var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalByChave(notaPendenteMemento.Chave);
             var xml = await notaFiscalDb.LoadXmlAsync();
 
@@ -204,11 +203,8 @@ namespace NFe.WPF.ViewModel
 
             try
             {
-                var cscId = ambiente == Ambiente.Homologacao ? config.CscIdHom : config.CscId;
-                var csc = ambiente == Ambiente.Homologacao ? config.CscHom : config.Csc;
-
-                _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave, ambiente);
-                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, cscId, csc);
+                _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
+                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc);
 
                 IsBusy = false;
 
@@ -342,11 +338,10 @@ namespace NFe.WPF.ViewModel
             {
                 var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalById(idNotaFiscalDb, true);
                 var document = new XmlDocument();
-                var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
                 var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
 
                 var mensagemRetorno =
-                    _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, ambiente, modelo);
+                    _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
 
                 if (!mensagemRetorno.IsEnviada)
                     return null;

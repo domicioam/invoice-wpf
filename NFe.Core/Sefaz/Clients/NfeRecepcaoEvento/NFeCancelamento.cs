@@ -5,6 +5,7 @@ using System.Xml;
 using AutoMapper;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.NFeRecepcaoEvento4;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
@@ -21,22 +22,24 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
     {
         private ICertificadoService _certificadoService;
         private IServiceFactory _serviceFactory;
+        private SefazSettings _sefazSettings;
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeCancelamento(ICertificadoService certificadoService, IServiceFactory serviceFactory)
+        public NFeCancelamento(ICertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
         {
             _certificadoService = certificadoService;
             _serviceFactory = serviceFactory;
+            _sefazSettings = sefazSettings;
         }
 
-        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, Ambiente ambiente, string cnpjEmitente, string chaveNFe,
+        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
             string protocoloAutorizacao, Modelo modeloNota, string justificativa)
         {
             try
             {
                 var infEvento = new TEventoInfEvento();
                 infEvento.cOrgao = UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(ufEmitente);
-                infEvento.tpAmb = (XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TAmb)(int)ambiente;
+                infEvento.tpAmb = (XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TAmb)(int)_sefazSettings.Ambiente;
                 infEvento.Item = cnpjEmitente;
                 infEvento.ItemElementName = XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.ItemChoiceType.CNPJ;
                 infEvento.chNFe = chaveNFe;
@@ -69,7 +72,7 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
 
                 //var resultadoValidacao = ValidadorXml.ValidarXml(node.OuterXml, "envEventoCancNFe_v1.00.xsd");
 
-                var servico = _serviceFactory.GetService(modeloNota, ambiente,
+                var servico = _serviceFactory.GetService(modeloNota,
                                                 Servico.CANCELAMENTO, codigoUf, certificado);
 
                 var client = (NFeRecepcaoEvento4SoapClient)servico.SoapClient;

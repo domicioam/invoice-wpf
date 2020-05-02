@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
@@ -11,6 +12,7 @@ namespace NFe.Core.NotasFiscais.Services
 {
     public class ConsultaStatusServicoFacade : IConsultaStatusServicoFacade
     {
+        private const string SEFAZ_ENVIRONMENT = "production";
         private readonly ICertificadoService _certificadoService;
         private readonly ICertificateManager _certificateManager;
         private readonly IEmissorService _emissorService;
@@ -25,7 +27,9 @@ namespace NFe.Core.NotasFiscais.Services
 
         public bool ExecutarConsultaStatus(ConfiguracaoEntity config, Modelo modelo)
         {
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
+            var sefazEnvironment = ConfigurationManager.AppSettings["sefazEnvironment"];
+
+            var ambiente = sefazEnvironment == SEFAZ_ENVIRONMENT ? Ambiente.Producao : Ambiente.Homologacao;
             var codigoUf = (CodigoUfIbge) Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
 
             X509Certificate2 certificado = null;

@@ -26,9 +26,9 @@ namespace NFe.Repository.Repositories
             _configuracaoRepository = configuracaoRepository;
         }
 
-        public void ExcluirNota(string chave, Ambiente ambiente)
+        public void ExcluirNota(string chave)
         {
-            var notaFiscalEntity = GetNotaFiscalByChave(chave, (int)ambiente + 1);
+            var notaFiscalEntity = GetNotaFiscalByChave(chave);
             ExcluirNota(notaFiscalEntity.Numero, notaFiscalEntity.Serie, notaFiscalEntity.Modelo);
 
             try
@@ -64,7 +64,7 @@ namespace NFe.Repository.Repositories
 
                 if (config == null) return null;
 
-                return context.NotaFiscal.Where(n => n.IsProducao == config.IsProducao).ToList();
+                return context.NotaFiscal.ToList();
             }
         }
 
@@ -76,7 +76,7 @@ namespace NFe.Repository.Repositories
 
                 if (config == null) return null;
 
-                return context.NotaFiscal.Where(n => n.IsProducao == config.IsProducao).Take(quantity).ToList();
+                return context.NotaFiscal.Take(quantity).ToList();
             }
         }
 
@@ -86,7 +86,7 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal
-                    .Where(n => n.Status == (int)Status.PENDENTE && n.IsProducao == config.IsProducao).ToList();
+                    .Where(n => n.Status == (int)Status.PENDENTE).ToList();
             }
         }
 
@@ -102,13 +102,12 @@ namespace NFe.Repository.Repositories
             }
         }
 
-        public IEnumerable<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime mesAno, bool isProducao)
+        public IEnumerable<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime mesAno)
         {
             using (var context = new NFeContext())
             {
                 return context.NotaFiscal.Where(n =>
-                    n.DataEmissao.Month.Equals(mesAno.Month) && n.DataEmissao.Year == mesAno.Year &&
-                    n.IsProducao == isProducao).ToList();
+                    n.DataEmissao.Month.Equals(mesAno.Month) && n.DataEmissao.Year == mesAno.Year).ToList();
             }
         }
 
@@ -118,18 +117,17 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
                 var nota = context.NotaFiscal.First(c =>
-                    c.Numero.Equals(numero) && c.Serie.Equals(serie) && c.Modelo.Equals(modelo) &&
-                    c.IsProducao == config.IsProducao);
+                    c.Numero.Equals(numero) && c.Serie.Equals(serie) && c.Modelo.Equals(modelo));
                 context.NotaFiscal.Remove(nota);
                 context.SaveChanges();
             }
         }
 
-        public virtual NotaFiscalEntity GetNotaFiscalByChave(string chave, int ambiente)
+        public virtual NotaFiscalEntity GetNotaFiscalByChave(string chave)
         {
             using (var context = new NFeContext())
             {
-                return context.NotaFiscal.FirstOrDefault(n => n.Chave == chave && n.Ambiente == ambiente);
+                return context.NotaFiscal.FirstOrDefault(n => n.Chave == chave);
             }
         }
 
@@ -139,7 +137,7 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal
-                    .Where(n => n.Status == (int) Status.CONTINGENCIA && n.IsProducao == config.IsProducao).ToList();
+                    .Where(n => n.Status == (int) Status.CONTINGENCIA).ToList();
             }
         }
 
@@ -158,8 +156,7 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal.FirstOrDefault(c =>
-                    c.Numero.Equals(numero) && c.Serie.Equals(serie) && c.Modelo.Equals(modelo) &&
-                    c.IsProducao == config.IsProducao);
+                    c.Numero.Equals(numero) && c.Serie.Equals(serie) && c.Modelo.Equals(modelo));
             }
         }
 
@@ -174,15 +171,14 @@ namespace NFe.Repository.Repositories
                 if (config == null) return null;
 
                 return context.NotaFiscal
-                    .Where(n => n.IsProducao == config.IsProducao).OrderByDescending(n => n.Id)
+                    .OrderByDescending(n => n.Id)
                                 .Skip(skip)
                                 .Take(pageSize)
                                 .ToList();
             }
         }
 
-        public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string xml,
-            Ambiente ambiente)
+        public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string xml)
         {
             var notaFiscalEntity = new NotaFiscalEntity
             {
@@ -206,9 +202,7 @@ namespace NFe.Repository.Repositories
                 ValorProdutos = notaFiscal.ValorTotalProdutos,
                 ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro,
                 ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe,
-                Ambiente = ambiente == Ambiente.Homologacao ? 2 : 1,
-                Numero = notaFiscal.Identificacao.Numero,
-                IsProducao = ambiente == Ambiente.Producao
+                Numero = notaFiscal.Identificacao.Numero
             };
 
             return Salvar(notaFiscalEntity, xml);
@@ -238,9 +232,9 @@ namespace NFe.Repository.Repositories
             }
         }
 
-        public List<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime periodo, bool isProducao, bool isLoadXmlData)
+        public List<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime periodo, bool isLoadXmlData)
         {
-            var notasdb = GetNotasFiscaisPorMesAno(periodo, isProducao);
+            var notasdb = GetNotasFiscaisPorMesAno(periodo);
 
             var notas = new List<NotaFiscalEntity>();
 
@@ -283,18 +277,8 @@ namespace NFe.Repository.Repositories
                 var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal.Where(n =>
                     n.DataEmissao >= periodoInicial && n.DataEmissao <= periodoFinal &&
-                    n.IsProducao == config.IsProducao &&
                     n.Status == (int) Status.ENVIADA).ToList();
             }
-        }
-
-        public virtual NotaFiscalEntity GetNotaFiscalByChave(string chave)
-        {
-            var config = _configuracaoRepository.GetConfiguracao();
-            var ambiente = config.IsProducao ? Ambiente.Producao : Ambiente.Homologacao;
-
-            var amb = ambiente == Ambiente.Homologacao ? 2 : 1;
-            return GetNotaFiscalByChave(chave, amb);
         }
 
         public List<NotaFiscalEntity> GetNotasPendentes(bool isLoadXmlData)

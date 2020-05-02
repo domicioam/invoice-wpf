@@ -18,14 +18,9 @@ namespace NFe.Core.UnitTests.ConfiguracaoService
             {
                 Id = 1,
                 SerieNFCe = "001",
-                SerieNFCeHom = "001",
                 SerieNFe = "001",
-                SerieNFeHom = "001",
                 ProximoNumNFCe = "1",
-                ProximoNumNFCeHom = "1",
                 ProximoNumNFe = "1",
-                ProximoNumNFeHom = "1",
-                IsProducao = false
             };
         }
 

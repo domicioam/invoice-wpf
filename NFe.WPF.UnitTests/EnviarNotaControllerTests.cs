@@ -76,7 +76,7 @@ namespace NFe.WPF.UnitTests
 
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService);
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
 
@@ -132,7 +132,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService);
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
 
@@ -188,7 +188,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService);
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
 
@@ -244,7 +244,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService);
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
 

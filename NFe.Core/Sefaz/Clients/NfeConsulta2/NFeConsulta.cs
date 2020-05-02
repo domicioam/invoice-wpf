@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using NFe.Core.NFeConsultaProtocolo4;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeConsulta2.Envio;
 using NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
@@ -12,13 +13,15 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 {
    public class NFeConsulta : INFeConsulta
     {
-      public MensagemRetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Ambiente ambiente, Modelo modelo)
+        private SefazSettings _sefazSettings;
+
+        public MensagemRetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Modelo modelo)
       {
          XmlNode node = null;
 
          var parametro = new TConsSitNFe();
          parametro.chNFe = chave;
-         parametro.tpAmb = ambiente == Ambiente.Homologacao ? Envio.TAmb.Item2 : Envio.TAmb.Item1;
+         parametro.tpAmb = _sefazSettings.Ambiente == Ambiente.Homologacao ? Envio.TAmb.Item2 : Envio.TAmb.Item1;
          parametro.versao = Envio.TVerConsSitNFe.Item400;
          parametro.xServ = TConsSitNFeXServ.CONSULTAR;
 
@@ -33,28 +36,15 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 
          string endpoint = "";
 
-         if (ambiente == Ambiente.Homologacao)
-         {
-            if (modelo == Modelo.Modelo55)
-            {
-               endpoint = "NfeConsulta2Hom";
-            }
-            else
-            {
-               endpoint = "NfceConsulta2Hom";
-            }
-         }
-         else
-         {
-            if (modelo == Modelo.Modelo55)
-            {
-               endpoint = "NfeConsulta2Prod";
-            }
-            else
-            {
-               endpoint = "NfceConsulta2Prod";
-            }
-         }
+        if (modelo == Modelo.Modelo55)
+        {
+            endpoint = "NfeConsulta2";
+        }
+        else
+        {
+            endpoint = "NfceConsulta2";
+        }
+         
 
          var soapClient = new NFeConsultaProtocolo4SoapClient(endpoint);
          soapClient.ClientCredentials.ClientCertificate.Certificate = certificado;
@@ -77,6 +67,11 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 
          return mensagemRetorno;
       }
+
+        public NFeConsulta(SefazSettings sefazSettings)
+        {
+            _sefazSettings = sefazSettings;
+        }
 
       public struct MensagemRetornoConsulta
       {

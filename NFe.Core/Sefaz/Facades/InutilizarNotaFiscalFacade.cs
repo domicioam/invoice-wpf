@@ -16,12 +16,13 @@ namespace NFe.Core.Sefaz.Facades
     {
         private NFeInutilizacao _nfeInutilizacao;
         private INotaInutilizadaService _notaInutilizadaService;
+        private SefazSettings _sefazSettings;
 
-        public virtual MensagemRetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf,
-            Ambiente ambiente, string cnpjEmitente, Modelo modeloNota,
+        public virtual MensagemRetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota,
             string serie, string numeroInicial, string numeroFinal)
         {
-            var mensagemRetorno = _nfeInutilizacao.InutilizarNotaFiscal(ufEmitente, codigoUf, ambiente, cnpjEmitente,
+            // Pegar ambiente no App.Config
+            var mensagemRetorno = _nfeInutilizacao.InutilizarNotaFiscal(ufEmitente, codigoUf, _sefazSettings.Ambiente, cnpjEmitente,
                 modeloNota,
                 serie, numeroInicial, numeroFinal);
 
@@ -31,7 +32,6 @@ namespace NFe.Core.Sefaz.Facades
                 {
                     DataInutilizacao = DateTime.Now,
                     IdInutilizacao = mensagemRetorno.IdInutilizacao,
-                    IsProducao = ambiente == Ambiente.Producao,
                     Modelo = modeloNota == Modelo.Modelo55 ? 55 : 65,
                     Motivo = mensagemRetorno.MotivoInutilizacao,
                     Numero = numeroInicial,
@@ -45,10 +45,11 @@ namespace NFe.Core.Sefaz.Facades
             return mensagemRetorno;
         }
 
-        public InutilizarNotaFiscalFacade(NFeInutilizacao nfeInutilizacao, INotaInutilizadaService notaInutilizadaService)
+        public InutilizarNotaFiscalFacade(NFeInutilizacao nfeInutilizacao, INotaInutilizadaService notaInutilizadaService, SefazSettings sefazSettings)
         {
             _nfeInutilizacao = nfeInutilizacao;
             _notaInutilizadaService = notaInutilizadaService;
+            _sefazSettings = sefazSettings;
         }
 
         protected InutilizarNotaFiscalFacade()

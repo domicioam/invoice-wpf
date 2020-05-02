@@ -305,8 +305,8 @@ namespace NFe.WPF.ViewModel
 
             var config = _configuracaoService.GetConfiguracao();
 
-            NotaFiscal.Serie = config.IsProducao ? config.SerieNFCe : config.SerieNFCeHom;
-            NotaFiscal.Numero = config.IsProducao ? config.ProximoNumNFCe : config.ProximoNumNFCeHom;
+            NotaFiscal.Serie = config.SerieNFCe;
+            NotaFiscal.Numero = config.ProximoNumNFCe;
             NotaFiscal.ModeloNota = "NFC-e";
 
             NotaFiscal.DataEmissao = DateTime.Now;
