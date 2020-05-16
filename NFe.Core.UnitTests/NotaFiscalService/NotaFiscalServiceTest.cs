@@ -1,9 +1,11 @@
-﻿using Moq;
+﻿using MediatR;
+using Moq;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais;
@@ -16,171 +18,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using Xunit;
 
 namespace NFe.Core.UnitTests.NotaFiscalService
 {
     public class NotaFiscalServiceTest
     {
-        [Fact]
-        public void EnviarNotaFiscalAsync_ContingênciaAtivada_NãoCriaNotaPendente()
-        {
-            // Arrange
-
-            Mock<ICertificadoRepository> certificadoRepositoryMock;
-            Mock<ICertificateManager> certificadoManagerMock;
-            ConfigurarCertificadoDigital(out certificadoRepositoryMock, out certificadoManagerMock);
-
-            Mock<IServiceFactory> serviceFactoryMock = ConfigurarServiceFactoryMock();
-
-            ConfigurarConfiguracao();
-
-            var configuracaoRepository = new ConfiguracaoRepositoryFake();
-            var configuracaoService = new Cadastro.Configuracoes.ConfiguracaoService(configuracaoRepository);
-
-            var certificadoRepository = certificadoRepositoryMock.Object;
-            var serviceFactory = serviceFactoryMock.Object;
-            var nfeConsulta = new Mock<INFeConsulta>().Object;
-            var certificateManager = certificadoManagerMock.Object;
-
-            var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
-
-            var emissorService = new Mock<IEmissorService>().Object;
-            var certificadoService = new Mock<ICertificadoService>().Object;
-            var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
-            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
-
-            INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
-
-            var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
-                certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
-                notaFiscalContingenciaService);
-
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(notaFiscalService,
-                configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
-                notaFiscalContingenciaService);
-
-            // preencher nota fiscal;
-            NotaFiscal notaFiscal = PreencherNotaFiscal();
-
-            // Act
-
-            notaFiscalService.EnviarNotaFiscal(notaFiscal, "000001", "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0");
-            notaFiscalService.EnviarNotaFiscal(notaFiscal, "000001", "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0");
-
-            // Assert
-
-            var isContingência = configuracaoRepository.GetConfiguracao().IsContingencia;
-            var quantidadeNotasPendentes = notaFiscalRepository.GetAll().Count(n => n.Status == (int)Status.PENDENTE);
-            var quantidadeTotalNotas = notaFiscalRepository.GetAll().Count();
-
-            Assert.True(isContingência);
-            Assert.Equal(3, quantidadeTotalNotas);
-            Assert.Equal(1, quantidadeNotasPendentes);
-        }
-
-        [Fact]
-        public void EnviarNotaFiscalAsync_FalhaDeConexão_AtivaContingencia()
-        {
-            Mock<ICertificadoRepository> certificadoRepositoryMock;
-            Mock<ICertificateManager> certificadoManagerMock;
-            ConfigurarCertificadoDigital(out certificadoRepositoryMock, out certificadoManagerMock);
-
-            Mock<IServiceFactory> serviceFactoryMock = ConfigurarServiceFactoryMock();
-
-            ConfigurarConfiguracao();
-
-            var configuracaoRepository = new ConfiguracaoRepositoryFake();
-            var configuracaoService = new Cadastro.Configuracoes.ConfiguracaoService(configuracaoRepository);
-
-            var notaFiscalRepositoryMock = new Mock<INotaFiscalRepository>();
-            notaFiscalRepositoryMock
-                .Setup(m => m.GetNotaFiscalById(It.IsAny<int>(), It.IsAny<bool>()))
-                .Returns(new NotaFiscalEntity());
-
-            var notaFiscalRepository = notaFiscalRepositoryMock.Object;
-            var certificadoRepository = certificadoRepositoryMock.Object;
-            var serviceFactory = serviceFactoryMock.Object;
-            var nfeConsulta = new Mock<INFeConsulta>().Object;
-            var certificateManager = certificadoManagerMock.Object;
-            var notaFiscalContingenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
-
-            var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
-
-            var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
-                certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
-                notaFiscalContingenciaService);
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(notaFiscalService,
-                configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
-                notaFiscalContingenciaService);
-
-            // preencher nota fiscal;
-            NotaFiscal notaFiscal = PreencherNotaFiscal();
-
-            // envia com falha de conexão no serviço;
-            notaFiscalService.EnviarNotaFiscal(notaFiscal, "000001", "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0");
-            // verifica se modo contingência foi ativado;
-            var isContingência = configuracaoRepository.GetConfiguracao().IsContingencia;
-            Assert.True(isContingência);
-        }
-
-        [Fact]
-        public void EnviarNotaFiscalAsync_FalhaDeConexão_AtivaContingência_CriaNotaPendente()
-        {
-            // Arrange
-
-            Mock<ICertificadoRepository> certificadoRepositoryMock;
-            Mock<ICertificateManager> certificadoManagerMock;
-            ConfigurarCertificadoDigital(out certificadoRepositoryMock, out certificadoManagerMock);
-
-            Mock<IServiceFactory> serviceFactoryMock = ConfigurarServiceFactoryMock();
-
-            ConfigurarConfiguracao();
-
-            var configuracaoRepository = new ConfiguracaoRepositoryFake();
-            var configuracaoService = new Cadastro.Configuracoes.ConfiguracaoService(configuracaoRepository);
-
-            INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var certificadoRepository = certificadoRepositoryMock.Object;
-            var serviceFactory = serviceFactoryMock.Object;
-            var nfeConsulta = new Mock<INFeConsulta>().Object;
-            var certificateManager = certificadoManagerMock.Object;
-            var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
-
-            var emissorService = new Mock<IEmissorService>().Object;
-            var certificadoService = new Mock<ICertificadoService>().Object;
-            var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
-            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
-
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
-
-            var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
-                certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
-                notaFiscalContingenciaService);
-
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(notaFiscalService,
-                configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
-                notaFiscalContingenciaService);
-
-            // preencher nota fiscal;
-            NotaFiscal notaFiscal = PreencherNotaFiscal();
-
-            // Act
-
-            notaFiscalService.EnviarNotaFiscal(notaFiscal, "000001", "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0");
-
-            // Assert
-
-            var isContingência = configuracaoRepository.GetConfiguracao().IsContingencia;
-            var quantidadeNotasPendentes = notaFiscalRepository.GetAll().Count(n => n.Status == (int)Status.PENDENTE);
-            var quantidadeTotalNotas = notaFiscalRepository.GetAll().Count();
-
-            Assert.True(isContingência);
-            Assert.Equal(1, quantidadeNotasPendentes);
-            Assert.Equal(2, quantidadeTotalNotas);
-        }
-
         [Fact]
         public void NotaFiscalService_EnviarNotaFiscal_Sucesso()
         {

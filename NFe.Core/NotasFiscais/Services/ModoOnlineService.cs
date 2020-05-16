@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using MediatR;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
+using Timer = System.Windows.Forms.Timer;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public delegate void ServicoOfflineEventHandler();
-
-    public delegate void NotasTransmitidasEventHandler(List<string> mensagensErro);
-
-    public class ModoOnlineService
+    public class ModoOnlineService : IRequestHandler<NotaFiscalEmitidaEmContingenciaEvent>
     {
         private static Timer _timer;
         private readonly IConfiguracaoRepository _configuracaoRepository;
@@ -18,26 +19,19 @@ namespace NFe.Core.NotasFiscais.Services
         private bool _isOnline;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
+        private IMediator _mediator;
+
 
         public ModoOnlineService(IEnviaNotaFiscalFacade enviaNotaFiscalService,
             IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
-            INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+            INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, IMediator mediator)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _configuracaoRepository = configuracaoRepository;
             _consultaStatusServicoService = consultaStatusServicoService;
 
-            enviaNotaFiscalService.NotaEmitidaEmContingenciaEvent +=
-                EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
-        }
-
-        public event ServicoOfflineEventHandler ServicoOfflineEvent = delegate { };
-        public event NotasTransmitidasEventHandler NotasTransmitidasEvent = delegate { };
-
-        private void EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
-        {
-            AtivarModoOffline(justificativa, horário);
+            _mediator = mediator;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -87,7 +81,13 @@ namespace NFe.Core.NotasFiscais.Services
             {
                 _emiteNotaFiscalContingenciaService.InutilizarCancelarNotasPendentesContingencia(notaParaCancelar,
                     _notaFiscalRepository);
-                NotasTransmitidasEvent(mensagensErro);
+
+                var notasFiscaisTransmitidasEvent = new NotasFiscaisTransmitidasEvent()
+                {
+                    MensagensErro = mensagensErro
+                };
+
+                await _mediator.Send(notasFiscaisTransmitidasEvent);
             }
 
             configuração.IsContingencia = false;
@@ -102,7 +102,8 @@ namespace NFe.Core.NotasFiscais.Services
             config.JustificativaContingencia = justificativa;
             _configuracaoRepository.Salvar(config);
 
-            ServicoOfflineEvent();
+            var servicoOfflineEvent = new ServicoOfflineEvent();
+            _mediator.Send(servicoOfflineEvent);
         }
 
         public void StartTimer()
@@ -113,6 +114,12 @@ namespace NFe.Core.NotasFiscais.Services
             _timer.Interval = 3 * 60 * 1000;
             _timer.Start();
             Timer_Tick(null, EventArgs.Empty);
+        }
+
+        public Task<Unit> Handle(NotaFiscalEmitidaEmContingenciaEvent request, CancellationToken cancellationToken)
+        {
+            AtivarModoOffline(request.justificativa, request.horário);
+            return Unit.Task;
         }
     }
 }

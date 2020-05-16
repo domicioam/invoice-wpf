@@ -5,8 +5,10 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Xml;
+using MediatR;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
@@ -20,27 +22,25 @@ using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public delegate void NotaEmitidaEmContingenciaEventHandler(string justificativa, DateTime horário);
-
     public class EnviaNotaFiscalFacade : IEnviaNotaFiscalFacade
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ICertificadoRepository _certificadoRepository;
-
         private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IConfiguracaoService _configuracaoService;
-
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificateManager _certificateManager;
         private readonly INFeConsulta _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
+        private IMediator _mediator;
 
         public EnviaNotaFiscalFacade(IConfiguracaoRepository configuracaoRepository,
             INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository,
             IConfiguracaoService configuracaoService, IServiceFactory serviceFactory, INFeConsulta nfeConsulta,
-            ICertificateManager certificateManager, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+            ICertificateManager certificateManager, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService,
+            IMediator mediator)
         {
             _configuracaoRepository = configuracaoRepository;
             _notaFiscalRepository = notaFiscalRepository;
@@ -50,9 +50,8 @@ namespace NFe.Core.NotasFiscais.Services
             _nfeConsulta = nfeConsulta;
             _certificateManager = certificateManager;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
+            _mediator = mediator;
         }
-
-        public event NotaEmitidaEmContingenciaEventHandler NotaEmitidaEmContingenciaEvent = delegate { };
 
         public int EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc)
         {
@@ -184,7 +183,13 @@ namespace NFe.Core.NotasFiscais.Services
                 if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55) throw;
 
                 var message = e.InnerException != null ? e.InnerException.Message : e.Message;
-                NotaEmitidaEmContingenciaEvent(message, notaFiscal.Identificacao.DataHoraEmissao);
+
+                var theEvent = new NotaFiscalEmitidaEmContingenciaEvent();
+                theEvent.justificativa = message;
+                theEvent.horário = notaFiscal.Identificacao.DataHoraEmissao;
+
+                _mediator.Send(theEvent);
+
                 return _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
             }
             finally

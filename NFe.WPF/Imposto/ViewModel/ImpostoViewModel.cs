@@ -5,21 +5,20 @@ using System.Windows;
 using System.Windows.Input;
 using EmissorNFe.Imposto;
 using GalaSoft.MvvmLight.Command;
+using MediatR;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Utils;
+using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
 {
-    public delegate void ImpostoAdicionadoEventHandler();
-
     public class ImpostoViewModel : ViewModelBaseValidation
     {
         private ObservableCollection<string> _cstList;
-
-        public event ImpostoAdicionadoEventHandler ImpostoAdicionadoEvent = delegate { };
+        private IMediator _mediator;
 
         public int Id { get; set; }
         public string CFOP { get; set; }
@@ -93,7 +92,7 @@ namespace NFe.WPF.ViewModel
         public ICommand ImpostoSelecionadoCmd { set; get; }
         public ICommand AdiciionarImpostoCmd { set; get; }
 
-        public ImpostoViewModel(IGrupoImpostosRepository grupoImpostosRepository)
+        public ImpostoViewModel(IGrupoImpostosRepository grupoImpostosRepository, IMediator mediator)
         {
             SalvarCmd = new RelayCommand<Window>(SalvarCmd_Execute, null);
             CancelarCmd = new RelayCommand<object>(CancelarCmd_Execute, null);
@@ -109,6 +108,7 @@ namespace NFe.WPF.ViewModel
             Imposto = new Imposto();
             Impostos = new ObservableCollection<Imposto>();
             _grupoImpostosRepository = grupoImpostosRepository;
+            _mediator = mediator;
         }
 
         private void AdiciionarImpostoCmd_Execute()
@@ -183,7 +183,8 @@ namespace NFe.WPF.ViewModel
 
             _grupoImpostosRepository.Salvar(grupoImpostos);
 
-            ImpostoAdicionadoEvent();
+            var theEvent = new ImpostoAdicionadoEvent();
+            _mediator.Send(theEvent);
             window.Close();
         }
     }

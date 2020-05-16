@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using EmissorNFe.Model;
 using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using MediatR;
 using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
+using NFe.WPF.Events;
 using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Base;
@@ -21,7 +24,7 @@ using NFe.WPF.ViewModel.Services;
 
 namespace NFe.WPF.ViewModel
 {
-    public class NFCeViewModel : ViewModelBaseValidation
+    public class NFCeViewModel : ViewModelBaseValidation, INotificationHandler<DestinatarioSalvoEvent>
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -49,8 +52,6 @@ namespace NFe.WPF.ViewModel
             _configuracaoService = configuracaoService;
             _produtoRepository = produtoRepository;
             _destinatarioService = destinatarioService;
-
-            destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
 
             Finalidades = new List<string>()
             {
@@ -275,16 +276,6 @@ namespace NFe.WPF.ViewModel
             Pagamento.ValorParcela += pagamento.ValorParcela * pagamento.QtdeParcelas;
         }
 
-
-        private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel destinatarioParaSalvar)
-        {
-            if (NotaFiscal != null)
-            {
-                Destinatarios.Add(destinatarioParaSalvar);
-                NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
-            }
-        }
-
         private void LoadedCmd_Execute(string modelo)
         {
             NotaFiscal = new NFCeModel();
@@ -328,6 +319,17 @@ namespace NFe.WPF.ViewModel
             {
                 Destinatarios.Add((DestinatarioModel)destDB);
             }
+        }
+
+        Task INotificationHandler<DestinatarioSalvoEvent>.Handle(DestinatarioSalvoEvent notification, CancellationToken cancellationToken)
+        {
+            if (NotaFiscal != null)
+            {
+                Destinatarios.Add(notification.Destinatario);
+                NotaFiscal.DestinatarioSelecionado = notification.Destinatario;
+            }
+
+            return Unit.Task;
         }
     }
 }

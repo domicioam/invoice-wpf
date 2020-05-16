@@ -128,6 +128,9 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MediatR, Version=8.0.1.0, Culture=neutral, PublicKeyToken=bb9a41a5e8aaa7e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.8.0.1\lib\net461\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -190,6 +193,9 @@
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
+    <Compile Include="Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
+    <Compile Include="Events\NotasFiscaisTransmitidasEvent.cs" />
+    <Compile Include="Events\ServicoOfflineEvent.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />

@@ -1,13 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using MediatR;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
-    public class ProdutoMainViewModel
+    public class ProdutoMainViewModel : IRequestHandler<ProdutoAdicionadoEvent>
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly ProdutoViewModel _produtoViewModel;
@@ -24,18 +28,12 @@ namespace NFe.WPF.ViewModel
             AlterarProdutoCmd = new RelayCommand<ProdutoListItem>(AlterarProdutoCmd_Execute, null);
 
             _produtoRepository = produtoRepository;
-            produtoViewModel.ProdutoAdicionadoEvent += ProdutoVM_ProdutoAdicionadoEvent;
             _produtoViewModel = produtoViewModel;
         }
 
         private void AlterarProdutoCmd_Execute(ProdutoListItem obj)
         {
             _produtoViewModel.AlterarProdutoCmd.Execute(obj.Codigo);
-        }
-
-        private void ProdutoVM_ProdutoAdicionadoEvent()
-        {
-            PopularListaProdutos();
         }
 
         private void LoadedCmd_Execute()
@@ -64,6 +62,12 @@ namespace NFe.WPF.ViewModel
 
                 Produtos.Add(listItem);
             }
+        }
+
+        public Task<Unit> Handle(ProdutoAdicionadoEvent request, CancellationToken cancellationToken)
+        {
+            PopularListaProdutos();
+            return Unit.Task;
         }
     }
 }

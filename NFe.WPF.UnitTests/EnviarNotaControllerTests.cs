@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
+using MediatR;
 using Moq;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
@@ -76,7 +77,7 @@ namespace NFe.WPF.UnitTests
 
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Mock<IMediator>().Object);
 
             // Act
 
@@ -132,7 +133,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Mock<IMediator>().Object);
 
             // Act
 
@@ -188,7 +189,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Mock<IMediator>().Object);
 
             // Act
 
@@ -244,7 +245,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
+                configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Mock<IMediator>().Object);
 
             // Act
 

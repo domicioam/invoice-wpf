@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Views;
+using MediatR;
 using Moq;
 using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
@@ -52,7 +53,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -84,7 +85,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -119,7 +120,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -157,7 +158,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var enviarNotaMock = new Mock<IEnviarNota>();
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 enviarNotaMock.Object, new Mock<INaturezaOperacaoService>().Object,
@@ -189,7 +190,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var enviarNotaMock = new Mock<IEnviarNota>();
             var dialogServiceMock = new Mock<IDialogService>();
             dialogServiceMock.Setup(m => m.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null))
@@ -225,7 +226,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var enviarNotaMock = new Mock<IEnviarNota>();
             enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>()))
                 .Throws(new ArgumentException());
@@ -262,7 +263,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var enviarNotaMock = new Mock<IEnviarNota>();
             enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>()))
                 .Throws(new Exception());
@@ -299,7 +300,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -340,7 +341,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -383,7 +384,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>() { new DestinatarioEntity() });
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -412,7 +413,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>() { new DestinatarioEntity() });
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
@@ -452,7 +453,7 @@ namespace NFe.WPF.UnitTests
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
-            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object);
+            var destinatario = new DestinatarioViewModel(new Mock<IEstadoService>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioService>().Object, new Mock<IMediator>().Object);
             var nfce = new NFCeViewModel(destinatario, new Mock<IDialogService>().Object,
                 new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoService>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,

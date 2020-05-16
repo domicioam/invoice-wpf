@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -15,16 +16,20 @@ using EmissorNFe.Model;
 using EmissorNFe.NotaFiscal;
 using EmissorNFe.View.NotaFiscal;
 using GalaSoft.MvvmLight.CommandWpf;
+using MediatR;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
+using NFe.WPF.Commands;
+using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Reports.PDF;
 using NFe.WPF.ViewModel.Base;
@@ -32,7 +37,12 @@ using NFe.WPF.ViewModel.Mementos;
 
 namespace NFe.WPF.ViewModel
 {
-    public class NotaFiscalMainViewModel : ViewModelBaseValidation
+    public class NotaFiscalMainViewModel : ViewModelBaseValidation,
+        INotificationHandler<NotaFiscalEnviadaEvent>,
+        INotificationHandler<ConfiguracaoAlteradaEvent>,
+        INotificationHandler<NotaFiscalCanceladaEvent>, 
+        IRequestHandler<NotaFiscalInutilizadaEvent>, 
+        IRequestHandler<NotasFiscaisTransmitidasEvent> 
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -41,7 +51,6 @@ namespace NFe.WPF.ViewModel
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IConsultaStatusServicoFacade _consultaStatusServicoService;
         private readonly IEmissorService _emissorService;
-        private readonly EnviarEmailViewModel _enviarEmailViewModel;
 
         private bool _isBusy;
         private bool _isLoaded;
@@ -53,18 +62,16 @@ namespace NFe.WPF.ViewModel
 
         private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private readonly IProdutoRepository _produtoRepository;
-        private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;
+        private IMediator _mediator;
 
 
-        public NotaFiscalMainViewModel(IEnviarNota enviarNotaController, OpcoesViewModel opcoesVm,
-            CancelarNotaViewModel notaCanceladaVm, IEnviaNotaFiscalFacade enviaNotaFiscalService,
+        public NotaFiscalMainViewModel(IEnviarNota enviarNotaController, IEnviaNotaFiscalFacade enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, ICertificadoService certificadoService,
             IProdutoRepository produtoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
             IEmissorService emissorService,
-            VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
-            EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, ModoOnlineService modoOnlineService, INFeConsulta nfeConsulta)
+            INotaFiscalRepository notaFiscalRepository, ModoOnlineService modoOnlineService, INFeConsulta nfeConsulta,
+            IMediator mediator)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             AbrirNFCeCmd = new RelayCommand(AbrirNFCeCmd_Execute, null);
@@ -81,19 +88,10 @@ namespace NFe.WPF.ViewModel
             _produtoRepository = produtoRepository;
             _consultaStatusServicoService = consultaStatusServicoService;
             _emissorService = emissorService;
-            _visualizarNotaEnviadaViewModel = visualizarNotaEnviadaViewModel;
-            _enviarEmailViewModel = enviarEmailViewModel;
             _nfeConsulta = nfeConsulta;
+            _mediator = mediator;
 
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
-
-            enviarNotaController.NotaEnviadaEvent += EnviarNotaController_NotaEnviadaEventHandler;
-
-            opcoesVm.ConfiguracaoAlteradaEvent += OpcoesVM_ConfiguracaoAlteradaEventHandler;
-            notaCanceladaVm.NotaCanceladaEvent += NotaFiscalVM_NotaCanceladaEventHandler;
-            notaCanceladaVm.NotaInutilizadaEvent += NotaCanceladaVM_NotaInutilizadaEventHandler;
-
-            modoOnlineService.NotasTransmitidasEvent += ModoOnlineService_NotasTransmitidasEventHandler;
         }
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
@@ -121,51 +119,6 @@ namespace NFe.WPF.ViewModel
         {
             get { return _busyContent; }
             set { SetProperty(ref _busyContent, value); }
-        }
-
-        private void NotaCanceladaVM_NotaInutilizadaEventHandler(NFCeModel notaInutilizada)
-        {
-            var notaMemento = NotasFiscais.First(n => n.Chave == notaInutilizada.Chave);
-            NotasFiscais.Remove(notaMemento);
-        }
-
-        public event NotaEnviadaEventHandler NotaPendenteReenviadaEvent = delegate { };
-
-        private async void EnviarNotaController_NotaEnviadaEventHandler(Core.NotasFiscais.NotaFiscal notaEnviada)
-        {
-            await PopularListaNotasFiscais();
-            await AtualizarNotasPendentes();
-        }
-
-        private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
-        {
-
-            if (_isLoaded)
-            {
-                await PopularListaNotasFiscais();
-                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
-               {
-                   await AtualizarNotasPendentes();
-               }));
-            }
-
-            if (mensagensErro.Count == 0)
-                return;
-
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                var sb = new StringBuilder();
-
-                foreach (var msg in mensagensErro) sb.Append("\n" + msg);
-
-                if (_isLoaded)
-                    MessageBox.Show(mainWindow,  "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
-                        sb.ToString(), "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
-                else
-                    _mensagensErroContingencia = sb.ToString();
-            }));
         }
 
         private async void EnviarNotaNovamenteCmd_ExecuteAsync(NotaFiscalMemento notaPendenteMemento)
@@ -242,7 +195,11 @@ namespace NFe.WPF.ViewModel
                     notaFiscalBo.Identificacao.Status, notaFiscalBo.Identificacao.Chave);
 
                 NotasFiscais[notaIndex] = notaMemento;
-                NotaPendenteReenviadaEvent(notaFiscalBo);
+
+                var theEvent = new NotaFiscalPendenteReenviadaEvent();
+                theEvent.NotaFiscal = notaFiscalBo;
+
+                await _mediator.Send(theEvent);
             }
             catch (Exception e)
             {
@@ -256,12 +213,9 @@ namespace NFe.WPF.ViewModel
         private void VisualizarNotaCmd_Execute(NotaFiscalMemento notaFiscalMemento)
         {
             var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(notaFiscalMemento.Chave);
-            _visualizarNotaEnviadaViewModel.VisualizarNotaFiscal(notaFiscal);
-        }
 
-        private void OpcoesVM_ConfiguracaoAlteradaEventHandler()
-        {
-            PopularListaNotasFiscais();
+            var command = new VisualizarNotaFiscalCommand(notaFiscal);
+            _mediator.Send(command);
         }
 
         private void MudarPaginaCmd_Execute(int page)
@@ -287,20 +241,8 @@ namespace NFe.WPF.ViewModel
 
         private void EnviarEmailCmd_Execute(NotaFiscalMemento notaFiscal)
         {
-            _enviarEmailViewModel.EnviarEmail(notaFiscal.Chave);
-        }
-
-        private void NotaFiscalVM_NotaCanceladaEventHandler(NotaFiscalEntity nota)
-        {
-            var notaCancelada = NotasFiscais.FirstOrDefault(n => n.Chave == nota.Chave);
-            var index = NotasFiscais.IndexOf(notaCancelada);
-
-            var notaMemento = new NotaFiscalMemento(nota.Numero,
-                nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
-                nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
-                (Status)nota.Status, nota.Chave);
-
-            NotasFiscais[index] = notaMemento;
+            var command = new EnviarEmailCommand(notaFiscal.Chave);
+            _mediator.Send(command);
         }
 
         private async void LoadedCmd_Execute()
@@ -439,6 +381,77 @@ namespace NFe.WPF.ViewModel
                     NotasFiscais = new ObservableCollection<NotaFiscalMemento>(notaFiscalMementos);
                 }));
             });
+        }
+
+        public Task<Unit> Handle(NotaFiscalInutilizadaEvent request, CancellationToken cancellationToken)
+        {
+            var notaMemento = NotasFiscais.First(n => n.Chave == request.NotaFiscal.Chave);
+            NotasFiscais.Remove(notaMemento);
+
+            return Unit.Task;
+        }
+
+        public async Task<Unit> Handle(NotasFiscaisTransmitidasEvent request, CancellationToken cancellationToken)
+        {
+            if (_isLoaded)
+            {
+                await PopularListaNotasFiscais();
+                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
+                {
+                    await AtualizarNotasPendentes();
+                }));
+            }
+
+            if (request.MensagensErro.Count == 0)
+                return Unit.Value;
+
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+                var sb = new StringBuilder();
+
+                foreach (var msg in request.MensagensErro) sb.Append("\n" + msg);
+
+                if (_isLoaded)
+                    MessageBox.Show(mainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
+                        sb.ToString(), "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    _mensagensErroContingencia = sb.ToString();
+            }));
+
+            return Unit.Value;
+        }
+
+        public Task Handle(NotaFiscalEnviadaEvent notification, CancellationToken cancellationToken)
+        {
+            PopularListaNotasFiscais().Wait();
+            AtualizarNotasPendentes().Wait();
+
+            return Unit.Task;
+        }
+
+        public Task Handle(ConfiguracaoAlteradaEvent notification, CancellationToken cancellationToken)
+        {
+            PopularListaNotasFiscais();
+
+            return Unit.Task;
+        }
+
+        public Task Handle(NotaFiscalCanceladaEvent notification, CancellationToken cancellationToken)
+        {
+            var nota = notification.NotaFiscal;
+            var notaCancelada = NotasFiscais.FirstOrDefault(n => n.Chave == nota.Chave);
+            var index = NotasFiscais.IndexOf(notaCancelada);
+
+            var notaMemento = new NotaFiscalMemento(nota.Numero,
+                nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
+                nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
+                (Status)nota.Status, nota.Chave);
+
+            NotasFiscais[index] = notaMemento;
+
+            return Unit.Task;
         }
     }
 }
