@@ -69,7 +69,7 @@ namespace NFe.WPF.ViewModel
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             AbrirNFCeCmd = new RelayCommand(AbrirNFCeCmd_Execute, null);
             AbrirNFeCmd = new RelayCommand(AbrirNFeCmd_Execute, null);
-            VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_Execute, null);
+            VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
             EnviarNotaNovamenteCmd = new RelayCommand<NotaFiscalMemento>(EnviarNotaNovamenteCmd_ExecuteAsync, null);
             EnviarEmailCmd = new RelayCommand<NotaFiscalMemento>(EnviarEmailCmd_Execute, null);
             MudarPaginaCmd = new RelayCommand<int>(MudarPaginaCmd_Execute, null);
@@ -253,10 +253,22 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void VisualizarNotaCmd_Execute(NotaFiscalMemento notaFiscalMemento)
+        private async void VisualizarNotaCmd_ExecuteAsync(NotaFiscalMemento notaFiscalMemento)
         {
             var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(notaFiscalMemento.Chave);
-            _visualizarNotaEnviadaViewModel.VisualizarNotaFiscal(notaFiscal);
+            string xml = await GetNotaXmlAsync(notaFiscal.Chave);
+            var notaFiscalDto = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
+            notaFiscalDto.QrCodeUrl = xml;
+            _visualizarNotaEnviadaViewModel.VisualizarNotaFiscal(notaFiscalDto);
+        }
+
+        private async Task<string> GetNotaXmlAsync(string chave)
+        {
+            var config = await _configuracaoService.GetConfiguracaoAsync();
+
+            var notaDb = _notaFiscalRepository.GetNotaFiscalByChave(chave);
+            string xml = await notaDb.LoadXmlAsync();
+            return xml;
         }
 
         private void OpcoesVM_ConfiguracaoAlteradaEventHandler()

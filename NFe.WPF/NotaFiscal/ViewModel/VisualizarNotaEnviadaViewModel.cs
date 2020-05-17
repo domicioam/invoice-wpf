@@ -58,35 +58,23 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private bool _isDestinatarioEstrangeiro;
-        private IConfiguracaoService _configuracaoService;
-        private IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private CancelarNotaViewModel _cancelarNotaViewModel;
-        private IEmissorService _emissorService;
-        private INotaInutilizadaService _notaInutilizadaService;
-        private INotaFiscalRepository _notaFiscalRepository;
 
-        public bool IsDestinatarioEstrangeiro
-        {
-            get { return _isDestinatarioEstrangeiro; }
-            set { _isDestinatarioEstrangeiro = value; }
-        }
+        public bool IsDestinatarioEstrangeiro { get; set; }
 
-        internal async void VisualizarNotaFiscal(NFCeModel notaFiscal)
+        internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
-            NotaFiscal = notaFiscal; //falta preencher pagamentos
+            NotaFiscal = (NFCeModel)notaFiscal;
             NotaFiscal.Pagamentos = new ObservableCollection<PagamentoVO>();
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            string xml = await GetNotaXmlAsync();
 
-            var notaFiscalBO = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
-            _notaFiscalBO = notaFiscalBO;
+            _notaFiscalBO = notaFiscal;
 
             //Preenche pagamentos
-            if (notaFiscalBO.Pagamentos != null)
+            if (_notaFiscalBO.Pagamentos != null)
             {
 
-                foreach (var pagamento in notaFiscalBO.Pagamentos)
+                foreach (var pagamento in _notaFiscalBO.Pagamentos)
                 {
                     var pagamentoVO = new PagamentoVO();
                     pagamentoVO.FormaPagamento = pagamento.FormaPagamentoTexto;
@@ -101,20 +89,20 @@ namespace NFe.WPF.ViewModel
             }
 
             //Preenche documento destinatário
-            if (notaFiscalBO.Destinatario != null)
+            if (_notaFiscalBO.Destinatario != null)
             {
-                DocumentoDestinatario = notaFiscalBO.Destinatario.Documento;
-                IsDestinatarioEstrangeiro = notaFiscalBO.Destinatario.TipoDestinatario == TipoDestinatario.Estrangeiro;
+                DocumentoDestinatario = _notaFiscalBO.Destinatario.Documento;
+                IsDestinatarioEstrangeiro = _notaFiscalBO.Destinatario.TipoDestinatario == TipoDestinatario.Estrangeiro;
             }
 
-            NotaFiscal.Finalidade = notaFiscalBO.Identificacao.FinalidadeConsumidor == FinalidadeConsumidor.ConsumidorFinal ? "Consumidor Final" : "Normal";
-            NotaFiscal.NaturezaOperacao = notaFiscalBO.Identificacao.NaturezaOperacao;
-            NotaFiscal.Serie = notaFiscalBO.Identificacao.Serie.ToString("D3");
+            NotaFiscal.Finalidade = _notaFiscalBO.Identificacao.FinalidadeConsumidor == FinalidadeConsumidor.ConsumidorFinal ? "Consumidor Final" : "Normal";
+            NotaFiscal.NaturezaOperacao = _notaFiscalBO.Identificacao.NaturezaOperacao;
+            NotaFiscal.Serie = _notaFiscalBO.Identificacao.Serie.ToString("D3");
 
             //Preenche produtos
             NotaFiscal.Produtos = new ObservableCollection<ProdutoVO>();
 
-            foreach (var produto in notaFiscalBO.Produtos)
+            foreach (var produto in _notaFiscalBO.Produtos)
             {
                 var produtoVO = new ProdutoVO();
                 produtoVO.QtdeProduto = produto.QtdeUnidadeComercial;
@@ -132,33 +120,18 @@ namespace NFe.WPF.ViewModel
             window.ShowDialog();
         }
 
-        private async Task<string> GetNotaXmlAsync()
-        {
-            var config = await _configuracaoService.GetConfiguracaoAsync();
-
-            var notaDb = _notaFiscalRepository.GetNotaFiscalByChave(NotaFiscal.Chave);
-            string xml = await notaDb.LoadXmlAsync();
-            return xml;
-        }
-
-        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService, IConfiguracaoService configuracaoService, CancelarNotaViewModel cancelarNotaViewModel, IEmissorService emissorService, INotaInutilizadaService notaInutilizadaService, INotaFiscalRepository notaFiscalRepository)
+        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, CancelarNotaViewModel cancelarNotaViewModel)
         {
             EmitirSegundaViaCmd = new RelayCommand(EmitirSegundaViaCmd_Execute, null);
             CancelarNotaCmd = new RelayCommand(CancelarNotaCmd_Execute, null);
 
             _dialogService = dialogService;
-            _enviaNotaFiscalService = enviaNotaFiscalService;
-            _configuracaoService = configuracaoService;
             _cancelarNotaViewModel = cancelarNotaViewModel;
-            _emissorService = emissorService;
-            _notaInutilizadaService = notaInutilizadaService;
-            _notaFiscalRepository = notaFiscalRepository;
         }
 
         private void CancelarNotaCmd_Execute()
         {
-            var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(NotaFiscal.Chave);
-            _cancelarNotaViewModel.CancelarNotaFiscal(notaFiscal);
+            _cancelarNotaViewModel.CancelarNotaFiscal(_notaFiscal);
         }
 
         private async void EmitirSegundaViaCmd_Execute()
@@ -166,9 +139,6 @@ namespace NFe.WPF.ViewModel
             var complemento = new RetornoNotaFiscal();
             _notaFiscalBO.DhAutorizacao = NotaFiscal.DataAutorizacao;
             _notaFiscalBO.ProtocoloAutorizacao = NotaFiscal.Protocolo;
-
-            string xml = await GetNotaXmlAsync();
-            _notaFiscalBO.QrCodeUrl = xml;
 
             try
             {
