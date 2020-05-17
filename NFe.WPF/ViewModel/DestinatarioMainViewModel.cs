@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MediatR;
 using NFe.Core.Cadastro.Destinatario;
-using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
-    public class DestinatarioMainViewModel : ViewModelBase, INotificationHandler<DestinatarioSalvoEvent>
+    public class DestinatarioMainViewModel : ViewModelBase
     {
         private IDestinatarioService _destinatarioService;
         private DestinatarioViewModel _destinatarioViewModel;
@@ -33,6 +29,7 @@ namespace NFe.WPF.ViewModel
 
             _destinatarioService = destinatarioService;
             _destinatarioViewModel = destinatarioViewModel;
+            destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
         }
 
         private void AlterarDestinatarioCmd_Execute(DestinatarioModel obj)
@@ -43,6 +40,11 @@ namespace NFe.WPF.ViewModel
         private void ExcluirDestinatarioCmd_Execute(DestinatarioModel destinatarioVO)
         {
             _destinatarioViewModel.RemoverDestinatario(destinatarioVO);
+        }
+
+        private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel DestinatarioParaSalvar)
+        {
+            PopularListaDestinatarios();
         }
 
         private void LoadedCmd_Execute()
@@ -60,12 +62,6 @@ namespace NFe.WPF.ViewModel
             {
                 Destinatarios.Add((DestinatarioModel)dest);
             }
-        }
-
-        Task INotificationHandler<DestinatarioSalvoEvent>.Handle(DestinatarioSalvoEvent notification, CancellationToken cancellationToken)
-        {
-            PopularListaDestinatarios();
-            return Unit.Task;
         }
     }
 }

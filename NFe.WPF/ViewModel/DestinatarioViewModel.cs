@@ -1,31 +1,29 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using EmissorNFe.Model;
 using EmissorNFe.View.Destinatario;
 using GalaSoft.MvvmLight.Command;
-using MediatR;
 using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
-using NFe.WPF.Commands;
-using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
 {
-    public class DestinatarioViewModel : ViewModelBaseValidation, IRequestHandler<AlterarDestinatarioCommand>
+    public delegate void DestinatarioSalvoEventHandler(DestinatarioModel DestinatarioParaSalvar);
+
+    public class DestinatarioViewModel : ViewModelBaseValidation
     {
         private DestinatarioModel _destinatarioParaSalvar;
         private IEstadoService _estadoService;
         private IEmissorService _emissorService;
         private IDestinatarioService _destinatarioService;
         private IMunicipioService _municipioService;
-        private IMediator _mediator;
+
+        public event DestinatarioSalvoEventHandler DestinatarioSalvoEvent = delegate { };
 
         public ICommand SalvarDestinatarioCmd { get; set; }
         public ICommand UfSelecionadoCmd { get; set; }
@@ -47,7 +45,7 @@ namespace NFe.WPF.ViewModel
         public ObservableCollection<EstadoEntity> Estados { get; set; }
         public ObservableCollection<MunicipioEntity> Municipios { get; set; }
 
-        public DestinatarioViewModel(IEstadoService estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioService municipioService, IMediator mediator)
+        public DestinatarioViewModel(IEstadoService estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioService municipioService)
         {
             SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
             LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);
@@ -59,14 +57,12 @@ namespace NFe.WPF.ViewModel
             _emissorService = emissorService;
             _destinatarioService = destinatarioService;
             _municipioService = municipioService;
-            _mediator = mediator;
         }
 
         internal void RemoverDestinatario(DestinatarioModel destinatarioVO)
         {
             _destinatarioService.ExcluirDestinatario(destinatarioVO.Id);
-            var theEvent = new DestinatarioSalvoEvent();
-            _mediator.Publish(theEvent);
+            DestinatarioSalvoEvent(null);
         }
 
         private void ClosedCmd_Execute()
@@ -185,18 +181,11 @@ namespace NFe.WPF.ViewModel
                     _destinatarioService.Salvar(destinatarioEntity);
                 }
 
-                var theEvent = new DestinatarioSalvoEvent(DestinatarioParaSalvar);
-                _mediator.Publish(theEvent);
+                DestinatarioSalvoEvent(DestinatarioParaSalvar);
 
                 DestinatarioParaSalvar = null;
                 window.Close();
             }
-        }
-
-        public Task<Unit> Handle(AlterarDestinatarioCommand request, CancellationToken cancellationToken)
-        {
-            AlterarDestinatario(request.DestinatarioSelecionado);
-            return Unit.Task;
         }
     }
 }

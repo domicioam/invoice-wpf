@@ -16,13 +16,10 @@ using NFe.Core.Cadastro.Configuracoes;
 using NFe.WPF.ViewModel.Base;
 using NFe.Core.Interfaces;
 using NFe.WPF.Utils;
-using NFe.WPF.Commands;
-using MediatR;
-using System.Threading;
 
 namespace NFe.WPF.ViewModel
 {
-    public class EnviarEmailViewModel : ViewModelBaseValidation, IRequestHandler<EnviarEmailCommand>
+    public class EnviarEmailViewModel : ViewModelBaseValidation
     {
         public EnviarEmailViewModel(MailManager mailManager, IConfiguracaoService configuracaoService, INotaFiscalRepository notaFiscalRepository)
         {
@@ -75,12 +72,6 @@ namespace NFe.WPF.ViewModel
             _mailManager.EnviarEmailDestinatario(Email, xmlPath, notaFiscal);
             Email = string.Empty;
             closable.Close();
-        }
-
-        public Task<Unit> Handle(EnviarEmailCommand request, CancellationToken cancellationToken)
-        {
-            EnviarEmail(request.Chave);
-            return Unit.Task;
         }
     }
 }

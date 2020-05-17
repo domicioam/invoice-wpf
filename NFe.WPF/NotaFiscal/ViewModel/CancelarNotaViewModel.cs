@@ -18,13 +18,17 @@ using NFe.WPF.ViewModel.Base;
 using Utils;
 using NFe.Core.Interfaces;
 using NFe.Core.Sefaz.Facades;
-using MediatR;
-using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
+    public delegate void NotaCanceladaEventHandler(NotaFiscalEntity notaCancelada);
+    public delegate void NotaInutilizadaEventHandler(NFCeModel notaInutilizada);
+
     public class CancelarNotaViewModel : ViewModelBaseValidation
     {
+        public event NotaCanceladaEventHandler NotaCanceladaEvent = delegate { };
+        public event NotaInutilizadaEventHandler NotaInutilizadaEvent = delegate { };
+
         public ICommand EnviarCancelamentoCmd { get; set; }
 
         private string _motivoCancelamento;
@@ -35,7 +39,6 @@ namespace NFe.WPF.ViewModel
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificateManager _certificateManager;
         private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
-        private IMediator _mediator;
 
         [Required]
         [MinLength(15)]
@@ -66,11 +69,7 @@ namespace NFe.WPF.ViewModel
                 if (mensagemRetorno.Status == StatusEvento.SUCESSO)
                 {
                     var notaCancelada = _notaFiscalRepository.GetNotaFiscalByChave(Chave);
-
-                    var theEvent = new NotaFiscalCanceladaEvent();
-                    theEvent.NotaFiscal = notaCancelada;
-
-                    _mediator.Publish(theEvent);
+                    NotaCanceladaEvent(notaCancelada);
                     MessageBox.Show("Nota cancelada com sucesso!", "Sucesso!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -114,11 +113,7 @@ namespace NFe.WPF.ViewModel
 
                     var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
                     _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-
-                    var theEvent = new NotaFiscalInutilizadaEvent();
-                    theEvent.NotaFiscal = notaFiscal;
-
-                    _mediator.Send(theEvent);
+                    NotaInutilizadaEvent(notaFiscal);
                     _configuracaoService.Salvar(config);
                 }
                 else //caso o número atual seja diferente, é necessário inutilizar
@@ -129,12 +124,7 @@ namespace NFe.WPF.ViewModel
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
                         _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-                        
-                        var theEvent = new NotaFiscalInutilizadaEvent();
-                        theEvent.NotaFiscal = notaFiscal;
-
-                        _mediator.Send(theEvent);
-
+                        NotaInutilizadaEvent(notaFiscal);
                         _configuracaoService.Salvar(config);
                     }
                     else
@@ -154,12 +144,7 @@ namespace NFe.WPF.ViewModel
 
                     var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
                     _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-                    
-                    var theEvent = new NotaFiscalInutilizadaEvent();
-                    theEvent.NotaFiscal = notaFiscal;
-
-                    _mediator.Send(theEvent);
-
+                    NotaInutilizadaEvent(notaFiscal);
                     _configuracaoService.Salvar(config);
                 }
                 else
@@ -170,12 +155,7 @@ namespace NFe.WPF.ViewModel
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
                         _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-
-                        var theEvent = new NotaFiscalInutilizadaEvent();
-                        theEvent.NotaFiscal = notaFiscal;
-
-                        _mediator.Send(theEvent);
-
+                        NotaInutilizadaEvent(notaFiscal);
                         _configuracaoService.Salvar(config);
                     }
                     else
@@ -222,11 +202,7 @@ namespace NFe.WPF.ViewModel
             new CancelarNotaWindow() { Owner = mainWindow }.ShowDialog();
         }
 
-        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, 
-            IEmissorService emissorService, ICertificadoService certificadoService, 
-            InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, 
-            ICertificateManager certificateManager, ICancelaNotaFiscalFacade cancelaNotaFiscalService,
-            IMediator mediator)
+        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
         {
             EnviarCancelamentoCmd = new RelayCommand<Window>(EnviarCancelamentoCmd_Execute, null);
             _configuracaoService = configuracaoService;
@@ -236,7 +212,6 @@ namespace NFe.WPF.ViewModel
             _notaFiscalRepository = notaFiscalRepository;
             _certificateManager = certificateManager;
             _cancelaNotaFiscalService = cancelaNotaFiscalService;
-            _mediator = mediator;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Views;
-using MediatR;
 using Moq;
 using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
@@ -88,12 +87,14 @@ namespace NFe.WPF.UnitTests
             var municipioService = new Mock<IMunicipioService>().Object;
             var sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
 
+            var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);
+
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, sefazSettings, new Mock<IMediator>().Object);
+                configuracaoService, emissorService, produtoService, sefazSettings);
 
 
             var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, new Mock<IEnviaNotaFiscalFacade>().Object, estadoService, emissorService, municipioService,
-                new Mock<ITransportadoraService>().Object, destinatarioService, new Mock<INaturezaOperacaoService>().Object, configuracaoService, new Mock<INotaFiscalRepository>().Object, new Mock<IMediator>().Object);
+                new Mock<ITransportadoraService>().Object, destinatarioService, new Mock<INaturezaOperacaoService>().Object, configuracaoService, destinatarioVM, new Mock<INotaFiscalRepository>().Object);
 
             vm.EnviarNota(_notaFiscalFixture.NFeRemessa, Modelo.Modelo55, new Mock<IClosable>().Object).Wait();
             notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsNotNull<NFe.Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>()));

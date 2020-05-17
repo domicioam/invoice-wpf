@@ -4,14 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Views;
-using MediatR;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
-using NFe.WPF.Events;
 using NFe.WPF.Exceptions;
 using NFe.WPF.Model;
 using NFe.WPF.Reports.PDF;
@@ -30,11 +28,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly IEmissorService _emissorService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly SefazSettings _sefazSettings;
-        private IMediator _mediator;
 
         public EnviarNotaController(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, 
-            SefazSettings sefazSettings, IMediator mediator)
+            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings)
         {
             _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
@@ -42,8 +38,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _emissorService = emissorService;
             _produtoRepository = produtoRepository;
             _sefazSettings = sefazSettings;
-            _mediator = mediator;
         }
+
+        public event NotaEnviadaEventHandler NotaEnviadaEvent = delegate { };
 
         public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo)
         {
@@ -90,11 +87,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
            });
 
-            var theEvent = new NotaFiscalEnviadaEvent();
-            theEvent.NotaFiscal = notaFiscal;
-
-            await _mediator.Publish(theEvent);
-            
+            NotaEnviadaEvent(notaFiscal);
             return notaFiscal;
         }
 

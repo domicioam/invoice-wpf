@@ -7,21 +7,22 @@ using System.Windows.Input;
 using EmissorNFe.Produto;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MediatR;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
-using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Services;
 
 namespace NFe.WPF.ViewModel
 {
+    public delegate void ProdutoAdicionadoEventHandler();
+
     public class ProdutoViewModel : ViewModelBase
     {
         private GrupoImpostos _imposto;
         private readonly IGrupoImpostosRepository _grupoImpostosRepository;
         private readonly IProdutoRepository _produtoRepository;
 
+        public event ProdutoAdicionadoEventHandler ProdutoAdicionadoEvent = delegate { };
         public int Id { get; set; }
         public string CodigoItem { get; set; }
         public string Descricao { get; set; }
@@ -37,9 +38,6 @@ namespace NFe.WPF.ViewModel
         }
         public double ValorUnitario { get; set; }
         public string NCM { get; set; }
-
-        private IMediator _mediator;
-
         public List<string> UnidadesComerciais { get; set; }
         public ObservableCollection<GrupoImpostos> Impostos { get; set; }
 
@@ -48,7 +46,7 @@ namespace NFe.WPF.ViewModel
         public ICommand SalvarCmd { get; set; }
         public ICommand CancelarCmd { set; get; }
 
-        public ProdutoViewModel(IProdutoRepository produtoRepository, IGrupoImpostosRepository grupoImpostosRepository, IMediator mediator)
+        public ProdutoViewModel(IProdutoRepository produtoRepository, IGrupoImpostosRepository grupoImpostosRepository)
         {
             UnidadesComerciais = new List<string>() { "UN" };
 
@@ -58,7 +56,6 @@ namespace NFe.WPF.ViewModel
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _produtoRepository = produtoRepository;
             _grupoImpostosRepository = grupoImpostosRepository;
-            _mediator = mediator;
         }
 
         private void AlterarProduto_Execute(string produtoCodigo)
@@ -72,7 +69,6 @@ namespace NFe.WPF.ViewModel
             Imposto = produto.GrupoImpostos;
             ValorUnitario = produto.ValorUnitario;
             NCM = produto.NCM;
-
 
             var app = Application.Current;
             var mainWindow = app.MainWindow;
@@ -117,8 +113,7 @@ namespace NFe.WPF.ViewModel
             produto.GrupoImpostosId = Imposto.Id;
 
             _produtoRepository.Salvar(produto);
-            var theEvent = new ProdutoAdicionadoEvent();
-            _mediator.Send(theEvent);
+            ProdutoAdicionadoEvent();
             window.Close();
         }
     }

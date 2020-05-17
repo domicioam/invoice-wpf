@@ -10,18 +10,10 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using NFe.Core.Interfaces;
 using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.WPF.Events;
-using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NFe.WPF.ViewModel
 {
-    public class AcompanhamentoNotasViewModel : ViewModelBaseValidation, 
-        INotificationHandler<NotaFiscalEnviadaEvent>,
-        INotificationHandler<NotaFiscalCanceladaEvent>,
-        INotificationHandler<ConfiguracaoAlteradaEvent>,
-        IRequestHandler<NotaFiscalPendenteReenviadaEvent>
+    public class AcompanhamentoNotasViewModel : ViewModelBaseValidation
     {
         public ICollectionView Acompanhamentos { get; private set; }
 
@@ -50,10 +42,40 @@ namespace NFe.WPF.ViewModel
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             FiltrarCmd = new RelayCommand(FiltrarCmd_Execute, null);
+
+            enviarNotaController.NotaEnviadaEvent += NotaFiscalVM_NotaEnviadaEvent;
+            cancelarNotaViewModel.NotaCanceladaEvent += CancelarNotaFiscalVM_NotaCanceladaEvent;
+            opcoesViewModel.ConfiguracaoAlteradaEvent += OpcoesVM_ConfiguracoesAlteradasEvent;
+
             _notaFiscalRepository = notaFiscalRepository;
 
+            notaFiscalMainViewModel.NotaPendenteReenviadaEvent += NotaFiscalVM_NotaEnviadaEvent;
 
             _enviaNotaFiscalService = enviaNotaFiscalService;
+        }
+
+        private void OpcoesVM_ConfiguracoesAlteradasEvent()
+        {
+            if (PeriodoFinal >= PeriodoInicial)
+            {
+                AtualizarListaAcompanhamentos();
+            }
+        }
+
+        private void CancelarNotaFiscalVM_NotaCanceladaEvent(object o)
+        {
+            if (PeriodoFinal >= PeriodoInicial)
+            {
+                AtualizarListaAcompanhamentos();
+            }
+        }
+
+        private void NotaFiscalVM_NotaEnviadaEvent(object o)
+        {
+            if (PeriodoFinal >= PeriodoInicial)
+            {
+                AtualizarListaAcompanhamentos();
+            }
         }
 
         private void FiltrarCmd_Execute()
@@ -91,46 +113,6 @@ namespace NFe.WPF.ViewModel
             Acompanhamentos = new ListCollectionView(acompanhamentos);
             Acompanhamentos.GroupDescriptions.Add(new PropertyGroupDescription("Nome"));
             RaisePropertyChanged("Acompanhamentos");
-        }
-
-        public Task<Unit> Handle(NotaFiscalPendenteReenviadaEvent request, CancellationToken cancellationToken)
-        {
-            if (PeriodoFinal >= PeriodoInicial)
-            {
-                AtualizarListaAcompanhamentos();
-            }
-
-            return Unit.Task;
-        }
-
-        Task INotificationHandler<NotaFiscalEnviadaEvent>.Handle(NotaFiscalEnviadaEvent notification, CancellationToken cancellationToken)
-        {
-            if (PeriodoFinal >= PeriodoInicial)
-            {
-                AtualizarListaAcompanhamentos();
-            }
-
-            return Unit.Task;
-        }
-
-        Task INotificationHandler<NotaFiscalCanceladaEvent>.Handle(NotaFiscalCanceladaEvent notification, CancellationToken cancellationToken)
-        {
-            if (PeriodoFinal >= PeriodoInicial)
-            {
-                AtualizarListaAcompanhamentos();
-            }
-
-            return Unit.Task;
-        }
-
-        Task INotificationHandler<ConfiguracaoAlteradaEvent>.Handle(ConfiguracaoAlteradaEvent notification, CancellationToken cancellationToken)
-        {
-            if (PeriodoFinal >= PeriodoInicial)
-            {
-                AtualizarListaAcompanhamentos();
-            }
-
-            return Unit.Task;
         }
     }
 

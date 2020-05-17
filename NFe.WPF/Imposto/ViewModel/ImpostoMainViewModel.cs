@@ -1,16 +1,12 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using MediatR;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Interfaces;
-using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
-    public class ImpostoMainViewModel : IRequestHandler<ImpostoAdicionadoEvent>
+    public class ImpostoMainViewModel
     {
         private IGrupoImpostosRepository _grupoImpostosRepository;
         private ImpostoViewModel _impostoViewModel;
@@ -26,6 +22,7 @@ namespace NFe.WPF.ViewModel
             Impostos = new ObservableCollection<GrupoImpostos>();
             AlterarImpostoCmd = new RelayCommand<GrupoImpostos>(AlterarImpostoCmd_Execute, null);
 
+            impostoViewModel.ImpostoAdicionadoEvent += ImpostoVM_ImpostoAdicionadoEvent;
             _impostoViewModel = impostoViewModel;
             _grupoImpostosRepository = grupoImpostosRepository;
         }
@@ -33,6 +30,11 @@ namespace NFe.WPF.ViewModel
         private void AlterarImpostoCmd_Execute(GrupoImpostos obj)
         {
             _impostoViewModel.AlterarImposto(obj);
+        }
+
+        private void ImpostoVM_ImpostoAdicionadoEvent()
+        {
+            PopularListaImpostos();
         }
 
         private void LoadedCmd_Execute()
@@ -50,12 +52,6 @@ namespace NFe.WPF.ViewModel
             {
                 Impostos.Add(imposto);
             }
-        }
-
-        public Task<Unit> Handle(ImpostoAdicionadoEvent request, CancellationToken cancellationToken)
-        {
-            PopularListaImpostos();
-            return Unit.Task;
         }
     }
 }

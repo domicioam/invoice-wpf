@@ -3,7 +3,6 @@ using Moq;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Interfaces;
 using Xunit;
-using MediatR;
 
 namespace NFe.Core.UnitTests.ModoOnlineService
 {
@@ -21,7 +20,7 @@ namespace NFe.Core.UnitTests.ModoOnlineService
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService,
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
-                emiteNotaFiscalContingenciaService, new Mock<IMediator>().Object);
+                emiteNotaFiscalContingenciaService);
 
             modoOnlineService.AtivarModoOnline();
 
@@ -41,7 +40,7 @@ namespace NFe.Core.UnitTests.ModoOnlineService
             IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
 
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService, configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService, new Mock<IMediator>().Object);
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService, configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService);
 
             // Act
 
@@ -72,7 +71,7 @@ namespace NFe.Core.UnitTests.ModoOnlineService
             var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
 
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService, configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService, new Mock<IMediator>().Object);
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(enviaNotaFiscalService, configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService);
 
             // Act
 

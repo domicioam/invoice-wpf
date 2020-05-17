@@ -33,5 +33,27 @@ namespace NFe.Core.UnitTests.ConfiguracaoService
 
             Assert.Equal(numeroAnterior, numeroAtual);
         }
+
+        [Fact]
+        public void ObterProximoNumeroNotaFiscal_DeveriaIncrementarProximoNumeroSomenteNFCeHomologacao()
+        {
+            var configuracaoRepository = new ConfiguracaoRepositoryFake();
+            var configuracaoService = new Cadastro.Configuracoes.ConfiguracaoService(configuracaoRepository);
+
+            var configuracao = configuracaoRepository.GetConfiguracao();
+            configuracaoService.Salvar(configuracao);
+
+            var numeroAnteriorProducao = configuracaoService.ObterProximoNumeroNotaFiscal(NotasFiscais.Modelo.Modelo65);
+
+            configuracao = configuracaoRepository.GetConfiguracao();
+            configuracaoService.Salvar(configuracao);
+
+            configuracaoService.SalvarPróximoNúmeroSérie(NotasFiscais.Modelo.Modelo65, NotasFiscais.Ambiente.Homologacao);
+
+            configuracao = configuracaoRepository.GetConfiguracao();
+            configuracaoService.Salvar(configuracao);
+
+            Assert.Equal(numeroAnteriorProducao, configuracaoService.ObterProximoNumeroNotaFiscal(NotasFiscais.Modelo.Modelo65));
+        }
     }
 }

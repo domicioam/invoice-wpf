@@ -24,21 +24,15 @@ using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
 using NFe.Core.Interfaces;
 using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.WPF.Events;
-using MediatR;
-using System.Threading;
-using NFe.WPF.Commands;
 
 namespace NFe.WPF.ViewModel
 {
-    public class NFeViewModel : ViewModelBaseValidation, INotificationHandler<DestinatarioSalvoEvent>
+    public class NFeViewModel : ViewModelBaseValidation
     {
         private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEnviaNotaFiscalFacade enviaNotaFiscalService, IEstadoService estadoService, 
-            IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, 
-            IConfiguracaoService configuracaoService, INotaFiscalRepository notaFiscalRepository, IMediator mediator)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEnviaNotaFiscalFacade enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -59,6 +53,7 @@ namespace NFe.WPF.ViewModel
             _destinatarioService = destinatarioService;
             _naturezaOperacaoService = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
+            _destinatarioViewModel = destinatarioViewModel;
             _notaFiscalRepository = notaFiscalRepository;
 
             AdicionarProdutoCmd = new RelayCommand<object>(AdicionarProdutoCmd_Execute, null);
@@ -73,13 +68,13 @@ namespace NFe.WPF.ViewModel
             TransportadoraWindowLoadedCmd = new RelayCommand(TransportadoraWindowLoadedCmd_Execute, null);
             DestinatarioChangedCmd = new RelayCommand<DestinatarioModel>(DestinatarioChangedCmd_Execute, null);
 
-            _mediator = mediator;
-
             _enviarNotaController = enviarNotaController;
             _dialogService = dialogService;
 
             Estados = new ObservableCollection<EstadoEntity>();
             Municipios = new ObservableCollection<MunicipioEntity>();
+
+            destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
 
             foreach (var produtoDB in produtosDB)
             {
@@ -245,9 +240,6 @@ namespace NFe.WPF.ViewModel
         public ICommand UfSelecionadoCmd { get; set; }
         public ICommand TransportadoraWindowLoadedCmd { get; set; }
         public ICommand DestinatarioChangedCmd { get; set; }
-
-        private IMediator _mediator;
-
         public ICommand ExcluirTransportadoraCmd { get; set; }
 
         private IEnviarNota _enviarNotaController;
@@ -261,6 +253,7 @@ namespace NFe.WPF.ViewModel
         private IDestinatarioService _destinatarioService;
         private INaturezaOperacaoService _naturezaOperacaoService;
         private IConfiguracaoService _configuracaoService;
+        private DestinatarioViewModel _destinatarioViewModel;
         private INotaFiscalRepository _notaFiscalRepository;
 
         #endregion Commands
@@ -334,8 +327,7 @@ namespace NFe.WPF.ViewModel
 
             if (destSelecionado.HasErrors)
             {
-                var command = new AlterarDestinatarioCommand(destSelecionado);
-                _mediator.Send(command);
+                _destinatarioViewModel.AlterarDestinatario(destSelecionado);
 
                 destSelecionado.ValidateModel();
                 if (destSelecionado.HasErrors)
@@ -509,17 +501,6 @@ namespace NFe.WPF.ViewModel
                 IsBusy = false;
                 closable.Close();
             }
-        }
-
-        Task INotificationHandler<DestinatarioSalvoEvent>.Handle(DestinatarioSalvoEvent notification, CancellationToken cancellationToken)
-        {
-            if (NotaFiscal != null)
-            {
-                Destinatarios.Add(notification.Destinatario);
-                NotaFiscal.DestinatarioSelecionado = notification.Destinatario;
-            }
-
-            return Unit.Task;
         }
     }
 }

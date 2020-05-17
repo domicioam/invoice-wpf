@@ -18,13 +18,10 @@ using NFe.WPF.ViewModel.Base;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 using NFe.Core.Interfaces;
-using NFe.WPF.Commands;
-using MediatR;
-using System.Threading;
 
 namespace NFe.WPF.ViewModel
 {
-    public class VisualizarNotaEnviadaViewModel : ViewModelBaseValidation, IRequestHandler<VisualizarNotaFiscalCommand>
+    public class VisualizarNotaEnviadaViewModel : ViewModelBaseValidation
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -182,12 +179,6 @@ namespace NFe.WPF.ViewModel
                 log.Error(e);
                 await _dialogService.ShowError("Erro ao emitir segunda via, verifique sua impressora.", "Erro!", null, null);
             }
-        }
-
-        public Task<Unit> Handle(VisualizarNotaFiscalCommand request, CancellationToken cancellationToken)
-        {
-            VisualizarNotaFiscal(request.NotaFiscal);
-            return Unit.Task;
         }
     }
 }

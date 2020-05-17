@@ -2,15 +2,17 @@
 using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using MediatR;
 using NFe.Core.Cadastro.Configuracoes;
-using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
 {
+    public delegate void ConfiguracaoAlteradaEventHandler();
+
     public class OpcoesViewModel : ViewModelBaseValidation
     {
+        public ConfiguracaoAlteradaEventHandler ConfiguracaoAlteradaEvent = delegate { };
+
         private ConfiguracaoEntity _configuracao;
 
         private string _serieNFeProd;
@@ -21,7 +23,6 @@ namespace NFe.WPF.ViewModel
         private string _cscProd;
         private string _emailContabilidadeProd;
         private IConfiguracaoService _configuracaoService;
-        private IMediator _mediator;
 
         [Required]
         public string SerieNFeProd
@@ -112,12 +113,11 @@ namespace NFe.WPF.ViewModel
         public ICommand SalvarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
 
-        public OpcoesViewModel(IConfiguracaoService configuracaoService, IMediator mediator)
+        public OpcoesViewModel(IConfiguracaoService configuracaoService)
         {
             SalvarCmd = new RelayCommand<Window>(SalvarCmd_Execute, null);
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _configuracaoService = configuracaoService;
-            _mediator = mediator;
         }
 
         private void LoadedCmd_Execute()
@@ -165,10 +165,7 @@ namespace NFe.WPF.ViewModel
 
                 _configuracaoService.Salvar(configuracao);
                 _configuracao = null;
-
-                var theEvent = new ConfiguracaoAlteradaEvent();
-                _mediator.Publish(theEvent);
-
+                ConfiguracaoAlteradaEvent();
                 wdw.Close();
             }
         }
