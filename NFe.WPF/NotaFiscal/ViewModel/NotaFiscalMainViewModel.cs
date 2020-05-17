@@ -134,7 +134,12 @@ namespace NFe.WPF.ViewModel
         private async void EnviarNotaController_NotaEnviadaEventHandler(Core.NotasFiscais.NotaFiscal notaEnviada)
         {
             await PopularListaNotasFiscais();
-            await AtualizarNotasPendentes();
+
+            var certificado = _certificadoService.GetX509Certificate2();
+            var config = _configuracaoService.GetConfiguracao();
+            var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
+            var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
+            await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
         }
 
         private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
@@ -145,7 +150,11 @@ namespace NFe.WPF.ViewModel
                 await PopularListaNotasFiscais();
                 await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
                {
-                   await AtualizarNotasPendentes();
+                   var certificado = _certificadoService.GetX509Certificate2();
+                   var config = _configuracaoService.GetConfiguracao();
+                   var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
+                   var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
+                   await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
                }));
             }
 
@@ -332,7 +341,12 @@ namespace NFe.WPF.ViewModel
             try
             {
                 await PopularListaNotasFiscais();
-                await AtualizarNotasPendentes();
+
+                var certificado = _certificadoService.GetX509Certificate2();
+                var config = _configuracaoService.GetConfiguracao();
+                var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
+                var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
+                await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
             }
             catch (Exception e)
             {
@@ -385,20 +399,14 @@ namespace NFe.WPF.ViewModel
             });
         }
 
-        private async Task AtualizarNotasPendentes()
+        private async Task AtualizarNotasPendentes(X509Certificate2 certificado, ConfiguracaoEntity config, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
         {
             if (_isNotasPendentesVerificadas || NotasFiscais.Count == 0)
                 return;
 
             _isNotasPendentesVerificadas = true;
 
-            var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
-
             if (notasFiscaisPendentes.Count == 0) return;
-
-            var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-            var certificado = _certificadoService.GetX509Certificate2();
-            var config = _configuracaoService.GetConfiguracao();
 
             if (certificado == null)
                 throw new ArgumentNullException(nameof(certificado));
@@ -412,8 +420,7 @@ namespace NFe.WPF.ViewModel
                 if (nota == null)
                     continue;
 
-                var notaPendente =
-                    NotasFiscais.FirstOrDefault(n => n.Status == "Pendente" && n.Chave == nota.Chave);
+                var notaPendente = NotasFiscais.FirstOrDefault(n => n.Status == "Pendente" && n.Chave == nota.Chave);
                 var index = NotasFiscais.IndexOf(notaPendente);
 
                 var notaMemento = new NotaFiscalMemento(nota.Numero,
