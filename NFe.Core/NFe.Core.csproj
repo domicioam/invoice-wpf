@@ -190,6 +190,9 @@
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
+    <Compile Include="Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
+    <Compile Include="Events\NotasFiscaisTransmitidasEvent.cs" />
+    <Compile Include="Events\ServicoOfflineEvent.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />

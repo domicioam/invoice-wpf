@@ -278,6 +278,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Acompanhamento\View\GroupsToTotalConverter.cs" />
+    <Compile Include="Commands\AlterarDestinatarioCommand.cs" />
+    <Compile Include="Commands\EnviarEmailCommand.cs" />
+    <Compile Include="Commands\VisualizarNotaFiscalCommand.cs" />
+    <Compile Include="Events\ConfiguracaoAlteradaEvent.cs" />
+    <Compile Include="Events\DestinatarioSalvoEvent.cs" />
+    <Compile Include="Events\ImpostoAdicionadoEvent.cs" />
+    <Compile Include="Events\NotaFiscalCanceladaEvent.cs" />
+    <Compile Include="Events\NotaFiscalEnviadaEvent.cs" />
+    <Compile Include="Events\NotaFiscalInutilizadaEvent.cs" />
+    <Compile Include="Events\NotaFiscalPendenteReenviadaEvent.cs" />
+    <Compile Include="Events\NotasTransmitidasEvent.cs" />
+    <Compile Include="Events\ProdutoAdicionadoEvent.cs" />
     <Compile Include="Exceptions\NotaFiscalModelHasErrosException.cs" />
     <Compile Include="Model\Base\ObservableObjectValidation.cs" />
     <Compile Include="Model\CertificadoModel.cs" />
