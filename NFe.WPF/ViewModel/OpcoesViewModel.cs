@@ -3,15 +3,14 @@ using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.Messaging;
+using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
 {
-    public delegate void ConfiguracaoAlteradaEventHandler();
-
     public class OpcoesViewModel : ViewModelBaseValidation
     {
-        public ConfiguracaoAlteradaEventHandler ConfiguracaoAlteradaEvent = delegate { };
         private string _serieNFeProd;
         private string _proximoNumNFeProd;
         private string _proximoNumNFCeProd;
@@ -163,7 +162,10 @@ namespace NFe.WPF.ViewModel
 
                 _configuracaoService.Salvar(configuracao);
                 Configuracao = null;
-                ConfiguracaoAlteradaEvent();
+
+                var theEvent = new ConfiguracaoAlteradaEvent();
+                MessagingCenter.Send(this, nameof(ConfiguracaoAlteradaEvent), theEvent);
+
                 wdw.Close();
             }
         }

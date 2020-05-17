@@ -10,19 +10,18 @@ using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
+using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Services;
 
 namespace NFe.WPF.ViewModel
 {
-    public delegate void ProdutoAdicionadoEventHandler();
-
     public class ProdutoViewModel : ViewModelBase
     {
         private GrupoImpostos _imposto;
         private readonly IGrupoImpostosRepository _grupoImpostosRepository;
         private readonly IProdutoRepository _produtoRepository;
 
-        public event ProdutoAdicionadoEventHandler ProdutoAdicionadoEvent = delegate { };
         public int Id { get; set; }
         public string CodigoItem { get; set; }
         public string Descricao { get; set; }
@@ -113,7 +112,10 @@ namespace NFe.WPF.ViewModel
             produto.GrupoImpostosId = Imposto.Id;
 
             _produtoRepository.Salvar(produto);
-            ProdutoAdicionadoEvent();
+
+            var theEvent = new ProdutoAdicionadoEvent();
+            MessagingCenter.Send(this, nameof(ProdutoAdicionadoEvent), theEvent);
+
             window.Close();
         }
     }

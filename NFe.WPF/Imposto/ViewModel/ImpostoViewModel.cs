@@ -8,18 +8,16 @@ using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 using NFe.Core.Utils;
+using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
 {
-    public delegate void ImpostoAdicionadoEventHandler();
-
     public class ImpostoViewModel : ViewModelBaseValidation
     {
         private ObservableCollection<string> _cstList;
-
-        public event ImpostoAdicionadoEventHandler ImpostoAdicionadoEvent = delegate { };
 
         public int Id { get; set; }
         public string CFOP { get; set; }
@@ -183,7 +181,9 @@ namespace NFe.WPF.ViewModel
 
             _grupoImpostosRepository.Salvar(grupoImpostos);
 
-            ImpostoAdicionadoEvent();
+            var theEvent = new ImpostoAdicionadoEvent();
+            MessagingCenter.Send(this, nameof(ImpostoAdicionadoEvent), theEvent);
+            
             window.Close();
         }
     }

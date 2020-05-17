@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public delegate void ServicoOfflineEventHandler();
-
-    public delegate void NotasTransmitidasEventHandler(List<string> mensagensErro);
-
     public class ModoOnlineService
     {
         private static Timer _timer;
@@ -27,13 +25,13 @@ namespace NFe.Core.NotasFiscais.Services
             _configuracaoRepository = configuracaoRepository;
             _consultaStatusServicoService = consultaStatusServicoService;
 
-            enviaNotaFiscalService.NotaEmitidaEmContingenciaEvent +=
-                EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent;
+            MessagingCenter.Subscribe<EnviaNotaFiscalFacade, NotaFiscalEmitidaEmContingenciaEvent>(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), (s, e) =>
+            {
+                EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent(e.justificativa, e.horário);
+            });
+
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
         }
-
-        public event ServicoOfflineEventHandler ServicoOfflineEvent = delegate { };
-        public event NotasTransmitidasEventHandler NotasTransmitidasEvent = delegate { };
 
         private void EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
         {
@@ -87,7 +85,9 @@ namespace NFe.Core.NotasFiscais.Services
             {
                 _emiteNotaFiscalContingenciaService.InutilizarCancelarNotasPendentesContingencia(notaParaCancelar,
                     _notaFiscalRepository);
-                NotasTransmitidasEvent(mensagensErro);
+
+                var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = mensagensErro };
+                MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
             }
 
             configuração.IsContingencia = false;
@@ -102,7 +102,8 @@ namespace NFe.Core.NotasFiscais.Services
             config.JustificativaContingencia = justificativa;
             _configuracaoRepository.Salvar(config);
 
-            ServicoOfflineEvent();
+            var theEvent = new ServicoOfflineEvent();
+            MessagingCenter.Send(this, nameof(ServicoOfflineEvent), theEvent);
         }
 
         public void StartTimer()

@@ -8,13 +8,13 @@ using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
+using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
 {
-    public delegate void DestinatarioSalvoEventHandler(DestinatarioModel DestinatarioParaSalvar);
-
     public class DestinatarioViewModel : ViewModelBaseValidation
     {
         private DestinatarioModel _destinatarioParaSalvar;
@@ -22,8 +22,6 @@ namespace NFe.WPF.ViewModel
         private IEmissorService _emissorService;
         private IDestinatarioService _destinatarioService;
         private IMunicipioService _municipioService;
-
-        public event DestinatarioSalvoEventHandler DestinatarioSalvoEvent = delegate { };
 
         public ICommand SalvarDestinatarioCmd { get; set; }
         public ICommand UfSelecionadoCmd { get; set; }
@@ -62,7 +60,9 @@ namespace NFe.WPF.ViewModel
         internal void RemoverDestinatario(DestinatarioModel destinatarioVO)
         {
             _destinatarioService.ExcluirDestinatario(destinatarioVO.Id);
-            DestinatarioSalvoEvent(null);
+
+            var theEvent = new DestinatarioSalvoEvent();
+            MessagingCenter.Send(this, nameof(DestinatarioSalvoEvent), theEvent);
         }
 
         private void ClosedCmd_Execute()
@@ -181,7 +181,8 @@ namespace NFe.WPF.ViewModel
                     _destinatarioService.Salvar(destinatarioEntity);
                 }
 
-                DestinatarioSalvoEvent(DestinatarioParaSalvar);
+                var theEvent = new DestinatarioSalvoEvent() { Destinatario = DestinatarioParaSalvar };
+                MessagingCenter.Send(this, nameof(DestinatarioSalvoEvent), theEvent);
 
                 DestinatarioParaSalvar = null;
                 window.Close();

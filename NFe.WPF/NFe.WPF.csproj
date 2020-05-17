@@ -325,7 +325,6 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Mementos\NotaFiscalMemento.cs" />
     <Compile Include="NotaFiscal\ViewModel\NFeViewModel.cs" />
-    <Compile Include="NotaFiscal\ViewModel\NotaEnviadaEventHandler.cs" />
     <Compile Include="NotaFiscal\ViewModel\NotaFiscalMainViewModel.cs" />
     <Compile Include="NotaFiscal\ViewModel\NFCeViewModel.cs" />
     <Compile Include="ViewModel\OpcoesViewModel.cs" />

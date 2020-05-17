@@ -6,6 +6,8 @@ using EmissorNFe.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Destinatario;
+using NFe.Core.Messaging;
+using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
@@ -29,7 +31,11 @@ namespace NFe.WPF.ViewModel
 
             _destinatarioService = destinatarioService;
             _destinatarioViewModel = destinatarioViewModel;
-            destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
+
+            MessagingCenter.Subscribe<DestinatarioViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (s, e) =>
+            {
+                DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario);
+            });
         }
 
         private void AlterarDestinatarioCmd_Execute(DestinatarioModel obj)

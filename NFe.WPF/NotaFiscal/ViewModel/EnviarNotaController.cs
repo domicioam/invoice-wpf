@@ -7,9 +7,11 @@ using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
+using NFe.WPF.Events;
 using NFe.WPF.Exceptions;
 using NFe.WPF.Model;
 using NFe.WPF.Reports.PDF;
@@ -39,8 +41,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _produtoRepository = produtoRepository;
             _sefazSettings = sefazSettings;
         }
-
-        public event NotaEnviadaEventHandler NotaEnviadaEvent = delegate { };
 
         public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo)
         {
@@ -87,7 +87,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
            });
 
-            NotaEnviadaEvent(notaFiscal);
+            var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
+            MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
+
             return notaFiscal;
         }
 

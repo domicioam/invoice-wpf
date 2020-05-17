@@ -13,7 +13,9 @@ using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
+using NFe.WPF.Events;
 using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Base;
@@ -50,7 +52,10 @@ namespace NFe.WPF.ViewModel
             _produtoRepository = produtoRepository;
             _destinatarioService = destinatarioService;
 
-            destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
+            MessagingCenter.Subscribe<NotaFiscalMainViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (s, e) =>
+            {
+                DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario);
+            });
 
             Finalidades = new List<string>()
             {

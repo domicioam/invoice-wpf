@@ -7,7 +7,9 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Utils;
@@ -20,8 +22,6 @@ using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public delegate void NotaEmitidaEmContingenciaEventHandler(string justificativa, DateTime horário);
-
     public class EnviaNotaFiscalFacade : IEnviaNotaFiscalFacade
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -51,8 +51,6 @@ namespace NFe.Core.NotasFiscais.Services
             _certificateManager = certificateManager;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
         }
-
-        public event NotaEmitidaEmContingenciaEventHandler NotaEmitidaEmContingenciaEvent = delegate { };
 
         public int EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc)
         {
@@ -184,7 +182,10 @@ namespace NFe.Core.NotasFiscais.Services
                 if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55) throw;
 
                 var message = e.InnerException != null ? e.InnerException.Message : e.Message;
-                NotaEmitidaEmContingenciaEvent(message, notaFiscal.Identificacao.DataHoraEmissao);
+
+                var theEvent = new NotaFiscalEmitidaEmContingenciaEvent() { justificativa = message, horário = notaFiscal.Identificacao.DataHoraEmissao };
+                MessagingCenter.Send(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), theEvent);
+
                 return _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
             }
             finally

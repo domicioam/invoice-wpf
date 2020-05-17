@@ -4,6 +4,8 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
+using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
@@ -24,7 +26,12 @@ namespace NFe.WPF.ViewModel
             AlterarProdutoCmd = new RelayCommand<ProdutoListItem>(AlterarProdutoCmd_Execute, null);
 
             _produtoRepository = produtoRepository;
-            produtoViewModel.ProdutoAdicionadoEvent += ProdutoVM_ProdutoAdicionadoEvent;
+
+            MessagingCenter.Subscribe<ProdutoViewModel, ProdutoAdicionadoEvent>(this, nameof(ProdutoAdicionadoEvent), (s, e) =>
+            {
+                ProdutoVM_ProdutoAdicionadoEvent();
+            });
+            
             _produtoViewModel = produtoViewModel;
         }
 

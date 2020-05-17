@@ -24,6 +24,8 @@ using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
 using NFe.Core.Interfaces;
 using NFe.WPF.NotaFiscal.ViewModel;
+using NFe.WPF.Events;
+using NFe.Core.Messaging;
 
 namespace NFe.WPF.ViewModel
 {
@@ -72,7 +74,10 @@ namespace NFe.WPF.ViewModel
             Estados = new ObservableCollection<EstadoEntity>();
             Municipios = new ObservableCollection<MunicipioEntity>();
 
-            destinatarioViewModel.DestinatarioSalvoEvent += DestinatarioVM_DestinatarioSalvoEvent;
+            MessagingCenter.Subscribe<DestinatarioViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (s, e) =>
+            {
+                DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario);
+            });
 
             foreach (var produtoDB in produtosDB)
             {
