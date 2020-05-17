@@ -27,7 +27,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFCeViewModel(DestinatarioViewModel destinatarioViewModel, IDialogService dialogService, IEnviarNota enviarNotaController, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNota enviarNotaController, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();

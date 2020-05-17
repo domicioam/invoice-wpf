@@ -60,14 +60,13 @@ namespace NFe.WPF.ViewModel
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;
 
 
-        public NotaFiscalMainViewModel(IEnviarNota enviarNotaController, OpcoesViewModel opcoesVm,
-            CancelarNotaViewModel notaCanceladaVm, IEnviaNotaFiscalFacade enviaNotaFiscalService,
+        public NotaFiscalMainViewModel(IEnviaNotaFiscalFacade enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, ICertificadoService certificadoService,
             IProdutoRepository produtoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
             IEmissorService emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, ModoOnlineService modoOnlineService, INFeConsulta nfeConsulta)
+            INotaFiscalRepository notaFiscalRepository, INFeConsulta nfeConsulta)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             AbrirNFCeCmd = new RelayCommand(AbrirNFCeCmd_Execute, null);

@@ -17,8 +17,7 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        public ModoOnlineService(IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
+        public ModoOnlineService(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             _notaFiscalRepository = notaFiscalRepository;

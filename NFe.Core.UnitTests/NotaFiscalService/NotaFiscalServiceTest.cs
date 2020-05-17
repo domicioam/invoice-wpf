@@ -57,7 +57,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService);
 
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(notaFiscalService,
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
 
@@ -111,7 +111,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService);
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(notaFiscalService,
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
 
@@ -159,7 +159,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService);
 
-            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(notaFiscalService,
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
 
