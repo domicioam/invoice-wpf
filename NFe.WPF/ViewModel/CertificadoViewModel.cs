@@ -95,15 +95,10 @@ namespace NFe.WPF.ViewModel
             internal set { SetProperty(ref _certificado, value); }
         }
 
-        private ObservableCollection<Certificate> _certificadosInstalados;
         private ICertificadoService _certificadoService;
         private ICertificateManager _certificateManager;
 
-        public ObservableCollection<Certificate> CertificadosInstalados
-        {
-            get { return _certificadosInstalados; }
-            set { _certificadosInstalados = value; }
-        }
+        public ObservableCollection<Certificate> CertificadosInstalados { get; set; }
 
         public ICommand AdicionarSenhaCmd { get; set; }
         public ICommand SelecionarCertificadoCmd { get; set; }

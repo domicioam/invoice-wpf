@@ -144,7 +144,6 @@ namespace NFe.WPF.ViewModel
 
         private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
         {
-
             if (_isLoaded)
             {
                 await PopularListaNotasFiscais();
@@ -273,8 +272,6 @@ namespace NFe.WPF.ViewModel
 
         private async Task<string> GetNotaXmlAsync(string chave)
         {
-            var config = await _configuracaoService.GetConfiguracaoAsync();
-
             var notaDb = _notaFiscalRepository.GetNotaFiscalByChave(chave);
             string xml = await notaDb.LoadXmlAsync();
             return xml;

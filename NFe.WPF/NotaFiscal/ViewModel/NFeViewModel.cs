@@ -32,7 +32,7 @@ namespace NFe.WPF.ViewModel
         private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEnviaNotaFiscalFacade enviaNotaFiscalService, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, INotaFiscalRepository notaFiscalRepository)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -44,7 +44,6 @@ namespace NFe.WPF.ViewModel
             NaturezasOperacoes = new ObservableCollection<NaturezaOperacaoModel>();
             ProdutosCombo = new ObservableCollection<ProdutoEntity>();
 
-            _enviaNotaFiscalService = enviaNotaFiscalService;
             _estadoService = estadoService;
             _produtoRepository = produtoRepository;
             _emissorService = emissorService;
@@ -54,7 +53,6 @@ namespace NFe.WPF.ViewModel
             _naturezaOperacaoService = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
             _destinatarioViewModel = destinatarioViewModel;
-            _notaFiscalRepository = notaFiscalRepository;
 
             AdicionarProdutoCmd = new RelayCommand<object>(AdicionarProdutoCmd_Execute, null);
             GerarPagtoCmd = new RelayCommand<object>(GerarPagtoCmd_Execute, null);
@@ -241,11 +239,11 @@ namespace NFe.WPF.ViewModel
         public ICommand TransportadoraWindowLoadedCmd { get; set; }
         public ICommand DestinatarioChangedCmd { get; set; }
         public ICommand ExcluirTransportadoraCmd { get; set; }
+        #endregion Commands
 
         private IEnviarNota _enviarNotaController;
         private IDialogService _dialogService;
         private IEstadoService _estadoService;
-        private IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private IProdutoRepository _produtoRepository;
         private IEmissorService _emissorService;
         private IMunicipioService _municipioService;
@@ -254,9 +252,7 @@ namespace NFe.WPF.ViewModel
         private INaturezaOperacaoService _naturezaOperacaoService;
         private IConfiguracaoService _configuracaoService;
         private DestinatarioViewModel _destinatarioViewModel;
-        private INotaFiscalRepository _notaFiscalRepository;
 
-        #endregion Commands
 
         private void SalvarTransportadoraCmd_Execute(IClosable closable)
         {

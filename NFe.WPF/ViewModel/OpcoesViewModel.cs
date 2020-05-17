@@ -12,9 +12,6 @@ namespace NFe.WPF.ViewModel
     public class OpcoesViewModel : ViewModelBaseValidation
     {
         public ConfiguracaoAlteradaEventHandler ConfiguracaoAlteradaEvent = delegate { };
-
-        private ConfiguracaoEntity _configuracao;
-
         private string _serieNFeProd;
         private string _proximoNumNFeProd;
         private string _proximoNumNFCeProd;
@@ -22,7 +19,7 @@ namespace NFe.WPF.ViewModel
         private string _cscIDProd;
         private string _cscProd;
         private string _emailContabilidadeProd;
-        private IConfiguracaoService _configuracaoService;
+        private readonly IConfiguracaoService _configuracaoService;
 
         [Required]
         public string SerieNFeProd
@@ -112,6 +109,7 @@ namespace NFe.WPF.ViewModel
 
         public ICommand SalvarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
+        public ConfiguracaoEntity Configuracao { get; set; }
 
         public OpcoesViewModel(IConfiguracaoService configuracaoService)
         {
@@ -135,7 +133,7 @@ namespace NFe.WPF.ViewModel
             SerieNFCeProd = configuracao.SerieNFCe;
             SerieNFeProd = configuracao.SerieNFe;
 
-            _configuracao = configuracao;
+            Configuracao = configuracao;
         }
 
         private void SalvarCmd_Execute(Window wdw)
@@ -164,7 +162,7 @@ namespace NFe.WPF.ViewModel
                 configuracao.SerieNFe = SerieNFeProd;
 
                 _configuracaoService.Salvar(configuracao);
-                _configuracao = null;
+                Configuracao = null;
                 ConfiguracaoAlteradaEvent();
                 wdw.Close();
             }
