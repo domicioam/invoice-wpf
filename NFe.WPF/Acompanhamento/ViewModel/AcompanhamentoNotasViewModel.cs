@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using NFe.Core.Interfaces;
 using NFe.WPF.NotaFiscal.ViewModel;
+using NFe.WPF.Events;
+using NFe.Core.Messaging;
 
 namespace NFe.WPF.ViewModel
 {
@@ -43,14 +45,27 @@ namespace NFe.WPF.ViewModel
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             FiltrarCmd = new RelayCommand(FiltrarCmd_Execute, null);
 
-            enviarNotaController.NotaEnviadaEvent += NotaFiscalVM_NotaEnviadaEvent;
-            cancelarNotaViewModel.NotaCanceladaEvent += CancelarNotaFiscalVM_NotaCanceladaEvent;
-            opcoesViewModel.ConfiguracaoAlteradaEvent += OpcoesVM_ConfiguracoesAlteradasEvent;
+            MessagingCenter.Subscribe<EnviarNotaController, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
+            {
+                NotaFiscalVM_NotaEnviadaEvent();
+            });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent), (s, e) =>
+            {
+                CancelarNotaFiscalVM_NotaCanceladaEvent();
+            });
+
+            MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent), (s, e) =>
+            {
+                OpcoesVM_ConfiguracoesAlteradasEvent();
+            });
+
+            MessagingCenter.Subscribe<NotaFiscalMainViewModel, NotaFiscalPendenteReenviadaEvent>(this, nameof(NotaFiscalPendenteReenviadaEvent), (s, e) =>
+            {
+                NotaFiscalVM_NotaEnviadaEvent();
+            });
 
             _notaFiscalRepository = notaFiscalRepository;
-
-            notaFiscalMainViewModel.NotaPendenteReenviadaEvent += NotaFiscalVM_NotaEnviadaEvent;
-
             _enviaNotaFiscalService = enviaNotaFiscalService;
         }
 
@@ -62,7 +77,7 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void CancelarNotaFiscalVM_NotaCanceladaEvent(object o)
+        private void CancelarNotaFiscalVM_NotaCanceladaEvent()
         {
             if (PeriodoFinal >= PeriodoInicial)
             {
@@ -70,7 +85,7 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void NotaFiscalVM_NotaEnviadaEvent(object o)
+        private void NotaFiscalVM_NotaEnviadaEvent()
         {
             if (PeriodoFinal >= PeriodoInicial)
             {

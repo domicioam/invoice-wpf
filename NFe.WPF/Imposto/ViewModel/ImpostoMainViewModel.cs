@@ -3,6 +3,8 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
+using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
 {
@@ -22,7 +24,11 @@ namespace NFe.WPF.ViewModel
             Impostos = new ObservableCollection<GrupoImpostos>();
             AlterarImpostoCmd = new RelayCommand<GrupoImpostos>(AlterarImpostoCmd_Execute, null);
 
-            impostoViewModel.ImpostoAdicionadoEvent += ImpostoVM_ImpostoAdicionadoEvent;
+            MessagingCenter.Subscribe<ImpostoViewModel, ImpostoAdicionadoEvent>(this, nameof(ImpostoAdicionadoEvent), (s, e) =>
+            {
+                ImpostoVM_ImpostoAdicionadoEvent();
+            });
+
             _impostoViewModel = impostoViewModel;
             _grupoImpostosRepository = grupoImpostosRepository;
         }

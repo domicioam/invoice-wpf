@@ -19,12 +19,15 @@ using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
+using NFe.Core.Events;
 using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
+using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Reports.PDF;
 using NFe.WPF.ViewModel.Base;
@@ -87,13 +90,30 @@ namespace NFe.WPF.ViewModel
 
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
 
-            enviarNotaController.NotaEnviadaEvent += EnviarNotaController_NotaEnviadaEventHandler;
+            MessagingCenter.Subscribe<EnviarNotaController, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
+            {
+                EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal);
+            });
 
-            opcoesVm.ConfiguracaoAlteradaEvent += OpcoesVM_ConfiguracaoAlteradaEventHandler;
-            notaCanceladaVm.NotaCanceladaEvent += NotaFiscalVM_NotaCanceladaEventHandler;
-            notaCanceladaVm.NotaInutilizadaEvent += NotaCanceladaVM_NotaInutilizadaEventHandler;
+            MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this, nameof(NotasFiscaisTransmitidasEvent), (s, e) =>
+            {
+                ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro);
+            });
 
-            modoOnlineService.NotasTransmitidasEvent += ModoOnlineService_NotasTransmitidasEventHandler;
+            MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent), (s, e) =>
+            {
+                OpcoesVM_ConfiguracaoAlteradaEventHandler();
+            });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent), (s, e) =>
+            {
+                NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal);
+            });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this, nameof(NotaFiscalInutilizadaEvent), (s, e) =>
+            {
+                NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal);
+            });
         }
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
@@ -128,8 +148,6 @@ namespace NFe.WPF.ViewModel
             var notaMemento = NotasFiscais.First(n => n.Chave == notaInutilizada.Chave);
             NotasFiscais.Remove(notaMemento);
         }
-
-        public event NotaEnviadaEventHandler NotaPendenteReenviadaEvent = delegate { };
 
         private async void EnviarNotaController_NotaEnviadaEventHandler(Core.NotasFiscais.NotaFiscal notaEnviada)
         {
@@ -250,7 +268,9 @@ namespace NFe.WPF.ViewModel
                     notaFiscalBo.Identificacao.Status, notaFiscalBo.Identificacao.Chave);
 
                 NotasFiscais[notaIndex] = notaMemento;
-                NotaPendenteReenviadaEvent(notaFiscalBo);
+
+                var theEvent = new NotaFiscalPendenteReenviadaEvent() { NotaFiscal = notaFiscalBo };
+                MessagingCenter.Send(this, nameof(NotaFiscalPendenteReenviadaEvent), theEvent);
             }
             catch (Exception e)
             {

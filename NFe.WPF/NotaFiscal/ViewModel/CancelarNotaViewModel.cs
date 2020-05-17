@@ -18,17 +18,13 @@ using NFe.WPF.ViewModel.Base;
 using Utils;
 using NFe.Core.Interfaces;
 using NFe.Core.Sefaz.Facades;
+using NFe.WPF.Events;
+using NFe.Core.Messaging;
 
 namespace NFe.WPF.ViewModel
 {
-    public delegate void NotaCanceladaEventHandler(NotaFiscalEntity notaCancelada);
-    public delegate void NotaInutilizadaEventHandler(NFCeModel notaInutilizada);
-
     public class CancelarNotaViewModel : ViewModelBaseValidation
     {
-        public event NotaCanceladaEventHandler NotaCanceladaEvent = delegate { };
-        public event NotaInutilizadaEventHandler NotaInutilizadaEvent = delegate { };
-
         public ICommand EnviarCancelamentoCmd { get; set; }
 
         private string _motivoCancelamento;
@@ -69,7 +65,10 @@ namespace NFe.WPF.ViewModel
                 if (mensagemRetorno.Status == StatusEvento.SUCESSO)
                 {
                     var notaCancelada = _notaFiscalRepository.GetNotaFiscalByChave(Chave);
-                    NotaCanceladaEvent(notaCancelada);
+
+                    var theEvent = new NotaFiscalCanceladaEvent() { NotaFiscal = notaCancelada };
+                    MessagingCenter.Send(this, nameof(NotaFiscalCanceladaEvent), theEvent);
+                    
                     MessageBox.Show("Nota cancelada com sucesso!", "Sucesso!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -113,7 +112,10 @@ namespace NFe.WPF.ViewModel
 
                     var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
                     _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-                    NotaInutilizadaEvent(notaFiscal);
+
+                    var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                    MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
+
                     _configuracaoService.Salvar(config);
                 }
                 else //caso o número atual seja diferente, é necessário inutilizar
@@ -124,7 +126,10 @@ namespace NFe.WPF.ViewModel
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
                         _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-                        NotaInutilizadaEvent(notaFiscal);
+
+                        var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                        MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
+
                         _configuracaoService.Salvar(config);
                     }
                     else
@@ -144,7 +149,10 @@ namespace NFe.WPF.ViewModel
 
                     var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
                     _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-                    NotaInutilizadaEvent(notaFiscal);
+
+                    var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                    MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
+
                     _configuracaoService.Salvar(config);
                 }
                 else
@@ -155,7 +163,10 @@ namespace NFe.WPF.ViewModel
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
                         _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
-                        NotaInutilizadaEvent(notaFiscal);
+
+                        var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                        MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
+
                         _configuracaoService.Salvar(config);
                     }
                     else

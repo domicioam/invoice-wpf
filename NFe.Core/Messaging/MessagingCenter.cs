@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NFe.WPF.Messaging
+namespace NFe.Core.Messaging
 {
 
     public interface IMessagingCenter
@@ -147,7 +147,7 @@ namespace NFe.WPF.Messaging
             Filter filter = sender =>
             {
                 var send = (TSender)sender;
-                return (source == null || send == source);
+                return source == null || send == source;
             };
 
             InnerSubscribe(subscriber, message, typeof(TSender), typeof(TArgs), target, callback.GetMethodInfo(), filter);
@@ -170,7 +170,7 @@ namespace NFe.WPF.Messaging
             Filter filter = sender =>
             {
                 var send = (TSender)sender;
-                return (source == null || send == source);
+                return source == null || send == source;
             };
 
             InnerSubscribe(subscriber, message, typeof(TSender), null, target, callback.GetMethodInfo(), filter);

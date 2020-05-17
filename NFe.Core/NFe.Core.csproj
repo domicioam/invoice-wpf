@@ -193,6 +193,7 @@
     <Compile Include="Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
     <Compile Include="Events\NotasFiscaisTransmitidasEvent.cs" />
     <Compile Include="Events\ServicoOfflineEvent.cs" />
+    <Compile Include="Messaging\MessagingCenter.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />

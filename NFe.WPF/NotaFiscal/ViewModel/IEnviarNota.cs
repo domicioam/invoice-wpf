@@ -7,8 +7,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 {
     public interface IEnviarNota
     {
-        event NotaEnviadaEventHandler NotaEnviadaEvent;
-
         Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo _modelo);
         Task ImprimirNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal);
     }
