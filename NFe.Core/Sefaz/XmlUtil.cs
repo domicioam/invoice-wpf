@@ -71,7 +71,7 @@ using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
 
 /** O método para pegar a nota fiscal a partir do xml encontra-se em NFeAutorizacaoNormal.GetNotaFiscalFromNfeProcXML() **/
 
-namespace NFe.Core.Utils.Xml
+namespace NFe.Core.Sefaz
 {
     public static class XmlUtil
     {
@@ -88,7 +88,7 @@ namespace NFe.Core.Utils.Xml
                 using (var writer = new XmlTextWriter(stream, new UTF8Encoding(false)))
                 {
                     xmlSerializer.Serialize(writer, value, xsn);
-                    var streamToRead = (MemoryStream) writer.BaseStream;
+                    var streamToRead = (MemoryStream)writer.BaseStream;
                     var encoding = new UTF8Encoding();
                     return encoding.GetString(streamToRead.ToArray());
                 }
@@ -196,7 +196,7 @@ namespace NFe.Core.Utils.Xml
 
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
                 nfe.infNFeSupl = new TNFeInfNFeSupl
-                    {qrCode = "", urlChave = "http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx"};
+                { qrCode = "", urlChave = "http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx" };
             else
                 nfe.infNFeSupl = null;
 
@@ -271,7 +271,7 @@ namespace NFe.Core.Utils.Xml
         internal static TNFeInfNFeTransp GetTransporte(NotaFiscal notaFiscal)
         {
             var transp = new TNFeInfNFeTransp();
-            transp.modFrete = (TNFeInfNFeTranspModFrete) (int) notaFiscal.Transporte.ModalidadeFrete;
+            transp.modFrete = (TNFeInfNFeTranspModFrete)(int)notaFiscal.Transporte.ModalidadeFrete;
 
             if (notaFiscal.Transporte.Transportadora != null)
             {
@@ -295,8 +295,8 @@ namespace NFe.Core.Utils.Xml
                         placa = notaFiscal.Transporte.Veiculo.Placa,
                         UF = TUfConversor.ToTUf(notaFiscal.Transporte.Veiculo.SiglaUF)
                     };
-                    transp.Items = new object[] {veiculo};
-                    transp.ItemsElementName = new[] {ItemsChoiceType5.veicTransp};
+                    transp.Items = new object[] { veiculo };
+                    transp.ItemsElementName = new[] { ItemsChoiceType5.veicTransp };
                 }
             }
 
@@ -314,13 +314,13 @@ namespace NFe.Core.Utils.Xml
                 var newPag = new TNFeInfNFePagDetPag
                 {
                     vPag = pagamento.Valor.ToString("F", CultureInfo.InvariantCulture),
-                    tPag = (TNFeInfNFePagDetPagTPag) (int) pagamento.FormaPagamento
+                    tPag = (TNFeInfNFePagDetPagTPag)(int)pagamento.FormaPagamento
                 };
 
                 listaPagamentos.Add(newPag);
             }
 
-            var pag = new TNFeInfNFePag {detPag = listaPagamentos.ToArray()};
+            var pag = new TNFeInfNFePag { detPag = listaPagamentos.ToArray() };
 
             return pag;
         }
@@ -332,19 +332,19 @@ namespace NFe.Core.Utils.Xml
             ide.nNF = notaFiscal.Identificacao.Numero;
             ide.cNF = notaFiscal.Identificacao.Codigo;
             ide.natOp = notaFiscal.Identificacao.NaturezaOperacao;
-            ide.mod = (TMod) (int) notaFiscal.Identificacao.Modelo;
+            ide.mod = (TMod)(int)notaFiscal.Identificacao.Modelo;
             ide.serie = notaFiscal.Identificacao.Serie.ToString();
             ide.dhEmi = notaFiscal.Identificacao.DataHoraEmissao.ToString("yyyy-MM-ddTHH:mm:sszzz");
-            ide.tpNF = (TNFeInfNFeIdeTpNF) (int) notaFiscal.Identificacao.TipoOperacao;
-            ide.idDest = (TNFeInfNFeIdeIdDest) (int) notaFiscal.Identificacao.OperacaoDestino;
+            ide.tpNF = (TNFeInfNFeIdeTpNF)(int)notaFiscal.Identificacao.TipoOperacao;
+            ide.idDest = (TNFeInfNFeIdeIdDest)(int)notaFiscal.Identificacao.OperacaoDestino;
             ide.cMunFG = notaFiscal.Identificacao.CodigoMunicipio;
-            ide.tpImp = (TNFeInfNFeIdeTpImp) (int) notaFiscal.Identificacao.FormatoImpressao;
-            ide.tpEmis = (TNFeInfNFeIdeTpEmis) (int) notaFiscal.Identificacao.TipoEmissao;
-            ide.tpAmb = (TAmb) (int) notaFiscal.Identificacao.Ambiente;
-            ide.finNFe = (TFinNFe) (int) notaFiscal.Identificacao.FinalidadeEmissao;
-            ide.indFinal = (TNFeInfNFeIdeIndFinal) (int) notaFiscal.Identificacao.FinalidadeConsumidor;
-            ide.indPres = (TNFeInfNFeIdeIndPres) (int) notaFiscal.Identificacao.PresencaComprador;
-            ide.procEmi = (TProcEmi) (int) notaFiscal.Identificacao.ProcessoEmissao;
+            ide.tpImp = (TNFeInfNFeIdeTpImp)(int)notaFiscal.Identificacao.FormatoImpressao;
+            ide.tpEmis = (TNFeInfNFeIdeTpEmis)(int)notaFiscal.Identificacao.TipoEmissao;
+            ide.tpAmb = (TAmb)(int)notaFiscal.Identificacao.Ambiente;
+            ide.finNFe = (TFinNFe)(int)notaFiscal.Identificacao.FinalidadeEmissao;
+            ide.indFinal = (TNFeInfNFeIdeIndFinal)(int)notaFiscal.Identificacao.FinalidadeConsumidor;
+            ide.indPres = (TNFeInfNFeIdeIndPres)(int)notaFiscal.Identificacao.PresencaComprador;
+            ide.procEmi = (TProcEmi)(int)notaFiscal.Identificacao.ProcessoEmissao;
             ide.verProc = notaFiscal.Identificacao.VersaoAplicativo;
             ide.cDV = notaFiscal.Identificacao.DigitoVerificador.ToString();
 
@@ -367,7 +367,7 @@ namespace NFe.Core.Utils.Xml
             emit.IE = notaFiscal.Emitente.InscricaoEstadual;
             emit.IM = notaFiscal.Emitente.InscricaoMunicipal;
             emit.CNAE = notaFiscal.Emitente.CNAE;
-            emit.CRT = (TNFeInfNFeEmitCRT) (int) notaFiscal.Emitente.CRT;
+            emit.CRT = (TNFeInfNFeEmitCRT)(int)notaFiscal.Emitente.CRT;
             emit.enderEmit = new TEnderEmi();
             emit.enderEmit.xLgr = notaFiscal.Emitente.Endereco.Logradouro;
             emit.enderEmit.nro = notaFiscal.Emitente.Endereco.Numero;
@@ -471,7 +471,7 @@ namespace NFe.Core.Utils.Xml
                         (notaFiscal.Produtos[i].ValorUnidadeComercial / 13).ToString("F", CultureInfo.InvariantCulture);
 
                     newDet.prod.uTrib = "KG";
-                    newDet.prod.Items = new object[] {comb};
+                    newDet.prod.Items = new object[] { comb };
                 }
 
                 newDet.imposto = GetImposto(notaFiscal.Produtos[i]);
@@ -485,7 +485,7 @@ namespace NFe.Core.Utils.Xml
 
         internal static TNFeInfNFeDetImposto GetImposto(Produto produto)
         {
-            var imposto = new TNFeInfNFeDetImposto {Items = new object[1]};
+            var imposto = new TNFeInfNFeDetImposto { Items = new object[1] };
 
             switch (produto.GrupoImpostos.Impostos.First(i => i.TipoImposto == TipoImposto.Icms).CST)
             {

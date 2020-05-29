@@ -9,6 +9,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;

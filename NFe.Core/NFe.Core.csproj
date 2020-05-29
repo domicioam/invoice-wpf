@@ -370,7 +370,7 @@
     <Compile Include="Utils\Xml\ValidadorXml.cs" />
     <Compile Include="Utils\Xml\XmlExtensions.cs" />
     <Compile Include="Utils\Xml\XmlFileHelper.cs" />
-    <Compile Include="Utils\Xml\XmlUtil.cs" />
+    <Compile Include="Sefaz\XmlUtil.cs" />
     <Compile Include="Utils\Zip\GeradorZip.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />

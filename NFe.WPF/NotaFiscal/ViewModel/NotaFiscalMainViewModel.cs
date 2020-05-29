@@ -25,6 +25,7 @@ using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;

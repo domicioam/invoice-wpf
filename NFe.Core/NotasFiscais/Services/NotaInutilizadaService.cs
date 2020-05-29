@@ -4,6 +4,7 @@ using System.Globalization;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeInutilizacao2.Retorno.ProcInut;
 using Status = NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status;

@@ -12,6 +12,7 @@ using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.QrCode;

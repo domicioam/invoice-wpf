@@ -2,9 +2,9 @@
 using AutoMapper;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.NFeInutilizacao4;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
-using NFe.Core.Utils.Xml;
 using Envio = NFe.Core.XmlSchemas.NfeInutilizacao2.Envio;
 using Retorno = NFe.Core.XmlSchemas.NfeInutilizacao2.Retorno;
 

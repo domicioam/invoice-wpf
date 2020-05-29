@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.Sefaz;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;
 

@@ -8,7 +8,6 @@ using NFe.Core.NFeRecepcaoEvento4;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
-using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio;
 using NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno;
 using Proc = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;

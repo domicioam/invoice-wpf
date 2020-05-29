@@ -4,14 +4,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using NFe.Core.NFeConsultaProtocolo4;
 using NFe.Core.Sefaz;
-using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeConsulta2.Envio;
 using NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 using Envio = NFe.Core.XmlSchemas.NfeConsulta2.Envio;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 {
-   public class NFeConsulta : INFeConsulta
+    public class NFeConsulta : INFeConsulta
     {
         private SefazSettings _sefazSettings;
 
