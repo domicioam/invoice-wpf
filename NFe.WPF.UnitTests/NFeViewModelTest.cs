@@ -72,7 +72,7 @@ namespace NFe.WPF.UnitTests
                 });
 
             Mock<IEnviaNotaFiscalFacade> notaFiscalServiceMock = new Mock<IEnviaNotaFiscalFacade>();
-            Mock<IEstadoService> estadoServiceMock = new Mock<IEstadoService>();
+            Mock<IEstadoRepository> estadoServiceMock = new Mock<IEstadoRepository>();
             estadoServiceMock
                 .Setup(m => m.GetEstados())
                 .Returns(new List<EstadoEntity>() { new EstadoEntity() { CodigoUf = 53, Nome = "Distrito Federal", Uf = "DF" } });

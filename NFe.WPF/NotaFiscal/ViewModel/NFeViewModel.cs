@@ -34,7 +34,7 @@ namespace NFe.WPF.ViewModel
         private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoService estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -46,7 +46,7 @@ namespace NFe.WPF.ViewModel
             NaturezasOperacoes = new ObservableCollection<NaturezaOperacaoModel>();
             ProdutosCombo = new ObservableCollection<ProdutoEntity>();
 
-            _estadoService = estadoService;
+            _estadoRepository = estadoService;
             _produtoRepository = produtoRepository;
             _emissorService = emissorService;
             _municipioService = municipioService;
@@ -116,7 +116,7 @@ namespace NFe.WPF.ViewModel
                 //{ "Outros", "Outros" }
             };
 
-            EstadosUF = _estadoService.GetEstados().Select(e => e.Uf).ToList();
+            EstadosUF = _estadoRepository.GetEstados().Select(e => e.Uf).ToList();
 
             Parcelas = new List<int>()
             {
@@ -248,7 +248,7 @@ namespace NFe.WPF.ViewModel
 
         private IEnviarNota _enviarNotaController;
         private IDialogService _dialogService;
-        private IEstadoService _estadoService;
+        private IEstadoRepository _estadoRepository;
         private IProdutoRepository _produtoRepository;
         private IEmissorService _emissorService;
         private IMunicipioService _municipioService;
@@ -341,7 +341,7 @@ namespace NFe.WPF.ViewModel
 
         private void TransportadoraWindowLoadedCmd_Execute()
         {
-            var estados = _estadoService.GetEstados();
+            var estados = _estadoRepository.GetEstados();
 
             foreach (var estado in estados)
             {

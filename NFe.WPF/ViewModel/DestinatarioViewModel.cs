@@ -8,6 +8,7 @@ using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Events;
@@ -18,7 +19,7 @@ namespace NFe.WPF.ViewModel
     public class DestinatarioViewModel : ViewModelBaseValidation
     {
         private DestinatarioModel _destinatarioParaSalvar;
-        private IEstadoService _estadoService;
+        private IEstadoRepository _estadoRepository;
         private IEmissorService _emissorService;
         private IDestinatarioService _destinatarioService;
         private IMunicipioService _municipioService;
@@ -43,7 +44,7 @@ namespace NFe.WPF.ViewModel
         public ObservableCollection<EstadoEntity> Estados { get; set; }
         public ObservableCollection<MunicipioEntity> Municipios { get; set; }
 
-        public DestinatarioViewModel(IEstadoService estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioService municipioService)
+        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioService municipioService)
         {
             SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
             LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);
@@ -51,7 +52,7 @@ namespace NFe.WPF.ViewModel
             UfSelecionadoCmd = new RelayCommand(UfSelecionadoCmd_Execute, null);
             Estados = new ObservableCollection<EstadoEntity>();
             Municipios = new ObservableCollection<MunicipioEntity>();
-            _estadoService = estadoService;
+            _estadoRepository = estadoService;
             _emissorService = emissorService;
             _destinatarioService = destinatarioService;
             _municipioService = municipioService;
@@ -118,7 +119,7 @@ namespace NFe.WPF.ViewModel
                 DestinatarioParaSalvar.IsNFe = isNFe;
             }
 
-            var estados = _estadoService.GetEstados();
+            var estados = _estadoRepository.GetEstados();
 
             foreach (var estado in estados)
             {

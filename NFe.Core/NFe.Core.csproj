@@ -197,8 +197,6 @@
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
-    <Compile Include="Cadastro\EstadoService.cs" />
-    <Compile Include="Cadastro\IEstadoService.cs" />
     <Compile Include="Cadastro\IMunicipioService.cs" />
     <Compile Include="Cadastro\NaturezaOperacao\INaturezaOperacaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoRepository.cs" />
