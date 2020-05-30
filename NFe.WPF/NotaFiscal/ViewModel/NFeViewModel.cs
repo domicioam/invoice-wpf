@@ -34,7 +34,7 @@ namespace NFe.WPF.ViewModel
         private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -52,7 +52,7 @@ namespace NFe.WPF.ViewModel
             _municipioService = municipioService;
             _transportadoraService = transportadoraService;
             _destinatarioService = destinatarioService;
-            _naturezaOperacaoService = naturezaOperacaoService;
+            _naturezaOperacaoRepository = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
             _destinatarioViewModel = destinatarioViewModel;
 
@@ -254,7 +254,7 @@ namespace NFe.WPF.ViewModel
         private IMunicipioRepository _municipioService;
         private ITransportadoraService _transportadoraService;
         private IDestinatarioService _destinatarioService;
-        private INaturezaOperacaoService _naturezaOperacaoService;
+        private INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private IConfiguracaoService _configuracaoService;
         private DestinatarioViewModel _destinatarioViewModel;
 
@@ -439,7 +439,7 @@ namespace NFe.WPF.ViewModel
 
             if (NaturezasOperacoes.Count <= 0)
             {
-                var naturezasDB = _naturezaOperacaoService.GetAll();
+                var naturezasDB = _naturezaOperacaoRepository.GetAll();
 
                 foreach (var naturezaDB in naturezasDB)
                 {

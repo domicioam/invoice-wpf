@@ -197,7 +197,6 @@
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
-    <Compile Include="Cadastro\NaturezaOperacao\INaturezaOperacaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoRepository.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioRepository.cs" />
     <Compile Include="Cadastro\Emissor\EmitenteRepository.cs" />
@@ -323,7 +322,6 @@
     <Compile Include="NotasFiscais\ValueObjects\IcmsTotal.cs" />
     <Compile Include="NotasFiscais\ValueObjects\IdentificacaoNFe.cs" />
     <Compile Include="NotasFiscais\ValueObjects\InfoAdicional.cs" />
-    <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoService.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="NotasFiscais\Entities\NotaFiscal.cs" />
     <Compile Include="Sefaz\Facades\EnviaNotaFiscalFacade.cs" />

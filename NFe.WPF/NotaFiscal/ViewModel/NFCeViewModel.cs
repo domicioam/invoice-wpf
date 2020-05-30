@@ -27,7 +27,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFCeViewModel(IDialogService dialogService, IEnviarNota enviarNotaController, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNota enviarNotaController, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -47,7 +47,7 @@ namespace NFe.WPF.ViewModel
 
             _dialogService = dialogService;
             _enviarNotaController = enviarNotaController;
-            _naturezaOperacaoService = naturezaOperacaoService;
+            _naturezaOperacaoRepository = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
             _produtoRepository = produtoRepository;
             _destinatarioService = destinatarioService;
@@ -165,7 +165,7 @@ namespace NFe.WPF.ViewModel
 
         private readonly IDialogService _dialogService;
         private readonly IEnviarNota _enviarNotaController;
-        private INaturezaOperacaoService _naturezaOperacaoService;
+        private INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private IConfiguracaoService _configuracaoService;
         private IProdutoRepository _produtoRepository;
         private IDestinatarioService _destinatarioService;
@@ -241,7 +241,8 @@ namespace NFe.WPF.ViewModel
 
                 if (string.IsNullOrEmpty(NotaFiscal.NaturezaOperacao))
                 {
-                    NotaFiscal.NaturezaOperacao = _naturezaOperacaoService.GetNaturezaOperacaoPorCfop(Produto.ProdutoSelecionado.GrupoImpostos.CFOP);
+                    NaturezaOperacaoEntity naturezaOperacaoEntity = _naturezaOperacaoRepository.GetNaturezaOperacaoPorCfop(Produto.ProdutoSelecionado.GrupoImpostos.CFOP);
+                    NotaFiscal.NaturezaOperacao = naturezaOperacaoEntity?.Descricao;
                 }
 
                 NotaFiscal.Produtos.Add(Produto);
