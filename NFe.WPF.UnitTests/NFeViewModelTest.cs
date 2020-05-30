@@ -84,7 +84,7 @@ namespace NFe.WPF.UnitTests
             var produtoService = produtoServiceMock.Object;
             var estadoService = estadoServiceMock.Object;
             var destinatarioService = new Mock<IDestinatarioService>().Object;
-            var municipioService = new Mock<IMunicipioService>().Object;
+            var municipioService = new Mock<IMunicipioRepository>().Object;
             var sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
 
             var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);

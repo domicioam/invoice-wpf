@@ -22,7 +22,7 @@ namespace NFe.WPF.ViewModel
         private IEstadoRepository _estadoRepository;
         private IEmissorService _emissorService;
         private IDestinatarioService _destinatarioService;
-        private IMunicipioService _municipioService;
+        private IMunicipioRepository _municipioService;
 
         public ICommand SalvarDestinatarioCmd { get; set; }
         public ICommand UfSelecionadoCmd { get; set; }
@@ -44,7 +44,7 @@ namespace NFe.WPF.ViewModel
         public ObservableCollection<EstadoEntity> Estados { get; set; }
         public ObservableCollection<MunicipioEntity> Municipios { get; set; }
 
-        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioService municipioService)
+        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioRepository municipioService)
         {
             SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
             LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);

@@ -244,7 +244,6 @@ namespace EmissorNFe
             container.Register<IServiceFactory, ServiceFactory>(Lifestyle.Singleton);
             container.Register<INotaInutilizadaService, NotaInutilizadaService>(Lifestyle.Singleton);
             container.Register<IEventoService, EventoService>(Lifestyle.Singleton);
-            container.Register<IMunicipioService, MunicipioService>(Lifestyle.Singleton);
             container.Register<ImportadorXmlService>(Lifestyle.Singleton);
             container.Register<IEmissorService, EmissorService>(Lifestyle.Singleton);
             container.Register<ICertificadoService, CertificadoService>(Lifestyle.Singleton);

@@ -197,7 +197,6 @@
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
-    <Compile Include="Cadastro\IMunicipioService.cs" />
     <Compile Include="Cadastro\NaturezaOperacao\INaturezaOperacaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoRepository.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioRepository.cs" />
@@ -268,7 +267,6 @@
     <Compile Include="Sefaz\Facades\IEnviaNotaFiscalFacade.cs" />
     <Compile Include="Interfaces\Services\INotaInutilizadaService.cs" />
     <Compile Include="NotasFiscais\Services\ModoOnlineService.cs" />
-    <Compile Include="Cadastro\MunicipioService.cs" />
     <Compile Include="Sefaz\Facades\EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="NotasFiscais\Services\NotaInutilizadaService.cs" />
     <Compile Include="NotasFiscais\Entities\NotaInutilizadaTO.cs" />

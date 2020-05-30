@@ -34,7 +34,7 @@ namespace NFe.WPF.ViewModel
         private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioService municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
+        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoService naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -251,7 +251,7 @@ namespace NFe.WPF.ViewModel
         private IEstadoRepository _estadoRepository;
         private IProdutoRepository _produtoRepository;
         private IEmissorService _emissorService;
-        private IMunicipioService _municipioService;
+        private IMunicipioRepository _municipioService;
         private ITransportadoraService _transportadoraService;
         private IDestinatarioService _destinatarioService;
         private INaturezaOperacaoService _naturezaOperacaoService;
