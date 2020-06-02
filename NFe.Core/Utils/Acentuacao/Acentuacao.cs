@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace NFe.Core.Utils.Acentuacao
 {
-    static class Acentuacao
+    public static class Acentuacao
     {
         public static string RemoverAcentuacao(string text)
         {
