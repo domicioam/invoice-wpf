@@ -238,6 +238,7 @@ namespace EmissorNFe
             container.Register<IDialogService, MessageService>(Lifestyle.Singleton);
 
             container.Register<INFeConsulta, NFeConsulta>(Lifestyle.Singleton);
+            container.Register<RijndaelManagedEncryption>(Lifestyle.Singleton);
             container.Register<ICertificateManager, CertificateManager>(Lifestyle.Singleton);
             container.Register<IEnviarNota, EnviarNotaController>(Lifestyle.Singleton);
             container.Register<IEnviaNotaFiscalFacade, EnviaNotaFiscalFacade>(Lifestyle.Singleton);

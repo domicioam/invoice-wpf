@@ -30,7 +30,7 @@ namespace NFe.WPF.ViewModel
         private string _motivoCancelamento;
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IEmissorService _emissorService;
-        private readonly ICertificadoService _certificadoService;
+        private readonly ICertificadoRepository _certificadoService;
         private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificateManager _certificateManager;
@@ -213,7 +213,7 @@ namespace NFe.WPF.ViewModel
             new CancelarNotaWindow() { Owner = mainWindow }.ShowDialog();
         }
 
-        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
+        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoRepository certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
         {
             EnviarCancelamentoCmd = new RelayCommand<Window>(EnviarCancelamentoCmd_Execute, null);
             _configuracaoService = configuracaoService;

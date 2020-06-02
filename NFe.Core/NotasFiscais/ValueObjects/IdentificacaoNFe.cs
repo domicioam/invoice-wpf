@@ -33,7 +33,7 @@ namespace NFe.Core.NotasFiscais
             CodigoMunicipio = emitente.Endereco.CodigoMunicipio;
             NaturezaOperacao = naturezaOperacao;
             FinalidadeEmissao = finalidade;
-            TipoOperacao = FinalidadeEmissao == FinalidadeEmissao.Devolucao ? TipoOperacao.Entrada : TipoOperacao.Saida;
+            TipoOperacao = TipoOperacao.Saida;
             OperacaoDestino = OperacaoDestino.Interna; //não suporta interestadual ainda
             FormatoImpressao = isImpressaoBobina ? FormatoImpressao.Nfce : FormatoImpressao.Retrato;
             FinalidadeConsumidor = documentoDanfe.Contains("CPF") || Modelo == Modelo.Modelo65

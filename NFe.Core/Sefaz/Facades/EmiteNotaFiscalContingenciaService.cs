@@ -60,8 +60,9 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
         private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
         private readonly SefazSettings _sefazSettings;
+        private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalFacade cancelaNotaFiscalService, SefazSettings sefazSettings)
+        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalFacade cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;
@@ -74,6 +75,7 @@ namespace NFe.Core.NotasFiscais.Services
             _notaInutilizadaFacade = notaInutilizadaFacade;
             _cancelaNotaFiscalService = cancelaNotaFiscalService;
             _sefazSettings = sefazSettings;
+            _encryptor = encryptor;
         }
 
         public int EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc)
@@ -99,7 +101,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                 certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    RijndaelManagedEncryption.DecryptRijndael(certificadoEntity.Senha));
+                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
             else
                 certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 
@@ -282,7 +284,7 @@ namespace NFe.Core.NotasFiscais.Services
 
                         if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                             certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                                RijndaelManagedEncryption.DecryptRijndael(certificadoEntity.Senha));
+                                _encryptor.DecryptRijndael(certificadoEntity.Senha));
                         else
                             certificado =
                                 _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
@@ -338,7 +340,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                 certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    RijndaelManagedEncryption.DecryptRijndael(certificadoEntity.Senha));
+                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
             else
                 certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 
@@ -424,7 +426,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                 certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    RijndaelManagedEncryption.DecryptRijndael(certificadoEntity.Senha));
+                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
             else
                 certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 

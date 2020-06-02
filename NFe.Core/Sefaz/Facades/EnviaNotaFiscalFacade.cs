@@ -37,11 +37,12 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly INFeConsulta _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
+        private readonly RijndaelManagedEncryption _encryptor;
 
         public EnviaNotaFiscalFacade(IConfiguracaoRepository configuracaoRepository,
             INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository,
             IConfiguracaoService configuracaoService, IServiceFactory serviceFactory, INFeConsulta nfeConsulta,
-            ICertificateManager certificateManager, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+            ICertificateManager certificateManager, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, RijndaelManagedEncryption encryptor)
         {
             _configuracaoRepository = configuracaoRepository;
             _notaFiscalRepository = notaFiscalRepository;
@@ -51,6 +52,7 @@ namespace NFe.Core.NotasFiscais.Services
             _nfeConsulta = nfeConsulta;
             _certificateManager = certificateManager;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
+            _encryptor = encryptor;
         }
 
         public int EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc)
@@ -66,7 +68,7 @@ namespace NFe.Core.NotasFiscais.Services
             {
 
                 certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    RijndaelManagedEncryption.DecryptRijndael(certificadoEntity.Senha));
+                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
             }
             else
             {

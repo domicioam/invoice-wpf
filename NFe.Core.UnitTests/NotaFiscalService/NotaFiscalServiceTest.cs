@@ -51,11 +51,11 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
+            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Utils.RijndaelManagedEncryption());
 
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
-                notaFiscalContingenciaService);
+                notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
@@ -110,7 +110,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
 
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
-                notaFiscalContingenciaService);
+                notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
@@ -153,11 +153,11 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
 
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
+            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Utils.RijndaelManagedEncryption());
 
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
-                notaFiscalContingenciaService);
+                notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,

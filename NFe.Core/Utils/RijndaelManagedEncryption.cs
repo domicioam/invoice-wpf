@@ -52,7 +52,7 @@ namespace NFe.Core.Utils
         /// </summary>
         /// <param name="base64String" />The base64 encoded string
         /// <returns>Base64 encoded stringt</returns>
-        public static bool IsBase64String(string base64String)
+        public bool IsBase64String(string base64String)
         {
             base64String = base64String.Trim();
             return (base64String.Length % 4 == 0) &&
@@ -66,7 +66,7 @@ namespace NFe.Core.Utils
         /// <param name="cipherText" />The encrypted BASE64 text
         /// <param name="salt" />The pasword salt
         /// <returns>The decrypted text</returns>
-        public static string DecryptRijndael(string cipherText, string salt = "987456321456789")
+        public virtual string DecryptRijndael(string cipherText, string salt = "987456321456789")
         {
             if (string.IsNullOrEmpty(cipherText))
                 throw new ArgumentNullException("cipherText");

@@ -8,6 +8,7 @@ using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Interfaces;
 using NFe.Core.Utils.Assinatura;
 using NFe.WPF.ViewModel.Base;
 using Utils;
@@ -95,7 +96,7 @@ namespace NFe.WPF.ViewModel
             internal set { SetProperty(ref _certificado, value); }
         }
 
-        private ICertificadoService _certificadoService;
+        private ICertificadoRepository _certificadoRepository;
         private ICertificateManager _certificateManager;
 
         public ObservableCollection<Certificate> CertificadosInstalados { get; set; }
@@ -105,20 +106,20 @@ namespace NFe.WPF.ViewModel
         public ICommand SalvarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
 
-        public CertificadoViewModel(ICertificadoService certificadoService, ICertificateManager certificateManager)
+        public CertificadoViewModel(ICertificadoRepository certificadoService, ICertificateManager certificateManager)
         {
             CertificadosInstalados = new ObservableCollection<Certificate>(certificateManager.GetFriendlyCertificates());
             AdicionarSenhaCmd = new RelayCommand<PasswordBox>(AdicionarSenhaCmd_Execute, null);
             SelecionarCertificadoCmd = new RelayCommand(SelecionarCertificadoCmd_Execute, null);
             SalvarCmd = new RelayCommand<Window>(SalvarCmd_Execute, null);
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
-            _certificadoService = certificadoService;
+            _certificadoRepository = certificadoService;
             _certificateManager = certificateManager;
         }
 
         private void LoadedCmd_Execute()
         {
-            Certificado = (CertificadoModel)_certificadoService.GetCertificado();
+            Certificado = (CertificadoModel)_certificadoRepository.GetCertificado();
 
             if (Certificado == null)
             {
@@ -187,7 +188,7 @@ namespace NFe.WPF.ViewModel
 
             if (Certificado.Id != 0)
             {
-                certificado = _certificadoService.GetCertificado();
+                certificado = _certificadoRepository.GetCertificado();
             }
             else
             {
@@ -199,7 +200,7 @@ namespace NFe.WPF.ViewModel
             certificado.Senha = Certificado.Senha;
             certificado.Caminho = Certificado.Caminho;
 
-            _certificadoService.Salvar(certificado);
+            _certificadoRepository.Salvar(certificado);
             window.Close();
         }
     }

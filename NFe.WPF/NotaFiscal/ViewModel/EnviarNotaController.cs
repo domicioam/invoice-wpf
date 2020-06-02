@@ -11,6 +11,7 @@ using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
+using NFe.Core.Utils.Acentuacao;
 using NFe.WPF.Events;
 using NFe.WPF.Exceptions;
 using NFe.WPF.Model;
@@ -149,7 +150,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             Emissor emitente, Modelo modeloNota,
             int serie, string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, string documentoDanfe)
         {
-            var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), NotaFiscal.Finalidade);
+            var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), Acentuacao.RemoverAcentuacao(NotaFiscal.Finalidade));
 
             var identificacao = new IdentificacaoNFe(codigoUF, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
                 tipoEmissao, ambiente, emitente,

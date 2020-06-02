@@ -10,37 +10,25 @@ namespace NFe.Core.Cadastro.Certificado
     {
         private ICertificadoRepository _certificadoRepository;
         private ICertificateManager _certificateManager;
+        private RijndaelManagedEncryption _encryptor;
 
-        public CertificadoService(ICertificadoRepository certificadoRepository, ICertificateManager certificateManager)
+        public CertificadoService(ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, RijndaelManagedEncryption encryptor)
         {
             _certificadoRepository = certificadoRepository;
             _certificateManager = certificateManager;
-        }
-
-        public CertificadoEntity GetCertificado()
-        {
-            var certificado = _certificadoRepository.GetCertificado();
-
-            if (File.Exists(certificado.Caminho)) return certificado;
-
-            return null;
-        }
-
-        public void Salvar(CertificadoEntity certificado)
-        {
-            _certificadoRepository.Salvar(certificado);
+            _encryptor = encryptor;
         }
 
         public X509Certificate2 GetX509Certificate2()
         {
             X509Certificate2 certificado;
-            var certificadoEntity = GetCertificado();
+            var certificadoEntity = _certificadoRepository.GetCertificado();
 
             if (certificadoEntity == null) return null;
 
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                 certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    RijndaelManagedEncryption.DecryptRijndael(certificadoEntity.Senha));
+                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
             else
                 certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 
