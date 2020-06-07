@@ -22,7 +22,7 @@ namespace NFe.Core.UnitTests.Facades
         private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
 
         [Fact]
-        void testMethod()
+        void Should_Cancel_Nota_Fiscal_And_Save_Event_Correctly_When_Data_Is_Valid()
         {
             var nfeCancelamento = new Mock<INFeCancelamento>();
 
@@ -66,7 +66,7 @@ namespace NFe.Core.UnitTests.Facades
         }
 
         [Fact]
-        void testMethod1()
+        void Should_Not_Update_Entity_When_Cancellation_Fails()
         {
             var nfeCancelamento = new Mock<INFeCancelamento>();
 
