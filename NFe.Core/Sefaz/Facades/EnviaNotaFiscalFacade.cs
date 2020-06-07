@@ -25,6 +25,7 @@ namespace NFe.Core.NotasFiscais.Services
 {
     public class EnviaNotaFiscalFacade : IEnviaNotaFiscalFacade
     {
+        private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ICertificadoRepository _certificadoRepository;
@@ -124,7 +125,7 @@ namespace NFe.Core.NotasFiscais.Services
                              _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
                         notaFiscalEntity.Status = (int)Status.ENVIADA;
                         notaFiscalEntity.DataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto,
-                            "yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
+                            DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
 
                         notaFiscalEntity.Protocolo = protocolo.infProt.nProt;
                         var xmlNFeProc = XmlUtil.GerarNfeProcXml(nfe, qrCode, protocolo);

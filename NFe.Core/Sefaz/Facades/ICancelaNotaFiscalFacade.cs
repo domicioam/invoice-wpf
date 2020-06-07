@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
+using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Services
 {
     public interface ICancelaNotaFiscalFacade
     {
-        MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente,
-            CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
-            string protocoloAutorizacao, Modelo modeloNota, string justificativa);
+        MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa);
     }
 }

@@ -224,8 +224,18 @@ namespace NFe.Core.NotasFiscais.Services
 
             if (result.IsEnviada)
             {
-                _cancelaNotaFiscalService.CancelarNotaFiscal(ufEmissor, codigoUfEnum, emitente.CNPJ,
-                    notaParaCancelar.Chave, result.Protocolo.infProt.nProt, modelo, "Nota duplicada em contingência");
+
+                var dadosNotaParaCancelar = new DadosNotaParaCancelar
+                {
+                    ufEmitente = ufEmissor,
+                    codigoUf = codigoUfEnum, 
+                    cnpjEmitente = emitente.CNPJ,
+                    chaveNFe = notaParaCancelar.Chave, 
+                    protocoloAutorizacao = result.Protocolo.infProt.nProt, 
+                    modeloNota = modelo
+                };
+
+                _cancelaNotaFiscalService.CancelarNotaFiscal(dadosNotaParaCancelar, "Nota duplicada em contingência");
             }
             else
             {

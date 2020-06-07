@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
+using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Services
 {
@@ -21,19 +22,17 @@ namespace NFe.Core.NotasFiscais.Services
             _eventoService = eventoService;
         }
 
-        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente,
-            CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
-            string protocoloAutorizacao, Modelo modeloNota, string justificativa)
+        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
         {
-            var resultadoCancelamento = _nfeCancelamento.CancelarNotaFiscal(ufEmitente, codigoUf,
-                cnpjEmitente,
-                chaveNFe,
-                protocoloAutorizacao, modeloNota, justificativa);
+            var resultadoCancelamento = _nfeCancelamento.CancelarNotaFiscal(dadosNotaParaCancelar.ufEmitente, dadosNotaParaCancelar.codigoUf,
+                dadosNotaParaCancelar.cnpjEmitente,
+                dadosNotaParaCancelar.chaveNFe,
+                dadosNotaParaCancelar.protocoloAutorizacao, dadosNotaParaCancelar.modeloNota, justificativa);
 
             if (resultadoCancelamento.Status != StatusEvento.SUCESSO)
                 return resultadoCancelamento;
 
-            var notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalByChave(chaveNFe);
+            var notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalByChave(dadosNotaParaCancelar.chaveNFe);
 
             _eventoService.Salvar(new EventoEntity
             {
