@@ -8,7 +8,6 @@ using EmissorNFe.Model;
 using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Entitities;
@@ -17,11 +16,11 @@ using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Events;
 using NFe.WPF.Model;
-using NFe.WPF.NotaFiscal.ViewModel;
+using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
 
-namespace NFe.WPF.ViewModel
+namespace NFe.WPF.NotaFiscal.ViewModel
 {
     public class NFCeViewModel : ViewModelBaseValidation
     {
@@ -128,7 +127,7 @@ namespace NFe.WPF.ViewModel
             set
             {
                 _pagamento = value;
-                RaisePropertyChanged("Pagamento");
+                RaisePropertyChanged(nameof(Pagamento));
             }
         }
 
@@ -165,10 +164,10 @@ namespace NFe.WPF.ViewModel
 
         private readonly IDialogService _dialogService;
         private readonly IEnviarNota _enviarNotaController;
-        private INaturezaOperacaoRepository _naturezaOperacaoRepository;
-        private IConfiguracaoService _configuracaoService;
-        private IProdutoRepository _produtoRepository;
-        private IDestinatarioService _destinatarioService;
+        private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
+        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IProdutoRepository _produtoRepository;
+        private readonly IDestinatarioService _destinatarioService;
 
 
         private async void EnviarNotaCmd_Execute(IClosable closable)
@@ -180,7 +179,7 @@ namespace NFe.WPF.ViewModel
         {
             NotaFiscal.ValidateModel();
 
-            if(NotaFiscal.HasErrors)
+            if (NotaFiscal.HasErrors)
             {
                 return;
             }
@@ -221,38 +220,37 @@ namespace NFe.WPF.ViewModel
         private void GerarPagtoCmd_Execute(object obj)
         {
             NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoVO>();
-
             Pagamento.ValidateModel();
 
-            if (!Pagamento.HasErrors)
-            {
-                NotaFiscal.Pagamentos.Add(Pagamento);
-                Pagamento = new PagamentoVO();
-            }
+            if (Pagamento.HasErrors)
+                return;
+
+            NotaFiscal.Pagamentos.Add(Pagamento);
+            Pagamento = new PagamentoVO();
         }
 
         private void AdicionarProdutoCmd_Execute(object obj)
         {
             Produto.ValidateModel();
 
-            if (!Produto.HasErrors)
+            if (Produto.HasErrors)
+                return;
+
+            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
+
+            if (string.IsNullOrEmpty(NotaFiscal.NaturezaOperacao))
             {
-                NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
-
-                if (string.IsNullOrEmpty(NotaFiscal.NaturezaOperacao))
-                {
-                    NaturezaOperacaoEntity naturezaOperacaoEntity = _naturezaOperacaoRepository.GetNaturezaOperacaoPorCfop(Produto.ProdutoSelecionado.GrupoImpostos.CFOP);
-                    NotaFiscal.NaturezaOperacao = naturezaOperacaoEntity?.Descricao;
-                }
-
-                NotaFiscal.Produtos.Add(Produto);
-                Pagamento.ValorParcela += Produto.TotalLiquido;
-                ProdutosCombo.Remove(Produto.ProdutoSelecionado);
-
-                RaisePropertyChanged("ProdutosCombo");
-                RaisePropertyChanged("ProdutosGrid");
-                Produto = new ProdutoVO();
+                NaturezaOperacaoEntity naturezaOperacaoEntity = _naturezaOperacaoRepository.GetNaturezaOperacaoPorCfop(Produto.ProdutoSelecionado.GrupoImpostos.CFOP);
+                NotaFiscal.NaturezaOperacao = naturezaOperacaoEntity?.Descricao;
             }
+
+            NotaFiscal.Produtos.Add(Produto);
+            Pagamento.ValorParcela += Produto.TotalLiquido;
+            ProdutosCombo.Remove(Produto.ProdutoSelecionado);
+
+            RaisePropertyChanged(nameof(ProdutosCombo));
+            RaisePropertyChanged("ProdutosGrid");
+            Produto = new ProdutoVO();
         }
 
         private void ExcluirProdutoNotaCmd_Execute(ProdutoVO produto)
@@ -260,10 +258,7 @@ namespace NFe.WPF.ViewModel
             NotaFiscal.Produtos.Remove(produto);
             Pagamento.ValorParcela = NotaFiscal.Produtos.Sum(p => p.TotalLiquido);
             Pagamento.FormaPagamento = "Dinheiro";
-            if (NotaFiscal.Pagamentos != null)
-            {
-                NotaFiscal.Pagamentos.Clear();
-            }
+            NotaFiscal.Pagamentos?.Clear();
             ProdutosCombo.Add(produto.ProdutoSelecionado);
         }
 
@@ -284,11 +279,11 @@ namespace NFe.WPF.ViewModel
 
         private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel destinatarioParaSalvar)
         {
-            if (NotaFiscal != null)
-            {
-                Destinatarios.Add(destinatarioParaSalvar);
-                NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
-            }
+            if (NotaFiscal == null)
+                return;
+
+            Destinatarios.Add(destinatarioParaSalvar);
+            NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
         }
 
         private void LoadedCmd_Execute(string modelo)
@@ -306,8 +301,7 @@ namespace NFe.WPF.ViewModel
             }
 
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            Pagamento = new PagamentoVO();
-            Pagamento.FormaPagamento = "Dinheiro";
+            Pagamento = new PagamentoVO { FormaPagamento = "Dinheiro" };
 
             var config = _configuracaoService.GetConfiguracao();
 
@@ -330,9 +324,9 @@ namespace NFe.WPF.ViewModel
 
             var destinatarios = _destinatarioService.GetAll();
 
-            foreach (var destDB in destinatarios)
+            foreach (var destDb in destinatarios)
             {
-                Destinatarios.Add((DestinatarioModel)destDB);
+                Destinatarios.Add((DestinatarioModel)destDb);
             }
         }
     }

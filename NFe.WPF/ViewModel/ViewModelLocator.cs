@@ -28,6 +28,7 @@ using NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Repository;
 using NFe.Repository.Repositories;
+using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.View;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Services;

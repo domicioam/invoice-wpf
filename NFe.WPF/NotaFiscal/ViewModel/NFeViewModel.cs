@@ -8,26 +8,22 @@ using EmissorNFe.Model;
 using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
-using NFe.Core.NotasFiscais.Services;
-using NFe.Repository;
 using NFe.Repository.Repositories;
+using NFe.WPF.Events;
 using NFe.WPF.Model;
+using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
-using NFe.Core.Interfaces;
-using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.WPF.Events;
-using NFe.Core.Messaging;
 
-namespace NFe.WPF.ViewModel
+namespace NFe.WPF.NotaFiscal.ViewModel
 {
     public class NFeViewModel : ViewModelBaseValidation
     {
@@ -38,7 +34,7 @@ namespace NFe.WPF.ViewModel
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
-            var produtosDB = produtoRepository.GetAll();
+            var produtosDb = produtoRepository.GetAll();
             DestinatarioParaSalvar = new DestinatarioModel();
             TransportadoraParaSalvar = new TransportadoraModel();
             Destinatarios = new ObservableCollection<DestinatarioModel>();
@@ -79,7 +75,7 @@ namespace NFe.WPF.ViewModel
                 DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario);
             });
 
-            foreach (var produtoDB in produtosDB)
+            foreach (var produtoDB in produtosDb)
             {
                 ProdutosCombo.Add((ProdutoEntity)produtoDB);
             }
@@ -189,8 +185,8 @@ namespace NFe.WPF.ViewModel
         private void FiltrarProdutosCombo()
         {
             ProdutosCombo.Clear();
-            var produtosDB = _produtoRepository.GetProdutosByNaturezaOperacao(NaturezaOperacaoSelecionada.Descricao);
-            foreach (var produtoDB in produtosDB)
+            var produtosDb = _produtoRepository.GetProdutosByNaturezaOperacao(NaturezaOperacaoSelecionada.Descricao);
+            foreach (var produtoDB in produtosDb)
             {
                 ProdutosCombo.Add(produtoDB);
             }
@@ -263,19 +259,19 @@ namespace NFe.WPF.ViewModel
         {
             TransportadoraParaSalvar.ValidateModel();
 
-            if (!TransportadoraParaSalvar.HasErrors)
-            {
-                var transportadoraEntity = (TransportadoraEntity)TransportadoraParaSalvar;
+            if (TransportadoraParaSalvar.HasErrors) 
+                return;
 
-                var transportadoraDAL = new TransportadoraRepository();
-                var id = transportadoraDAL.Salvar(transportadoraEntity);
-                TransportadoraParaSalvar.Id = id;
+            var transportadoraEntity = (TransportadoraEntity)TransportadoraParaSalvar;
 
-                Transportadoras.Add(TransportadoraParaSalvar);
-                NotaFiscal.TransportadoraSelecionada = TransportadoraParaSalvar;
-                TransportadoraParaSalvar = new TransportadoraModel();
-                closable.Close();
-            }
+            var transportadoraDal = new TransportadoraRepository();
+            var id = transportadoraDal.Salvar(transportadoraEntity);
+            TransportadoraParaSalvar.Id = id;
+
+            Transportadoras.Add(TransportadoraParaSalvar);
+            NotaFiscal.TransportadoraSelecionada = TransportadoraParaSalvar;
+            TransportadoraParaSalvar = new TransportadoraModel();
+            closable.Close();
         }
 
         private void GerarPagtoCmd_Execute(object obj)
@@ -284,11 +280,11 @@ namespace NFe.WPF.ViewModel
 
             Pagamento.ValidateModel();
 
-            if (!Pagamento.HasErrors)
-            {
-                NotaFiscal.Pagamentos.Add(Pagamento);
-                Pagamento = new PagamentoVO();
-            }
+            if (Pagamento.HasErrors) 
+                return;
+
+            NotaFiscal.Pagamentos.Add(Pagamento);
+            Pagamento = new PagamentoVO();
         }
 
         private async void EnviarNotaCmd_Execute(IClosable closable)
@@ -300,18 +296,18 @@ namespace NFe.WPF.ViewModel
         {
             Produto.ValidateModel();
 
-            if (!Produto.HasErrors)
-            {
-                NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
+            if (Produto.HasErrors) 
+                return;
 
-                NotaFiscal.Produtos.Add(Produto);
-                Pagamento.ValorParcela += Produto.TotalLiquido;
-                ProdutosCombo.Remove(Produto.ProdutoSelecionado);
+            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
 
-                RaisePropertyChanged("ProdutosCombo");
-                RaisePropertyChanged("ProdutosGrid");
-                Produto = new ProdutoVO();
-            }
+            NotaFiscal.Produtos.Add(Produto);
+            Pagamento.ValorParcela += Produto.TotalLiquido;
+            ProdutosCombo.Remove(Produto.ProdutoSelecionado);
+
+            RaisePropertyChanged("ProdutosCombo");
+            RaisePropertyChanged("ProdutosGrid");
+            Produto = new ProdutoVO();
         }
 
         private void DestinatarioChangedCmd_Execute(DestinatarioModel destSelecionado)
@@ -326,17 +322,17 @@ namespace NFe.WPF.ViewModel
             if (destIndex == -1)
                 return;
 
-            if (destSelecionado.HasErrors)
-            {
-                _destinatarioViewModel.AlterarDestinatario(destSelecionado);
+            if (!destSelecionado.HasErrors) 
+                return;
 
-                destSelecionado.ValidateModel();
-                if (destSelecionado.HasErrors)
-                {
-                    Destinatarios.RemoveAt(destIndex);
-                    Destinatarios.Insert(destIndex, destSelecionado);
-                }
-            }
+            _destinatarioViewModel.AlterarDestinatario(destSelecionado);
+
+            destSelecionado.ValidateModel();
+            if (!destSelecionado.HasErrors) 
+                return;
+
+            Destinatarios.RemoveAt(destIndex);
+            Destinatarios.Insert(destIndex, destSelecionado);
         }
 
         private void TransportadoraWindowLoadedCmd_Execute()
@@ -373,11 +369,11 @@ namespace NFe.WPF.ViewModel
 
         private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel destinatarioParaSalvar)
         {
-            if (NotaFiscal != null)
-            {
-                Destinatarios.Add(destinatarioParaSalvar);
-                NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
-            }
+            if (NotaFiscal == null) 
+                return;
+
+            Destinatarios.Add(destinatarioParaSalvar);
+            NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
         }
 
         private void ClosedCmd_Execute()
@@ -401,8 +397,7 @@ namespace NFe.WPF.ViewModel
             }
 
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            Pagamento = new PagamentoVO();
-            Pagamento.FormaPagamento = "Dinheiro";
+            Pagamento = new PagamentoVO {FormaPagamento = "Dinheiro"};
 
             var config = _configuracaoService.GetConfiguracao();
 

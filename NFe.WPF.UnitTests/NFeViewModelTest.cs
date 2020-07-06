@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NFe.WPF.NotaFiscal.ViewModel;
 using Xunit;
 
 namespace NFe.WPF.UnitTests
