@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
 using NFe.Core.NotasFiscais;
+using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
@@ -128,7 +129,7 @@ namespace NFe.Core.Sefaz
             }
         }
 
-        internal static string GerarNfeProcXml(TNFe nfe, string urlQrCode, TProtNFe protocolo = null)
+        internal static string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
         {
             var nfeProc = new TNfeProc();
             var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";

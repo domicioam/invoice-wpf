@@ -13,9 +13,9 @@ using NFe.Core.Messaging;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz;
+using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
-using NFe.Core.Utils.QrCode;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
@@ -83,7 +83,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             try
             {
-                var qrCode = "";
+                QrCode qrCode = new QrCode();
                 TNFe nfe = null;
                 var newNodeXml = string.Empty;
                 var idNotaCopiaSeguranca = 0;
@@ -218,12 +218,12 @@ namespace NFe.Core.NotasFiscais.Services
             return client;
         }
 
-        private static string PreencherQrCode(NotaFiscal notaFiscal, string cscId, string csc, ref string qrCode, string digVal, XmlNode node)
+        private static string PreencherQrCode(NotaFiscal notaFiscal, string cscId, string csc, ref QrCode qrCode, string digVal, XmlNode node)
         {
             string newNodeXml;
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
             {
-                qrCode = QrCodeUtil.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
+                qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
                     digVal, notaFiscal.Identificacao.Ambiente,
                     notaFiscal.Identificacao.DataHoraEmissao,
                     notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
@@ -240,7 +240,7 @@ namespace NFe.Core.NotasFiscais.Services
             return newNodeXml;
         }
 
-        private int SalvarNotaFiscalPréEnvio(NotaFiscal notaFiscal, string qrCode, TNFe nfe)
+        private int SalvarNotaFiscalPréEnvio(NotaFiscal notaFiscal, QrCode qrCode, TNFe nfe)
         {
             int idNotaCopiaSeguranca;
             notaFiscal.Identificacao.Status = Status.PENDENTE;
@@ -250,9 +250,9 @@ namespace NFe.Core.NotasFiscais.Services
             return idNotaCopiaSeguranca;
         }
 
-        private static void AtribuirValoresApósEnvioComSucesso(NotaFiscal notaFiscal, string qrCode, NotaFiscalEntity notaFiscalEntity)
+        private static void AtribuirValoresApósEnvioComSucesso(NotaFiscal notaFiscal, QrCode qrCode, NotaFiscalEntity notaFiscalEntity)
         {
-            notaFiscal.QrCodeUrl = qrCode;
+            notaFiscal.QrCodeUrl = qrCode.ToString();
             notaFiscal.Identificacao.Status = Status.ENVIADA;
             notaFiscal.DhAutorizacao = notaFiscalEntity.DataAutorizacao.ToString("dd/MM/yyyy HH:mm:ss");
             notaFiscal.DataHoraAutorização = notaFiscalEntity.DataAutorizacao;
@@ -275,7 +275,8 @@ namespace NFe.Core.NotasFiscais.Services
                 string newNodeXml;
                 if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
                 {
-                    var qrCode = QrCodeUtil.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario, digVal,
+                    QrCode qrCode = new QrCode();
+                    qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario, digVal,
                         notaFiscal.Identificacao.Ambiente,
                         notaFiscal.Identificacao.DataHoraEmissao,
                         notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
@@ -305,7 +306,7 @@ namespace NFe.Core.NotasFiscais.Services
         }
 
         private NotaFiscalEntity VerificarSeNotaFoiEnviada(NotaFiscal notaFiscal,
-            string qrCode, TNFe nfe, int idNotaCopiaSeguranca, NotaFiscalEntity notaFiscalEntity,
+            QrCode qrCode, TNFe nfe, int idNotaCopiaSeguranca, NotaFiscalEntity notaFiscalEntity,
             string nFeNamespaceName, X509Certificate2 certificado)
         {
             var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave,
@@ -318,19 +319,19 @@ namespace NFe.Core.NotasFiscais.Services
             var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, nFeNamespaceName);
             var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
-            notaFiscalEntity =  _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
+            notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
             notaFiscalEntity.Status = (int)Status.ENVIADA;
             notaFiscalEntity.DataAutorizacao = retornoConsulta.DhAutorizacao;
 
             notaFiscalEntity.Protocolo = retornoConsulta.Protocolo.infProt.nProt;
             var xmlNfeProc = XmlUtil.GerarNfeProcXml(nfe, qrCode, protDeserialized);
 
-             _notaFiscalRepository.Salvar(notaFiscalEntity, xmlNfeProc);
+            _notaFiscalRepository.Salvar(notaFiscalEntity, xmlNfeProc);
 
             return notaFiscalEntity;
         }
 
-        private NotaFiscalEntity CorrigirNotaDuplicada(NotaFiscal notaFiscal, string qrCode,
+        private NotaFiscalEntity CorrigirNotaDuplicada(NotaFiscal notaFiscal, QrCode qrCode,
             string nFeNamespaceName, X509Certificate2 certificado, TNFe nfe, int idNotaCopiaSeguranca)
         {
             var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave,

@@ -23,7 +23,6 @@ using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
-using NFe.Core.Utils.QrCode;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
@@ -80,7 +79,7 @@ namespace NFe.Core.NotasFiscais.Services
 
         public int EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc)
         {
-            var qrCode = string.Empty;
+            QrCode qrCode = new QrCode();
             string newNodeXml;
             const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
             var digVal = string.Empty;
@@ -117,7 +116,7 @@ namespace NFe.Core.NotasFiscais.Services
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
             {
             // Pegar ambiente no App.Config
-                qrCode = QrCodeUtil.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
+                qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
                     digVal, _sefazSettings.Ambiente,
                     notaFiscal.Identificacao.DataHoraEmissao,
                     notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
@@ -151,7 +150,7 @@ namespace NFe.Core.NotasFiscais.Services
             var nfeProcXml = XmlUtil.GerarNfeProcXml(nfe, qrCode);
 
              _notaFiscalRepository.Salvar(notaFiscalEntity, nfeProcXml);
-            notaFiscal.QrCodeUrl = qrCode;
+            notaFiscal.QrCodeUrl = qrCode.ToString();
             return idNotaCopiaSeguranca;
         }
 

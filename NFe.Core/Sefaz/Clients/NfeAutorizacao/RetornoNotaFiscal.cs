@@ -15,7 +15,6 @@ using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores.Enums;
-using NFe.Core.Utils.QrCode;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;

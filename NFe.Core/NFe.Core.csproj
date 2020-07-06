@@ -195,6 +195,7 @@
     <Compile Include="Events\ServicoOfflineEvent.cs" />
     <Compile Include="Messaging\MessagingCenter.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
+    <Compile Include="Sefaz\Facades\QrCode.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
@@ -359,7 +360,6 @@
     <Compile Include="Utils\CstListManager.cs" />
     <Compile Include="Utils\Global.cs" />
     <Compile Include="Utils\PDF\GeradorPDF.cs" />
-    <Compile Include="Utils\QrCode\QrCodeUtil.cs" />
     <Compile Include="Utils\RijndaelManagedEncryption.cs" />
     <Compile Include="Utils\SubstringExtensions.cs" />
     <Compile Include="Utils\Xml\ValidadorXml.cs" />
