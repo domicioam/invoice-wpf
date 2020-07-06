@@ -191,7 +191,7 @@ namespace NFe.Repository.Repositories
                     : notaFiscal.Destinatario.NomeRazao,
                 DocumentoDestinatario = notaFiscal.Destinatario?.Documento,
                 Status = (int)notaFiscal.Identificacao.Status,
-                Chave = notaFiscal.Identificacao.Chave,
+                Chave = notaFiscal.Identificacao.Chave.ToString(),
                 DataEmissao = notaFiscal.Identificacao.DataHoraEmissao,
                 Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65",
                 Serie = notaFiscal.Identificacao.Serie.ToString(),

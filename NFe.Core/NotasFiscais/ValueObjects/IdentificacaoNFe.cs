@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Text;
 using NFe.Core.Entitities;
+using NFe.Core.NotasFiscais.ValueObjects;
 
 namespace NFe.Core.NotasFiscais
 {
@@ -26,9 +27,7 @@ namespace NFe.Core.NotasFiscais
             TipoEmissao = tipoEmissao;
             Ambiente = ambiente;
 
-            Chave = CalcularChaveSemDV();
-            DigitoVerificador = CalcularDV(Chave);
-            Chave += DigitoVerificador;
+            Chave = new Chave(DataHoraEmissao, Numero, Serie, TipoEmissao, _cnpjEmissor, Modelo, UF);
 
             CodigoMunicipio = emitente.Endereco.CodigoMunicipio;
             NaturezaOperacao = naturezaOperacao;
@@ -52,11 +51,10 @@ namespace NFe.Core.NotasFiscais
             set
             {
                 _numero = value;
-                CalcularChave();
+                Chave = new Chave(DataHoraEmissao, Numero, Serie, TipoEmissao, _cnpjEmissor, Modelo, UF);
             }
         }
 
-        public string Codigo { get; private set; }
         public string NaturezaOperacao { get; set; }
         public Modelo Modelo { get; }
         public int Serie { get; }
@@ -81,28 +79,7 @@ namespace NFe.Core.NotasFiscais
         public string VersaoAplicativo { get; set; }
         public DateTime DataHoraEntradaContigencia { get; set; }
         public string JustificativaContigencia { get; set; }
-        public string Chave { get; private set; }
-
-        public string ChaveMasked
-        {
-            get
-            {
-                return string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}",
-                    Chave.Substring(0, 4),
-                    Chave.Substring(4, 4),
-                    Chave.Substring(8, 4),
-                    Chave.Substring(12, 4),
-                    Chave.Substring(16, 4),
-                    Chave.Substring(20, 4),
-                    Chave.Substring(24, 4),
-                    Chave.Substring(28, 4),
-                    Chave.Substring(32, 4),
-                    Chave.Substring(36, 4),
-                    Chave.Substring(40, 4));
-            }
-        }
-
-        internal int DigitoVerificador { get; set; }
+        public Chave Chave { get; private set; }
 
         public string MensagemInteresseContribuinte
         {
@@ -133,93 +110,6 @@ namespace NFe.Core.NotasFiscais
         public string LinkConsultaChave { get; set; } = @"http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx";
 
         public byte[] QrCodeImage { get; set; }
-
-        private string CalcularChaveSemDV()
-        {
-            var anoMes = DataHoraEmissao.ToString("yyMM");
-            var numNfe = PreencherNumNFeComZeros(Numero, 9);
-            var serie = PreencherNumNFeComZeros(Serie.ToString(), 3);
-            var random = new Random();
-            Codigo = random.Next(11111121, 99999989).ToString();
-
-            var tipoEmissao = GetTipoEmissao();
-            return (int) UF + anoMes + _cnpjEmissor + (Modelo == Modelo.Modelo55 ? 55 : 65) + serie + numNfe +
-                   tipoEmissao + Codigo;
-        }
-
-        public void CalcularChave()
-        {
-            Chave = CalcularChaveSemDV();
-            DigitoVerificador = CalcularDV(Chave);
-            Chave += DigitoVerificador;
-        }
-
-        private int GetTipoEmissao()
-        {
-            switch (TipoEmissao)
-            {
-                case TipoEmissao.Normal:
-                    return 1;
-
-                case TipoEmissao.FsIa:
-                    return 2;
-
-                case TipoEmissao.Scan:
-                    return 3;
-
-                case TipoEmissao.Dpec:
-                    return 4;
-
-                case TipoEmissao.FsDa:
-                    return 5;
-
-                case TipoEmissao.SvcAn:
-                    return 6;
-
-                case TipoEmissao.SvcRs:
-                    return 7;
-
-                case TipoEmissao.ContigenciaNfce:
-                    return 9;
-
-                default:
-                    throw new ArgumentException();
-            }
-        }
-
-        private string PreencherNumNFeComZeros(string numNFe, int qtdeDigitos)
-        {
-            var qtdeZeros = qtdeDigitos - numNFe.Length;
-            var numeroComZeros = new StringBuilder();
-
-            for (var i = 0; i < qtdeZeros; i++) numeroComZeros.Append("0");
-
-            numeroComZeros.Append(numNFe);
-            return numeroComZeros.ToString();
-        }
-
-        private int CalcularDV(string chave)
-        {
-            if (chave.Length != 43) throw new ArgumentException();
-
-            var multiplicador = 2;
-            var somaPonderacoes = 0;
-
-            for (var i = 42; i >= 0; i--)
-            {
-                if (multiplicador > 9) multiplicador = 2;
-
-                somaPonderacoes += (int) char.GetNumericValue(chave[i]) * multiplicador;
-                multiplicador++;
-            }
-
-            var resto = somaPonderacoes % 11;
-
-            if (resto == 0 || resto == 1)
-                return 0;
-
-            return 11 - resto;
-        }
     }
 
     public enum Modelo

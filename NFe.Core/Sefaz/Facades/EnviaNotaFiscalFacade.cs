@@ -309,7 +309,7 @@ namespace NFe.Core.NotasFiscais.Services
             QrCode qrCode, TNFe nfe, int idNotaCopiaSeguranca, NotaFiscalEntity notaFiscalEntity,
             string nFeNamespaceName, X509Certificate2 certificado)
         {
-            var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave,
+            var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave.ToString(),
                 notaFiscal.Emitente.Endereco.CodigoUF,
                 certificado, notaFiscal.Identificacao.Modelo);
 
@@ -334,7 +334,7 @@ namespace NFe.Core.NotasFiscais.Services
         private NotaFiscalEntity CorrigirNotaDuplicada(NotaFiscal notaFiscal, QrCode qrCode,
             string nFeNamespaceName, X509Certificate2 certificado, TNFe nfe, int idNotaCopiaSeguranca)
         {
-            var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave,
+            var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(notaFiscal.Identificacao.Chave.ToString(),
                 notaFiscal.Emitente.Endereco.CodigoUF, certificado, notaFiscal.Identificacao.Modelo);
 
             var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, nFeNamespaceName);

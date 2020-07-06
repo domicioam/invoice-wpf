@@ -114,7 +114,7 @@ namespace NFe.WPF.Reports.PDF
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
-                    Chave = notaFiscal.Identificacao.ChaveMasked,
+                    Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
                     Numero = notaFiscal.Identificacao.Numero,
                     Serie = notaFiscal.Identificacao.Serie.ToString(),
                     DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,
@@ -276,7 +276,7 @@ namespace NFe.WPF.Reports.PDF
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
-                    Chave = notaFiscal.Identificacao.ChaveMasked,
+                    Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
                     Numero = notaFiscal.Identificacao.Numero,
                     Serie = notaFiscal.Identificacao.Serie.ToString(),
                     DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,
@@ -366,7 +366,7 @@ namespace NFe.WPF.Reports.PDF
 
             #region QrCode
             var barcode = BarcodeDrawFactory.Code128WithChecksum;
-            var barcodeImg = barcode.Draw(notaFiscal.Identificacao.Chave, 36);
+            var barcodeImg = barcode.Draw(notaFiscal.Identificacao.Chave.ToString(), 36);
 
             Byte[] data;
 
@@ -404,7 +404,7 @@ namespace NFe.WPF.Reports.PDF
 
                 var reportNfeReadModel = new ReportNFeReadModel()
                 {
-                    Chave = notaFiscal.Identificacao.ChaveMasked,
+                    Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
                     Numero = notaFiscal.Identificacao.Numero,
                     Serie = notaFiscal.Identificacao.Serie.ToString(),
                     DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,

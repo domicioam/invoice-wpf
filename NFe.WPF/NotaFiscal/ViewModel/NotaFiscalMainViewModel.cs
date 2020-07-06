@@ -265,7 +265,7 @@ namespace NFe.WPF.ViewModel
                 var notaMemento = new NotaFiscalMemento(notaFiscalBo.Identificacao.Numero,
                     notaFiscalBo.Identificacao.Modelo, notaFiscalBo.Identificacao.DataHoraEmissao,
                     notaFiscalBo.DataHoraAutorização, destinatario.NomeRazao, destinatarioUf, valorTotalProdutos,
-                    notaFiscalBo.Identificacao.Status, notaFiscalBo.Identificacao.Chave);
+                    notaFiscalBo.Identificacao.Status, notaFiscalBo.Identificacao.Chave.ToString());
 
                 NotasFiscais[notaIndex] = notaMemento;
 

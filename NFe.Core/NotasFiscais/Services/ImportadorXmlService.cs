@@ -71,7 +71,7 @@ namespace NFe.Core.NotasFiscais.Services
 
                         var notaFiscal = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
 
-                        var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalByChave(notaFiscal.Identificacao.Chave);
+                        var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalByChave(notaFiscal.Identificacao.Chave.ToString());
 
                         if (notaFiscalDb != null) return;
 
@@ -89,7 +89,7 @@ namespace NFe.Core.NotasFiscais.Services
                             ? null
                             : notaFiscal.Destinatario.Documento;
                         notaFiscalEntity.Status = (int) notaFiscal.Identificacao.Status;
-                        notaFiscalEntity.Chave = notaFiscal.Identificacao.Chave;
+                        notaFiscalEntity.Chave = notaFiscal.Identificacao.Chave.ToString();
                         notaFiscalEntity.DataEmissao = notaFiscal.Identificacao.DataHoraEmissao;
                         notaFiscalEntity.Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65";
                         notaFiscalEntity.Serie = notaFiscal.Identificacao.Serie.ToString();

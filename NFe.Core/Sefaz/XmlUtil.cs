@@ -331,7 +331,7 @@ namespace NFe.Core.Sefaz
             var ide = new TNFeInfNFeIde();
             ide.cUF = TCodUfIBGEConversor.ToTCodUfIBGE(notaFiscal.Identificacao.UF);
             ide.nNF = notaFiscal.Identificacao.Numero;
-            ide.cNF = notaFiscal.Identificacao.Codigo;
+            ide.cNF = notaFiscal.Identificacao.Chave.Codigo;
             ide.natOp = notaFiscal.Identificacao.NaturezaOperacao;
             ide.mod = (TMod)(int)notaFiscal.Identificacao.Modelo;
             ide.serie = notaFiscal.Identificacao.Serie.ToString();
@@ -347,7 +347,7 @@ namespace NFe.Core.Sefaz
             ide.indPres = (TNFeInfNFeIdeIndPres)(int)notaFiscal.Identificacao.PresencaComprador;
             ide.procEmi = (TProcEmi)(int)notaFiscal.Identificacao.ProcessoEmissao;
             ide.verProc = notaFiscal.Identificacao.VersaoAplicativo;
-            ide.cDV = notaFiscal.Identificacao.DigitoVerificador.ToString();
+            ide.cDV = notaFiscal.Identificacao.Chave.DigitoVerificador.ToString();
 
             if (notaFiscal.Identificacao.TipoEmissao == TipoEmissao.ContigenciaNfce ||
                 notaFiscal.Identificacao.TipoEmissao == TipoEmissao.FsDa)

@@ -63,7 +63,7 @@ namespace NFe.Core.NotasFiscais
 
         internal void CalcularChave()
         {
-            Identificacao.CalcularChave();
+            Identificacao.Chave.CalcularChave();
         }
     }
 }

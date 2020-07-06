@@ -45,7 +45,7 @@ namespace EmissorNFe.Model
                 Numero = nota.Identificacao.Numero,
                 Serie = nota.Identificacao.Serie.ToString(),
                 Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
-                Chave = nota.Identificacao.Chave,
+                Chave = nota.Identificacao.Chave.ToString(),
                 Protocolo = nota.ProtocoloAutorizacao,
                 IsCancelada = nota.Identificacao.Status == NFe.Core.Entitities.Status.CANCELADA
             };
