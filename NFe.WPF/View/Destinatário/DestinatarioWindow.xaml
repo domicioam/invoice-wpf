@@ -8,6 +8,7 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         xmlns:notasFiscais="clr-namespace:NFe.Core.NotasFiscais;assembly=NFe.Core"
+        xmlns:entities="clr-namespace:NFe.Core.NotasFiscais.Entities;assembly=NFe.Core"
         WindowStartupLocation="CenterOwner"
         Name="destinatarioWindow" Background="#FFEEEEF2"
         Title="Cadastro de Destinatário" Height="Auto" SizeToContent="Height" Width="800"
@@ -56,7 +57,7 @@
             <RadioButton x:Name="rbPessoaFisica" 
                          IsChecked="{Binding DestinatarioParaSalvar.TipoDestinatario, 
                             Converter={StaticResource EnumToBooleanConverter}, 
-                            ConverterParameter={x:Static notasFiscais:TipoDestinatario.PessoaFisica}}" 
+                            ConverterParameter={x:Static entities:TipoDestinatario.PessoaFisica}}" 
                          GroupName="tipoPessoa" 
                          Content="Pessoa Física" 
                          Height="17"
@@ -64,7 +65,7 @@
             <RadioButton x:Name="rbPessoaJuridica" 
                          IsChecked="{Binding DestinatarioParaSalvar.TipoDestinatario, 
                             Converter={StaticResource EnumToBooleanConverter},
-                            ConverterParameter={x:Static notasFiscais:TipoDestinatario.PessoaJuridica}}" 
+                            ConverterParameter={x:Static entities:TipoDestinatario.PessoaJuridica}}" 
                          GroupName="tipoPessoa" 
                          Content="Empresa" 
                          Height="17"
@@ -72,7 +73,7 @@
             <RadioButton x:Name="rbEstrangeiro" 
                          IsChecked="{Binding DestinatarioParaSalvar.TipoDestinatario, 
                             Converter={StaticResource EnumToBooleanConverter},
-                            ConverterParameter={x:Static notasFiscais:TipoDestinatario.Estrangeiro}}" 
+                            ConverterParameter={x:Static entities:TipoDestinatario.Estrangeiro}}" 
                          GroupName="tipoPessoa" 
                          Content="Estrangeiro" 
                          Margin="6,0,6,6"/>

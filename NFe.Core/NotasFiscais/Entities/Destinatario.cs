@@ -1,4 +1,6 @@
-﻿namespace NFe.Core.NotasFiscais
+﻿using System;
+
+namespace NFe.Core.NotasFiscais.Entities
 {
     public enum TipoDestinatario
     {
@@ -25,28 +27,25 @@
             IsIsentoICMS = isIsentoICMS;
             TipoDestinatario = tipoDestinatario;
 
-            if (Documento != null)
+            if (Documento == null) 
+                return;
+
+            Email = email;
+
+            if (modelo == Modelo.Modelo65)
             {
-                Email = email;
-
-                if (modelo == Modelo.Modelo65)
-                {
-                    IndicadorInscricaoEstadual = 9;
-                    InscricaoEstadual = null;
-                }
-                else
-                {
-                    if (IsIsentoICMS)
-                        IndicadorInscricaoEstadual = 2;
-                    else
-                        IndicadorInscricaoEstadual = 1;
-
-                    InscricaoEstadual = inscricaoEstadual;
-                }
-
-                Telefone = telefone;
-                Endereco = endereco;
+                IndicadorInscricaoEstadual = 9;
+                InscricaoEstadual = null;
             }
+            else
+            {
+                IndicadorInscricaoEstadual = IsIsentoICMS ? 2 : 1;
+
+                InscricaoEstadual = inscricaoEstadual;
+            }
+
+            Telefone = telefone;
+            Endereco = endereco;
         }
 
         public string Documento { get; set; }
@@ -65,8 +64,8 @@
                 if (string.IsNullOrEmpty(Documento))
                     return null;
 
-                var tipoDocumento = string.Empty;
-                var mask = string.Empty;
+                string tipoDocumento;
+                string mask;
 
                 switch (TipoDestinatario)
                 {
@@ -84,6 +83,8 @@
                         tipoDocumento = "ID Estrangeiro: ";
                         mask = string.Empty;
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 var cpfCnpjMasked = Documento;

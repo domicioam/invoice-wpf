@@ -7,30 +7,26 @@ namespace NFe.Core.Cadastro.Configuracoes
 {
     public class ConfiguracaoService : IConfiguracaoService
     {
-        private ConfiguracaoEntity _configuracao;
-        private IConfiguracaoRepository _configuracaoRepository;
+        private readonly IConfiguracaoRepository _configuracaoRepository;
 
         public ConfiguracaoService(IConfiguracaoRepository configuracaoRepository)
         {
             _configuracaoRepository = configuracaoRepository;
-            _configuracao = _configuracaoRepository.GetConfiguracao();
         }
 
         public ConfiguracaoEntity GetConfiguracao()
         {
-            return _configuracao = _configuracaoRepository.GetConfiguracao();
+            return _configuracaoRepository.GetConfiguracao();
         }
 
         public Task<ConfiguracaoEntity> GetConfiguracaoAsync()
         {
-            return Task.Run(() => { return _configuracao = _configuracaoRepository.GetConfiguracao(); });
+            return Task.Run(() => _configuracaoRepository.GetConfiguracao());
         }
 
         public void Salvar(ConfiguracaoEntity configuracao)
         {
-            var config = _configuracaoRepository.GetConfiguracao();
-
-            if (config == null) config = new ConfiguracaoEntity();
+            var config = _configuracaoRepository.GetConfiguracao() ?? new ConfiguracaoEntity();
 
             config.Csc = configuracao.Csc;
             config.CscId = configuracao.CscId;
@@ -42,10 +38,7 @@ namespace NFe.Core.Cadastro.Configuracoes
 
             config.IsContingencia = configuracao.IsContingencia;
 
-            if (configuracao.DataHoraEntradaContingencia == new DateTime())
-                config.DataHoraEntradaContingencia = DateTime.Now;
-            else
-                config.DataHoraEntradaContingencia = configuracao.DataHoraEntradaContingencia;
+            config.DataHoraEntradaContingencia = configuracao.DataHoraEntradaContingencia == new DateTime() ? DateTime.Now : configuracao.DataHoraEntradaContingencia;
 
             config.JustificativaContingencia = configuracao.JustificativaContingencia;
             _configuracaoRepository.Salvar(config);
@@ -70,15 +63,7 @@ namespace NFe.Core.Cadastro.Configuracoes
         public string ObterProximoNumeroNotaFiscal(Modelo modelo)
         {
             var config = GetConfiguracao();
-
-            if (modelo == Modelo.Modelo55)
-            {
-                return config.ProximoNumNFe;
-            }
-            else
-            {
-                return config.ProximoNumNFCe;
-            }
+            return modelo == Modelo.Modelo55 ? config.ProximoNumNFe : config.ProximoNumNFCe;
         }
     }
 }

@@ -11,6 +11,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Entities;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 

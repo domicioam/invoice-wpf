@@ -18,6 +18,7 @@ using NFe.WPF.ViewModel.Base;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 using NFe.Core.Interfaces;
+using NFe.Core.NotasFiscais.Entities;
 
 namespace NFe.WPF.ViewModel
 {

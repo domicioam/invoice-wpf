@@ -6,6 +6,7 @@ using EmissorNFe.Model;
 using EmissorNFe.Model.Base;
 using EmissorNFe.VO;
 using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Entities;
 
 namespace NFe.WPF.Model
 {

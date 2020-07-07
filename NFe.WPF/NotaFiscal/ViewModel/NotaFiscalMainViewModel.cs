@@ -23,6 +23,7 @@ using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;

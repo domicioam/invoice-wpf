@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NFe.Core.NotasFiscais.Entities;
 
 namespace NFe.Core.NotasFiscais
 {

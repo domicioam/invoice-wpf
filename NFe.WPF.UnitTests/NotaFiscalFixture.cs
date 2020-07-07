@@ -9,6 +9,7 @@ using EmissorNFe.VO;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Entities;
 using NFe.WPF.Model;
 
 namespace NFe.WPF.UnitTests

@@ -20,7 +20,7 @@ using NFe.WPF.Model;
 using System.Threading.Tasks;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Model.ReportNFe;
-using Destinatario = NFe.Core.NotasFiscais.Destinatario;
+using Destinatario = NFe.Core.NotasFiscais.Entities.Destinatario;
 using Pagamento = NFe.WPF.Model.Pagamento;
 using Produto = NFe.WPF.Model.Produto;
 using Transportadora = NFe.WPF.Model.ReportNFe.Transportadora;

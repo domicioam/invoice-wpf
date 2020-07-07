@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
 using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
