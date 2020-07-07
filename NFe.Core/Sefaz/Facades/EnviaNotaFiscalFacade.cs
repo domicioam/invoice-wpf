@@ -12,6 +12,7 @@ using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
@@ -243,7 +244,7 @@ namespace NFe.Core.NotasFiscais.Services
         private int SalvarNotaFiscalPréEnvio(NotaFiscal notaFiscal, QrCode qrCode, TNFe nfe)
         {
             int idNotaCopiaSeguranca;
-            notaFiscal.Identificacao.Status = Status.PENDENTE;
+            notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
 
             idNotaCopiaSeguranca = _notaFiscalRepository.SalvarNotaFiscalPendente(notaFiscal,
                 XmlUtil.GerarNfeProcXml(nfe, qrCode));
@@ -253,7 +254,7 @@ namespace NFe.Core.NotasFiscais.Services
         private static void AtribuirValoresApósEnvioComSucesso(NotaFiscal notaFiscal, QrCode qrCode, NotaFiscalEntity notaFiscalEntity)
         {
             notaFiscal.QrCodeUrl = qrCode.ToString();
-            notaFiscal.Identificacao.Status = Status.ENVIADA;
+            notaFiscal.Identificacao.Status = new StatusEnvio(Status.ENVIADA);
             notaFiscal.DhAutorizacao = notaFiscalEntity.DataAutorizacao.ToString("dd/MM/yyyy HH:mm:ss");
             notaFiscal.DataHoraAutorização = notaFiscalEntity.DataAutorizacao;
             notaFiscal.ProtocoloAutorizacao = notaFiscalEntity.Protocolo;

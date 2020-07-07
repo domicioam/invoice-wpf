@@ -37,7 +37,7 @@ namespace NFe.WPF.NotaFiscal.Model
                 Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
                 Chave = nota.Identificacao.Chave.ToString(),
                 Protocolo = nota.ProtocoloAutorizacao,
-                IsCancelada = nota.Identificacao.Status == NFe.Core.Entitities.Status.CANCELADA,
+                IsCancelada = nota.Identificacao.Status.IsCancelada(),
                 Destinatario = nota.Destinatario == null
                     ? "CONSUMIDOR NÃO IDENTIFICADO"
                     : nota.Destinatario.NomeRazao
@@ -53,23 +53,7 @@ namespace NFe.WPF.NotaFiscal.Model
                 notaModel.UfDestinatario = nota.Emitente.Endereco.UF;
             }
 
-            switch (nota.Identificacao.Status)
-            {
-                case NFe.Core.Entitities.Status.ENVIADA:
-                    notaModel.Status = "Enviada";
-                    break;
-                case NFe.Core.Entitities.Status.CONTINGENCIA:
-                    notaModel.Status = "Contingência";
-                    break;
-                case NFe.Core.Entitities.Status.PENDENTE:
-                    notaModel.Status = "Pendente";
-                    break;
-                case NFe.Core.Entitities.Status.CANCELADA:
-                    notaModel.Status = "Cancelada";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            notaModel.Status = nota.Identificacao.Status.ToString();
 
             return notaModel;
         }

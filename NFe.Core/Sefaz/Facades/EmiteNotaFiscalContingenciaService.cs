@@ -18,6 +18,7 @@ using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NFeRetAutorizacao4;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
@@ -140,7 +141,7 @@ namespace NFe.Core.NotasFiscais.Services
             var nfe = lote.NFe[0];
 
             //salvar nota PreEnvio aqui
-            notaFiscal.Identificacao.Status = Status.CONTINGENCIA;
+            notaFiscal.Identificacao.Status = new StatusEnvio(Status.CONTINGENCIA);
 
             var idNotaCopiaSeguranca =  _notaFiscalRepository.SalvarNotaFiscalPendente(notaFiscal,
                 XmlUtil.GerarNfeProcXml(nfe, qrCode));

@@ -125,7 +125,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
                 : notaFiscal.Destinatario.NomeRazao;
             NotaFiscalEntity.DocumentoDestinatario =
                 notaFiscal.Destinatario == null ? null : notaFiscal.Destinatario.Documento;
-            NotaFiscalEntity.Status = (int)notaFiscal.Identificacao.Status;
+            NotaFiscalEntity.Status = notaFiscal.Identificacao.Status.GetIntValue();
             NotaFiscalEntity.Chave = notaFiscal.Identificacao.Chave.ToString();
             NotaFiscalEntity.DataEmissao = notaFiscal.Identificacao.DataHoraEmissao;
             NotaFiscalEntity.Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65";

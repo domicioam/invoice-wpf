@@ -195,6 +195,7 @@
     <Compile Include="Events\ServicoOfflineEvent.cs" />
     <Compile Include="Messaging\MessagingCenter.cs" />
     <Compile Include="NotasFiscais\ValueObjects\Chave.cs" />
+    <Compile Include="NotasFiscais\ValueObjects\StatusEnvio.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
     <Compile Include="Sefaz\Facades\QrCode.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />

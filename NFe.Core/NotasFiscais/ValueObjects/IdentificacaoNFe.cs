@@ -64,7 +64,7 @@ namespace NFe.Core.NotasFiscais
         public string CodigoMunicipio { get; set; }
         public FormatoImpressao FormatoImpressao { get; set; }
         public TipoEmissao TipoEmissao { get; set; }
-        public Status Status { get; set; }
+        public StatusEnvio Status { get; set; }
 
         public string TipoOperacaooTexto
         {
@@ -85,7 +85,7 @@ namespace NFe.Core.NotasFiscais
         {
             get
             {
-                if (Status == Status.CONTINGENCIA) return "EMITIDA EM CONTINGÊNCIA";
+                if (Status.IsContingencia()) return "EMITIDA EM CONTINGÊNCIA";
                 if (Ambiente == Ambiente.Homologacao)
                     return "EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL";
                 return null;

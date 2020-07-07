@@ -1,18 +1,7 @@
-﻿using EmissorNFe.Model.Base;
-using EmissorNFe.VO;
-using GalaSoft.MvvmLight;
-using NFe.WPF.Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NFe.WPF.NotaFiscal.Model;
+﻿using System.ComponentModel.DataAnnotations;
+using EmissorNFe.Model;
 
-namespace EmissorNFe.Model
+namespace NFe.WPF.NotaFiscal.Model
 {
     public class NFeModel : NotaFiscalModel
     {

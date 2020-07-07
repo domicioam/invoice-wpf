@@ -13,7 +13,7 @@ namespace NFe.WPF.ViewModel.Mementos
     {
         private NotaFiscalMemento() { }
 
-        public NotaFiscalMemento(string número, Modelo modelo, DateTime dataEmissão, DateTime dataAutorização, string destinatário, string uf, string valor, Status status, string chave)
+        public NotaFiscalMemento(string número, Modelo modelo, DateTime dataEmissão, DateTime dataAutorização, string destinatário, string uf, string valor, string status, string chave)
         {
             Número = número;
             Tipo = modelo == Modelo.Modelo55 ? "NF-e" : "NFC-e";
@@ -22,22 +22,7 @@ namespace NFe.WPF.ViewModel.Mementos
             Destinatário = destinatário;
             UfDestinatário = uf;
             Valor = valor;
-
-            switch (status)
-            {
-                case Core.Entitities.Status.ENVIADA:
-                    Status = "Enviada";
-                    break;
-                case Core.Entitities.Status.CONTINGENCIA:
-                    Status = "Contingência";
-                    break;
-                case Core.Entitities.Status.PENDENTE:
-                    Status = "Pendente";
-                    break;
-                case Core.Entitities.Status.CANCELADA:
-                    Status = "Cancelada";
-                    break;
-            }
+            Status = status;
 
             Chave = chave;
         }

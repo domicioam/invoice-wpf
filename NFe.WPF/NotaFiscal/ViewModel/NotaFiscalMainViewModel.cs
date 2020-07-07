@@ -26,6 +26,7 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
+using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
@@ -267,7 +268,7 @@ namespace NFe.WPF.ViewModel
                 var notaMemento = new NotaFiscalMemento(notaFiscalBo.Identificacao.Numero,
                     notaFiscalBo.Identificacao.Modelo, notaFiscalBo.Identificacao.DataHoraEmissao,
                     notaFiscalBo.DataHoraAutorização, destinatario.NomeRazao, destinatarioUf, valorTotalProdutos,
-                    notaFiscalBo.Identificacao.Status, notaFiscalBo.Identificacao.Chave.ToString());
+                    notaFiscalBo.Identificacao.Status.ToString(), notaFiscalBo.Identificacao.Chave.ToString());
 
                 NotasFiscais[notaIndex] = notaMemento;
 
@@ -338,7 +339,7 @@ namespace NFe.WPF.ViewModel
             var notaMemento = new NotaFiscalMemento(nota.Numero,
                 nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
                 nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
-                (Status)nota.Status, nota.Chave);
+                new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
 
             NotasFiscais[index] = notaMemento;
         }
@@ -445,7 +446,7 @@ namespace NFe.WPF.ViewModel
                 var notaMemento = new NotaFiscalMemento(nota.Numero,
                     nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao,
                     nota.DataAutorizacao, nota.Destinatario, nota.UfDestinatario,
-                    nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), (Status)nota.Status, nota.Chave);
+                    nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
 
                 NotasFiscais[index] = notaMemento;
             }
@@ -467,7 +468,7 @@ namespace NFe.WPF.ViewModel
                     var notaMemento = new NotaFiscalMemento(nota.Numero,
                         nota.Modelo == "65" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
                         nota.Destinatario, nota.UfDestinatario,
-                        nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), (Status)nota.Status, nota.Chave);
+                        nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
 
                     notaFiscalMementos.Add(notaMemento);
                 }

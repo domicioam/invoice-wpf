@@ -191,7 +191,7 @@ namespace NFe.Repository.Repositories
                     ? "CONSUMIDOR NÃO IDENTIFICADO"
                     : notaFiscal.Destinatario.NomeRazao,
                 DocumentoDestinatario = notaFiscal.Destinatario?.Documento,
-                Status = (int)notaFiscal.Identificacao.Status,
+                Status = notaFiscal.Identificacao.Status.GetIntValue(),
                 Chave = notaFiscal.Identificacao.Chave.ToString(),
                 DataEmissao = notaFiscal.Identificacao.DataHoraEmissao,
                 Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65",
