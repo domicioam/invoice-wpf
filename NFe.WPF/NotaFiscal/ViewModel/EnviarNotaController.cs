@@ -16,6 +16,7 @@ using NFe.Core.Utils.Acentuacao;
 using NFe.WPF.Events;
 using NFe.WPF.Exceptions;
 using NFe.WPF.Model;
+using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.Reports.PDF;
 using Destinatario = NFe.Core.NotasFiscais.Entities.Destinatario;
 using Emissor = NFe.Core.NotasFiscais.Emissor;
@@ -147,28 +148,28 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             return destinatario;
         }
 
-        private static IdentificacaoNFe CreateIdentificacaoNFe(NotaFiscalModel NotaFiscal, CodigoUfIbge codigoUF, DateTime now,
+        private static IdentificacaoNFe CreateIdentificacaoNFe(NotaFiscalModel notaFiscal, CodigoUfIbge codigoUf, DateTime now,
             Emissor emitente, Modelo modeloNota,
             int serie, string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, string documentoDanfe)
         {
-            var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), Acentuacao.RemoverAcentuacao(NotaFiscal.Finalidade));
+            var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), Acentuacao.RemoverAcentuacao(notaFiscal.Finalidade));
 
-            var identificacao = new IdentificacaoNFe(codigoUF, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
+            var identificacao = new IdentificacaoNFe(codigoUf, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
                 tipoEmissao, ambiente, emitente,
-                NotaFiscal.NaturezaOperacao, finalidadeEmissao, NotaFiscal.IsImpressaoBobina,
-                NotaFiscal.IndicadorPresenca, documentoDanfe);
+                notaFiscal.NaturezaOperacao, finalidadeEmissao, notaFiscal.IsImpressaoBobina,
+                notaFiscal.IndicadorPresenca, documentoDanfe);
 
             return identificacao;
         }
 
-        private static TotalNFe GetTotalNFe(NotaFiscalModel NotaFiscal)
+        private static TotalNFe GetTotalNFe(NotaFiscalModel notaFiscal)
         {
             double sumValorTotal = 0;
             double sumValorTotalFrete = 0;
             double sumValorTotalSeguro = 0;
             double sumValorTotalDesconto = 0;
 
-            foreach (var produto in NotaFiscal.Produtos)
+            foreach (var produto in notaFiscal.Produtos)
             {
                 sumValorTotal += produto.TotalLiquido;
                 sumValorTotalFrete += produto.Frete;
@@ -197,11 +198,11 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             return totalNFe;
         }
 
-        private static List<Pagamento> GetPagamentos(NotaFiscalModel NotaFiscal)
+        private static List<Pagamento> GetPagamentos(NotaFiscalModel notaFiscal)
         {
             var pagamentosNf = new List<Pagamento>();
 
-            foreach (var pagamento in NotaFiscal.Pagamentos)
+            foreach (var pagamento in notaFiscal.Pagamentos)
             {
                 FormaPagamento formaPagamento;
 
@@ -254,16 +255,14 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             return produtos;
         }
 
-        private static Transporte GetTransporte(NotaFiscalModel NotaFiscal, Modelo modeloNota)
+        private static Transporte GetTransporte(NotaFiscalModel notaFiscal, Modelo modeloNota)
         {
             if (modeloNota == Modelo.Modelo65)
             {
                 return new Transporte(modeloNota, null, null);
             }
 
-            var nfeModel = NotaFiscal as NFeModel;
-
-            if (nfeModel == null)
+            if (!(notaFiscal is NFeModel nfeModel))
                 throw new ArgumentException("Parâmetro NotaFiscal não é do mesmo modelo que modeloNota");
 
             var transportadora = new Transportadora(nfeModel.TransportadoraSelecionada.CpfCnpj,

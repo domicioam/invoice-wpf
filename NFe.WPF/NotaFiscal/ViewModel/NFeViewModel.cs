@@ -19,6 +19,7 @@ using NFe.Core.NotasFiscais;
 using NFe.Repository.Repositories;
 using NFe.WPF.Events;
 using NFe.WPF.Model;
+using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;

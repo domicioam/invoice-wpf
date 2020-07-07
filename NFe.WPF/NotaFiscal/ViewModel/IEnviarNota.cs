@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Model;
+using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.ViewModel;
 
 namespace NFe.WPF.NotaFiscal.ViewModel

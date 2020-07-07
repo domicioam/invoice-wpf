@@ -14,6 +14,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Model;
+using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Services;

@@ -20,6 +20,7 @@ using NFe.Core.Interfaces;
 using NFe.Core.Sefaz.Facades;
 using NFe.WPF.Events;
 using NFe.Core.Messaging;
+using NFe.WPF.NotaFiscal.Model;
 
 namespace NFe.WPF.ViewModel
 {

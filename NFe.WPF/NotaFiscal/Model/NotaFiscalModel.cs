@@ -8,7 +8,7 @@ using EmissorNFe.VO;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 
-namespace NFe.WPF.Model
+namespace NFe.WPF.NotaFiscal.Model
 {
     public abstract class NotaFiscalModel : ObservableObjectValidation
     {
@@ -157,14 +157,7 @@ namespace NFe.WPF.Model
 
         public string Modelo
         {
-            get
-            {
-                if (_modelo.Equals("55"))
-                    return "NF-e";
-                if (_modelo.Equals("65")) return "NFC-e";
-
-                return null;
-            }
+            get { return !_modelo.Equals("55") ? _modelo.Equals("65") ? "NFC-e" : null : "NF-e"; }
             set { SetProperty(ref _modelo, value); }
         }
 
@@ -187,10 +180,8 @@ namespace NFe.WPF.Model
                 if (string.IsNullOrEmpty(_dataAutorizacao))
                     return null;
 
-                DateTime date;
-
                 if (DateTime.TryParseExact(_dataAutorizacao, "yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture,
-                        DateTimeStyles.None, out date)
+                        DateTimeStyles.None, out var date)
                     || DateTime.TryParseExact(_dataAutorizacao, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture,
                         DateTimeStyles.None, out date))
                     return date.ToString("dd/MM/yyyy HH:mm:ss");

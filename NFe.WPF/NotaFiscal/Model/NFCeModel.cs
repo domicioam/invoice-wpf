@@ -1,19 +1,9 @@
-﻿using NFe.Repository;
-using EmissorNFe.Model.Base;
-using EmissorNFe.VO;
-using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NFe.Core.Entitities;
 using NFe.WPF.Model;
 
-namespace EmissorNFe.Model
+namespace NFe.WPF.NotaFiscal.Model
 {
     public class NFCeModel : NotaFiscalModel
     {
@@ -37,7 +27,7 @@ namespace EmissorNFe.Model
 
         public static explicit operator NFCeModel(NFe.Core.NotasFiscais.NotaFiscal nota)
         {
-            var notaModel = new NFCeModel()
+            var notaModel = new NFCeModel
             {
                 DataAutorizacao = nota.DhAutorizacao,
                 DataEmissao = nota.Identificacao.DataHoraEmissao,
@@ -47,10 +37,12 @@ namespace EmissorNFe.Model
                 Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
                 Chave = nota.Identificacao.Chave.ToString(),
                 Protocolo = nota.ProtocoloAutorizacao,
-                IsCancelada = nota.Identificacao.Status == NFe.Core.Entitities.Status.CANCELADA
+                IsCancelada = nota.Identificacao.Status == NFe.Core.Entitities.Status.CANCELADA,
+                Destinatario = nota.Destinatario == null
+                    ? "CONSUMIDOR NÃO IDENTIFICADO"
+                    : nota.Destinatario.NomeRazao
             };
 
-            notaModel.Destinatario = nota.Destinatario == null ? "CONSUMIDOR NÃO IDENTIFICADO" : nota.Destinatario.NomeRazao;
 
             if (nota.Destinatario != null && nota.Destinatario.Endereco != null)
             {
@@ -75,6 +67,8 @@ namespace EmissorNFe.Model
                 case NFe.Core.Entitities.Status.CANCELADA:
                     notaModel.Status = "Cancelada";
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             return notaModel;

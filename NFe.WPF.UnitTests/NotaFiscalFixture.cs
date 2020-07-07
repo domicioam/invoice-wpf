@@ -11,6 +11,7 @@ using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.WPF.Model;
+using NFe.WPF.NotaFiscal.Model;
 
 namespace NFe.WPF.UnitTests
 {

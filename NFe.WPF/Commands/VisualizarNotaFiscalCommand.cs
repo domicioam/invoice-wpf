@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EmissorNFe.Model;
+using NFe.WPF.NotaFiscal.Model;
 
 
 namespace NFe.WPF.Commands

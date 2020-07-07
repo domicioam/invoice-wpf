@@ -30,6 +30,7 @@ using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;
+using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Reports.PDF;
 using NFe.WPF.ViewModel.Base;
