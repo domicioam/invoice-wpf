@@ -91,25 +91,19 @@ namespace NFe.WPF.Reports.PDF
                 var emitente = notaFiscal.Emitente;
                 var destinatario = notaFiscal.Destinatario ?? new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
 
-                var produtos = notaFiscal.Produtos.Select(produto =>
+                var produtos = notaFiscal.Produtos.Select(produto => new Produto()
                 {
-                    return new Produto()
-                    {
-                        Codigo = produto.Codigo,
-                        Descricao = produto.Descricao,
-                        Quantidade = produto.QtdeUnidadeComercial,
-                        ValorUnitario = produto.ValorUnidadeComercial,
-                        ValorTotal = produto.ValorTotal
-                    };
+                    Codigo = produto.Codigo,
+                    Descricao = produto.Descricao,
+                    Quantidade = produto.QtdeUnidadeComercial,
+                    ValorUnitario = produto.ValorUnidadeComercial,
+                    ValorTotal = produto.ValorTotal
                 }).ToList();
 
-                var pagamentos = notaFiscal.Pagamentos.Select(pagamento =>
+                var pagamentos = notaFiscal.Pagamentos.Select(pagamento => new Pagamento()
                 {
-                    return new Pagamento()
-                    {
-                        Nome = pagamento.FormaPagamentoTexto,
-                        Valor = pagamento.Valor
-                    };
+                    Nome = pagamento.FormaPagamentoTexto,
+                    Valor = pagamento.Valor
                 }).ToList();
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
@@ -141,12 +135,12 @@ namespace NFe.WPF.Reports.PDF
                     {
                         Nome = destinatario.NomeRazao,
                         Documento = destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario),
-                        Logradouro = destinatario.Endereco != null ? destinatario.Endereco.Logradouro : null,
-                        Numero = destinatario.Endereco != null ? destinatario.Endereco.Numero : null,
-                        Bairro = destinatario.Endereco != null ? destinatario.Endereco.Bairro : null,
-                        Municipio = destinatario.Endereco != null ? destinatario.Endereco.Municipio : null,
-                        UF = destinatario.Endereco != null ? destinatario.Endereco.UF : null,
-                        CEP = destinatario.Endereco != null ? destinatario.Endereco.Cep : null
+                        Logradouro = destinatario.Endereco?.Logradouro,
+                        Numero = destinatario.Endereco?.Numero,
+                        Bairro = destinatario.Endereco?.Bairro,
+                        Municipio = destinatario.Endereco?.Municipio,
+                        UF = destinatario.Endereco?.UF,
+                        CEP = destinatario.Endereco?.Cep
                     },
                     Produtos = produtos,
                     Pagamentos = pagamentos
@@ -219,10 +213,6 @@ namespace NFe.WPF.Reports.PDF
         public static string ObterPdfEnvioNotaFiscalEmail(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
             Warning[] warnings;
-            string[] streamIds;
-            string mimeType = string.Empty;
-            string encoding = string.Empty;
-            string extension = string.Empty;
 
             Byte[] data;
             Bitmap qrCodeAsBitmap;
@@ -246,32 +236,26 @@ namespace NFe.WPF.Reports.PDF
 
             SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
 
-            using (ReportViewer reportViewer = new ReportViewer())
+            using (var reportViewer = new ReportViewer())
             {
                 reportViewer.LocalReport.ReleaseSandboxAppDomain();
 
                 var emitente = notaFiscal.Emitente;
                 var destinatario = notaFiscal.Destinatario ?? new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
 
-                var produtos = notaFiscal.Produtos.Select(produto =>
+                var produtos = notaFiscal.Produtos.Select(produto => new Produto()
                 {
-                    return new Produto()
-                    {
-                        Codigo = produto.Codigo,
-                        Descricao = produto.Descricao,
-                        Quantidade = produto.QtdeUnidadeComercial,
-                        ValorUnitario = produto.ValorUnidadeComercial,
-                        ValorTotal = produto.ValorTotal
-                    };
+                    Codigo = produto.Codigo,
+                    Descricao = produto.Descricao,
+                    Quantidade = produto.QtdeUnidadeComercial,
+                    ValorUnitario = produto.ValorUnidadeComercial,
+                    ValorTotal = produto.ValorTotal
                 }).ToList();
 
-                var pagamentos = notaFiscal.Pagamentos.Select(pagamento =>
+                var pagamentos = notaFiscal.Pagamentos.Select(pagamento => new Pagamento()
                 {
-                    return new Pagamento()
-                    {
-                        Nome = pagamento.FormaPagamentoTexto,
-                        Valor = pagamento.Valor
-                    };
+                    Nome = pagamento.FormaPagamentoTexto,
+                    Valor = pagamento.Valor
                 }).ToList();
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
@@ -303,12 +287,12 @@ namespace NFe.WPF.Reports.PDF
                     {
                         Nome = destinatario.NomeRazao,
                         Documento = destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario),
-                        Logradouro = destinatario.Endereco != null ? destinatario.Endereco.Logradouro : null,
-                        Numero = destinatario.Endereco != null ? destinatario.Endereco.Numero : null,
-                        Bairro = destinatario.Endereco != null ? destinatario.Endereco.Bairro : null,
-                        Municipio = destinatario.Endereco != null ? destinatario.Endereco.Municipio : null,
-                        UF = destinatario.Endereco != null ? destinatario.Endereco.UF : null,
-                        CEP = destinatario.Endereco != null ? destinatario.Endereco.Cep : null
+                        Logradouro = destinatario.Endereco?.Logradouro,
+                        Numero = destinatario.Endereco?.Numero,
+                        Bairro = destinatario.Endereco?.Bairro,
+                        Municipio = destinatario.Endereco?.Municipio,
+                        UF = destinatario.Endereco?.UF,
+                        CEP = destinatario.Endereco?.Cep
                     },
                     Produtos = produtos,
                     Pagamentos = pagamentos
@@ -339,7 +323,7 @@ namespace NFe.WPF.Reports.PDF
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.ReportPath = Path.Combine(Directory.GetCurrentDirectory(), @"Reports\ReportNfceEmail.rdlc");
 
-                byte[] bytes = reportViewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+                byte[] bytes = reportViewer.LocalReport.Render("PDF", null, out _, out _, out _, out _, out warnings);
 
                 string pathToPdf = Path.Combine(Path.GetTempPath(), notaFiscal.Identificacao.Chave + ".pdf");
                 File.WriteAllBytes(pathToPdf, bytes);
@@ -351,12 +335,6 @@ namespace NFe.WPF.Reports.PDF
 
         private static void GerarPDFNfe(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
-            Warning[] warnings;
-            string[] streamIds;
-            string mimeType = string.Empty;
-            string encoding = string.Empty;
-            string extension = string.Empty;
-
             if (notaFiscal.Identificacao.Ambiente == Ambiente.Homologacao)
             {
                 notaFiscal.InfoAdicional.InfoAdicionalComplementar = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL";
@@ -500,7 +478,7 @@ namespace NFe.WPF.Reports.PDF
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.ReportPath = Path.Combine(Directory.GetCurrentDirectory(), @"Reports\ReportNfe.rdlc");
 
-                byte[] bytes = reportViewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+                byte[] bytes = reportViewer.LocalReport.Render("PDF", null, out _, out _, out _, out _, out _);
 
                 string pathToPdf = Path.Combine(Path.GetTempPath(), "temppdf_" + notaFiscal.Identificacao.Chave + ".pdf");
                 File.WriteAllBytes(pathToPdf, bytes);
