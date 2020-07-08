@@ -123,8 +123,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             NotaFiscalEntity.Destinatario = notaFiscal.Destinatario == null
                 ? "CONSUMIDOR NÃO IDENTIFICADO"
                 : notaFiscal.Destinatario.NomeRazao;
-            NotaFiscalEntity.DocumentoDestinatario =
-                notaFiscal.Destinatario == null ? null : notaFiscal.Destinatario.Documento;
+            NotaFiscalEntity.DocumentoDestinatario = notaFiscal.Destinatario?.Documento.Numero;
             NotaFiscalEntity.Status = notaFiscal.Identificacao.Status.GetIntValue();
             NotaFiscalEntity.Chave = notaFiscal.Identificacao.Chave.ToString();
             NotaFiscalEntity.DataEmissao = notaFiscal.Identificacao.DataHoraEmissao;

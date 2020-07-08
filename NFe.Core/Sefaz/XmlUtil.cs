@@ -388,7 +388,7 @@ namespace NFe.Core.Sefaz
         internal static TNFeInfNFeDest GetDestinatario(NotaFiscal notaFiscal)
         {
             var dest = new TNFeInfNFeDest();
-            dest.Item = notaFiscal.Destinatario.Documento;
+            dest.Item = notaFiscal.Destinatario.Documento.Numero;
 
             switch (notaFiscal.Destinatario.TipoDestinatario)
             {

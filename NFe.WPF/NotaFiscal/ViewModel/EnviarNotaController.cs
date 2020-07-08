@@ -70,7 +70,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
            {
                const TipoEmissao tipoEmissao = TipoEmissao.Normal;
                var destinatario = CreateDestinatario(notaFiscalModel, _sefazSettings.Ambiente, modelo);
-               var documentoDanfe = destinatario != null ? destinatario.DocumentoDanfe : "CPF";
+               var documentoDanfe = destinatario != null ? destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario) : "CPF";
                var emitente = _emissorService.GetEmissor();
                var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
@@ -142,7 +142,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
 
             var destinatario = new Destinatario(ambiente, _modelo, destinatarioSelecionado?.Telefone,
-                destinatarioSelecionado?.Email, endereco, tipoDestinatario, inscricaoEstadual, documento: documento,
+                destinatarioSelecionado?.Email, endereco, tipoDestinatario, inscricaoEstadual, documento: new Documento(documento),
                 nomeRazao: nomeRazao);
 
             return destinatario;

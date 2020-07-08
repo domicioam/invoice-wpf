@@ -140,7 +140,7 @@ namespace NFe.WPF.Reports.PDF
                     Destinatario = new Model.Destinatario()
                     {
                         Nome = destinatario.NomeRazao,
-                        Documento = destinatario.DocumentoDanfe,
+                        Documento = destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario),
                         Logradouro = destinatario.Endereco != null ? destinatario.Endereco.Logradouro : null,
                         Numero = destinatario.Endereco != null ? destinatario.Endereco.Numero : null,
                         Bairro = destinatario.Endereco != null ? destinatario.Endereco.Bairro : null,
@@ -302,7 +302,7 @@ namespace NFe.WPF.Reports.PDF
                     Destinatario = new Model.Destinatario()
                     {
                         Nome = destinatario.NomeRazao,
-                        Documento = destinatario.DocumentoDanfe,
+                        Documento = destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario),
                         Logradouro = destinatario.Endereco != null ? destinatario.Endereco.Logradouro : null,
                         Numero = destinatario.Endereco != null ? destinatario.Endereco.Numero : null,
                         Bairro = destinatario.Endereco != null ? destinatario.Endereco.Bairro : null,
@@ -437,7 +437,7 @@ namespace NFe.WPF.Reports.PDF
                     Destinatario = new Model.ReportNFe.Destinatario()
                     {
                         Nome = destinatario.NomeRazao,
-                        Documento = destinatario.Documento,
+                        Documento = destinatario.Documento.Numero,
                         InscricaoEstadual = destinatario.InscricaoEstadual,
                         Logradouro = destinatario.Endereco?.Logradouro,
                         Numero = destinatario.Endereco?.Numero,

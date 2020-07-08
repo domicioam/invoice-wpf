@@ -190,7 +190,7 @@ namespace NFe.Repository.Repositories
                 Destinatario = notaFiscal.Destinatario == null
                     ? "CONSUMIDOR NÃO IDENTIFICADO"
                     : notaFiscal.Destinatario.NomeRazao,
-                DocumentoDestinatario = notaFiscal.Destinatario?.Documento,
+                DocumentoDestinatario = notaFiscal.Destinatario?.Documento.Numero,
                 Status = notaFiscal.Identificacao.Status.GetIntValue(),
                 Chave = notaFiscal.Identificacao.Chave.ToString(),
                 DataEmissao = notaFiscal.Identificacao.DataHoraEmissao,
@@ -392,7 +392,7 @@ namespace NFe.Repository.Repositories
                 var modelo = nfe.infNFe.ide.mod == Retorno.TMod.Item55 ? Modelo.Modelo55 : Modelo.Modelo65;
 
                 return new Destinatario(ambiente, modelo, nfeDest.enderDest.fone, nfeDest.email, endereco,
-                    tipoDestinatario, nfeDest.IE, nomeRazao: nfeDest.xNome, documento: nfeDest.Item);
+                    tipoDestinatario, nfeDest.IE, nomeRazao: nfeDest.xNome, documento: new Documento(nfeDest.Item));
             }
             else
             {
@@ -400,7 +400,7 @@ namespace NFe.Repository.Repositories
                 var modelo = nfe.infNFe.ide.mod == Retorno.TMod.Item55 ? Modelo.Modelo55 : Modelo.Modelo65;
 
                 return new Destinatario(ambiente, modelo, null, nfeDest.email, null, tipoDestinatario, nfeDest.IE,
-                    nomeRazao: nfeDest.xNome, documento: nfeDest.Item);
+                    nomeRazao: nfeDest.xNome, documento: new Documento(nfeDest.Item));
             }
 
         }

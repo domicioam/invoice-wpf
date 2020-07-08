@@ -77,17 +77,12 @@ namespace NFe.Core.NotasFiscais.Services
 
                         var notaFiscalEntity = new NotaFiscalEntity();
 
-                        if (notaFiscal.Destinatario != null && notaFiscal.Destinatario.Endereco != null)
-                            notaFiscalEntity.UfDestinatario = notaFiscal.Destinatario.Endereco.UF;
-                        else
-                            notaFiscalEntity.UfDestinatario = notaFiscal.Emitente.Endereco.UF;
+                        notaFiscalEntity.UfDestinatario = notaFiscal.Destinatario?.Endereco != null ? notaFiscal.Destinatario.Endereco.UF : notaFiscal.Emitente.Endereco.UF;
 
                         notaFiscalEntity.Destinatario = notaFiscal.Destinatario == null
                             ? "CONSUMIDOR NÃO IDENTIFICADO"
                             : notaFiscal.Destinatario.NomeRazao;
-                        notaFiscalEntity.DocumentoDestinatario = notaFiscal.Destinatario == null
-                            ? null
-                            : notaFiscal.Destinatario.Documento;
+                        notaFiscalEntity.DocumentoDestinatario = notaFiscal.Destinatario?.Documento.GetDocumentoDanfe(notaFiscal.Destinatario.TipoDestinatario);
                         notaFiscalEntity.Status = notaFiscal.Identificacao.Status.GetIntValue();
                         notaFiscalEntity.Chave = notaFiscal.Identificacao.Chave.ToString();
                         notaFiscalEntity.DataEmissao = notaFiscal.Identificacao.DataHoraEmissao;
