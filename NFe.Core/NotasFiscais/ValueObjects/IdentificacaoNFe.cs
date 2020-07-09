@@ -41,6 +41,8 @@ namespace NFe.Core.NotasFiscais
             PresencaComprador = indicadorPresenca;
             ProcessoEmissao = ProcessoEmissao.AplicativoContribuinte;
             VersaoAplicativo = "0.0.0.1";
+
+            Status = new StatusEnvio(Entitities.Status.ENVIADA);
         }
 
         public CodigoUfIbge UF { get; set; }

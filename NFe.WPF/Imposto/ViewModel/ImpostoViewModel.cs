@@ -158,19 +158,19 @@ namespace NFe.WPF.ViewModel
                 switch (i.Nome)
                 {
                     case "ICMS":
-                        grupoImpostos.Impostos.Add(new NFe.Core.Entitities.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms  });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms  });
                         break;
 
                     case "PIS":
-                        grupoImpostos.Impostos.Add(new NFe.Core.Entitities.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS });
                         break;
 
                     case "COFINS":
-                        grupoImpostos.Impostos.Add(new NFe.Core.Entitities.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Confins });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Confins });
                         break;
 
                     case "IPI":
-                        grupoImpostos.Impostos.Add(new NFe.Core.Entitities.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI });
                         break;
                 }
             }

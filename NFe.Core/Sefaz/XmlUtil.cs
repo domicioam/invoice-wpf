@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
 using NFe.Core.NotasFiscais;
@@ -489,7 +490,7 @@ namespace NFe.Core.Sefaz
         {
             var imposto = new TNFeInfNFeDetImposto { Items = new object[1] };
 
-            switch (produto.GrupoImpostos.Impostos.First(i => i.TipoImposto == TipoImposto.Icms).CST)
+            switch (produto.Impostos.GetIcmsCst())
             {
                 case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
                     var icms = new TNFeInfNFeDetImpostoICMS();
@@ -516,7 +517,7 @@ namespace NFe.Core.Sefaz
             imposto.PIS = new TNFeInfNFeDetImpostoPIS();
             var pisNt = new TNFeInfNFeDetImpostoPISPISNT();
 
-            switch (produto.GrupoImpostos.Impostos.First(i => i.TipoImposto == TipoImposto.PIS).CST)
+            switch (produto.Impostos.GetPisCst())
             {
                 case TabelaPisCst.OperacaoTributavelMonofasicaRevendaAliquotaZero:
                     pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item04;

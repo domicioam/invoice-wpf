@@ -14,10 +14,7 @@ namespace NFe.Core.NotasFiscais
             Destinatario = destinatario;
 
             var codigoUF = (CodigoUfIbge) Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
-            emitente.InscricaoMunicipal =
-                codigoUF == CodigoUfIbge.DF ? emitente.InscricaoEstadual : emitente.InscricaoMunicipal;
-
-            var documentoDanfe = Destinatario != null ? Destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario) : "CPF";
+            emitente.InscricaoMunicipal = codigoUF == CodigoUfIbge.DF ? emitente.InscricaoEstadual : emitente.InscricaoMunicipal;
 
             Identificacao = identificacao;
             Pagamentos = pagamentos;

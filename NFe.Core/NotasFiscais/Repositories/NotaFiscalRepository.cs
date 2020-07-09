@@ -14,6 +14,7 @@ using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Xml;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
+using Imposto = NFe.Core.NotasFiscais.Entities.Imposto;
 using Retorno = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
 
 namespace NFe.Repository.Repositories
@@ -363,7 +364,8 @@ namespace NFe.Repository.Repositories
         {
             var nfeDest = nfe.infNFe.dest;
 
-            if (nfeDest == null) return null;
+            if (nfeDest == null) 
+                return null;
 
             TipoDestinatario tipoDestinatario;
 
@@ -518,13 +520,11 @@ namespace NFe.Repository.Repositories
                     CST = pisNt.CST.ToString().Replace("Item", string.Empty)
                 };
 
-                var grupoImpostos = new GrupoImpostos
-                {
-                    CFOP = det.prod.CFOP.Replace("Item", string.Empty),
-                    Impostos = new List<Imposto> { icms, pis }
-                };
+                var cfop = det.prod.CFOP.Replace("Item", string.Empty);
 
-                var newProduto = new Produto(grupoImpostos, 0, det.prod.CFOP.Replace("Item", string.Empty),
+                var impostos = new Impostos(new List<Imposto> { icms, pis}, cfop);
+
+                var newProduto = new Produto(impostos, 0, det.prod.CFOP.Replace("Item", string.Empty),
                     det.prod.cProd, det.prod.xProd, det.prod.NCM,
                     int.Parse(det.prod.qCom), det.prod.uCom,
                     double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 0, ambiente == Ambiente.Producao)

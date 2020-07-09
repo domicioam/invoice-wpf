@@ -55,7 +55,7 @@ namespace NFe.Core.Sefaz.Facades
             string versãoQrCode = "2";
             var digValHex = BitConverter.ToString(Encoding.UTF8.GetBytes(digestValue)).Replace("-", "").ToLower();
 
-            string entradaSHA1 = $"{chave}|{versãoQrCode}|{(int)ambiente + 1}|{diaEmissão.ToString().PadLeft(2, '0')}|{valorNF}|{digValHex}|{Int32.Parse(cIdToken)}";
+            string entradaSHA1 = $"{chave}|{versãoQrCode}|{(int)ambiente + 1}|{diaEmissão.ToString().PadLeft(2, '0')}|{valorNF}|{digValHex}|{int.Parse(cIdToken)}";
 
             string saidaSHA1;
 

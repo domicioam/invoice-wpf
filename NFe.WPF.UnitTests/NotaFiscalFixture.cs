@@ -12,6 +12,7 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.Model;
+using Imposto = NFe.Core.Cadastro.Imposto.Imposto;
 
 namespace NFe.WPF.UnitTests
 {

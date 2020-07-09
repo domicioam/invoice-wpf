@@ -134,7 +134,7 @@ namespace NFe.WPF.Reports.PDF
                     Destinatario = new Model.Destinatario()
                     {
                         Nome = destinatario.NomeRazao,
-                        Documento = destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario),
+                        Documento = destinatario.Documento?.GetDocumentoDanfe(destinatario.TipoDestinatario),
                         Logradouro = destinatario.Endereco?.Logradouro,
                         Numero = destinatario.Endereco?.Numero,
                         Bairro = destinatario.Endereco?.Bairro,

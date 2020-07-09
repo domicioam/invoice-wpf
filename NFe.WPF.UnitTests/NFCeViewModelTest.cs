@@ -19,7 +19,7 @@ using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Services;
 using Xunit;
-using Imposto = NFe.Core.Entitities.Imposto;
+using Imposto = NFe.Core.Cadastro.Imposto.Imposto;
 
 namespace NFe.WPF.UnitTests
 {

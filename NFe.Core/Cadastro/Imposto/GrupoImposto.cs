@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NFe.Core.Cadastro.Imposto
 {
     [Table("GrupoImpostos")]
-    public partial class GrupoImpostos
+    public class GrupoImpostos
     {
         public GrupoImpostos()
         {
-            Impostos = new HashSet<Entitities.Imposto>();
+            Impostos = new HashSet<Imposto>();
         }
 
         public int Id { get; set; }
@@ -22,6 +22,6 @@ namespace NFe.Core.Cadastro.Imposto
         [StringLength(30)]
         public string Descricao { get; set; }
 
-        public virtual ICollection<Entitities.Imposto> Impostos { get; set; }
+        public virtual ICollection<Imposto> Impostos { get; set; }
     }
 }

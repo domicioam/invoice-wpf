@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using NFe.Core.Cadastro.Ibpt;
+using NFe.Core.NotasFiscais.Entities;
 
 namespace NFe.Core.NotasFiscais
 {

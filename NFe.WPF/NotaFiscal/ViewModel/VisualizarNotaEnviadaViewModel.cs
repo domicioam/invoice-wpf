@@ -93,7 +93,7 @@ namespace NFe.WPF.ViewModel
             //Preenche documento destinatário
             if (_notaFiscalBO.Destinatario != null)
             {
-                DocumentoDestinatario = _notaFiscalBO.Destinatario.Documento;
+                DocumentoDestinatario = _notaFiscalBO.Destinatario.Documento.Numero;
                 IsDestinatarioEstrangeiro = _notaFiscalBO.Destinatario.TipoDestinatario == TipoDestinatario.Estrangeiro;
             }
 

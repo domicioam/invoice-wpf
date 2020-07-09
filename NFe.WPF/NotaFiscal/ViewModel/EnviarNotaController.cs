@@ -21,7 +21,7 @@ using NFe.WPF.Reports.PDF;
 using Destinatario = NFe.Core.NotasFiscais.Entities.Destinatario;
 using Emissor = NFe.Core.NotasFiscais.Emissor;
 using Pagamento = NFe.Core.NotasFiscais.Pagamento;
-using Produto = NFe.Core.NotasFiscais.Produto;
+using Produto = NFe.Core.NotasFiscais.Entities.Produto;
 
 namespace NFe.WPF.NotaFiscal.ViewModel
 {
@@ -243,7 +243,14 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             {
                 var produtoEntity = produtosTo.First(c => c.Id == produtoNota.ProdutoSelecionado.Id);
 
-                var produto = new Produto(produtoEntity.GrupoImpostos, produtoEntity.Id,
+                var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new Imposto()
+                {
+                    Aliquota = i.Aliquota, BaseCalculo = i.BaseCalculo, CST = i.CST, Id = i.Id,
+                    GrupoImpostosId = i.GrupoImpostosId, Origem = i.Origem, Reducao = i.Reducao,
+                    TipoImposto = i.TipoImposto
+                });
+
+                var produto = new Produto(new Impostos(impostos, produtoEntity.GrupoImpostos.CFOP), produtoEntity.Id,
                     produtoEntity.GrupoImpostos.CFOP, produtoEntity.Codigo, produtoEntity.Descricao, produtoEntity.NCM,
                     notaFiscal.Produtos.First(p => p.ProdutoSelecionado.Id == produtoEntity.Id).QtdeProduto,
                     produtoEntity.UnidadeComercial,

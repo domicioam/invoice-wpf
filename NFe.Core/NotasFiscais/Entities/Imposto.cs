@@ -1,22 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NFe.Core.Cadastro.Imposto;
 
-namespace NFe.Core.Cadastro.Imposto
+namespace NFe.Core.NotasFiscais.Entities
 {
-    public enum Origem
-    {
-        Nacional
-    }
-
-    public enum TipoImposto
-    {
-        Confins,
-        Icms,
-        IcmsST,
-        IPI,
-        PIS
-    }
-
-    [Table("Imposto")]
     public class Imposto
     {
         public int Id { get; set; }
@@ -27,6 +17,5 @@ namespace NFe.Core.Cadastro.Imposto
         public string CST { get; set; }
         public TipoImposto TipoImposto { get; set; }
         public Origem Origem { get; set; }
-        public GrupoImpostos GrupoImpostos { get; set; }
     }
 }

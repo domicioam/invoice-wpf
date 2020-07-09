@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using NFe.Core.NotasFiscais.Entities;
 using Xunit;
 
 namespace NFe.Core.UnitTests.NotaFiscalService
@@ -253,20 +254,17 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var totalIcms = new IcmsTotal(0, 0, 0, 0, 0, valorTotalProdutos, 0, 0, 0, 0, 0, 0, 0, 0, valorTotalProdutos,
                 0);
             var totalNFe = new TotalNFe { IcmsTotal = totalIcms };
-            var impostos = new List<Imposto>
+            var impostosList = new List<NotasFiscais.Entities.Imposto>
             {
-                new Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
-                new Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
+                new NotasFiscais.Entities.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
+                new NotasFiscais.Entities.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
             };
-            var grupoImpostos = new GrupoImpostos
-            {
-                CFOP = "5656",
-                Descricao = "Gás Venda",
-                Impostos = impostos
-            };
+
+            var impostos = new Impostos(impostosList, "5656");
+
             var produtos = new List<Produto>
             {
-                new Produto(grupoImpostos, 0, "5656", "0001", "GLP 13KG", "27111910", 1, "UN", 65, 0, false)
+                new Produto(impostos, 0, "5656", "0001", "GLP 13KG", "27111910", 1, "UN", 65, 0, false)
             };
             var pagamentos = new List<Pagamento>
             {

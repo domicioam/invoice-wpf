@@ -40,7 +40,6 @@ namespace NFe.Core.NotasFiscais.Entities
             else
             {
                 IndicadorInscricaoEstadual = IsIsentoICMS ? 2 : 1;
-
                 InscricaoEstadual = inscricaoEstadual;
             }
 
@@ -56,9 +55,6 @@ namespace NFe.Core.NotasFiscais.Entities
         public string InscricaoEstadual { get; set; }
         public string Email { get; set; }
         public TipoDestinatario TipoDestinatario { get; set; }
-
-
-
         public bool IsIsentoICMS { get; set; }
     }
 }

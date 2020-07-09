@@ -289,6 +289,7 @@ namespace NFe.WPF.ViewModel
             var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(notaFiscalMemento.Chave);
             string xml = await GetNotaXmlAsync(notaFiscal.Chave);
             var notaFiscalDto = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
+
             notaFiscalDto.QrCodeUrl = xml;
             _visualizarNotaEnviadaViewModel.VisualizarNotaFiscal(notaFiscalDto);
         }
