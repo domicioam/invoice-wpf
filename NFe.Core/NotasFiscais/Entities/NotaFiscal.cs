@@ -60,5 +60,16 @@ namespace NFe.Core.NotasFiscais
         {
             Identificacao.Chave.CalcularChave();
         }
+
+        public double GetTotal()
+        {
+            return TotalNFe.IcmsTotal.ValorTotalNFe;
+        }
+
+        public double GetTotalIcms()
+        {
+            return TotalNFe.IcmsTotal.ValorTotalIcms;
+        }
     }
 }
+ 

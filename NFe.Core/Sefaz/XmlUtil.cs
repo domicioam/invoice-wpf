@@ -239,8 +239,7 @@ namespace NFe.Core.Sefaz
             total.ICMSTot = new TNFeInfNFeTotalICMSTot();
             total.ICMSTot.vBC = totalNfe.IcmsTotal.BaseCalculo.ToString("F", CultureInfo.InvariantCulture);
             total.ICMSTot.vICMS = totalNfe.IcmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vICMSDeson =
-                totalNfe.IcmsTotal.ValorTotalDesonerado.ToString("F", CultureInfo.InvariantCulture);
+            total.ICMSTot.vICMSDeson = totalNfe.IcmsTotal.ValorTotalDesonerado.ToString("F", CultureInfo.InvariantCulture);
             total.ICMSTot.vFCP = "0.00";
             total.ICMSTot.vBCST = totalNfe.IcmsTotal.BaseCalculoST.ToString("F", CultureInfo.InvariantCulture);
             total.ICMSTot.vST = totalNfe.IcmsTotal.ValorTotalST.ToString("F", CultureInfo.InvariantCulture);
@@ -255,8 +254,7 @@ namespace NFe.Core.Sefaz
             total.ICMSTot.vIPIDevol = "0.00";
             total.ICMSTot.vPIS = totalNfe.IcmsTotal.ValorTotalPis.ToString("F", CultureInfo.InvariantCulture);
             total.ICMSTot.vCOFINS = totalNfe.IcmsTotal.ValorTotalCofins.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vOutro =
-                totalNfe.IcmsTotal.ValorDespesasAcessorias.ToString("F", CultureInfo.InvariantCulture);
+            total.ICMSTot.vOutro = totalNfe.IcmsTotal.ValorDespesasAcessorias.ToString("F", CultureInfo.InvariantCulture);
             total.ICMSTot.vNF = totalNfe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture);
 
             return total;

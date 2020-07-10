@@ -283,9 +283,7 @@ namespace NFe.Core.NotasFiscais.Services
                 qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
                     digVal, notaFiscal.Identificacao.Ambiente,
                     notaFiscal.Identificacao.DataHoraEmissao,
-                    notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
-                    notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms.ToString("F",
-                        CultureInfo.InvariantCulture), cscId, csc, notaFiscal.Identificacao.TipoEmissao);
+                    notaFiscal.GetTotal().ToString("F", CultureInfo.InvariantCulture), notaFiscal.GetTotalIcms().ToString("F", CultureInfo.InvariantCulture), cscId, csc, notaFiscal.Identificacao.TipoEmissao);
 
                 newNodeXml = node.InnerXml.Replace("<qrCode />", "<qrCode>" + qrCode + "</qrCode>");
             }
@@ -336,8 +334,8 @@ namespace NFe.Core.NotasFiscais.Services
                     qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario, digVal,
                         notaFiscal.Identificacao.Ambiente,
                         notaFiscal.Identificacao.DataHoraEmissao,
-                        notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
-                        notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture), cscId,
+                        notaFiscal.GetTotal().ToString("F", CultureInfo.InvariantCulture),
+                        notaFiscal.GetTotalIcms().ToString("F", CultureInfo.InvariantCulture), cscId,
                         csc, notaFiscal.Identificacao.TipoEmissao);
 
                     newNodeXml = node.InnerXml.Replace("<qrCode />", "<qrCode>" + qrCode + "</qrCode>");
