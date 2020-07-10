@@ -66,16 +66,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             var certificadoEntity = _certificadoRepository.GetCertificado();
 
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-            {
-
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            }
-            else
-            {
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
-            }
+            certificado = PickCertificateBasedOnInstallationType(certificadoEntity);
 
             if (!IsNotaFiscalValida(notaFiscal, cscId, csc, certificado))
             {
@@ -120,36 +111,7 @@ namespace NFe.Core.NotasFiscais.Services
                     idNotaCopiaSeguranca = SalvarNotaFiscalPréEnvio(notaFiscal, qrCode, nfe);
                     TProtNFe protocolo = RetornarProtocoloParaLoteSomenteComUmaNotaFiscal(node, client);
 
-                    if (protocolo.infProt.cStat.Equals("100"))
-                    {
-                        notaFiscalEntity =
-                             _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
-                        notaFiscalEntity.Status = (int)Status.ENVIADA;
-                        notaFiscalEntity.DataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto,
-                            DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
-
-                        notaFiscalEntity.Protocolo = protocolo.infProt.nProt;
-                        var xmlNFeProc = XmlUtil.GerarNfeProcXml(nfe, qrCode, protocolo);
-                        _notaFiscalRepository.Salvar(notaFiscalEntity, xmlNFeProc);
-                    }
-                    else
-                    {
-                        if (protocolo.infProt.xMotivo.Contains("Duplicidade"))
-                        {
-                            notaFiscalEntity = CorrigirNotaDuplicada(notaFiscal, qrCode, nFeNamespaceName,
-                                certificado, nfe, idNotaCopiaSeguranca);
-                        }
-                        else
-                        {
-                            //Nota continua com status pendente nesse caso
-                            XmlUtil.SalvarXmlNFeComErro(notaFiscal, node);
-                            var mensagem =
-                                string.Concat(
-                                    "O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!",
-                                    "\n", protocolo.infProt.xMotivo);
-                            throw new ArgumentException(mensagem);
-                        }
-                    }
+                    notaFiscalEntity = HandleServiceResult(notaFiscal, certificado, qrCode, nfe, idNotaCopiaSeguranca, notaFiscalEntity, nFeNamespaceName, node, protocolo);
 
                     AtribuirValoresApósEnvioComSucesso(notaFiscal, qrCode, notaFiscalEntity);
                     return idNotaCopiaSeguranca;
@@ -157,14 +119,13 @@ namespace NFe.Core.NotasFiscais.Services
                 catch (Exception e)
                 {
                     log.Error(e);
-                    if (e is WebException || e.InnerException is WebException)
-                        throw new Exception("Serviço indisponível ou sem conexão com a internet.",
-                            e.InnerException);
+
+                    if (IsErrorRelatedToConnectionProblem(e))
+                        throw new Exception("Serviço indisponível ou sem conexão com a internet.", e.InnerException);
 
                     try
                     {
-                        notaFiscalEntity = VerificarSeNotaFoiEnviada(notaFiscal, qrCode, nfe,
-                            idNotaCopiaSeguranca, notaFiscalEntity, nFeNamespaceName, certificado);
+                        notaFiscalEntity = VerificarSeNotaFoiEnviada(notaFiscal, qrCode, nfe, idNotaCopiaSeguranca, notaFiscalEntity, nFeNamespaceName, certificado);
                     }
                     catch (Exception retornoConsultaException)
                     {
@@ -180,16 +141,17 @@ namespace NFe.Core.NotasFiscais.Services
             catch (Exception e)
             {
                 log.Error(e);
-                //Necessário para não tentar enviar a mesma nota como contingência.
-                _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo,
-                    notaFiscal.Identificacao.Ambiente);
 
-                if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55) throw;
+                // Necessário para não tentar enviar a mesma nota como contingência.
+                _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
 
-                var message = e.InnerException != null ? e.InnerException.Message : e.Message;
+                // Stop execution if model 55
+                if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
+                    throw;
 
-                var theEvent = new NotaFiscalEmitidaEmContingenciaEvent() { justificativa = message, horário = notaFiscal.Identificacao.DataHoraEmissao };
-                MessagingCenter.Send(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), theEvent);
+                var message = GetExceptionMessage(e);
+
+                PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
 
                 return _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
             }
@@ -198,6 +160,100 @@ namespace NFe.Core.NotasFiscais.Services
                 _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo,
                     notaFiscal.Identificacao.Ambiente);
             }
+        }
+
+        private NotaFiscalEntity HandleServiceResult(NotaFiscal notaFiscal, X509Certificate2 certificado, QrCode qrCode, TNFe nfe, int idNotaCopiaSeguranca, NotaFiscalEntity notaFiscalEntity, string nFeNamespaceName, XmlNode node, TProtNFe protocolo)
+        {
+            if (IsSuccess(protocolo))
+            {
+                notaFiscalEntity = SaveNotaFiscalWithProtocolData(qrCode, nfe, idNotaCopiaSeguranca, protocolo);
+            }
+            else
+            {
+                if (IsInvoiceDuplicated(protocolo))
+                {
+                    notaFiscalEntity = FixInvoiceWithPendingStatusIncorrectly(notaFiscal, certificado, qrCode, nfe, idNotaCopiaSeguranca, nFeNamespaceName);
+                }
+                else
+                {
+                    ThrowGenericErrorWhenNotDuplicated(notaFiscal, node, protocolo);
+                }
+            }
+
+            return notaFiscalEntity;
+        }
+
+        private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)
+        {
+            var theEvent = new NotaFiscalEmitidaEmContingenciaEvent() { justificativa = message, horário = notaFiscal.Identificacao.DataHoraEmissao };
+            MessagingCenter.Send(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), theEvent);
+        }
+
+        private static string GetExceptionMessage(Exception e)
+        {
+            return e.InnerException != null ? e.InnerException.Message : e.Message;
+        }
+
+        private static bool IsErrorRelatedToConnectionProblem(Exception e)
+        {
+            return e is WebException || e.InnerException is WebException;
+        }
+
+        private static void ThrowGenericErrorWhenNotDuplicated(NotaFiscal notaFiscal, XmlNode node, TProtNFe protocolo)
+        {
+            //Nota continua com status pendente nesse caso
+            XmlUtil.SalvarXmlNFeComErro(notaFiscal, node);
+            var mensagem =
+                string.Concat(
+                    "O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!",
+                    "\n", protocolo.infProt.xMotivo);
+            throw new ArgumentException(mensagem);
+        }
+
+        private NotaFiscalEntity FixInvoiceWithPendingStatusIncorrectly(NotaFiscal notaFiscal, X509Certificate2 certificado, QrCode qrCode, TNFe nfe, int idNotaCopiaSeguranca, string nFeNamespaceName)
+        {
+            return CorrigirNotaDuplicada(notaFiscal, qrCode, nFeNamespaceName,
+                certificado, nfe, idNotaCopiaSeguranca);
+        }
+
+        private static bool IsInvoiceDuplicated(TProtNFe protocolo)
+        {
+            return protocolo.infProt.xMotivo.Contains("Duplicidade");
+        }
+
+        private NotaFiscalEntity SaveNotaFiscalWithProtocolData(QrCode qrCode, TNFe nfe, int idNotaCopiaSeguranca, TProtNFe protocolo)
+        {
+            NotaFiscalEntity notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
+            notaFiscalEntity.Status = (int)Status.ENVIADA;
+            notaFiscalEntity.DataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto,
+                DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
+
+            notaFiscalEntity.Protocolo = protocolo.infProt.nProt;
+            var xmlNFeProc = XmlUtil.GerarNfeProcXml(nfe, qrCode, protocolo);
+            _notaFiscalRepository.Salvar(notaFiscalEntity, xmlNFeProc);
+            return notaFiscalEntity;
+        }
+
+        private static bool IsSuccess(TProtNFe protocolo)
+        {
+            return protocolo.infProt.cStat.Equals("100");
+        }
+
+        private X509Certificate2 PickCertificateBasedOnInstallationType(Cadastro.Certificado.CertificadoEntity certificadoEntity)
+        {
+            X509Certificate2 certificado;
+            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
+            {
+
+                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
+                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
+            }
+            else
+            {
+                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
+            }
+
+            return certificado;
         }
 
         private static TProtNFe RetornarProtocoloParaLoteSomenteComUmaNotaFiscal(XmlNode node, NFeAutorizacao4Soap client)
