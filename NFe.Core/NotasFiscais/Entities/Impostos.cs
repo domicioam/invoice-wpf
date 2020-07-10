@@ -13,7 +13,7 @@ namespace NFe.Core.NotasFiscais.Entities
     public class Impostos
     {
         private IEnumerable<Imposto> _impostos;
-        private string _cfop;
+        private readonly string _cfop;
 
         public Impostos()
         {
@@ -22,7 +22,7 @@ namespace NFe.Core.NotasFiscais.Entities
 
         public Impostos(IEnumerable<Imposto> impostos, string cfop)
         {
-            this._impostos = impostos;
+            _impostos = impostos;
             _cfop = cfop;
         }
 

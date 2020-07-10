@@ -317,7 +317,7 @@ namespace NFe.Repository.Repositories
             var qrCode = nfe.infNFeSupl?.qrCode;
 
             var notaFiscal = new NotaFiscal(emitente, destinatario, identificacao, transporte, totalNFe, infoAdicional,
-                produtos, pagamentos, xml);
+                produtos, pagamentos);
 
             if (nfeProc.protNFe.infProt != null)
             {

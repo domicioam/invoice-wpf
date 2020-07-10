@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NFe.Core.NotasFiscais.Entities;
+using System.Linq;
 
 namespace NFe.Core.NotasFiscais
 {
@@ -8,7 +9,7 @@ namespace NFe.Core.NotasFiscais
     {
         public NotaFiscal(Emissor emitente, Destinatario destinatario, IdentificacaoNFe identificacao,
             Transporte transporte, TotalNFe totalNFe,
-            InfoAdicional infoAdicional, List<Produto> produtos, List<Pagamento> pagamentos = null, string xml = null)
+            InfoAdicional infoAdicional, List<Produto> produtos, List<Pagamento> pagamentos = null)
         {
             Emitente = emitente;
             Destinatario = destinatario;
@@ -46,11 +47,7 @@ namespace NFe.Core.NotasFiscais
         {
             get
             {
-                double sum = 0;
-
-                foreach (var prod in Produtos) sum += prod.ValorTotal;
-
-                return sum;
+                return Produtos.Sum(p => p.ValorTotal);
             }
         }
 

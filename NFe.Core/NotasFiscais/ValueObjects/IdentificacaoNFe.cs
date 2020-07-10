@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Text;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais.ValueObjects;
@@ -112,95 +111,5 @@ namespace NFe.Core.NotasFiscais
         public string LinkConsultaChave { get; set; } = @"http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx";
 
         public byte[] QrCodeImage { get; set; }
-    }
-
-    public enum Modelo
-    {
-        Modelo55,
-        Modelo65
-    }
-
-    public enum CodigoUfIbge //UF do destinatário ou de emissor?
-    {
-        DF = 53
-    }
-
-    public enum TipoOperacao
-    {
-        Entrada,
-        Saida
-    }
-
-    public enum OperacaoDestino
-    {
-        Interna,
-        Interestadual,
-        Exterior
-    }
-
-    public enum FormatoImpressao
-    {
-        Nenhum,
-        Retrato,
-        Paisagem,
-        Simplificado,
-        Nfce,
-        NfceEletronica
-    }
-
-    public enum TipoEmissao
-    {
-        Normal,
-        FsIa,
-        Scan,
-        Dpec,
-        FsDa,
-        SvcAn,
-        SvcRs,
-        ContigenciaNfce
-    }
-
-    public enum Ambiente
-    {
-        Producao,
-        Homologacao
-    }
-
-    public enum FinalidadeEmissao
-    {
-        Normal,
-        Complementar,
-        Ajuste,
-        Devolucao
-    }
-
-    public enum FinalidadeConsumidor
-    {
-        Normal,
-        ConsumidorFinal
-    }
-
-    public enum PresencaComprador
-    {
-        [Description("Não se Aplica")] NaoAplica,
-        [Description("Presencial")] Presencial,
-
-        [Description("Não Presencial, Internet")]
-        NaoPresencialInternet,
-
-        [Description("Não Presencial, Teleatendimento")]
-        NaoPresencialTeleatendimento,
-        [Description("Entrega a Domicílio")] NfceEntregaDomicilio,
-
-        [Description("Não Presencial, Outros")]
-        NaoPresencialOutros
-    }
-
-    public enum ProcessoEmissao
-    {
-        AplicativoContribuinte,
-        AvulsaFisco,
-        AvulsaContribuinteSiteFisco,
-        ContribuinteAplicativoFisco
     }
 }
