@@ -56,12 +56,61 @@ using TNFeInfNFeTranspTransporta = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFe
 using Torig = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.Torig;
 using TProcEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TProcEmi;
 using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core.Sefaz
 {
     class ModelToSefazAdapter
     {
-        internal static TNFeInfNFeTotal GetTotal(NotaFiscal notaFiscal)
+        public static TEnviNFe GetLoteNFe(NotaFiscal notaFiscal)
+        {
+            var ide = GetIdentificacao(notaFiscal);
+            var emit = GetEmitente(notaFiscal);
+            var det = GetDetalhamentoProdutos(notaFiscal);
+            var pag = GetPagamento(notaFiscal);
+            var transp = GetTransporte(notaFiscal);
+            var infAdic = GetInformacaoAdicional(notaFiscal);
+            var total = GetTotal(notaFiscal);
+
+            var infNFe = new TNFeInfNFe();
+
+            if (notaFiscal.Destinatario != null)
+            {
+                var dest = GetDestinatario(notaFiscal);
+                infNFe.dest = dest;
+            }
+
+            infNFe.ide = ide;
+            infNFe.emit = emit;
+            infNFe.det = det;
+            infNFe.pag = pag;
+            infNFe.transp = transp;
+            infNFe.infAdic = infAdic;
+            infNFe.total = total;
+            infNFe.versao = notaFiscal.VersaoLayout;
+            infNFe.Id = "NFe" + notaFiscal.Identificacao.Chave;
+
+            var nfe = new TNFe();
+            nfe.infNFe = infNFe;
+
+            if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
+                nfe.infNFeSupl = new TNFeInfNFeSupl
+                { qrCode = "", urlChave = "http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx" };
+            else
+                nfe.infNFeSupl = null;
+
+            var nfeArray = new TNFe[1];
+            nfeArray[0] = nfe;
+
+            var lote = new TEnviNFe();
+            lote.idLote = "999999"; //qual a regra pra gerar o id?
+            lote.indSinc = TEnviNFeIndSinc.Item1; //apenas uma nota no lote
+            lote.versao = "4.00";
+            lote.NFe = nfeArray;
+            return lote;
+        }
+
+        private static TNFeInfNFeTotal GetTotal(NotaFiscal notaFiscal)
         {
             var totalNfe = notaFiscal.TotalNFe;
             var total = new TNFeInfNFeTotal();
@@ -89,7 +138,7 @@ namespace NFe.Core.Sefaz
             return total;
         }
 
-        internal static TNFeInfNFeInfAdic GetInformacaoAdicional(NotaFiscal notaFiscal)
+        private static TNFeInfNFeInfAdic GetInformacaoAdicional(NotaFiscal notaFiscal)
         {
             var infAdic = new TNFeInfNFeInfAdic();
             infAdic.infCpl = notaFiscal.InfoAdicional.InfoAdicionalComplementar;
@@ -98,7 +147,7 @@ namespace NFe.Core.Sefaz
             return infAdic;
         }
 
-        internal static TNFeInfNFeTransp GetTransporte(NotaFiscal notaFiscal)
+        private static TNFeInfNFeTransp GetTransporte(NotaFiscal notaFiscal)
         {
             var transp = new TNFeInfNFeTransp();
             transp.modFrete = (TNFeInfNFeTranspModFrete)(int)notaFiscal.Transporte.ModalidadeFrete;
@@ -133,7 +182,7 @@ namespace NFe.Core.Sefaz
             return transp;
         }
 
-        internal static TNFeInfNFePag GetPagamento(NotaFiscal notaFiscal)
+        private static TNFeInfNFePag GetPagamento(NotaFiscal notaFiscal)
         {
             if (notaFiscal.Pagamentos == null) return null;
 
@@ -155,7 +204,7 @@ namespace NFe.Core.Sefaz
             return pag;
         }
 
-        internal static TNFeInfNFeIde GetIdentificacao(NotaFiscal notaFiscal)
+        private static TNFeInfNFeIde GetIdentificacao(NotaFiscal notaFiscal)
         {
             var ide = new TNFeInfNFeIde();
             ide.cUF = TCodUfIBGEConversor.ToTCodUfIBGE(notaFiscal.Identificacao.UF);
@@ -188,7 +237,7 @@ namespace NFe.Core.Sefaz
             return ide;
         }
 
-        internal static TNFeInfNFeEmit GetEmitente(NotaFiscal notaFiscal)
+        private static TNFeInfNFeEmit GetEmitente(NotaFiscal notaFiscal)
         {
             var emit = new TNFeInfNFeEmit();
             emit.Item = notaFiscal.Emitente.CNPJ;
@@ -213,7 +262,7 @@ namespace NFe.Core.Sefaz
             return emit;
         }
 
-        internal static TNFeInfNFeDest GetDestinatario(NotaFiscal notaFiscal)
+        private static TNFeInfNFeDest GetDestinatario(NotaFiscal notaFiscal)
         {
             var dest = new TNFeInfNFeDest();
             dest.Item = notaFiscal.Destinatario.Documento.Numero;
@@ -262,7 +311,7 @@ namespace NFe.Core.Sefaz
             return dest;
         }
 
-        internal static TNFeInfNFeDet[] GetDetalhamentoProdutos(NotaFiscal notaFiscal)
+        private static TNFeInfNFeDet[] GetDetalhamentoProdutos(NotaFiscal notaFiscal)
         {
             var detList = new List<TNFeInfNFeDet>();
 
@@ -313,7 +362,7 @@ namespace NFe.Core.Sefaz
             return detList.ToArray();
         }
 
-        internal static TNFeInfNFeDetImposto GetImposto(Produto produto)
+        private static TNFeInfNFeDetImposto GetImposto(Produto produto)
         {
             var imposto = new TNFeInfNFeDetImposto { Items = new object[1] };
 

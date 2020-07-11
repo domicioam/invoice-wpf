@@ -150,49 +150,7 @@ namespace NFe.Core.Sefaz
 
         internal static string GerarXmlLoteNFe(NotaFiscal notaFiscal, string nFeNamespaceName)
         {
-            var ide = ModelToSefazAdapter.GetIdentificacao(notaFiscal);
-            var emit = ModelToSefazAdapter.GetEmitente(notaFiscal);
-            var det = ModelToSefazAdapter.GetDetalhamentoProdutos(notaFiscal);
-            var pag = ModelToSefazAdapter.GetPagamento(notaFiscal);
-            var transp = ModelToSefazAdapter.GetTransporte(notaFiscal);
-            var infAdic = ModelToSefazAdapter.GetInformacaoAdicional(notaFiscal);
-            var total = ModelToSefazAdapter.GetTotal(notaFiscal);
-
-            var infNFe = new TNFeInfNFe();
-
-            if (notaFiscal.Destinatario != null)
-            {
-                var dest = ModelToSefazAdapter.GetDestinatario(notaFiscal);
-                infNFe.dest = dest;
-            }
-
-            infNFe.ide = ide;
-            infNFe.emit = emit;
-            infNFe.det = det;
-            infNFe.pag = pag;
-            infNFe.transp = transp;
-            infNFe.infAdic = infAdic;
-            infNFe.total = total;
-            infNFe.versao = notaFiscal.VersaoLayout;
-            infNFe.Id = "NFe" + notaFiscal.Identificacao.Chave;
-
-            var nfe = new TNFe();
-            nfe.infNFe = infNFe;
-
-            if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
-                nfe.infNFeSupl = new TNFeInfNFeSupl
-                { qrCode = "", urlChave = "http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx" };
-            else
-                nfe.infNFeSupl = null;
-
-            var nfeArray = new TNFe[1];
-            nfeArray[0] = nfe;
-
-            var lote = new TEnviNFe();
-            lote.idLote = "999999"; //qual a regra pra gerar o id?
-            lote.indSinc = TEnviNFeIndSinc.Item1; //apenas uma nota no lote
-            lote.versao = "4.00";
-            lote.NFe = nfeArray;
+            TEnviNFe lote = ModelToSefazAdapter.GetLoteNFe(notaFiscal);
 
             var parametroXml = Serialize(lote, nFeNamespaceName);
             parametroXml = parametroXml.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
