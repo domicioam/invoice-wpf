@@ -130,7 +130,7 @@ namespace NFe.Core.NotasFiscais.Services
                     catch (Exception retornoConsultaException)
                     {
                         log.Error(retornoConsultaException);
-                        XmlUtil.SalvarXmlNFeComErro(notaFiscal, node);
+                        _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, node);
                         throw;
                     }
 
@@ -199,10 +199,10 @@ namespace NFe.Core.NotasFiscais.Services
             return e is WebException || e.InnerException is WebException;
         }
 
-        private static void ThrowGenericErrorWhenNotDuplicated(NotaFiscal notaFiscal, XmlNode node, TProtNFe protocolo)
+        private void ThrowGenericErrorWhenNotDuplicated(NotaFiscal notaFiscal, XmlNode node, TProtNFe protocolo)
         {
             //Nota continua com status pendente nesse caso
-            XmlUtil.SalvarXmlNFeComErro(notaFiscal, node);
+            _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, node);
             var mensagem =
                 string.Concat(
                     "O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!",

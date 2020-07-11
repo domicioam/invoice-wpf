@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Xml;
 using NFe.Core;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
@@ -331,6 +333,24 @@ namespace NFe.Repository.Repositories
             notaFiscal.QrCodeUrl = qrCode;
 
             return notaFiscal;
+        }
+
+        public void SalvarXmlNFeComErro(NotaFiscal notaFiscal, XmlNode node)
+        {
+            var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Notas Fiscais");
+            var notasComErroDir = Path.Combine(appDataDir, "Notas com erro");
+
+            if (!Directory.Exists(notasComErroDir)) Directory.CreateDirectory(notasComErroDir);
+
+            using (var stream =
+                File.Create(Path.Combine(notasComErroDir, notaFiscal.Identificacao.Chave + " - erro.xml")))
+            {
+                using (var writer = new StreamWriter(stream))
+                {
+                    writer.WriteLine(node.OuterXml);
+                }
+            }
         }
 
         private Emissor GetEmitente(Retorno.TNFe nfe)

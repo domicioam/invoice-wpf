@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
+using System.Xml;
 
 namespace NFe.Core.UnitTests.NotaFiscalService
 {
@@ -140,6 +141,11 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             NotaFiscalEntity.Numero = notaFiscal.Identificacao.Numero;
 
             return Salvar(NotaFiscalEntity);
+        }
+
+        public void SalvarXmlNFeComErro(NotaFiscal notaFiscal, XmlNode node)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<NotaFiscalEntity> Take(int quantity, int page)

@@ -113,24 +113,6 @@ namespace NFe.Core.Sefaz
             }
         }
 
-        internal static void SalvarXmlNFeComErro(NotaFiscal notaFiscal, XmlNode node)
-        {
-            var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "Notas Fiscais");
-            var notasComErroDir = Path.Combine(appDataDir, "Notas com erro");
-
-            if (!Directory.Exists(notasComErroDir)) Directory.CreateDirectory(notasComErroDir);
-
-            using (var stream =
-                File.Create(Path.Combine(notasComErroDir, notaFiscal.Identificacao.Chave + " - erro.xml")))
-            {
-                using (var writer = new StreamWriter(stream))
-                {
-                    writer.WriteLine(node.OuterXml);
-                }
-            }
-        }
-
         internal static string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
         {
             var nfeProc = new TNfeProc();
@@ -231,7 +213,5 @@ namespace NFe.Core.Sefaz
 
             return notasConcatenadas.ToString();
         }
-
-
     }
 }

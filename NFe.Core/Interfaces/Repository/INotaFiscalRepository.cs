@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
@@ -25,5 +26,6 @@ namespace NFe.Core.Interfaces
         NotaFiscal GetNotaFiscalFromNfeProcXml(string xml);
         List<NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial, DateTime dateTime, bool v);
         List<NotaFiscalEntity> GetNotasPendentes(bool isLoadXmlData);
+        void SalvarXmlNFeComErro(NotaFiscal notaFiscal, XmlNode node);
     }
 }
