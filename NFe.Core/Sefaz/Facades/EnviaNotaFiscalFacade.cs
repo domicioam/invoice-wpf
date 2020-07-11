@@ -62,11 +62,8 @@ namespace NFe.Core.NotasFiscais.Services
             if (notaFiscal.Identificacao.Ambiente == Ambiente.Homologacao)
                 notaFiscal.Produtos[0].Descricao = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
 
-            X509Certificate2 certificado;
-
             var certificadoEntity = _certificadoRepository.GetCertificado();
-
-            certificado = PickCertificateBasedOnInstallationType(certificadoEntity);
+            X509Certificate2 certificado = PickCertificateBasedOnInstallationType(certificadoEntity);
 
             if (!IsNotaFiscalValida(notaFiscal, cscId, csc, certificado))
             {
@@ -77,7 +74,6 @@ namespace NFe.Core.NotasFiscais.Services
             {
                 QrCode qrCode = new QrCode();
                 TNFe nfe = null;
-                var newNodeXml = string.Empty;
                 var idNotaCopiaSeguranca = 0;
                 NotaFiscalEntity notaFiscalEntity = null;
 
@@ -85,29 +81,28 @@ namespace NFe.Core.NotasFiscais.Services
                 var digVal = "";
                 var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
-                var xml = Regex.Replace(XmlUtil.GerarXmlLoteNFe(notaFiscal, nFeNamespaceName),
-                    "<motDesICMS>1</motDesICMS>", string.Empty);
+                var xml = Regex.Replace(XmlUtil.GerarXmlLoteNFe(notaFiscal, nFeNamespaceName), "<motDesICMS>1</motDesICMS>", string.Empty);
                 XmlNode node = AssinaturaDigital.AssinarLoteComUmaNota(xml, refUri, certificado, ref digVal);
 
                 try
                 {
-                    var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), notaFiscal.Emitente.Endereco.UF);
-
-                    newNodeXml = PreencherQrCode(notaFiscal, cscId, csc, ref qrCode, digVal, node);
+                    var newNodeXml = PreencherQrCode(notaFiscal, cscId, csc, ref qrCode, digVal, node);
 
                     var document = new XmlDocument();
                     document.LoadXml(newNodeXml);
                     node = document.DocumentElement;
-
-                    var lote = (TEnviNFe)XmlUtil.Deserialize<TEnviNFe>(node.OuterXml);
-                    nfe = lote.NFe[0];
 
                     var configuração = _configuracaoRepository.GetConfiguracao();
 
                     if (configuração.IsContingencia)
                         return _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
 
+                    var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), notaFiscal.Emitente.Endereco.UF);
                     NFeAutorizacao4Soap client = CriarClientWS(notaFiscal, certificado, codigoUf);
+
+                    var lote = (TEnviNFe)XmlUtil.Deserialize<TEnviNFe>(node.OuterXml);
+                    nfe = lote.NFe[0];
+
                     idNotaCopiaSeguranca = SalvarNotaFiscalPréEnvio(notaFiscal, qrCode, nfe);
                     TProtNFe protocolo = RetornarProtocoloParaLoteSomenteComUmaNotaFiscal(node, client);
 
