@@ -93,7 +93,7 @@ namespace NFe.Core.Sefaz
             var nfe = new TNFe();
             nfe.infNFe = infNFe;
 
-            if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
+            if (IsNfce(notaFiscal))
                 nfe.infNFeSupl = new TNFeInfNFeSupl
                 { qrCode = "", urlChave = "http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx" };
             else
@@ -110,81 +110,102 @@ namespace NFe.Core.Sefaz
             return lote;
         }
 
+        private static bool IsNfce(NotaFiscal notaFiscal)
+        {
+            return notaFiscal.Identificacao.Modelo == Modelo.Modelo65;
+        }
+
         private static TNFeInfNFeTotal GetTotal(NotaFiscal notaFiscal)
         {
-            var totalNfe = notaFiscal.TotalNFe;
-            var total = new TNFeInfNFeTotal();
-            total.ICMSTot = new TNFeInfNFeTotalICMSTot();
-            total.ICMSTot.vBC = totalNfe.IcmsTotal.BaseCalculo.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vICMS = totalNfe.IcmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vICMSDeson = totalNfe.IcmsTotal.ValorTotalDesonerado.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vFCP = "0.00";
-            total.ICMSTot.vBCST = totalNfe.IcmsTotal.BaseCalculoST.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vST = totalNfe.IcmsTotal.ValorTotalST.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vFCPST = "0.00";
-            total.ICMSTot.vFCPSTRet = "0.00";
-            total.ICMSTot.vProd = totalNfe.IcmsTotal.ValorTotalProdutos.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vFrete = totalNfe.IcmsTotal.ValorTotalFrete.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vSeg = totalNfe.IcmsTotal.ValorTotalSeguro.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vDesc = totalNfe.IcmsTotal.ValorTotalDesconto.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vII = totalNfe.IcmsTotal.ValorTotalII.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vIPI = totalNfe.IcmsTotal.ValorTotalIpi.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vIPIDevol = "0.00";
-            total.ICMSTot.vPIS = totalNfe.IcmsTotal.ValorTotalPis.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vCOFINS = totalNfe.IcmsTotal.ValorTotalCofins.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vOutro = totalNfe.IcmsTotal.ValorDespesasAcessorias.ToString("F", CultureInfo.InvariantCulture);
-            total.ICMSTot.vNF = totalNfe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture);
+            var icmsTotal = notaFiscal.TotalNFe.IcmsTotal;
+            var total = new TNFeInfNFeTotal
+            {
+                ICMSTot = new TNFeInfNFeTotalICMSTot
+                {
+                    vBC = icmsTotal.BaseCalculo.ToString("F", CultureInfo.InvariantCulture),
+                    vICMS = icmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture),
+                    vICMSDeson =
+                        icmsTotal.ValorTotalDesonerado.ToString("F", CultureInfo.InvariantCulture),
+                    vFCP = "0.00",
+                    vBCST = icmsTotal.BaseCalculoST.ToString("F", CultureInfo.InvariantCulture),
+                    vST = icmsTotal.ValorTotalST.ToString("F", CultureInfo.InvariantCulture),
+                    vFCPST = "0.00",
+                    vFCPSTRet = "0.00",
+                    vProd =
+                        icmsTotal.ValorTotalProdutos.ToString("F", CultureInfo.InvariantCulture),
+                    vFrete = icmsTotal.ValorTotalFrete.ToString("F", CultureInfo.InvariantCulture),
+                    vSeg = icmsTotal.ValorTotalSeguro.ToString("F", CultureInfo.InvariantCulture),
+                    vDesc =
+                        icmsTotal.ValorTotalDesconto.ToString("F", CultureInfo.InvariantCulture),
+                    vII = icmsTotal.ValorTotalII.ToString("F", CultureInfo.InvariantCulture),
+                    vIPI = icmsTotal.ValorTotalIpi.ToString("F", CultureInfo.InvariantCulture),
+                    vIPIDevol = "0.00",
+                    vPIS = icmsTotal.ValorTotalPis.ToString("F", CultureInfo.InvariantCulture),
+                    vCOFINS =
+                        icmsTotal.ValorTotalCofins.ToString("F", CultureInfo.InvariantCulture),
+                    vOutro = icmsTotal.ValorDespesasAcessorias.ToString("F",
+                        CultureInfo.InvariantCulture),
+                    vNF = icmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture)
+                }
+            };
 
             return total;
         }
 
         private static TNFeInfNFeInfAdic GetInformacaoAdicional(NotaFiscal notaFiscal)
         {
-            var infAdic = new TNFeInfNFeInfAdic();
-            infAdic.infCpl = notaFiscal.InfoAdicional.InfoAdicionalComplementar;
-            infAdic.infAdFisco = notaFiscal.InfoAdicional.InfoAdicionalFisco;
+            var infAdic = new TNFeInfNFeInfAdic
+            {
+                infCpl = notaFiscal.InfoAdicional.InfoAdicionalComplementar,
+                infAdFisco = notaFiscal.InfoAdicional.InfoAdicionalFisco
+            };
 
             return infAdic;
         }
 
         private static TNFeInfNFeTransp GetTransporte(NotaFiscal notaFiscal)
         {
-            var transp = new TNFeInfNFeTransp();
-            transp.modFrete = (TNFeInfNFeTranspModFrete)(int)notaFiscal.Transporte.ModalidadeFrete;
-
-            if (notaFiscal.Transporte.Transportadora != null)
+            var transp = new TNFeInfNFeTransp
             {
-                var transportadora = notaFiscal.Transporte.Transportadora;
+                modFrete = (TNFeInfNFeTranspModFrete) (int) notaFiscal.Transporte.ModalidadeFrete
+            };
 
-                transp.transporta = new TNFeInfNFeTranspTransporta();
-                transp.transporta.Item = transportadora.CpfCnpj;
-                transp.transporta.ItemElementName =
-                    transportadora.CpfCnpj.Length == 14 ? ItemChoiceType6.CNPJ : ItemChoiceType6.CPF;
-                transp.transporta.xNome = transportadora.Nome;
-                transp.transporta.IE = transportadora.InscricaoEstadual;
-                transp.transporta.xEnder = transportadora.EnderecoCompleto;
-                transp.transporta.xMun = transportadora.Municipio;
-                transp.transporta.UF = TUfConversor.ToTUf(transportadora.SiglaUF);
-                transp.transporta.UFSpecified = true;
+            if (notaFiscal.Transporte.Transportadora == null) 
+                return transp;
 
-                if (notaFiscal.Transporte.Veiculo != null)
-                {
-                    var veiculo = new TVeiculo
-                    {
-                        placa = notaFiscal.Transporte.Veiculo.Placa,
-                        UF = TUfConversor.ToTUf(notaFiscal.Transporte.Veiculo.SiglaUF)
-                    };
-                    transp.Items = new object[] { veiculo };
-                    transp.ItemsElementName = new[] { ItemsChoiceType5.veicTransp };
-                }
-            }
+            var transportadora = notaFiscal.Transporte.Transportadora;
+
+            transp.transporta = new TNFeInfNFeTranspTransporta
+            {
+                Item = transportadora.CpfCnpj,
+                ItemElementName = transportadora.CpfCnpj.Length == 14 ? ItemChoiceType6.CNPJ : ItemChoiceType6.CPF,
+                xNome = transportadora.Nome,
+                IE = transportadora.InscricaoEstadual,
+                xEnder = transportadora.EnderecoCompleto,
+                xMun = transportadora.Municipio,
+                UF = TUfConversor.ToTUf(transportadora.SiglaUF),
+                UFSpecified = true
+            };
+
+            if (notaFiscal.Transporte.Veiculo == null) 
+                return transp;
+
+            var veiculo = new TVeiculo
+            {
+                placa = notaFiscal.Transporte.Veiculo.Placa,
+                UF = TUfConversor.ToTUf(notaFiscal.Transporte.Veiculo.SiglaUF)
+            };
+
+            transp.Items = new object[] { veiculo };
+            transp.ItemsElementName = new[] { ItemsChoiceType5.veicTransp };
 
             return transp;
         }
 
         private static TNFeInfNFePag GetPagamento(NotaFiscal notaFiscal)
         {
-            if (notaFiscal.Pagamentos == null) return null;
+            if (notaFiscal.Pagamentos == null) 
+                return null;
 
             var listaPagamentos = new List<TNFeInfNFePagDetPag>();
 
@@ -206,66 +227,75 @@ namespace NFe.Core.Sefaz
 
         private static TNFeInfNFeIde GetIdentificacao(NotaFiscal notaFiscal)
         {
-            var ide = new TNFeInfNFeIde();
-            ide.cUF = TCodUfIBGEConversor.ToTCodUfIBGE(notaFiscal.Identificacao.UF);
-            ide.nNF = notaFiscal.Identificacao.Numero;
-            ide.cNF = notaFiscal.Identificacao.Chave.Codigo;
-            ide.natOp = notaFiscal.Identificacao.NaturezaOperacao;
-            ide.mod = (TMod)(int)notaFiscal.Identificacao.Modelo;
-            ide.serie = notaFiscal.Identificacao.Serie.ToString();
-            ide.dhEmi = notaFiscal.Identificacao.DataHoraEmissao.ToString("yyyy-MM-ddTHH:mm:sszzz");
-            ide.tpNF = (TNFeInfNFeIdeTpNF)(int)notaFiscal.Identificacao.TipoOperacao;
-            ide.idDest = (TNFeInfNFeIdeIdDest)(int)notaFiscal.Identificacao.OperacaoDestino;
-            ide.cMunFG = notaFiscal.Identificacao.CodigoMunicipio;
-            ide.tpImp = (TNFeInfNFeIdeTpImp)(int)notaFiscal.Identificacao.FormatoImpressao;
-            ide.tpEmis = (TNFeInfNFeIdeTpEmis)(int)notaFiscal.Identificacao.TipoEmissao;
-            ide.tpAmb = (TAmb)(int)notaFiscal.Identificacao.Ambiente;
-            ide.finNFe = (TFinNFe)(int)notaFiscal.Identificacao.FinalidadeEmissao;
-            ide.indFinal = (TNFeInfNFeIdeIndFinal)(int)notaFiscal.Identificacao.FinalidadeConsumidor;
-            ide.indPres = (TNFeInfNFeIdeIndPres)(int)notaFiscal.Identificacao.PresencaComprador;
-            ide.procEmi = (TProcEmi)(int)notaFiscal.Identificacao.ProcessoEmissao;
-            ide.verProc = notaFiscal.Identificacao.VersaoAplicativo;
-            ide.cDV = notaFiscal.Identificacao.Chave.DigitoVerificador.ToString();
-
-            if (notaFiscal.Identificacao.TipoEmissao == TipoEmissao.ContigenciaNfce ||
-                notaFiscal.Identificacao.TipoEmissao == TipoEmissao.FsDa)
+            var ide = new TNFeInfNFeIde
             {
-                ide.dhCont = notaFiscal.Identificacao.DataHoraEntradaContigencia.ToString("yyyy-MM-ddTHH:mm:sszzz");
-                ide.xJust = notaFiscal.Identificacao.JustificativaContigencia;
-            }
+                cUF = TCodUfIBGEConversor.ToTCodUfIBGE(notaFiscal.Identificacao.UF),
+                nNF = notaFiscal.Identificacao.Numero,
+                cNF = notaFiscal.Identificacao.Chave.Codigo,
+                natOp = notaFiscal.Identificacao.NaturezaOperacao,
+                mod = (TMod) (int) notaFiscal.Identificacao.Modelo,
+                serie = notaFiscal.Identificacao.Serie.ToString(),
+                dhEmi = notaFiscal.Identificacao.DataHoraEmissao.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                tpNF = (TNFeInfNFeIdeTpNF) (int) notaFiscal.Identificacao.TipoOperacao,
+                idDest = (TNFeInfNFeIdeIdDest) (int) notaFiscal.Identificacao.OperacaoDestino,
+                cMunFG = notaFiscal.Identificacao.CodigoMunicipio,
+                tpImp = (TNFeInfNFeIdeTpImp) (int) notaFiscal.Identificacao.FormatoImpressao,
+                tpEmis = (TNFeInfNFeIdeTpEmis) (int) notaFiscal.Identificacao.TipoEmissao,
+                tpAmb = (TAmb) (int) notaFiscal.Identificacao.Ambiente,
+                finNFe = (TFinNFe) (int) notaFiscal.Identificacao.FinalidadeEmissao,
+                indFinal = (TNFeInfNFeIdeIndFinal) (int) notaFiscal.Identificacao.FinalidadeConsumidor,
+                indPres = (TNFeInfNFeIdeIndPres) (int) notaFiscal.Identificacao.PresencaComprador,
+                procEmi = (TProcEmi) (int) notaFiscal.Identificacao.ProcessoEmissao,
+                verProc = notaFiscal.Identificacao.VersaoAplicativo,
+                cDV = notaFiscal.Identificacao.Chave.DigitoVerificador.ToString()
+            };
+
+            if (IsContingency(notaFiscal)) 
+                return ide;
+
+            ide.dhCont = notaFiscal.Identificacao.DataHoraEntradaContigencia.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            ide.xJust = notaFiscal.Identificacao.JustificativaContigencia;
 
             return ide;
         }
 
+        private static bool IsContingency(NotaFiscal notaFiscal)
+        {
+            return notaFiscal.Identificacao.TipoEmissao == TipoEmissao.ContigenciaNfce || notaFiscal.Identificacao.TipoEmissao == TipoEmissao.FsDa;
+        }
+
         private static TNFeInfNFeEmit GetEmitente(NotaFiscal notaFiscal)
         {
-            var emit = new TNFeInfNFeEmit();
-            emit.Item = notaFiscal.Emitente.CNPJ;
-            emit.xNome = notaFiscal.Emitente.Nome;
-            emit.xFant = notaFiscal.Emitente.NomeFantasia;
-            emit.IE = notaFiscal.Emitente.InscricaoEstadual;
-            emit.IM = notaFiscal.Emitente.InscricaoMunicipal;
-            emit.CNAE = notaFiscal.Emitente.CNAE;
-            emit.CRT = (TNFeInfNFeEmitCRT)(int)notaFiscal.Emitente.CRT;
-            emit.enderEmit = new TEnderEmi();
-            emit.enderEmit.xLgr = notaFiscal.Emitente.Endereco.Logradouro;
-            emit.enderEmit.nro = notaFiscal.Emitente.Endereco.Numero;
-            emit.enderEmit.xBairro = notaFiscal.Emitente.Endereco.Bairro;
-            emit.enderEmit.cMun = notaFiscal.Emitente.Endereco.CodigoMunicipio;
-            emit.enderEmit.xMun = notaFiscal.Emitente.Endereco.Municipio;
-            emit.enderEmit.UF = TUfEmiConversor.TUfEmi(notaFiscal.Emitente.Endereco.UF);
-            emit.enderEmit.CEP = notaFiscal.Emitente.Endereco.Cep;
-            emit.enderEmit.cPais = TEnderEmiCPais.Item1058;
-            emit.enderEmit.xPais = TEnderEmiXPais.Brasil;
-            emit.enderEmit.fone = notaFiscal.Emitente.Telefone;
+            var emit = new TNFeInfNFeEmit
+            {
+                Item = notaFiscal.Emitente.CNPJ,
+                xNome = notaFiscal.Emitente.Nome,
+                xFant = notaFiscal.Emitente.NomeFantasia,
+                IE = notaFiscal.Emitente.InscricaoEstadual,
+                IM = notaFiscal.Emitente.InscricaoMunicipal,
+                CNAE = notaFiscal.Emitente.CNAE,
+                CRT = (TNFeInfNFeEmitCRT) (int) notaFiscal.Emitente.CRT,
+                enderEmit = new TEnderEmi
+                {
+                    xLgr = notaFiscal.Emitente.Endereco.Logradouro,
+                    nro = notaFiscal.Emitente.Endereco.Numero,
+                    xBairro = notaFiscal.Emitente.Endereco.Bairro,
+                    cMun = notaFiscal.Emitente.Endereco.CodigoMunicipio,
+                    xMun = notaFiscal.Emitente.Endereco.Municipio,
+                    UF = TUfEmiConversor.TUfEmi(notaFiscal.Emitente.Endereco.UF),
+                    CEP = notaFiscal.Emitente.Endereco.Cep,
+                    cPais = TEnderEmiCPais.Item1058,
+                    xPais = TEnderEmiXPais.Brasil,
+                    fone = notaFiscal.Emitente.Telefone
+                }
+            };
 
             return emit;
         }
 
         private static TNFeInfNFeDest GetDestinatario(NotaFiscal notaFiscal)
         {
-            var dest = new TNFeInfNFeDest();
-            dest.Item = notaFiscal.Destinatario.Documento.Numero;
+            var dest = new TNFeInfNFeDest {Item = notaFiscal.Destinatario.Documento.Numero};
 
             switch (notaFiscal.Destinatario.TipoDestinatario)
             {
@@ -278,6 +308,8 @@ namespace NFe.Core.Sefaz
                 case TipoDestinatario.Estrangeiro:
                     dest.ItemElementName = ItemChoiceType3.idEstrangeiro;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             dest.xNome = notaFiscal.Destinatario.NomeRazao;

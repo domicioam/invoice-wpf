@@ -1,4 +1,4 @@
-﻿namespace NFe.Core.NotasFiscais
+﻿namespace NFe.Core.NotasFiscais.ValueObjects
 {
     public class IcmsTotal
     {

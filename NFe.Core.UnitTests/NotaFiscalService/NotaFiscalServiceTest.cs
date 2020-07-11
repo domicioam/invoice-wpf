@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotasFiscais.ValueObjects;
 using Xunit;
 
 namespace NFe.Core.UnitTests.NotaFiscalService

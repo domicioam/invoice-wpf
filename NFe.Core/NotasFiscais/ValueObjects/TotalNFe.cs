@@ -1,4 +1,6 @@
-﻿namespace NFe.Core.NotasFiscais
+﻿using NFe.Core.NotasFiscais.ValueObjects;
+
+namespace NFe.Core.NotasFiscais
 {
     public class TotalNFe
     {

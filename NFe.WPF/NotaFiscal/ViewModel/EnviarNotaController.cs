@@ -11,6 +11,7 @@ using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.NotasFiscais.Services;
+using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Acentuacao;
 using NFe.WPF.Events;
