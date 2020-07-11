@@ -213,6 +213,7 @@
     <Compile Include="NotasFiscais\ValueObjects\TipoOperacao.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
     <Compile Include="Sefaz\Facades\QrCode.cs" />
+    <Compile Include="Sefaz\ModelToSefazAdapter.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
