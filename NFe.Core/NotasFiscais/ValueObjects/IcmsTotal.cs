@@ -42,5 +42,9 @@
         public double ValorDespesasAcessorias { get; set; }
         public double ValorTotalNFe { get; set; }
         public double ValorTotalAproximadoTributos { get; set; }
+        public double TotalFundoCombatePobreza { get; internal set; }
+        public double TotalFundoCombatePobrezaSubstituicaoTributaria { get; set; }
+        public double TotalFundoCombatePobrezaSubstituicaoTributariaRetidoAnteriormente { get; internal set; }
+        public double TotalIpiDevolvido { get; internal set; }
     }
 }

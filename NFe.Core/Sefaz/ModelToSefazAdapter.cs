@@ -57,6 +57,7 @@ using Torig = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.Torig;
 using TProcEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TProcEmi;
 using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
+using NFe.Core.Extensions;
 
 namespace NFe.Core.Sefaz
 {
@@ -126,30 +127,25 @@ namespace NFe.Core.Sefaz
             {
                 ICMSTot = new TNFeInfNFeTotalICMSTot
                 {
-                    vBC = icmsTotal.BaseCalculo.ToString("F", CultureInfo.InvariantCulture),
-                    vICMS = icmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture),
-                    vICMSDeson =
-                        icmsTotal.ValorTotalDesonerado.ToString("F", CultureInfo.InvariantCulture),
-                    vFCP = "0.00",
-                    vBCST = icmsTotal.BaseCalculoST.ToString("F", CultureInfo.InvariantCulture),
-                    vST = icmsTotal.ValorTotalST.ToString("F", CultureInfo.InvariantCulture),
-                    vFCPST = "0.00",
-                    vFCPSTRet = "0.00",
-                    vProd =
-                        icmsTotal.ValorTotalProdutos.ToString("F", CultureInfo.InvariantCulture),
-                    vFrete = icmsTotal.ValorTotalFrete.ToString("F", CultureInfo.InvariantCulture),
-                    vSeg = icmsTotal.ValorTotalSeguro.ToString("F", CultureInfo.InvariantCulture),
-                    vDesc =
-                        icmsTotal.ValorTotalDesconto.ToString("F", CultureInfo.InvariantCulture),
-                    vII = icmsTotal.ValorTotalII.ToString("F", CultureInfo.InvariantCulture),
-                    vIPI = icmsTotal.ValorTotalIpi.ToString("F", CultureInfo.InvariantCulture),
-                    vIPIDevol = "0.00",
-                    vPIS = icmsTotal.ValorTotalPis.ToString("F", CultureInfo.InvariantCulture),
-                    vCOFINS =
-                        icmsTotal.ValorTotalCofins.ToString("F", CultureInfo.InvariantCulture),
-                    vOutro = icmsTotal.ValorDespesasAcessorias.ToString("F",
-                        CultureInfo.InvariantCulture),
-                    vNF = icmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture)
+                    vBC = icmsTotal.BaseCalculo.AsNumberFormattedString(),
+                    vICMS = icmsTotal.ValorTotalIcms.AsNumberFormattedString(),
+                    vICMSDeson = icmsTotal.ValorTotalDesonerado.AsNumberFormattedString(),
+                    vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
+                    vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
+                    vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
+                    vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
+                    vFCPSTRet = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributariaRetidoAnteriormente.AsNumberFormattedString(), // Valor do FCP retido anteriormente por substituição tributária.
+                    vProd =  icmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
+                    vFrete = icmsTotal.ValorTotalFrete.AsNumberFormattedString(),
+                    vSeg = icmsTotal.ValorTotalSeguro.AsNumberFormattedString(),
+                    vDesc = icmsTotal.ValorTotalDesconto.AsNumberFormattedString(),
+                    vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
+                    vIPI = icmsTotal.ValorTotalIpi.AsNumberFormattedString(),
+                    vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
+                    vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
+                    vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
+                    vOutro = icmsTotal.ValorDespesasAcessorias.AsNumberFormattedString(),
+                    vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()
                 }
             };
 
@@ -217,7 +213,7 @@ namespace NFe.Core.Sefaz
             {
                 var newPag = new TNFeInfNFePagDetPag
                 {
-                    vPag = pagamento.Valor.ToString("F", CultureInfo.InvariantCulture),
+                    vPag = pagamento.Valor.AsNumberFormattedString(),
                     tPag = (TNFeInfNFePagDetPagTPag)(int)pagamento.FormaPagamento
                 };
 
@@ -367,12 +363,12 @@ namespace NFe.Core.Sefaz
                         CEST = notaFiscal.Produtos[i].Cest,
                         uCom = notaFiscal.Produtos[i].UnidadeComercial,
                         qCom = notaFiscal.Produtos[i].QtdeUnidadeComercial.ToString(),
-                        vUnCom = notaFiscal.Produtos[i].ValorUnidadeComercial.ToString("F", CultureInfo.InvariantCulture),
-                        vProd = notaFiscal.Produtos[i].ValorTotal.ToString("F", CultureInfo.InvariantCulture),
+                        vUnCom = notaFiscal.Produtos[i].ValorUnidadeComercial.AsNumberFormattedString(),
+                        vProd = notaFiscal.Produtos[i].ValorTotal.AsNumberFormattedString(),
                         cEANTrib = "SEM GTIN",
                         uTrib = notaFiscal.Produtos[i].UnidadeComercial,
                         qTrib = notaFiscal.Produtos[i].QtdeUnidadeComercial.ToString(),
-                        vUnTrib = notaFiscal.Produtos[i].ValorUnidadeComercial.ToString("F", CultureInfo.InvariantCulture),
+                        vUnTrib = notaFiscal.Produtos[i].ValorUnidadeComercial.AsNumberFormattedString(),
                         CFOP = notaFiscal.Produtos[i].Cfop.ToString().Replace("Item", string.Empty),
                         indTot = TNFeInfNFeDetProdIndTot.Item1
                     }
@@ -418,9 +414,11 @@ namespace NFe.Core.Sefaz
             {
                 case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
                     var icms = new TNFeInfNFeDetImpostoICMS();
-                    var icms60 = new TNFeInfNFeDetImpostoICMSICMS60();
-                    icms60.orig = Torig.Item0;
-                    icms60.CST = TNFeInfNFeDetImpostoICMSICMS60CST.Item60;
+                    var icms60 = new TNFeInfNFeDetImpostoICMSICMS60
+                    {
+                        orig = Torig.Item0,
+                        CST = TNFeInfNFeDetImpostoICMSICMS60CST.Item60
+                    };
                     icms.Item = icms60;
                     imposto.Items[0] = icms;
                     break;
