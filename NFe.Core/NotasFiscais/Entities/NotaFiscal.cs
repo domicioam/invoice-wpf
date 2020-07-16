@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NFe.Core.NotasFiscais.Entities;
 using System.Linq;
+using NFe.Core.NotasFiscais.ValueObjects;
 
 namespace NFe.Core.NotasFiscais
 {
