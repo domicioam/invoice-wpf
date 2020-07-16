@@ -2,6 +2,7 @@
 using Moq;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Interfaces;
+using NFe.Core.Sefaz.Facades;
 using Xunit;
 
 namespace NFe.Core.UnitTests.ModoOnlineService

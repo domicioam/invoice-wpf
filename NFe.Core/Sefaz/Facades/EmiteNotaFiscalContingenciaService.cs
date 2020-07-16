@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,11 +15,11 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NFeRetAutorizacao4;
+using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.NotasFiscais.Services;
 using NFe.Core.NotasFiscais.ValueObjects;
-using NFe.Core.Sefaz;
-using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
@@ -30,7 +29,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using NFe.Core.XmlSchemas.NfeRetAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeRetAutorizacao.Retorno;
 
-namespace NFe.Core.NotasFiscais.Services
+namespace NFe.Core.Sefaz.Facades
 {
     public interface IEmiteNotaFiscalContingenciaFacade
     {
@@ -116,7 +115,6 @@ namespace NFe.Core.NotasFiscais.Services
 
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
             {
-            // Pegar ambiente no App.Config
                 qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
                     digVal, _sefazSettings.Ambiente,
                     notaFiscal.Identificacao.DataHoraEmissao,
@@ -161,7 +159,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             var notas = _notaFiscalRepository.GetNotasContingencia();
 
-            var config = _configuracaoService.GetConfiguracao();
+            var config = await _configuracaoService.GetConfiguracaoAsync();
             var notasNFe = new List<string>();
             var notasNfCe = new List<string>();
 
@@ -177,10 +175,10 @@ namespace NFe.Core.NotasFiscais.Services
 
             try
             {
-                if (notasNfCe.Count() != 0)
+                if (notasNfCe.Count != 0)
                     erros = await TransmitirConsultarLoteContingenciaAsync(config, notasNfCe, Modelo.Modelo65);
 
-                if (notasNFe.Count() != 0)
+                if (notasNFe.Count != 0)
                     erros = await TransmitirConsultarLoteContingenciaAsync(config, notasNFe, Modelo.Modelo55);
             }
             catch (Exception e)
@@ -195,7 +193,7 @@ namespace NFe.Core.NotasFiscais.Services
                 {
                     using (var writer = new StreamWriter(stream))
                     {
-                        writer.WriteLine(e.ToString());
+                        await writer.WriteLineAsync(e.ToString());
                     }
                 }
 
@@ -218,13 +216,11 @@ namespace NFe.Core.NotasFiscais.Services
             var certificado = _certificadoService.GetX509Certificate2();
             var modelo = notaParaCancelar.Modelo.Equals("55") ? Modelo.Modelo55 : Modelo.Modelo65;
 
-            var result =
-                _nfeConsulta.ConsultarNotaFiscal(notaParaCancelar.Chave, codigoUf, certificado, modelo);
+            var result = _nfeConsulta.ConsultarNotaFiscal(notaParaCancelar.Chave, codigoUf, certificado, modelo);
             var codigoUfEnum = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
 
             if (result.IsEnviada)
             {
-
                 var dadosNotaParaCancelar = new DadosNotaParaCancelar
                 {
                     ufEmitente = ufEmissor,
@@ -243,7 +239,7 @@ namespace NFe.Core.NotasFiscais.Services
                     emitente.CNPJ, modelo, notaParaCancelar.Serie,
                     notaParaCancelar.Numero, notaParaCancelar.Numero);
 
-                if (resultadoInutilizacao.Status != Sefaz.NfeInutilizacao2.Status.ERRO)
+                if (resultadoInutilizacao.Status != NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     _notaFiscalRepository.ExcluirNota(notaParaCancelar.Chave);
             }
         }
@@ -343,10 +339,8 @@ namespace NFe.Core.NotasFiscais.Services
 
         private List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
         {
-            var config = _configuracaoService.GetConfiguracao();
-            X509Certificate2 certificado;
-
             var certificadoEntity = _certificadoRepository.GetCertificado();
+            X509Certificate2 certificado;
 
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                 certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
@@ -356,7 +350,6 @@ namespace NFe.Core.NotasFiscais.Services
 
             var consultaRecibo = new TConsReciNFe
             {
-                // Pegar ambiente do App.Config
                 versao = "4.00",
                 tpAmb = _sefazSettings.Ambiente == Ambiente.Producao ? XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item1 : XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item2,
                 nRec = nRec
@@ -371,8 +364,7 @@ namespace NFe.Core.NotasFiscais.Services
 
             try
             {
-                var servico =
-                    _serviceFactory.GetService(modelo, Servico.RetAutorizacao, codigoUf, certificado);
+                var servico = _serviceFactory.GetService(modelo, Servico.RetAutorizacao, codigoUf, certificado);
                 var client = (NFeRetAutorizacao4SoapClient)servico.SoapClient;
 
                 var result = client.nfeRetAutorizacaoLote(node);
@@ -390,8 +382,7 @@ namespace NFe.Core.NotasFiscais.Services
                             .Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
                             .Replace("TProtNFe", "protNFe")
                             .Replace("<infProt xmlns=\"http://www.portalfiscal.inf.br/nfe\">", "<infProt>")
-                })
-                    .ToList();
+                }).ToList();
             }
             catch (Exception e)
             {
@@ -407,8 +398,7 @@ namespace NFe.Core.NotasFiscais.Services
             }
         }
 
-        private MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList,
-    Modelo modelo)
+        private MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList, Modelo modelo)
         {
             var lote = new TEnviNFe
             {

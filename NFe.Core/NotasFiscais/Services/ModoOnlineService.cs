@@ -5,6 +5,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
+using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Services
 {
