@@ -38,5 +38,9 @@ namespace NFe.Core
             {
             }
         }
+
+        public Pis(string cst) : base(cst)
+        {
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace NFe.Core
 
     public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : IcmsBase
     {
-        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal valorEfetivo, decimal aliquotaEfetiva, decimal baseCalculoEfetiva, decimal percentualReducaoBaseCalculoEfetiva, decimal valorFundoCombatePobreza, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza, decimal aliquotaSuportadaConsumidorFinal, decimal valor, decimal baseCalculo)
+        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal valorEfetivo, decimal aliquotaEfetiva, decimal baseCalculoEfetiva, decimal percentualReducaoBaseCalculoEfetiva, decimal valorFundoCombatePobreza, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza, decimal aliquotaSuportadaConsumidorFinal, decimal valor, decimal baseCalculo, OrigemMercadoria origem) : base("60", origem)
         {
             ValorEfetivo = valorEfetivo;
             AliquotaEfetiva = aliquotaEfetiva;
@@ -26,7 +26,6 @@ namespace NFe.Core
             AliquotaSuportadaConsumidorFinal = aliquotaSuportadaConsumidorFinal;
             Valor = valor;
             BaseCalculo = baseCalculo;
-            Cst = "60";
         }
 
         public decimal BaseCalculo { get;  }

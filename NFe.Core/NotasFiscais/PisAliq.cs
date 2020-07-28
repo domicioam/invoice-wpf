@@ -7,5 +7,8 @@ namespace NFe.Core
 {
     public class PisAliq : PisBase
     {
+        public PisAliq(string cst) : base(cst)
+        {
+        }
     }
 }

@@ -7,6 +7,11 @@ namespace NFe.Core
 {
     public abstract class PisBase : Imposto
     {
+        protected PisBase(string cst)
+        {
+            Cst = cst;
+        }
+
         public string Cst { get; }
     }
 }

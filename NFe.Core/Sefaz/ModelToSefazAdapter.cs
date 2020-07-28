@@ -466,77 +466,17 @@ namespace NFe.Core.Sefaz
 
             // Keep open closed in mind when writting this code
 
-            // Set icms data when product has icms tax
-            switch (produto.Impostos.GetIcmsCst())
-            {
-                case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
-                    var icms = new TNFeInfNFeDetImpostoICMS();
-                    var icms60 = new TNFeInfNFeDetImpostoICMSICMS60
-                    {
-                        orig = Torig.Item0,
-                        CST = TNFeInfNFeDetImpostoICMSICMS60CST.Item60
-                    };
-                    icms.Item = icms60;
-                    imposto.Items[0] = icms;
-                    break;
+            imposto.Items[0] = GetImpostoIcms(produto); // existem outros impostos que podem ir dentro dessa collection
+            imposto.PIS = GetImpostoPis(produto);
+            imposto.COFINS = GetImpostoCofins();
 
-                case TabelaIcmsCst.NaoTributada:
-                    var detIcms41 = new TNFeInfNFeDetImpostoICMS();
-                    var icms41 = new TNFeInfNFeDetImpostoICMSICMS40
-                    {
-                        orig = Torig.Item0,
-                        CST = TNFeInfNFeDetImpostoICMSICMS40CST.Item41
-                    };
-                    detIcms41.Item = icms41;
-                    imposto.Items[0] = detIcms41;
-                    break;
+            return imposto;
+        }
 
-                default:
-                    throw new ArgumentException();
-            }
-
-            // Set pis data when product has pis tax
-            imposto.PIS = new TNFeInfNFeDetImpostoPIS();
-            var pisNt = new TNFeInfNFeDetImpostoPISPISNT();
-
-            switch (produto.Impostos.GetPisCst())
-            {
-                case TabelaPisCst.OperacaoTributavelMonofasicaRevendaAliquotaZero:
-                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item04;
-                    imposto.PIS.Item = pisNt;
-                    break;
-
-                case TabelaPisCst.OperacaoTributavelPorST:
-                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item05;
-                    imposto.PIS.Item = pisNt;
-                    break;
-
-                case TabelaPisCst.OperacaoTributavelAliquotaZero:
-                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item06;
-                    imposto.PIS.Item = pisNt;
-                    break;
-
-                case TabelaPisCst.OperacaoIsentaContribuicao:
-                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item07;
-                    imposto.PIS.Item = pisNt;
-                    break;
-
-                case TabelaPisCst.OperacaoSemIncidenciaContribuicao:
-                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item08;
-                    imposto.PIS.Item = pisNt;
-                    break;
-
-                case TabelaPisCst.OperacaoComSuspensaoContribuicao:
-                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item09;
-                    imposto.PIS.Item = pisNt;
-                    break;
-            }
-
-            //Deixar dinâmico depois que alterar interface
-            // Set cofins data when product has cofins tax
-            imposto.COFINS = new TNFeInfNFeDetImpostoCOFINS();
-
-            var cofins = new TNFeInfNFeDetImpostoCOFINSCOFINSAliq
+        private static TNFeInfNFeDetImpostoCOFINS GetImpostoCofins()
+        {
+            var cofins = new TNFeInfNFeDetImpostoCOFINS();
+            var cofinsAliq = new TNFeInfNFeDetImpostoCOFINSCOFINSAliq
             {
                 CST = TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST.Item01,
                 vBC = "0.00",
@@ -544,9 +484,80 @@ namespace NFe.Core.Sefaz
                 vCOFINS = "0.00"
             };
 
-            imposto.COFINS.Item = cofins;
+            cofins.Item = cofinsAliq;
+            return cofins;
+        }
 
-            return imposto;
+        private static TNFeInfNFeDetImpostoPIS GetImpostoPis(Produto produto)
+        {
+            var pis = new TNFeInfNFeDetImpostoPIS();
+            var pisNt = new TNFeInfNFeDetImpostoPISPISNT();
+
+            switch (produto.Impostos.GetPisCst())
+            {
+                case TabelaPisCst.OperacaoTributavelMonofasicaRevendaAliquotaZero:
+                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item04;
+                    pis.Item = pisNt;
+                    break;
+
+                case TabelaPisCst.OperacaoTributavelPorST:
+                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item05;
+                    pis.Item = pisNt;
+                    break;
+
+                case TabelaPisCst.OperacaoTributavelAliquotaZero:
+                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item06;
+                    pis.Item = pisNt;
+                    break;
+
+                case TabelaPisCst.OperacaoIsentaContribuicao:
+                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item07;
+                    pis.Item = pisNt;
+                    break;
+
+                case TabelaPisCst.OperacaoSemIncidenciaContribuicao:
+                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item08;
+                    pis.Item = pisNt;
+                    break;
+
+                case TabelaPisCst.OperacaoComSuspensaoContribuicao:
+                    pisNt.CST = TNFeInfNFeDetImpostoPISPISNTCST.Item09;
+                    pis.Item = pisNt;
+                    break;
+            }
+
+            return pis;
+        }
+
+        private static TNFeInfNFeDetImpostoICMS GetImpostoIcms(Produto produto)
+        {
+            var icms = new TNFeInfNFeDetImpostoICMS();
+
+            switch (produto.Impostos.GetIcmsCst())
+            {
+                case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
+                    var icms60 = new TNFeInfNFeDetImpostoICMSICMS60
+                    {
+                        orig = Torig.Item0,
+                        CST = TNFeInfNFeDetImpostoICMSICMS60CST.Item60
+                    };
+                    icms.Item = icms60;
+                    break;
+
+                case TabelaIcmsCst.NaoTributada:
+                    var icms41 = new TNFeInfNFeDetImpostoICMSICMS40
+                    {
+                        orig = Torig.Item0,
+                        CST = TNFeInfNFeDetImpostoICMSICMS40CST.Item41
+                    };
+                    icms.Item = icms41;
+                    break;
+
+                default:
+                    throw new ArgumentException();
+            }
+
+            return icms;
         }
     }
 }

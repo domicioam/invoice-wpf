@@ -7,5 +7,8 @@ namespace NFe.Core
 {
     public abstract class PisNt : PisBase
     {
+        protected PisNt(string cst) : base(cst)
+        {
+        }
     }
 }

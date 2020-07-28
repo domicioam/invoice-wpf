@@ -7,5 +7,8 @@ namespace NFe.Core
 {
     public class PisQtde : PisBase
     {
+        public PisQtde(string cst) : base(cst)
+        {
+        }
     }
 }

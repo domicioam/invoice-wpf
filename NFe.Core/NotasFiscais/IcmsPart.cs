@@ -7,5 +7,8 @@ namespace NFe.Core
 {
     public class IcmsPartilha : IcmsBase
     {
+        public IcmsPartilha(string cst, OrigemMercadoria origem) : base(cst, origem)
+        {
+        }
     }
 }

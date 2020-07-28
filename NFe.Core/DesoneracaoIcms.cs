@@ -1,6 +1,6 @@
 ﻿namespace NFe.Core
 {
-    public class DesoneracaoIcms
+    internal class DesoneracaoIcms
     {
         public DesoneracaoIcms()
         {

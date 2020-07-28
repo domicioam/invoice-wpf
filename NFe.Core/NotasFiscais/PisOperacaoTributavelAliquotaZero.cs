@@ -7,9 +7,8 @@ namespace NFe.Core
 {
     public class PisOperacaoTributavelAliquotaZero : PisNt
     {
-        public PisOperacaoTributavelAliquotaZero()
+        public PisOperacaoTributavelAliquotaZero() : base("06")
         {
-            Cst = "06";
         }
     }
 }

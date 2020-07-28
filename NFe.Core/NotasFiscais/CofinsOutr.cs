@@ -7,5 +7,8 @@ namespace NFe.Core
 {
     public class CofinsOutr : CofinsBase
     {
+        public CofinsOutr(string cst) : base(cst)
+        {
+        }
     }
 }

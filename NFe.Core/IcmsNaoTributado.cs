@@ -5,13 +5,12 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class IcmsNaoTributado : IcmsBase
+    internal class IcmsNaoTributado : IcmsBase
     {
         internal DesoneracaoIcms DesoneracaoIcms { get; }
 
-        public IcmsNaoTributado(DesoneracaoIcms desoneracaoIcms)
+        public IcmsNaoTributado(DesoneracaoIcms desoneracaoIcms, OrigemMercadoria origem) : base("41", origem)
         {
-            Cst = "41";
             DesoneracaoIcms = desoneracaoIcms;
         }
     }

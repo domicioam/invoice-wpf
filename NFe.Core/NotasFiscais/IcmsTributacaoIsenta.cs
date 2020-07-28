@@ -7,9 +7,8 @@ namespace NFe.Core
 {
     public class IcmsTributacaoIsenta : IcmsBase
     {
-        public IcmsTributacaoIsenta()
+        public IcmsTributacaoIsenta(OrigemMercadoria origem) : base("40", origem)
         {
-            Cst = "40";
         }
     }
 }

@@ -7,9 +7,8 @@ namespace NFe.Core
 {
     public class CofinsCumulativoNaoCumulativo : CofinsAliq
     {
-        public CofinsCumulativoNaoCumulativo()
+        public CofinsCumulativoNaoCumulativo(decimal baseCalculo, decimal percentagem, decimal valor) : base("01", baseCalculo, percentagem, valor)
         {
-            Cst = "01";
         }
     }
 }
