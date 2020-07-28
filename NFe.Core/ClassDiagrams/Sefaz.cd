@@ -1,0 +1,739 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Essas classes têm relacionamento com o imposto através da propriedade Items.&#xD;&#xA;">
+    <Position X="46.82" Y="9.084" Height="0.956" Width="2.582" />
+  </Comment>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnviNFe" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAACEAAAABAAAAAAAAACAAAAABIAQAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFe" Collapsed="true">
+    <Position X="9.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAEAACAAAEAAAAAAACE=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFe" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>qCASQCACQAkUAAACEAAAgAAAAAFAGCQIAMAQBlAAAgA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIde" Collapsed="true">
+    <Position X="16.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IF4AAQEAAgIMQAIghAFoJARUIAACAQKgiQAgJACFIAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeNFref" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeNFrefRefECF" Collapsed="true">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAABAAAAABAAAAgACAAQAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.X509DataType" Collapsed="true">
+    <Position X="5.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.KeyInfoType" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAAAAAACAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.SignatureValueType" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAACACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TransformType" Collapsed="true">
+    <Position X="2.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAgAAAQAABA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ReferenceType" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAACAAAAAEAAEABAAiABBCAAAQAAAAAAACA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ReferenceTypeDigestMethod" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAQAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.SignedInfoType" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AoACAECAAEAAAAAAAAAAAAAAAAAAACAEAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.SignedInfoTypeCanonicalizationMethod" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAQAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.SignedInfoTypeSignatureMethod" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAQAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.SignatureType" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAABAAAAAAAAAAgAAIAAIAACSAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo" Collapsed="true">
+    <Position X="4" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAIAAAAgBAAAAAAAABAAAQAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TIpi">
+    <Position X="46.75" Y="18" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAEAAAICQAAAAAgAEAAAAIAAAAAAgAAAAAQA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TIpiIPINT">
+    <Position X="26" Y="17.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TIpiIPITrib">
+    <Position X="26" Y="19.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAACAAAAACAAAAAQBAAAAAAAAAAAACAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TLocal" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>mAAAAAEAAgAACAAIAAABgIQEAVgAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEndereco" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>mIAAAQEAAgBAAAAIAAAJoIAAAVgAIgAAAAAEAAAAAAE=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmi" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>mYAAAQEAAgBAAQgIAAAJoIAAAVgAIgAAAAAEAgAAAAE=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeNFrefRefNF" Collapsed="true">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQBAAAAAQAAAAABABAQAAAAIAASAAAAAIAgAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeNFrefRefNFP" Collapsed="true">
+    <Position X="5.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQBAAAAAWAAAAABABAQEAAAAAACEAAAgIAgAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeEmit" Collapsed="true">
+    <Position X="12.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAQQAQAGAAAAAAQAAQFIgWAAAAEAAEgAABgAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeAvulsa" Collapsed="true">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAALBCAgAgAAJACAAoCAAAkAIAAQABAAABAABAAE=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDest" Collapsed="true">
+    <Position X="11" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAQQAEgGAAgAAIQAASECABAAAAEAAAgAABAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeAutXML" Collapsed="true">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDet">
+    <Position X="39.25" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAQEAAIEAIAAAAAAAAAAAAAAAAAAAAABAAgIA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="prod" />
+      <Property Name="imposto" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProd">
+    <Position X="33.75" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CApWAIDdEDGACIVAFiBSASKAgoAQAQBADQaAAIQRg+Q=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdDI" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIDAAAAAARIAggBAFBQAAAKCIABQAAAiQAAQCAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdDIAdi" Collapsed="true">
+    <Position X="5.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIIAAADAAAAIAAAAAAQAABAAAAAAAEAAAAAAFAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdDetExport" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAQAAAAAACAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdDetExportExportInd" Collapsed="true">
+    <Position X="2.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAQAQAAAAAAAAAAAAIAAAAJAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdRastro" Collapsed="true">
+    <Position X="9.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAAAgAAAQAAACABAABAIAAAAAAAAAAAAAAGAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdArma" Collapsed="true">
+    <Position X="11" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAIAAAAAAAAAAAQAAAAAAAABAAAEAAQAAAEAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdComb" Collapsed="true">
+    <Position X="12.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAyAAAYAABggQAQAQCgAAQAAAACAAAAQAAEAAEAAEQ=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdCombCIDE" Collapsed="true">
+    <Position X="14.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAIAABAAAAAAEAAAAAAAAAAIAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdCombEncerrante" Collapsed="true">
+    <Position X="16.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAICAAAAAAAAAoQABAAAQAAAAAEAQAAQ=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdMed" Collapsed="true">
+    <Position X="7.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAEAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdVeicProd" Collapsed="true">
+    <Position X="11" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKIAgAKIwBaEEGEEQAAIBEAFgHECgARBAABAS0DgM=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImposto">
+    <Position X="43.75" Y="10.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABQIIFSAAAAQCAAAAAAAAAAAAiAAAAAAAEAAAACAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="PIS" />
+      <Property Name="PISST" />
+      <Property Name="COFINS" />
+      <Property Name="COFINSST" />
+      <Property Name="ICMSUFDest" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMS">
+    <Position X="46.75" Y="24.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS00">
+    <Position X="0.5" Y="23.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACQIAAgAAACBAIACAAAAAAAIIAAAABAAAAIAAAAgFAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS10">
+    <Position X="0.5" Y="28" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACQIBAhEEACpNICCAQAAACAKIACAABAAAAIAAAAxFAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS20">
+    <Position X="4.75" Y="28.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACQIAEgAAACBEIICAAACAABKIAAAABAAAAIIAABgFAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS30">
+    <Position X="4.75" Y="16" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABABEEACpJAKAAQACACBIIACAAAAAAAAAAABxEAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS40">
+    <Position X="4.75" Y="22.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACBAAIAAAACAABAAAAAAAAAAAAAAABgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS51">
+    <Position X="0.5" Y="36.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACQIBEgDgACBEIgCAAAAAAAKIAAQABAAAAIIAAAwFAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS60">
+    <Position X="0.5" Y="19" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAIDBIAAABAIAAAAAAAQAAAgBAAgAAAggEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS70">
+    <Position X="9" Y="38.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACQIBEhEEACpNIKCAQACACBKIACAABAAAAIIAABxFAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS90">
+    <Position X="4.75" Y="37" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>ACQIBEhEEACpNIKCAQACACBKIACAABAAAAIIAABxFAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSPart">
+    <Position X="9" Y="22.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAQIAEhAGACpBISCAAAAACAIKgCAAAAAAAIIAAAhEAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSSN101">
+    <Position X="4.75" Y="25.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAQAAACCBAAAAAAAAgAAAAAAAAAAAACAAAAAIAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSSN102">
+    <Position X="4.75" Y="34.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAACBAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSSN201">
+    <Position X="9" Y="16" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AACABQBEECCpJACAAQAAgCAIIACAAAAAACAAAAAZAAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSSN202">
+    <Position X="4.75" Y="46.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AACABABEEACpJACAAQAAACAIIACAAAAAACAAAAARAAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSSN500">
+    <Position X="9" Y="33.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AECAAAAAAIDBIAAABAIAAAAAAAQAAAgBACgAAAgAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSSN900">
+    <Position X="0.5" Y="43.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AASIBUhEECCpJICCAQAAgCAIIACAAAAAACIIAAAZAAg=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMSST">
+    <Position X="9" Y="29.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAYCBAAAABAAAADAAAABAAAABAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoII">
+    <Position X="46.75" Y="21.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQCAQAABAAAAAAAAIAAAAAAJEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoISSQN">
+    <Position X="46.75" Y="10.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gIQAACQEAACgACAgQIhbAAhAIRAIIgIBAAAAAEAAAIA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPIS">
+    <Position X="39.5" Y="23.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISAliq">
+    <Position X="14" Y="16" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAAAAEAIAAAAAAAAIAAAAAgEEA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISNT">
+    <Position X="14" Y="19" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISOutr">
+    <Position X="14" Y="20.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAIgAACAAAAACAAAAAABAAEAAAAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISQtde">
+    <Position X="14" Y="23.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAIAABAAAAAAAAAAEAAAAAAIAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISST">
+    <Position X="39.5" Y="12.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIgAACAAAAACAAAAAABAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINS">
+    <Position X="39.5" Y="10.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSAliq">
+    <Position X="21.25" Y="24" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAEAAAAAAAAABAAAAAAAAAIgAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSNT">
+    <Position X="21.25" Y="16" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSOutr">
+    <Position X="21.25" Y="18" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEACAAAAACAAAAAABAAAAAgAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSQtde">
+    <Position X="21.25" Y="21" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AABAEAAAIAABAAAAAAAAAAAAAgAAAIAAAAAAAAAgEAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSST">
+    <Position X="39.5" Y="20.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgEACAAAAACAAAAAABAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSUFDest">
+    <Position X="39.5" Y="15.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAUAAAAAYQAAAACAAAAAwCAgAAEAAQAAAAQgAAIE=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoDevol">
+    <Position X="21.25" Y="27.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAIEAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoDevolIPI">
+    <Position X="21.25" Y="30" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTotal" Collapsed="true">
+    <Position X="4" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAIAAAAAEAAAAAAAAAAAAAAECBAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTotalICMSTot" Collapsed="true">
+    <Position X="5.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AC9KFQEEAABIYAGCBAQCACEsIkAAAEBACICAAQJAhIA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTotalISSQNtot" Collapsed="true">
+    <Position X="7.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAYAFAAEAAAAACAAgIhAADkAIiAAYIgAAAAAAAAgAIA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTotalRetTrib" Collapsed="true">
+    <Position X="9.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAowQAAYAAAgSAAAAAAAAIAAAIAAAgAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTransp" Collapsed="true">
+    <Position X="11" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAkAACAAAABCCAQCAABACAAAAAAAAKAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspTransporta" Collapsed="true">
+    <Position X="14.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEQQAAAGAAIAAAAgCQEBAgBCAAEAAAgAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspRetTransp" Collapsed="true">
+    <Position X="12.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAFAAACBAAAAAACIAAQAAABAEAIA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspVol" Collapsed="true">
+    <Position X="16.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AICABEAAAAAQAEAAEQAAAAAAABAAAAAAAAAMhAAAAAQ=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspVolLacres" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCobr" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AADAAACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCobrFat" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAECAAAAAAAAAAAABAAIAAACgABAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCobrDup" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAIAAAIAAAAAAAgAAEAAAE=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFePag" Collapsed="true">
+    <Position X="14.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAIAAAAAAAAAAAAAAIQAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFePagDetPag" Collapsed="true">
+    <Position X="16.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQQIAAAAAAAAAAAAAACAAAQAAAAAAAAAAAACA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFePagDetPagCard" Collapsed="true">
+    <Position X="0.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAgCAQAAAAAAAAAAAAAAAAAIAgQAAAAAAQBAAQA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeInfAdic" Collapsed="true">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAAASAAAAAAAAAAAAAASAAAAAABQAAAAAAAAwAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeInfAdicObsCont" Collapsed="true">
+    <Position X="9.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAQAAAAAAACAAAAAQAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeInfAdicObsFisco" Collapsed="true">
+    <Position X="11" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAQAAAAAAACAAAAAQAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeInfAdicProcRef" Collapsed="true">
+    <Position X="12.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEgAAAAAAAAQAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeExporta" Collapsed="true">
+    <Position X="14.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAABAAAAAAAAAABAAAAAAAAIAEAAAAAAAAAQA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCompra" Collapsed="true">
+    <Position X="9.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAgAABICAAAAgAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCana" Collapsed="true">
+    <Position X="16.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACMuAAAEAAEAAgQAAAAIAAEAIAIgMAAAQABAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCanaForDia" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAEAAABAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeCanaDeduc" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeSupl" Collapsed="true">
+    <Position X="2.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACCAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

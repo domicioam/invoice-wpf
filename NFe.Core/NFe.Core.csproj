@@ -190,10 +190,50 @@
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
+    <Compile Include="DesoneracaoIcms.cs" />
+    <Compile Include="Icms50.cs" />
+    <Compile Include="IcmsNaoTributado.cs" />
+    <Compile Include="MotivoDesoneracao.cs" />
+    <Compile Include="NotasFiscais\Cofins.cs" />
+    <Compile Include="NotasFiscais\CofinsAliq.cs" />
+    <Compile Include="NotasFiscais\CofinsAliquotaDiferenciada.cs" />
+    <Compile Include="NotasFiscais\CofinsBase.cs" />
+    <Compile Include="NotasFiscais\CofinsCumulativoNaoCumulativo.cs" />
+    <Compile Include="NotasFiscais\CofinsNt.cs" />
+    <Compile Include="NotasFiscais\CofinsOutr.cs" />
+    <Compile Include="NotasFiscais\CofinsQtde.cs" />
+    <Compile Include="NotasFiscais\CofinsSt.cs" />
     <Compile Include="Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
     <Compile Include="Events\NotasFiscaisTransmitidasEvent.cs" />
     <Compile Include="Events\ServicoOfflineEvent.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="NotasFiscais\Icms.cs" />
+    <Compile Include="NotasFiscais\Icms00.cs" />
+    <Compile Include="NotasFiscais\Icms10.cs" />
+    <Compile Include="NotasFiscais\Icms101.cs" />
+    <Compile Include="NotasFiscais\Icms102.cs" />
+    <Compile Include="NotasFiscais\Icms20.cs" />
+    <Compile Include="NotasFiscais\Icms201.cs" />
+    <Compile Include="NotasFiscais\Icms202.cs" />
+    <Compile Include="NotasFiscais\Icms30.cs" />
+    <Compile Include="NotasFiscais\IcmsTributacaoIsenta.cs" />
+    <Compile Include="NotasFiscais\Icms500.cs" />
+    <Compile Include="NotasFiscais\Icms51.cs" />
+    <Compile Include="NotasFiscais\IcmsCobradoAnteriormentePorSubstituicaoTributaria.cs" />
+    <Compile Include="NotasFiscais\Icms70.cs" />
+    <Compile Include="NotasFiscais\Icms90.cs" />
+    <Compile Include="NotasFiscais\Icms900.cs" />
+    <Compile Include="NotasFiscais\IcmsPart.cs" />
+    <Compile Include="NotasFiscais\IcmsSn.cs" />
+    <Compile Include="NotasFiscais\IcmsSn90.cs" />
+    <Compile Include="NotasFiscais\IcmsSt.cs" />
+    <Compile Include="NotasFiscais\IcmsUfDestino.cs" />
+    <Compile Include="NotasFiscais\II.cs" />
+    <Compile Include="NotasFiscais\Imposto.cs" />
+    <Compile Include="NotasFiscais\Ipi.cs" />
+    <Compile Include="NotasFiscais\IpiNt.cs" />
+    <Compile Include="NotasFiscais\IpiTrib.cs" />
+    <Compile Include="NotasFiscais\Issqn.cs" />
     <Compile Include="Messaging\MessagingCenter.cs" />
     <Compile Include="NotasFiscais\Entities\Documento.cs" />
     <Compile Include="NotasFiscais\Entities\Imposto.cs" />
@@ -214,6 +254,16 @@
     <Compile Include="NotasFiscais\ValueObjects\StatusEnvio.cs" />
     <Compile Include="NotasFiscais\ValueObjects\TipoEmissao.cs" />
     <Compile Include="NotasFiscais\ValueObjects\TipoOperacao.cs" />
+    <Compile Include="NotasFiscais\Pis.cs" />
+    <Compile Include="NotasFiscais\PisAliq.cs" />
+    <Compile Include="NotasFiscais\PisBase.cs" />
+    <Compile Include="NotasFiscais\PisNt.cs" />
+    <Compile Include="NotasFiscais\PisOperacaoIsentaContribuicao.cs" />
+    <Compile Include="NotasFiscais\PisOperacaoTributavelAliquotaZero.cs" />
+    <Compile Include="NotasFiscais\PisOperacaoTributavelMonofasica.cs" />
+    <Compile Include="NotasFiscais\PisOutr.cs" />
+    <Compile Include="NotasFiscais\PisQtde.cs" />
+    <Compile Include="NotasFiscais\PisSt.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
     <Compile Include="Sefaz\Facades\QrCode.cs" />
     <Compile Include="Sefaz\ModelToSefazAdapter.cs" />
@@ -435,6 +485,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\NfeStatusServico4\NfeStatusServico4.wsdl" />
+    <None Include="ClassDiagrams\Imposto.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
     <None Include="Properties\Settings.settings">
@@ -587,6 +638,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="ClassDiagrams\Sefaz.cd" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

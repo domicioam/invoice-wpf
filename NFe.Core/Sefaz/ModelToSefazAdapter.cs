@@ -464,6 +464,9 @@ namespace NFe.Core.Sefaz
         {
             var imposto = new TNFeInfNFeDetImposto { Items = new object[1] };
 
+            // Keep open closed in mind when writting this code
+
+            // Set icms data when product has icms tax
             switch (produto.Impostos.GetIcmsCst())
             {
                 case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
@@ -492,6 +495,7 @@ namespace NFe.Core.Sefaz
                     throw new ArgumentException();
             }
 
+            // Set pis data when product has pis tax
             imposto.PIS = new TNFeInfNFeDetImpostoPIS();
             var pisNt = new TNFeInfNFeDetImpostoPISPISNT();
 
@@ -529,6 +533,7 @@ namespace NFe.Core.Sefaz
             }
 
             //Deixar dinâmico depois que alterar interface
+            // Set cofins data when product has cofins tax
             imposto.COFINS = new TNFeInfNFeDetImpostoCOFINS();
 
             var cofins = new TNFeInfNFeDetImpostoCOFINSCOFINSAliq
