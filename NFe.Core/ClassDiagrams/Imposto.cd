@@ -1,18 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="NFe.Core.Imposto">
-    <Position X="49.5" Y="3.5" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>NotasFiscais\Imposto.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="NFe.Core.IcmsBase">
     <Position X="66.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAgAAAAA=</HashCode>
       <FileName>NotasFiscais\Icms.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NFe.Core.Ipi">
     <Position X="93" Y="5" Width="1.5" />
@@ -20,6 +14,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NotasFiscais\Ipi.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NFe.Core.Issqn">
     <Position X="7.5" Y="5" Width="1.5" />
@@ -27,6 +22,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NotasFiscais\Issqn.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NFe.Core.II">
     <Position X="5.25" Y="5" Width="1.5" />
@@ -34,6 +30,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NotasFiscais\II.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NFe.Core.CofinsSt">
     <Position X="9.75" Y="7" Width="1.5" />
@@ -188,6 +185,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>NotasFiscais\CofinsBase.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NFe.Core.PisBase">
     <Position X="33.5" Y="5" Width="1.5" />
@@ -195,6 +193,7 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>NotasFiscais\PisBase.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="NFe.Core.PisAliq">
     <Position X="25" Y="7" Width="1.5" />

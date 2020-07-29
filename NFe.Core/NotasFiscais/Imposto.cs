@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NFe.Core
+﻿namespace NFe.Core.NotasFiscais
 {
-    public abstract class Imposto
+    interface Imposto
     {
     }
 }
