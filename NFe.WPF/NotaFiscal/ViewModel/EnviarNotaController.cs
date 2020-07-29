@@ -251,7 +251,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     TipoImposto = i.TipoImposto
                 });
 
-                var produto = new Produto(new Impostos(impostos, produtoEntity.GrupoImpostos.CFOP), produtoEntity.Id,
+                var produto = new Produto(new Impostos(impostos), produtoEntity.Id,
                     produtoEntity.GrupoImpostos.CFOP, produtoEntity.Codigo, produtoEntity.Descricao, produtoEntity.NCM,
                     notaFiscal.Produtos.First(p => p.ProdutoSelecionado.Id == produtoEntity.Id).QtdeProduto,
                     produtoEntity.UnidadeComercial,

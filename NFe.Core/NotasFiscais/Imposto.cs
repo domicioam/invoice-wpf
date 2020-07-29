@@ -1,6 +1,6 @@
 ﻿namespace NFe.Core.NotasFiscais
 {
-    interface Imposto
+    public interface Imposto
     {
     }
 }

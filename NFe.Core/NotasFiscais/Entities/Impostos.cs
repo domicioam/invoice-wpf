@@ -12,18 +12,16 @@ namespace NFe.Core.NotasFiscais.Entities
      */
     public class Impostos
     {
-        private IEnumerable<Imposto> _impostos;
-        private readonly string _cfop;
+        private readonly IEnumerable<Imposto> _impostos;
 
         public Impostos()
         {
             _impostos = new List<Imposto>();
         }
 
-        public Impostos(IEnumerable<Imposto> impostos, string cfop)
+        public Impostos(IEnumerable<Imposto> impostos)
         {
             _impostos = impostos;
-            _cfop = cfop;
         }
 
         internal string GetIcmsCst()
