@@ -190,9 +190,9 @@
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
-    <Compile Include="DesoneracaoIcms.cs" />
-    <Compile Include="Icms50.cs" />
-    <Compile Include="IcmsNaoTributado.cs" />
+    <Compile Include="NotasFiscais\DesoneracaoIcms.cs" />
+    <Compile Include="NotasFiscais\Icms50.cs" />
+    <Compile Include="NotasFiscais\IcmsNaoTributado.cs" />
     <Compile Include="MotivoDesoneracao.cs" />
     <Compile Include="NotasFiscais\Cofins.cs" />
     <Compile Include="NotasFiscais\CofinsAliq.cs" />
@@ -230,6 +230,7 @@
     <Compile Include="NotasFiscais\IcmsUfDestino.cs" />
     <Compile Include="NotasFiscais\II.cs" />
     <Compile Include="NotasFiscais\Imposto.cs" />
+    <Compile Include="NotasFiscais\ImpostoFactory.cs" />
     <Compile Include="NotasFiscais\Ipi.cs" />
     <Compile Include="NotasFiscais\IpiNt.cs" />
     <Compile Include="NotasFiscais\IpiTrib.cs" />

@@ -2,6 +2,7 @@
 {
     internal enum MotivoDesoneracao
     {
+        NaoPreenchido,
         Taxi = 1,
         ProdutorAgropecuario = 3,
         FrotistaLocadora = 4,

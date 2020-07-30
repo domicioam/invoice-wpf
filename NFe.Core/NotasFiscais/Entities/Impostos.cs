@@ -12,26 +12,34 @@ namespace NFe.Core.NotasFiscais.Entities
      */
     public class Impostos
     {
-        private readonly IEnumerable<Imposto> _impostos;
+        private readonly IList<NotasFiscais.Imposto> _impostos;
 
         public Impostos()
         {
-            _impostos = new List<Imposto>();
+            _impostos = new List<NotasFiscais.Imposto>();
         }
 
         public Impostos(IEnumerable<Imposto> impostos)
         {
-            _impostos = impostos;
+            var impostoFactory = new ImpostoFactory();
+
+            foreach (var imposto in impostos)
+            {
+                var newImposto = impostoFactory.CreateImposto(imposto);
+                _impostos.Add(newImposto);
+            }
         }
 
         internal string GetIcmsCst()
         {
-            return _impostos.First(i => i.TipoImposto == TipoImposto.Icms).CST;
+            var icms = _impostos.First(i => i is IcmsBase);
+            return ((IcmsBase) icms).Cst;
         }
 
         public string GetPisCst()
         {
-            return _impostos.First(i => i.TipoImposto == TipoImposto.PIS).CST;
+            var pis = _impostos.First(i => i is PisBase);
+            return ((PisBase)pis).Cst;
         }
     }
 }
