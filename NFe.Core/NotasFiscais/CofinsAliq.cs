@@ -8,14 +8,13 @@ namespace NFe.Core
     public abstract class CofinsAliq : CofinsBase
     {
         public decimal BaseCalculo { get; }
-        public decimal Percentagem { get; }
+        public decimal Aliquota { get; }
         public decimal Valor { get; }
 
-        protected CofinsAliq(string cst, decimal baseCalculo, decimal percentagem, decimal valor) : base(cst)
+        protected CofinsAliq(string cst, decimal baseCalculo, decimal aliquota) : base(cst)
         {
             BaseCalculo = baseCalculo;
-            Percentagem = percentagem;
-            Valor = valor;
+            Aliquota = aliquota;
         }
     }
 }

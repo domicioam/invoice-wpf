@@ -25,9 +25,12 @@ namespace NFe.Core.NotasFiscais
 
             switch (imposto.TipoImposto)
             {
-
-
                 case TipoImposto.Confins:
+                    switch (imposto.CST)
+                    {
+                        case "01":
+                            return new CofinsCumulativoNaoCumulativo((decimal)imposto.BaseCalculo , (decimal)imposto.Aliquota);
+                    }
                     break;
                 case TipoImposto.Icms:
                     switch (imposto.CST)
@@ -44,13 +47,17 @@ namespace NFe.Core.NotasFiscais
                 case TipoImposto.IPI:
                     break;
                 case TipoImposto.PIS:
+                    switch (imposto.CST)
+                    {
+                        case "04":
+                            return new PisOperacaoTributavelMonofasica();
+                        case "07":
+                            return new PisOperacaoIsentaContribuicao();
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-
-
 
             throw new NotImplementedException();
         }

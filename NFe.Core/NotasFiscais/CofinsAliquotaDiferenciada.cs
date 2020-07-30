@@ -7,7 +7,7 @@ namespace NFe.Core
 {
     public class CofinsAliquotaDiferenciada : CofinsAliq
     {
-        public CofinsAliquotaDiferenciada(decimal baseCalculo, decimal percentagem, decimal valor) : base("02", baseCalculo, percentagem, valor)
+        public CofinsAliquotaDiferenciada(decimal baseCalculo, decimal aliquota, decimal valor) : base("02", baseCalculo, aliquota, valor)
         {
         }
     }
