@@ -12,7 +12,7 @@ namespace NFe.Core
         EstrangeiraMercadoInterno
     }
 
-    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : IcmsBase
+    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms
     {
         public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal valorEfetivo, decimal aliquotaEfetiva, decimal baseCalculoEfetiva, decimal percentualReducaoBaseCalculoEfetiva, decimal valorFundoCombatePobreza, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza, decimal aliquotaSuportadaConsumidorFinal, decimal valor, decimal baseCalculo, OrigemMercadoria origem) : base("60", origem)
         {

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="NFe.Core.IcmsBase">
+  <Class Name="NFe.Core.Icms">
     <Position X="66.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAgAAAAA=</HashCode>
@@ -187,11 +187,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="NFe.Core.PisBase">
+  <Class Name="NFe.Core.Pis">
     <Position X="33.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
-      <FileName>NotasFiscais\PisBase.cs</FileName>
+      <FileName>NotasFiscais\Pis.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -226,7 +226,7 @@
   <Class Name="NFe.Core.CofinsAliq">
     <Position X="14" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACAAAAAAAEAAAAABAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEAAAAAAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NotasFiscais\CofinsAliq.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -304,14 +304,14 @@
     <Position X="71" Y="7.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IcmsNaoTributado.cs</FileName>
+      <FileName>NotasFiscais\IcmsNaoTributado.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NFe.Core.Icms50">
     <Position X="73.5" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Icms50.cs</FileName>
+      <FileName>NotasFiscais\Icms50.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

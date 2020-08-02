@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace NFe.Core.NotasFiscais.Entities
     /*
      * Domain model
      */
-    public class Impostos
+    public class Impostos : IEnumerable<NotasFiscais.Imposto>
     {
         private readonly IList<NotasFiscais.Imposto> _impostos;
 
@@ -32,14 +33,24 @@ namespace NFe.Core.NotasFiscais.Entities
 
         internal string GetIcmsCst()
         {
-            var icms = _impostos.First(i => i is IcmsBase);
-            return ((IcmsBase) icms).Cst;
+            var icms = _impostos.First(i => i is Icms);
+            return ((Icms) icms).Cst;
         }
 
         public string GetPisCst()
         {
-            var pis = _impostos.First(i => i is PisBase);
-            return ((PisBase)pis).Cst;
+            var pis = _impostos.First(i => i is Pis);
+            return ((Pis)pis).Cst;
+        }
+
+        public IEnumerator<NotasFiscais.Imposto> GetEnumerator()
+        {
+            return _impostos.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _impostos.GetEnumerator();
         }
     }
 }

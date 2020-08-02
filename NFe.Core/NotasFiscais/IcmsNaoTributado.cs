@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFe.Core
 {
-    internal class IcmsNaoTributado : IcmsBase
+    internal class IcmsNaoTributado : Icms
     {
         internal DesoneracaoIcms DesoneracaoIcms { get; }
 

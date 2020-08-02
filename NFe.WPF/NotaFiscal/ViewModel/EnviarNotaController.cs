@@ -244,7 +244,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             {
                 var produtoEntity = produtosTo.First(c => c.Id == produtoNota.ProdutoSelecionado.Id);
 
-                var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new Imposto()
+                var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new Core.NotasFiscais.Entities.Imposto()
                 {
                     Aliquota = i.Aliquota, BaseCalculo = i.BaseCalculo, CST = i.CST, Id = i.Id,
                     GrupoImpostosId = i.GrupoImpostosId, Origem = i.Origem, Reducao = i.Reducao,

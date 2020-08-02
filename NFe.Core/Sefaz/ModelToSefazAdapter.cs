@@ -59,6 +59,7 @@ using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.Extensions;
 using NFe.Core.NotasFiscais.ValueObjects;
+using Imposto = NFe.Core.NotasFiscais.Imposto;
 
 namespace NFe.Core.Sefaz
 {
@@ -472,6 +473,18 @@ namespace NFe.Core.Sefaz
 
             return imposto;
         }
+
+        // Replace old method with this
+        //private static TNFeInfNFeDetImposto GetImpostoV2(Produto produto)
+        //{
+        //    var impostoFactory = new NfeDetImpostoFactory();
+        //    TNFeInfNFeDetImposto nfeDetImposto = impostoFactory.CreateNfeDetImposto(produto.Impostos);
+
+
+
+        //    var detImposto = new TNFeInfNFeDetImposto();
+        //    detImposto.SetImpostos(produto.Impostos);
+        //}
 
         private static TNFeInfNFeDetImpostoCOFINS GetImpostoCofins()
         {

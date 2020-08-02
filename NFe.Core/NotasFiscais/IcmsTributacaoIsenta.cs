@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class IcmsTributacaoIsenta : IcmsBase
+    public class IcmsTributacaoIsenta : Icms
     {
         public IcmsTributacaoIsenta(OrigemMercadoria origem) : base("40", origem)
         {

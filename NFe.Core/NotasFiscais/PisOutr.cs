@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class PisOutr : PisBase
+    public class PisOutr : Pis
     {
         public PisOutr(string cst) : base(cst)
         {

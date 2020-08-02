@@ -6,9 +6,9 @@ using NFe.Core.NotasFiscais;
 
 namespace NFe.Core
 {
-    public abstract class IcmsBase : Imposto
+    public abstract class Icms : Imposto
     {
-        protected IcmsBase(string cst, OrigemMercadoria origem)
+        protected Icms(string cst, OrigemMercadoria origem)
         {
             Cst = cst;
             Origem = origem;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class Icms00 : IcmsBase
+    public class Icms00 : Icms
     {
         public Icms00(string cst, OrigemMercadoria origem) : base(cst, origem)
         {

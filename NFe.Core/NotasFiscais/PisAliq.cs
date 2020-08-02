@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class PisAliq : PisBase
+    public class PisAliq : Pis
     {
         public PisAliq(string cst) : base(cst)
         {

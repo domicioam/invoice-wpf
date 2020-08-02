@@ -2,45 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NFe.Core.NotasFiscais;
 
 namespace NFe.Core
 {
-    public class Pis : PisBase
+    public abstract class Pis : Imposto
     {
-        public PisNt PisNt
+        protected Pis(string cst)
         {
-            get => default;
-            set
-            {
-            }
+            Cst = cst;
         }
 
-        public PisOutr PisOutr
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public PisAliq PisAliq
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public PisQtde PisQtde
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Pis(string cst) : base(cst)
-        {
-        }
+        public string Cst { get; }
     }
 }
