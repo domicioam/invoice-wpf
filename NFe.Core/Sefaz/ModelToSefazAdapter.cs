@@ -474,7 +474,7 @@ namespace NFe.Core.Sefaz
             return imposto;
         }
 
-        // Replace old method with this
+        ////Replace old method with this
         //private static TNFeInfNFeDetImposto GetImpostoV2(Produto produto)
         //{
         //    var impostoFactory = new NfeDetImpostoFactory();

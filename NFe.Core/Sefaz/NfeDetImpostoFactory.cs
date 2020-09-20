@@ -55,8 +55,8 @@ namespace NFe.Core.Sefaz
             if (icmsUfDestino == null) 
                 return null;
 
-            var strategy = _directorFactory.CreateDirector(icmsUfDestino);
-            var detImpostoIcmsufDest = (TNFeInfNFeDetImpostoICMSUFDest) strategy.FillInImpostoDetails(icmsUfDestino);
+            var director = _directorFactory.CreateDirector(icmsUfDestino);
+            var detImpostoIcmsufDest = (TNFeInfNFeDetImpostoICMSUFDest) director.FillInImpostoDetails(icmsUfDestino);
 
             return detImpostoIcmsufDest;
         }
@@ -68,8 +68,8 @@ namespace NFe.Core.Sefaz
             if (cofinsSt == null) 
                 return null;
 
-            var strategy = _directorFactory.CreateDirector(cofinsSt);
-            var detImpostoCofinsst = (TNFeInfNFeDetImpostoCOFINSST) strategy.FillInImpostoDetails(cofinsSt);
+            var director = _directorFactory.CreateDirector(cofinsSt);
+            var detImpostoCofinsst = (TNFeInfNFeDetImpostoCOFINSST) director.FillInImpostoDetails(cofinsSt);
 
             return detImpostoCofinsst;
         }
@@ -81,8 +81,8 @@ namespace NFe.Core.Sefaz
             if (cofins == null) 
                 return null;
 
-            var strategy = _directorFactory.CreateDirector(cofins);
-            var detImpostoCofins = (TNFeInfNFeDetImpostoCOFINS) strategy.FillInImpostoDetails(cofins);
+            var director = _directorFactory.CreateDirector(cofins);
+            var detImpostoCofins = (TNFeInfNFeDetImpostoCOFINS) director.FillInImpostoDetails(cofins);
 
             return detImpostoCofins;
         }
@@ -94,8 +94,8 @@ namespace NFe.Core.Sefaz
             if (pisSt == null) 
                 return null;
 
-            var strategy = _directorFactory.CreateDirector(pisSt);
-            var detImpostoPisst = (TNFeInfNFeDetImpostoPISST) strategy.FillInImpostoDetails(pisSt);
+            var director = _directorFactory.CreateDirector(pisSt);
+            var detImpostoPisst = (TNFeInfNFeDetImpostoPISST) director.FillInImpostoDetails(pisSt);
 
             return detImpostoPisst;
         }
@@ -107,8 +107,8 @@ namespace NFe.Core.Sefaz
             if (pis == null) 
                 return null;
 
-            var strategy = _directorFactory.CreateDirector(pis);
-            var detImpostoPis = (TNFeInfNFeDetImpostoPIS) strategy.FillInImpostoDetails(pis);
+            var director = _directorFactory.CreateDirector(pis);
+            var detImpostoPis = (TNFeInfNFeDetImpostoPIS) director.FillInImpostoDetails(pis);
 
             return detImpostoPis;
         }
