@@ -7,7 +7,7 @@ namespace NFe.Core
 {
     public class Icms201 : IcmsSn
     {
-        public Icms201(string cst, OrigemMercadoria origem) : base(cst, origem)
+        public Icms201(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
         {
         }
     }

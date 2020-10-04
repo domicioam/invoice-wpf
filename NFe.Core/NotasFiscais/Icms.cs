@@ -8,15 +8,20 @@ namespace NFe.Core
 {
     public abstract class Icms : Imposto
     {
-        protected Icms(string cst, OrigemMercadoria origem)
+        protected Icms(CstEnum cst, OrigemMercadoria origem)
         {
             Cst = cst;
             Origem = origem;
         }
 
-        public string Cst { get; }
+        public CstEnum Cst { get; }
         public OrigemMercadoria Origem { get; }
-        
 
+        public enum CstEnum
+        {
+            CST60 = 60,
+            CST41 = 41,
+            CST40 = 40
+        }
     }
 }

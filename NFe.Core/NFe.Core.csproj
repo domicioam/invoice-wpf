@@ -268,9 +268,9 @@
     <Compile Include="Sefaz\CofinsStDirector.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
     <Compile Include="Sefaz\Facades\QrCode.cs" />
-    <Compile Include="Sefaz\IcmsDirector.cs" />
+    <Compile Include="Sefaz\IcmsCreator.cs" />
     <Compile Include="Sefaz\IcmsUfDestinoDirector.cs" />
-    <Compile Include="Sefaz\IImpostoDirector.cs" />
+    <Compile Include="Sefaz\IImpostoCreator.cs" />
     <Compile Include="Sefaz\IiDirector.cs" />
     <Compile Include="Sefaz\ImpostoDirectorFactory.cs" />
     <Compile Include="Sefaz\IpiDirector.cs" />
@@ -389,6 +389,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Sefaz\Facades\InutilizarNotaFiscalFacade.cs" />
+    <Compile Include="Sefaz\Utility\DecimalExtensions.cs" />
+    <Compile Include="Sefaz\Utility\EnumConverterExtensions.cs" />
     <Compile Include="Utils\Assinatura\ICertificateManager.cs" />
     <Compile Include="Utils\PDF\NotaCancelada.cs" />
     <Compile Include="Utils\PDF\RelatorioGerencial\Emitente.cs" />

@@ -43,7 +43,7 @@ namespace NFe.Core.NotasFiscais.Entities
 
         public string CstTexto
         {
-            get { return Impostos.GetIcmsCst(); }
+            get { return Impostos.GetIcmsCst().ToString(); }
         }
 
         public string CfopTexto

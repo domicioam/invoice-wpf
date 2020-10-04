@@ -88,6 +88,9 @@ namespace EmissorNFe
         {
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
+            TraceSource traceSource = new TraceSource("EmissorNFe");
+            traceSource.TraceEvent(TraceEventType.Information, 1, "Data loaded");
+
             CreateDataDirectory();
             RegisterTypes();
             base.OnStartup(e);

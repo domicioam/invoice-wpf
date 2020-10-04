@@ -477,7 +477,8 @@ namespace NFe.Core.Sefaz
         ////Replace old method with this
         //private static TNFeInfNFeDetImposto GetImpostoV2(Produto produto)
         //{
-        //    var impostoFactory = new NfeDetImpostoFactory();
+        //    var directorFactory = new ImpostoCreatorFactory();
+        //    var impostoFactory = new NfeDetImpostoFactory(directorFactory);
         //    TNFeInfNFeDetImposto nfeDetImposto = impostoFactory.CreateNfeDetImposto(produto.Impostos);
 
 
@@ -546,7 +547,7 @@ namespace NFe.Core.Sefaz
         {
             var icms = new TNFeInfNFeDetImpostoICMS();
 
-            switch (produto.Impostos.GetIcmsCst())
+            switch (produto.Impostos.GetIcmsCst().ToString())
             {
                 case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
                     var icms60 = new TNFeInfNFeDetImpostoICMSICMS60

@@ -36,7 +36,7 @@ namespace NFe.Core.NotasFiscais
                     switch (imposto.CST)
                     {
                         case "60":
-                            return new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, (decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, (decimal)imposto.Reducao, 0, 0, 0, 0, 0, 0, origem);
+                            return new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, (decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, 0, 0, 0, origem);
                         case "41":
                             var desoneracaoIcms = new DesoneracaoIcms(0, MotivoDesoneracao.NaoPreenchido);
                             return new IcmsNaoTributado(desoneracaoIcms, origem);

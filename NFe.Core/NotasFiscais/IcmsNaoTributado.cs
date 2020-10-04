@@ -9,7 +9,7 @@ namespace NFe.Core
     {
         internal DesoneracaoIcms DesoneracaoIcms { get; }
 
-        public IcmsNaoTributado(DesoneracaoIcms desoneracaoIcms, OrigemMercadoria origem) : base("41", origem)
+        public IcmsNaoTributado(DesoneracaoIcms desoneracaoIcms, OrigemMercadoria origem) : base(CstEnum.CST41, origem)
         {
             DesoneracaoIcms = desoneracaoIcms;
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Cadastro.Imposto;
+using static NFe.Core.Icms;
 
 namespace NFe.Core.NotasFiscais.Entities
 {
@@ -31,7 +32,7 @@ namespace NFe.Core.NotasFiscais.Entities
             }
         }
 
-        internal string GetIcmsCst()
+        internal CstEnum GetIcmsCst()
         {
             var icms = _impostos.First(i => i is Icms);
             return ((Icms) icms).Cst;

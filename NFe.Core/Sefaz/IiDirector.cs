@@ -2,13 +2,13 @@
 
 namespace NFe.Core.Sefaz
 {
-    internal class IiDirector : IImpostoDirector
+    internal class IiDirector : IImpostoCreator
     {
         public IiDirector()
         {
         }
 
-        public object FillInImpostoDetails(Imposto impostoItem)
+        public object Create(Imposto impostoItem)
         {
             throw new System.NotImplementedException();
         }

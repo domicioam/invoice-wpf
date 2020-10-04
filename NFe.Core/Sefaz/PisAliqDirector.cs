@@ -2,9 +2,9 @@
 
 namespace NFe.Core.Sefaz
 {
-    internal class PisAliqDirector : IImpostoDirector
+    internal class PisAliqDirector : IImpostoCreator
     {
-        public object FillInImpostoDetails(Imposto impostoItem)
+        public object Create(Imposto impostoItem)
         {
             throw new System.NotImplementedException();
         }

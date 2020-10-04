@@ -3,15 +3,15 @@ using NFe.Core.NotasFiscais;
 
 namespace NFe.Core.Sefaz
 {
-    public class ImpostoDirectorFactory
+    public class ImpostoCreatorFactory
     {
-        internal IImpostoDirector CreateDirector(Imposto impostoItem)
+        internal IImpostoCreator Create(Imposto impostoItem)
         {
             switch (impostoItem)
             {
                 case Icms _:
                 {
-                    var icmsStrategy = new IcmsDirector();
+                    var icmsStrategy = new IcmsCreator();
                     return icmsStrategy;
                 }
                 case II _:

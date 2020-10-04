@@ -7,7 +7,7 @@ namespace NFe.Core
 {
     public abstract class IcmsSn : Icms
     {
-        protected IcmsSn(string cst, OrigemMercadoria origem) : base(cst, origem)
+        protected IcmsSn(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
         {
         }
     }
