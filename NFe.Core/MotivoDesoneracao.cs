@@ -13,7 +13,6 @@
         Outros = 9,
         DeficienteCondutor = 10,
         DeficienteNaoCondutor = 11,
-        OlimpiadasRio2016 = 16,
-        SolicitadoFisco = 90
+        OlimpiadasRio2016 = 16
     }
 }

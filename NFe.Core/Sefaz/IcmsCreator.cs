@@ -5,6 +5,9 @@ using System;
 
 namespace NFe.Core.Sefaz
 {
+    // TODO: ESCREVER TESTES UNITÁRIOS DESSA CLASSE
+
+
     internal class IcmsCreator : IImpostoCreator
     {
         public IcmsCreator()
@@ -55,37 +58,45 @@ namespace NFe.Core.Sefaz
 
             switch (icms.Cst)
             {
-                case Icms.CstEnum.CST40:
-                    break;
                 case Icms.CstEnum.CST60:
                     var icms60 = (IcmsCobradoAnteriormentePorSubstituicaoTributaria)icms;
 
-                    var icmsDet60 = new TNFeInfNFeDetImpostoICMSICMS60();
-                    icmsDet60.orig = icms60.Origem.ToTorig();
-                    icmsDet60.CST = icms60.Cst.ToTNFeInfNFeDetImpostoICMSICMS60CST();
-                    icmsDet60.vBCSTRet = icms60.BaseCalculo.ToPositiveDecimalAsStringOrNull();
-                    icmsDet60.pST = icms60.Aliquota.ToPositiveDecimalAsStringOrNull();
-                    icmsDet60.vICMSSTRet = icms60.Valor.ToPositiveDecimalAsStringOrNull();
-                    icmsDet60.pFCPSTRet = icms60.PercentualFundoCombatePobreza.ToPositiveDecimalAsStringOrNull();
-                    icmsDet60.vBCFCPSTRet = icms60.BaseCalculoFundoCombatePobreza.ToPositiveDecimalAsStringOrNull();
-                    icmsDet60.vFCPSTRet = icms60.ValorFundoCombatePobreza.ToPositiveDecimalAsStringOrNull();
+                    var icmsDet60 = new TNFeInfNFeDetImpostoICMSICMS60
+                    {
+                        orig = icms60.Origem.ToTorig(),
+                        CST = icms60.Cst.ToTNFeInfNFeDetImpostoICMSICMS60CST(),
+                        vBCSTRet = icms60.BaseCalculo.ToPositiveDecimalAsStringOrNull(),
+                        pST = icms60.Aliquota.ToPositiveDecimalAsStringOrNull(),
+                        vICMSSTRet = icms60.Valor.ToPositiveDecimalAsStringOrNull(),
+                        pFCPSTRet = icms60.PercentualFundoCombatePobreza.ToPositiveDecimalAsStringOrNull(),
+                        vBCFCPSTRet = icms60.BaseCalculoFundoCombatePobreza.ToPositiveDecimalAsStringOrNull(),
+                        vFCPSTRet = icms60.ValorFundoCombatePobreza.ToPositiveDecimalAsStringOrNull()
+                    };
 
                     icmsDet.Item = icmsDet60;
                     break;
                 case Icms.CstEnum.CST41:
-                    var icms41 = new TNFeInfNFeDetImpostoICMSICMS40
+                    var icms41 = (IcmsNaoTributado)icms;
+
+                    var icmsDet41 = new TNFeInfNFeDetImpostoICMSICMS40
                     {
-                        orig = Torig.Item0,
-                        CST = TNFeInfNFeDetImpostoICMSICMS40CST.Item41
+                        orig = icms41.Origem.ToTorig(),
+                        CST = icms41.Cst.ToTNFeInfNFeDetImpostoICMSICMS40CST()
                     };
-                    icmsDet.Item = icms41;
+
+                    if(icms41.DesoneracaoIcms != null)
+                    {
+                        icmsDet41.vICMSDeson = icms41.DesoneracaoIcms.ValorDesonerado.ToPositiveDecimalAsStringOrNull();
+                        icmsDet41.motDesICMS = icms41.DesoneracaoIcms.MotivoDesoneracao.ToTNFeInfNFeDetImpostoICMSICMS40MotDesICMS();
+                    }
+
+                    icmsDet.Item = icmsDet41;
                     break;
                 default:
-                    throw new NotSupportedException("CST ainda não suportado.");
+                    throw new NotSupportedException($"CST ainda não suportado: {icms.Cst}");
             }
 
-
-            throw new System.NotImplementedException();
+            return icmsDet;
         }
     }
 }

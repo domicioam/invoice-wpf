@@ -10,7 +10,7 @@ namespace NFe.Core.Sefaz.Utility
     {
         public static string ToPositiveDecimalAsStringOrNull(this decimal value)
         {
-            if(value < 0)
+            if(value > 0)
             {
                 return value.ToString();
             }

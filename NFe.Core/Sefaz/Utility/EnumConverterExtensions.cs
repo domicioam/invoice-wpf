@@ -45,5 +45,62 @@ namespace NFe.Core.Sefaz.Utility
                     throw new InvalidOperationException($"CST não suportado para ICMS 60.");
             }
         }
+
+        /// <summary>
+        /// Converte CstEnum para TNFeInfNFeDetImpostoICMSICMS40CST
+        /// </summary>
+        /// <param name="cst"></param>
+        /// <returns></returns>
+        public static TNFeInfNFeDetImpostoICMSICMS40CST ToTNFeInfNFeDetImpostoICMSICMS40CST(this CstEnum cst)
+        {
+            switch (cst)
+            {
+                case CstEnum.CST40:
+                    return TNFeInfNFeDetImpostoICMSICMS40CST.Item40;
+                case CstEnum.CST41:
+                    return TNFeInfNFeDetImpostoICMSICMS40CST.Item41;
+                default:
+                    throw new InvalidOperationException($"CST não suportado para ICMS 40.");
+            }
+        }
+
+        // ToTNFeInfNFeDetImpostoICMSICMS40MotDesICMS
+
+        /// <summary>
+        /// Converte CstEnum para TNFeInfNFeDetImpostoICMSICMS40CST
+        /// </summary>
+        /// <param name="cst"></param>
+        /// <returns></returns>
+        public static TNFeInfNFeDetImpostoICMSICMS40MotDesICMS ToTNFeInfNFeDetImpostoICMSICMS40MotDesICMS(this MotivoDesoneracao motivo)
+        {
+            switch (motivo)
+            {
+
+                case MotivoDesoneracao.Taxi:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item1;
+                case MotivoDesoneracao.ProdutorAgropecuario:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item3;
+                case MotivoDesoneracao.FrotistaLocadora:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item4;
+                case MotivoDesoneracao.DiplomaticoConsultar:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item5;
+                case MotivoDesoneracao.UtilitariosAmazoniaAreasLivreComercio:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item6;
+                case MotivoDesoneracao.Suframa:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item7;
+                case MotivoDesoneracao.VendaOrgaoPublico:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item8;
+                case MotivoDesoneracao.Outros:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item9;
+                case MotivoDesoneracao.DeficienteCondutor:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item10;
+                case MotivoDesoneracao.DeficienteNaoCondutor:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item11;
+                case MotivoDesoneracao.OlimpiadasRio2016:
+                    return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item16;
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
     }
 }
