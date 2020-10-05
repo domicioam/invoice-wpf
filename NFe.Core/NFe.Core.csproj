@@ -190,6 +190,7 @@
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
+    <Compile Include="Extensions\Enumeration.cs" />
     <Compile Include="NotasFiscais\DesoneracaoIcms.cs" />
     <Compile Include="NotasFiscais\Icms50.cs" />
     <Compile Include="NotasFiscais\IcmsNaoTributado.cs" />
@@ -390,7 +391,6 @@
     </Compile>
     <Compile Include="Sefaz\Facades\InutilizarNotaFiscalFacade.cs" />
     <Compile Include="Sefaz\Utility\DecimalExtensions.cs" />
-    <Compile Include="Sefaz\Utility\EnumConverterExtensions.cs" />
     <Compile Include="Utils\Assinatura\ICertificateManager.cs" />
     <Compile Include="Utils\PDF\NotaCancelada.cs" />
     <Compile Include="Utils\PDF\RelatorioGerencial\Emitente.cs" />
