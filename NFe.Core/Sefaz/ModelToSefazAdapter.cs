@@ -487,6 +487,8 @@ namespace NFe.Core.Sefaz
         //    detImposto.SetImpostos(produto.Impostos);
         //}
 
+        // PIS e COFINS
+
         private static TNFeInfNFeDetImpostoCOFINS GetImpostoCofins()
         {
             var cofins = new TNFeInfNFeDetImpostoCOFINS();

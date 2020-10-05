@@ -8,6 +8,9 @@ using static NFe.Core.Icms;
 
 namespace NFe.Core.Sefaz.Utility
 {
+
+    // TODO: Usar enums as classes e adicionar os converters dentro da classe e remover tudo que está aqui.
+
     static class EnumConverterExtensions
     {
         /// <summary>
@@ -100,6 +103,24 @@ namespace NFe.Core.Sefaz.Utility
                     return TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item16;
                 default:
                     throw new InvalidOperationException();
+            }
+        }
+
+        /// <summary>
+        /// Converte CstEnum para TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST
+        /// </summary>
+        /// <param name="cst"></param>
+        /// <returns></returns>
+        public static TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST ToSefazCofinsCST(this CofinsBase.CstEnum cst)
+        {
+            switch (cst)
+            {
+                case CofinsBase.CstEnum.CST01:
+                    return TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST.Item01;
+                case CofinsBase.CstEnum.CST02:
+                    return TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST.Item02;
+                default:
+                    throw new InvalidOperationException($"CST não suportado para Cofins.");
             }
         }
     }

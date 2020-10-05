@@ -36,7 +36,7 @@ namespace NFe.Core.Sefaz
                 }
                 case CofinsBase _:
                 {
-                    var cofinsStrategy = new CofinsDirector();
+                    var cofinsStrategy = new CofinsCreator();
                     return cofinsStrategy;
                 }
                 default:

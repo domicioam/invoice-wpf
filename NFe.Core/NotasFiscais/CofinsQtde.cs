@@ -7,7 +7,7 @@ namespace NFe.Core
 {
     public class CofinsQtde : CofinsBase
     {
-        public CofinsQtde(string cst) : base(cst)
+        public CofinsQtde(CstEnum cst) : base(cst)
         {
         }
     }

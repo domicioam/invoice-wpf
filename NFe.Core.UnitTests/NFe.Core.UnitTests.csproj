@@ -108,6 +108,7 @@
     <Compile Include="NotaFiscalService\NotaFiscalServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CertificadoServiceTests.cs" />
+    <Compile Include="Sefaz\CofinsCreatorTests.cs" />
     <Compile Include="Sefaz\IcmsCreatorTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,9 +2,9 @@
 
 namespace NFe.Core.Sefaz
 {
-    internal class CofinsDirector : IImpostoCreator
+    internal class CofinsStCreator : IImpostoCreator
     {
-        public CofinsDirector()
+        public CofinsStCreator()
         {
         }
 

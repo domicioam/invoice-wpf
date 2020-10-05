@@ -39,7 +39,7 @@ namespace NFe.Core
             }
         }
 
-        public Cofins(string cst) : base(cst)
+        public Cofins(CstEnum cst) : base(cst)
         {
         }
     }

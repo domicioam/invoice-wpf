@@ -8,11 +8,17 @@ namespace NFe.Core
 {
     public abstract class CofinsBase : Imposto
     {
-        protected CofinsBase(string cst)
+        protected CofinsBase(CstEnum cst)
         {
             Cst = cst;
         }
 
-        public string Cst { get; }
+        public CstEnum Cst { get; }
+
+        public enum CstEnum
+        {
+            CST01 = 01,
+            CST02 = 02
+        }
     }
 }

@@ -264,8 +264,8 @@
     <Compile Include="NotasFiscais\PisOutr.cs" />
     <Compile Include="NotasFiscais\PisQtde.cs" />
     <Compile Include="NotasFiscais\PisSt.cs" />
-    <Compile Include="Sefaz\CofinsDirector.cs" />
-    <Compile Include="Sefaz\CofinsStDirector.cs" />
+    <Compile Include="Sefaz\CofinsCreator.cs" />
+    <Compile Include="Sefaz\CofinsStCreator.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
     <Compile Include="Sefaz\Facades\QrCode.cs" />
     <Compile Include="Sefaz\IcmsCreator.cs" />

@@ -11,7 +11,7 @@ namespace NFe.Core
         public decimal Aliquota { get; }
         public decimal Valor { get; }
 
-        protected CofinsAliq(string cst, decimal baseCalculo, decimal aliquota) : base(cst)
+        protected CofinsAliq(CstEnum cst, decimal baseCalculo, decimal aliquota) : base(cst)
         {
             BaseCalculo = baseCalculo;
             Aliquota = aliquota;
