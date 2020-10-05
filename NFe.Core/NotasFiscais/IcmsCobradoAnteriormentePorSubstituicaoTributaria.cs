@@ -25,7 +25,7 @@ namespace NFe.Core
         }
 
         public decimal BaseCalculo { get;  }
-        public decimal Valor { get;  }
+        public decimal Valor { get;  } // É calculado?
         public decimal BaseCalculoFundoCombatePobreza { get;  }
         public decimal PercentualFundoCombatePobreza { get;  }
         public decimal ValorFundoCombatePobreza { get;  }

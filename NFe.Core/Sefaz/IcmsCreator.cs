@@ -5,48 +5,8 @@ using System;
 
 namespace NFe.Core.Sefaz
 {
-    // TODO: ESCREVER TESTES UNITÁRIOS DESSA CLASSE
-
-
     internal class IcmsCreator : IImpostoCreator
     {
-        public IcmsCreator()
-        {
-        }
-
-        /*
-        private static TNFeInfNFeDetImpostoICMS GetImpostoIcms(Produto produto)
-        {
-            var icms = new TNFeInfNFeDetImpostoICMS();
-
-            switch (produto.Impostos.GetIcmsCst())
-            {
-                case TabelaIcmsCst.IcmsCobradoAnteriormentePorST:
-                    var icms60 = new TNFeInfNFeDetImpostoICMSICMS60
-                    {
-                        orig = Torig.Item0,
-                        CST = TNFeInfNFeDetImpostoICMSICMS60CST.Item60
-                    };
-                    icms.Item = icms60;
-                    break;
-
-                case TabelaIcmsCst.NaoTributada:
-                    var icms41 = new TNFeInfNFeDetImpostoICMSICMS40
-                    {
-                        orig = Torig.Item0,
-                        CST = TNFeInfNFeDetImpostoICMSICMS40CST.Item41
-                    };
-                    icms.Item = icms41;
-                    break;
-
-                default:
-                    throw new ArgumentException();
-            }
-
-            return icms;
-        }
-         */
-
         public object Create(Imposto impostoItem)
         {
             if (!(impostoItem is Icms icms))
