@@ -55,5 +55,35 @@ namespace NFe.Core.UnitTests.Sefaz
         }
 
         // Falta ICMS 41
+
+        [Fact]
+        public void Should_create_icms_41_with_empty_fields()
+        {
+            var icmsCreator = new IcmsCreator();
+            Imposto imposto = new IcmsNaoTributado(null, OrigemMercadoria.Nacional);
+            var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
+            var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;
+
+            Assert.Equal(TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item1, detImpostoIcms40.motDesICMS);
+            Assert.Null(detImpostoIcms40.vICMSDeson);
+            Assert.Equal(Torig.Item0, detImpostoIcms40.orig);
+            Assert.Equal(TNFeInfNFeDetImpostoICMSICMS40CST.Item41, detImpostoIcms40.CST);
+        }
+
+        [Theory]
+        [InlineData(12)]
+        public void Should_create_icms_41_national_origin_with_corect_values(decimal valorDesoneracao)
+        {
+            var icmsCreator = new IcmsCreator();
+            var desoneracaoIcms = new DesoneracaoIcms(valorDesoneracao, MotivoDesoneracao.Outros);
+            Imposto imposto = new IcmsNaoTributado(desoneracaoIcms, OrigemMercadoria.Nacional);
+            var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
+            var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;
+
+            Assert.Equal(TNFeInfNFeDetImpostoICMSICMS40MotDesICMS.Item9, detImpostoIcms40.motDesICMS);
+            Assert.Equal(valorDesoneracao.ToString(), detImpostoIcms40.vICMSDeson);
+            Assert.Equal(Torig.Item0, detImpostoIcms40.orig);
+            Assert.Equal(TNFeInfNFeDetImpostoICMSICMS40CST.Item41, detImpostoIcms40.CST);
+        }
     }
 }
