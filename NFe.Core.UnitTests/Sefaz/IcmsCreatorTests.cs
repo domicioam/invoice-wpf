@@ -85,5 +85,14 @@ namespace NFe.Core.UnitTests.Sefaz
             Assert.Equal(Torig.Item0, detImpostoIcms40.orig);
             Assert.Equal(TNFeInfNFeDetImpostoICMSICMS40CST.Item41, detImpostoIcms40.CST);
         }
+
+        [Fact]
+        public void Should_throw_exception_when_icms_type_is_wrong()
+        {
+            var icmsCreator = new IcmsCreator();
+            Imposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
+
+            Assert.Throws<ArgumentException>(() => icmsCreator.Create(imposto));
+        }
     }
 }
