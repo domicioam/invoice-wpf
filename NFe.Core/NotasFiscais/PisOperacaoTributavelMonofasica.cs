@@ -7,7 +7,7 @@ namespace NFe.Core
 {
     public class PisOperacaoTributavelMonofasica : PisNt
     {
-        public PisOperacaoTributavelMonofasica() : base("04")
+        public PisOperacaoTributavelMonofasica() : base(CstEnum.CST04)
         {
         }
     }

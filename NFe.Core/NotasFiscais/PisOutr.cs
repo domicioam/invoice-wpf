@@ -7,7 +7,7 @@ namespace NFe.Core
 {
     public class PisOutr : Pis
     {
-        public PisOutr(string cst) : base(cst)
+        public PisOutr(CstEnum cst) : base(cst)
         {
         }
     }

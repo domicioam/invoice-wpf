@@ -41,7 +41,7 @@ namespace NFe.Core.NotasFiscais.Entities
         public string GetPisCst()
         {
             var pis = _impostos.First(i => i is Pis);
-            return ((Pis)pis).Cst;
+            return ((Pis)pis).Cst.Id.ToString();
         }
 
         public IEnumerator<NotasFiscais.Imposto> GetEnumerator()

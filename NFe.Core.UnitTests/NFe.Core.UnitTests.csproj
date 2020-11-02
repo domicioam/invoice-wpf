@@ -110,6 +110,7 @@
     <Compile Include="CertificadoServiceTests.cs" />
     <Compile Include="Sefaz\CofinsCreatorTests.cs" />
     <Compile Include="Sefaz\IcmsCreatorTests.cs" />
+    <Compile Include="Sefaz\PisCreatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MyDevCert.pfx">
