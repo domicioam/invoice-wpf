@@ -31,7 +31,7 @@ namespace NFe.Core.Sefaz
                 }
                 case Pis _:
                 {
-                    var pisStrategy = new PisDirector();
+                    var pisStrategy = new PisCreator();
                     return pisStrategy;
                 }
                 case CofinsBase _:

@@ -2,7 +2,7 @@
 
 namespace NFe.Core.Sefaz
 {
-    internal class PisDirector : IImpostoCreator
+    internal class PisCreator : IImpostoCreator
     {
         public object Create(Imposto impostoItem)
         {

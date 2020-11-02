@@ -280,7 +280,7 @@
     <Compile Include="Sefaz\NfeDetImpostoFactory.cs" />
     <Compile Include="Sefaz\PisAliqDirector.cs" />
     <Compile Include="Sefaz\PisNtDirector.cs" />
-    <Compile Include="Sefaz\PisDirector.cs" />
+    <Compile Include="Sefaz\PisCreator.cs" />
     <Compile Include="Sefaz\PisStDirector.cs" />
     <Compile Include="Sefaz\SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
