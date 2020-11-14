@@ -1,4 +1,5 @@
 ﻿using NFe.Core.Extensions;
+using NFe.Core.NotasFiscais;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
 using System.Collections.Generic;
@@ -19,40 +20,44 @@ namespace NFe.Core
 
         public static implicit operator Torig(OrigemMercadoria origemMercadoria)
         {
-            if(origemMercadoria == Nacional)
+            if (origemMercadoria == Nacional)
             {
                 return Torig.Item0;
-            } else if(origemMercadoria == EstrangeiraImportacaoDireta)
+            }
+            else if (origemMercadoria == EstrangeiraImportacaoDireta)
             {
                 return Torig.Item1;
-            } else if (origemMercadoria == EstrangeiraMercadoInterno)
+            }
+            else if (origemMercadoria == EstrangeiraMercadoInterno)
             {
                 return Torig.Item2;
-            } else
+            }
+            else
             {
                 throw new InvalidOperationException($"Origem de mercadoria não suportada: {origemMercadoria}.");
             }
         }
     }
 
-    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms
+    internal class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms
     {
-        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal valor, decimal aliquota, decimal baseCalculo, decimal valorFundoCombatePobreza, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
+        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal valorProduto, BaseCalculo baseCalculo, decimal aliquota, decimal percentualFundoCombatePobreza, BaseCalculoFundoCombatePobreza baseCalculoFundoCombatePobreza, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
         {
             Aliquota = aliquota;
-            ValorFundoCombatePobreza = valorFundoCombatePobreza;
             PercentualFundoCombatePobreza = percentualFundoCombatePobreza;
             BaseCalculoFundoCombatePobreza = baseCalculoFundoCombatePobreza;
-            Valor = valor;
             BaseCalculo = baseCalculo;
         }
 
-        public decimal BaseCalculo { get;  }
-        public decimal Valor { get;  } // É calculado?
-        public decimal BaseCalculoFundoCombatePobreza { get;  }
-        public decimal PercentualFundoCombatePobreza { get;  }
-        public decimal ValorFundoCombatePobreza { get;  }
-        public decimal Aliquota { get;  }
+        public BaseCalculo BaseCalculo { get; } // valor sobre o qual o imposto é calculado
+        public decimal Valor { get 
+            { 
+                return BaseCalculo.Valor * (Aliquota / 100);
+            } 
+        }
+        public BaseCalculoFundoCombatePobreza BaseCalculoFundoCombatePobreza { get; }
+        public decimal PercentualFundoCombatePobreza { get; }
+        public decimal ValorFundoCombatePobreza { get { return BaseCalculoFundoCombatePobreza.Valor * (PercentualFundoCombatePobreza / 100); } }
+        public decimal Aliquota { get; }
     }
 }
- 

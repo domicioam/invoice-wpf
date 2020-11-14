@@ -10,7 +10,7 @@ namespace NFe.Core.NotasFiscais
 {
     class ImpostoFactory
     {
-        internal Imposto CreateImposto(Entities.Imposto imposto)
+        internal Imposto CreateImposto(Entities.Imposto imposto, decimal valorProduto)
         {
             OrigemMercadoria origem;
 
@@ -36,7 +36,7 @@ namespace NFe.Core.NotasFiscais
                     switch (imposto.CST)
                     {
                         case "60":
-                            return new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, (decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, 0, 0, 0, origem);
+                            return new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, new BaseCalculoIcms(valorProduto), (decimal)imposto.Aliquota, 0, new BaseCalculoFundoCombatePobreza(valorProduto), origem);
                         case "41":
                             var desoneracaoIcms = new DesoneracaoIcms(0, MotivoDesoneracao.NaoPreenchido);
                             return new IcmsNaoTributado(desoneracaoIcms, origem);

@@ -21,13 +21,13 @@ namespace NFe.Core.NotasFiscais.Entities
             _impostos = new List<NotasFiscais.Imposto>();
         }
 
-        public Impostos(IEnumerable<Imposto> impostos)
+        public Impostos(IEnumerable<Imposto> impostos, decimal valorProduto)
         {
             var impostoFactory = new ImpostoFactory();
 
             foreach (var imposto in impostos)
             {
-                var newImposto = impostoFactory.CreateImposto(imposto);
+                var newImposto = impostoFactory.CreateImposto(imposto, valorProduto);
                 _impostos.Add(newImposto);
             }
         }

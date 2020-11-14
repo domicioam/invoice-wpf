@@ -12,8 +12,8 @@ namespace NFe.Core.UnitTests.ConfiguracaoService
 
             var numeroAnterior = configuracaoRepository.GetConfiguracao().ProximoNumNFCe;
 
-            configuracaoService.SalvarPróximoNúmeroSérie(NotasFiscais.Modelo.Modelo65, NotasFiscais.Ambiente.Homologacao);
-            string numeroAtual = configuracaoService.ObterProximoNumeroNotaFiscal(NotasFiscais.Modelo.Modelo65);
+            configuracaoService.SalvarPróximoNúmeroSérie(Core.NotasFiscais.Modelo.Modelo65, Core.NotasFiscais.Ambiente.Homologacao);
+            string numeroAtual = configuracaoService.ObterProximoNumeroNotaFiscal(Core.NotasFiscais.Modelo.Modelo65);
 
             Assert.NotEqual(numeroAnterior, numeroAtual);
             var numeroAnteriorIncrementado = (int.Parse(numeroAnterior) + 1).ToString();
@@ -28,8 +28,8 @@ namespace NFe.Core.UnitTests.ConfiguracaoService
 
             var numeroAnterior = configuracaoRepository.GetConfiguracao().ProximoNumNFe;
 
-            configuracaoService.SalvarPróximoNúmeroSérie(NotasFiscais.Modelo.Modelo65, NotasFiscais.Ambiente.Homologacao);
-            string numeroAtual = configuracaoService.ObterProximoNumeroNotaFiscal(NotasFiscais.Modelo.Modelo55);
+            configuracaoService.SalvarPróximoNúmeroSérie(Core.NotasFiscais.Modelo.Modelo65, Core.NotasFiscais.Ambiente.Homologacao);
+            string numeroAtual = configuracaoService.ObterProximoNumeroNotaFiscal(Core.NotasFiscais.Modelo.Modelo55);
 
             Assert.Equal(numeroAnterior, numeroAtual);
         }
@@ -43,17 +43,17 @@ namespace NFe.Core.UnitTests.ConfiguracaoService
             var configuracao = configuracaoRepository.GetConfiguracao();
             configuracaoService.Salvar(configuracao);
 
-            var numeroAnteriorProducao = configuracaoService.ObterProximoNumeroNotaFiscal(NotasFiscais.Modelo.Modelo65);
+            var numeroAnteriorProducao = configuracaoService.ObterProximoNumeroNotaFiscal(Core.NotasFiscais.Modelo.Modelo65);
 
             configuracao = configuracaoRepository.GetConfiguracao();
             configuracaoService.Salvar(configuracao);
 
-            configuracaoService.SalvarPróximoNúmeroSérie(NotasFiscais.Modelo.Modelo65, NotasFiscais.Ambiente.Homologacao);
+            configuracaoService.SalvarPróximoNúmeroSérie(Core.NotasFiscais.Modelo.Modelo65, Core.NotasFiscais.Ambiente.Homologacao);
 
             configuracao = configuracaoRepository.GetConfiguracao();
             configuracaoService.Salvar(configuracao);
 
-            Assert.Equal(numeroAnteriorProducao, configuracaoService.ObterProximoNumeroNotaFiscal(NotasFiscais.Modelo.Modelo65));
+            Assert.Equal(numeroAnteriorProducao, configuracaoService.ObterProximoNumeroNotaFiscal(Core.NotasFiscais.Modelo.Modelo65));
         }
     }
 }
