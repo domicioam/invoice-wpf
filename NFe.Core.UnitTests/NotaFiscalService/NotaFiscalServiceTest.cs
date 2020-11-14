@@ -60,7 +60,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
 
-            var modoOnlineService = new Core.NotasFiscais.Services.ModoOnlineService(
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
 
@@ -114,7 +114,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
-            var modoOnlineService = new Core.NotasFiscais.Services.ModoOnlineService(
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
 
@@ -162,7 +162,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
 
-            var modoOnlineService = new Core.NotasFiscais.Services.ModoOnlineService(
+            var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
 
@@ -256,18 +256,17 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var totalIcms = new IcmsTotal(0, 0, 0, 0, 0, valorTotalProdutos, 0, 0, 0, 0, 0, 0, 0, 0, valorTotalProdutos,
                 0);
             var totalNFe = new TotalNFe { IcmsTotal = totalIcms };
-            var impostosList = new List<Core.NotasFiscais.Entities.Imposto>
+            var impostosList = new List<NotasFiscais.Entities.Imposto>
             {
-                new Core.NotasFiscais.Entities.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
-                new Core.NotasFiscais.Entities.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
+                new NotasFiscais.Entities.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
+                new NotasFiscais.Entities.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
             };
 
-            double valorUnidadeComercial = 65;
-            var impostos = new Impostos(impostosList, (decimal)valorUnidadeComercial);
+            var impostos = new Impostos(impostosList);
 
             var produtos = new List<Produto>
             {
-                new Produto(impostos, 0, "5656", "0001", "GLP 13KG", "27111910", 1, "UN", valorUnidadeComercial, 0, false)
+                new Produto(impostos, 0, "5656", "0001", "GLP 13KG", "27111910", 1, "UN", 65, 0, false)
             };
             var pagamentos = new List<Pagamento>
             {

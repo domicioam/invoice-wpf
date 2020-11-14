@@ -24,11 +24,11 @@ namespace NFe.Core.Sefaz
                 {
                     orig = icms60.Origem,
                     CST = icms60.Cst,
-                    vBCSTRet = icms60.BaseCalculo.Valor.ToPositiveDecimalAsStringOrNull(),
+                    vBCSTRet = icms60.BaseCalculo.ToPositiveDecimalAsStringOrNull(),
                     pST = icms60.Aliquota.ToPositiveDecimalAsStringOrNull(),
                     vICMSSTRet = icms60.Valor.ToPositiveDecimalAsStringOrNull(),
                     pFCPSTRet = icms60.PercentualFundoCombatePobreza.ToPositiveDecimalAsStringOrNull(),
-                    vBCFCPSTRet = icms60.BaseCalculoFundoCombatePobreza.Valor.ToPositiveDecimalAsStringOrNull(),
+                    vBCFCPSTRet = icms60.BaseCalculoFundoCombatePobreza.ToPositiveDecimalAsStringOrNull(),
                     vFCPSTRet = icms60.ValorFundoCombatePobreza.ToPositiveDecimalAsStringOrNull()
                 };
 

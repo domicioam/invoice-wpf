@@ -543,13 +543,12 @@ namespace NFe.Repository.Repositories
 
                 var cfop = det.prod.CFOP.Replace("Item", string.Empty);
 
-                double valorUnidadeComercial = double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture);
-                var impostos = new Impostos(new List<Imposto> { icms, pis}, (decimal)valorUnidadeComercial);
+                var impostos = new Impostos(new List<Imposto> { icms, pis});
 
                 var newProduto = new Produto(impostos, 0, det.prod.CFOP.Replace("Item", string.Empty),
                     det.prod.cProd, det.prod.xProd, det.prod.NCM,
                     int.Parse(det.prod.qCom), det.prod.uCom,
-                    valorUnidadeComercial, 0, ambiente == Ambiente.Producao)
+                    double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 0, ambiente == Ambiente.Producao)
                 {
                     Cest = det.prod.CEST
                 };

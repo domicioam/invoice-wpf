@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using EmissorNFe.Model;
@@ -252,7 +251,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     TipoImposto = i.TipoImposto
                 });
 
-                var produto = new Produto(new Impostos(impostos, decimal.Parse(produtoEntity.UnidadeComercial, CultureInfo.InvariantCulture)), produtoEntity.Id,
+                var produto = new Produto(new Impostos(impostos), produtoEntity.Id,
                     produtoEntity.GrupoImpostos.CFOP, produtoEntity.Codigo, produtoEntity.Descricao, produtoEntity.NCM,
                     notaFiscal.Produtos.First(p => p.ProdutoSelecionado.Id == produtoEntity.Id).QtdeProduto,
                     produtoEntity.UnidadeComercial,
