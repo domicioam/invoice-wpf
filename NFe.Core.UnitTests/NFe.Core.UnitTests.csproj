@@ -102,6 +102,8 @@
     <Compile Include="Facades\EmiteNotaFiscalContingenciaServiceTests.cs" />
     <Compile Include="Impostos\IcmsCobradoAnteriormentePorST_Tests.cs" />
     <Compile Include="Impostos\IcmsNaoTributadoTests.cs" />
+    <Compile Include="Impostos\PisOperacaoIsentaContribuicaoTests.cs" />
+    <Compile Include="Impostos\PisOperacaoTributavelMonofasicaTests.cs" />
     <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
     <Compile Include="NotaFiscalService\ConfiguracaoRepositoryFake.cs" />

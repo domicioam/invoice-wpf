@@ -262,7 +262,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
                 new NotasFiscais.Entities.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
             };
 
-            var impostos = new Impostos(impostosList);
+            var impostos = new NotasFiscais.Entities.Impostos(impostosList);
 
             var produtos = new List<Produto>
             {
