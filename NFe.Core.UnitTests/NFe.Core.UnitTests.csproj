@@ -103,6 +103,7 @@
     <Compile Include="Impostos\CofinsAliquotaNormalTests.cs" />
     <Compile Include="Impostos\IcmsCobradoAnteriormentePorST_Tests.cs" />
     <Compile Include="Impostos\IcmsNaoTributadoTests.cs" />
+    <Compile Include="Impostos\NfeDetImpostoFactoryTests.cs" />
     <Compile Include="Impostos\PisOperacaoIsentaContribuicaoTests.cs" />
     <Compile Include="Impostos\PisOperacaoTributavelMonofasicaTests.cs" />
     <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
