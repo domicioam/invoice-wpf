@@ -191,6 +191,7 @@
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
     <Compile Include="Extensions\Enumeration.cs" />
+    <Compile Include="NotasFiscais\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\DesoneracaoIcms.cs" />
     <Compile Include="NotasFiscais\Icms50.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="NotasFiscais\Entities\Imposto.cs" />
     <Compile Include="NotasFiscais\Entities\Impostos.cs" />
     <Compile Include="NotasFiscais\Entities\TCfop.cs" />
+    <Compile Include="NotasFiscais\OrigemMercadoria.cs" />
     <Compile Include="NotasFiscais\ValueObjects\Ambiente.cs" />
     <Compile Include="NotasFiscais\ValueObjects\Chave.cs" />
     <Compile Include="NotasFiscais\ValueObjects\CodigoUfIbge.cs" />
