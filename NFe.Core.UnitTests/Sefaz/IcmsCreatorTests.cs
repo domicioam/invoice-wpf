@@ -18,7 +18,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new IcmsCreator();
 
-            Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, 0, 0, 0, 0, 0, OrigemMercadoria.Nacional);
+            Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, 0, new FundoCombatePobreza(0, 0), OrigemMercadoria.Nacional);
             var detImposto = (TNFeInfNFeDetImpostoICMS) icmsCreator.Create(imposto);
             var detImpostoIcms60 = (TNFeInfNFeDetImpostoICMSICMS60) detImposto.Item;
 
@@ -33,28 +33,26 @@ namespace NFe.Core.UnitTests.Sefaz
         }
 
         [Theory]
-        [InlineData(0.1, 0.2, 0.3, 0.4, 0.5, 0.6)]
-        public void Should_create_icms_60_national_origin_with_corect_values(decimal valor, decimal aliquota, decimal baseCalculo, decimal valorFundoCombatePobreza, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza)
+        [InlineData(18, 65, 2, 65)]
+        public void Should_create_icms_60_national_origin_with_corect_values(decimal aliquota, decimal baseCalculo, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza)
         {
             var icmsCreator = new IcmsCreator();
             OrigemMercadoria origem = OrigemMercadoria.Nacional;
 
-            var imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(valor, aliquota, baseCalculo, valorFundoCombatePobreza, percentualFundoCombatePobreza, baseCalculoFundoCombatePobreza, origem);
+            var imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(aliquota, baseCalculo, new FundoCombatePobreza(percentualFundoCombatePobreza, baseCalculoFundoCombatePobreza), origem);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms60 = (TNFeInfNFeDetImpostoICMSICMS60)detImposto.Item;
 
             Assert.Equal(baseCalculo.ToString(), detImpostoIcms60.vBCSTRet);
             Assert.Equal(aliquota.ToString(), detImpostoIcms60.pST);
-            Assert.Equal(valor.ToString(), detImpostoIcms60.vICMSSTRet);
+            Assert.Equal("11.70", detImpostoIcms60.vICMSSTRet);
             Assert.Equal(baseCalculoFundoCombatePobreza.ToString(), detImpostoIcms60.vBCFCPSTRet);
             Assert.Equal(percentualFundoCombatePobreza.ToString(), detImpostoIcms60.pFCPSTRet);
-            Assert.Equal(valorFundoCombatePobreza.ToString(), detImpostoIcms60.vFCPSTRet);
+            Assert.Equal("1.30", detImpostoIcms60.vFCPSTRet);
             Assert.Equal(origem, detImpostoIcms60.orig);
             Assert.Equal(imposto.Cst, detImpostoIcms60.CST);
             Assert.Equal(TNFeInfNFeDetImpostoICMSICMS60CST.Item60, detImpostoIcms60.CST);
         }
-
-        // Falta ICMS 41
 
         [Fact]
         public void Should_create_icms_41_with_empty_fields()

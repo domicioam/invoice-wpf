@@ -100,6 +100,7 @@
     <Compile Include="Converters\TUfConversorTest.cs" />
     <Compile Include="Facades\CancelaNotaFiscalServiceTests.cs" />
     <Compile Include="Facades\EmiteNotaFiscalContingenciaServiceTests.cs" />
+    <Compile Include="IcmsCobradoAnteriormentePorST_Tests.cs" />
     <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
     <Compile Include="NotaFiscalService\ConfiguracaoRepositoryFake.cs" />

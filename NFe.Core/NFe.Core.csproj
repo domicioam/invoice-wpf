@@ -191,6 +191,7 @@
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
     <Compile Include="Extensions\Enumeration.cs" />
+    <Compile Include="NotasFiscais\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\DesoneracaoIcms.cs" />
     <Compile Include="NotasFiscais\Icms50.cs" />
     <Compile Include="NotasFiscais\IcmsNaoTributado.cs" />

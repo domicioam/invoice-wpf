@@ -1,4 +1,5 @@
 ﻿using NFe.Core.Extensions;
+using NFe.Core.NotasFiscais;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
 using System.Collections.Generic;
@@ -37,21 +38,21 @@ namespace NFe.Core
 
     public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms
     {
-        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal valor, decimal aliquota, decimal baseCalculo, decimal valorFundoCombatePobreza, decimal percentualFundoCombatePobreza, decimal baseCalculoFundoCombatePobreza, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
+        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal aliquota, decimal baseCalculo, FundoCombatePobreza fcp, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
         {
             Aliquota = aliquota;
-            ValorFundoCombatePobreza = valorFundoCombatePobreza;
-            PercentualFundoCombatePobreza = percentualFundoCombatePobreza;
-            BaseCalculoFundoCombatePobreza = baseCalculoFundoCombatePobreza;
-            Valor = valor;
             BaseCalculo = baseCalculo;
+            _fcp = fcp;
         }
 
         public decimal BaseCalculo { get;  }
-        public decimal Valor { get;  } // É calculado?
-        public decimal BaseCalculoFundoCombatePobreza { get;  }
-        public decimal PercentualFundoCombatePobreza { get;  }
-        public decimal ValorFundoCombatePobreza { get;  }
+
+        private FundoCombatePobreza _fcp;
+
+        public decimal Valor { get { return BaseCalculo * (Aliquota / 100); }  }
+        public decimal BaseCalculoFundoCombatePobreza { get { return _fcp.BaseCalculo; } }
+        public decimal AliquotaFCP { get { return _fcp.Aliquota; }  }
+        public decimal ValorFundoCombatePobreza { get { return _fcp.Valor; }  }
         public decimal Aliquota { get;  }
     }
 }

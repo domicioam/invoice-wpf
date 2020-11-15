@@ -27,7 +27,7 @@ namespace NFe.Core.Sefaz
                     vBCSTRet = icms60.BaseCalculo.ToPositiveDecimalAsStringOrNull(),
                     pST = icms60.Aliquota.ToPositiveDecimalAsStringOrNull(),
                     vICMSSTRet = icms60.Valor.ToPositiveDecimalAsStringOrNull(),
-                    pFCPSTRet = icms60.PercentualFundoCombatePobreza.ToPositiveDecimalAsStringOrNull(),
+                    pFCPSTRet = icms60.AliquotaFCP.ToPositiveDecimalAsStringOrNull(),
                     vBCFCPSTRet = icms60.BaseCalculoFundoCombatePobreza.ToPositiveDecimalAsStringOrNull(),
                     vFCPSTRet = icms60.ValorFundoCombatePobreza.ToPositiveDecimalAsStringOrNull()
                 };
