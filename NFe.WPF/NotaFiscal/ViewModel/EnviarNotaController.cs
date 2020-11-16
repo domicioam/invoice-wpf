@@ -165,6 +165,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
         private static TotalNFe GetTotalNFe(NotaFiscalModel notaFiscal)
         {
+
             double sumValorTotal = 0;
             double sumValorTotalFrete = 0;
             double sumValorTotalSeguro = 0;
@@ -196,7 +197,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             icmsTotal.ValorDespesasAcessorias = 0.00;
             icmsTotal.ValorTotalNFe = sumValorTotal;
 
-            return totalNFe;
+            throw new NotImplementedException();
+            //return totalNFe;
         }
 
         private static List<Pagamento> GetPagamentos(NotaFiscalModel notaFiscal)
