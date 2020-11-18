@@ -21,7 +21,7 @@ namespace NFe.Core.NotasFiscais.Entities
             _impostos = new List<NotasFiscais.Imposto>();
         }
 
-        public Impostos(IEnumerable<Imposto> impostos)
+        public Impostos(IEnumerable<Imposto> impostos) : this()
         {
             var impostoFactory = new ImpostoFactory();
 
