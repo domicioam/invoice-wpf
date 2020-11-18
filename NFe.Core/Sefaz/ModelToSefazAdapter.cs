@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-using NFe.Core.Entitities.Enums;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.Utils.Conversores.Enums;
@@ -21,17 +20,6 @@ using TNFeInfNFeDest = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDest;
 using TNFeInfNFeDestIndIEDest = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDestIndIEDest;
 using TNFeInfNFeDet = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDet;
 using TNFeInfNFeDetImposto = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImposto;
-using TNFeInfNFeDetImpostoCOFINS = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINS;
-using TNFeInfNFeDetImpostoCOFINSCOFINSAliq = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSAliq;
-using TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST;
-using TNFeInfNFeDetImpostoICMS = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMS;
-using TNFeInfNFeDetImpostoICMSICMS40 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS40;
-using TNFeInfNFeDetImpostoICMSICMS40CST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS40CST;
-using TNFeInfNFeDetImpostoICMSICMS60 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS60;
-using TNFeInfNFeDetImpostoICMSICMS60CST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS60CST;
-using TNFeInfNFeDetImpostoPIS = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPIS;
-using TNFeInfNFeDetImpostoPISPISNT = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISNT;
-using TNFeInfNFeDetImpostoPISPISNTCST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISNTCST;
 using TNFeInfNFeDetProd = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProd;
 using TNFeInfNFeDetProdComb = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdComb;
 using TNFeInfNFeDetProdIndTot = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdIndTot;
@@ -53,13 +41,11 @@ using TNFeInfNFeTotalICMSTot = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfN
 using TNFeInfNFeTransp = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTransp;
 using TNFeInfNFeTranspModFrete = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspModFrete;
 using TNFeInfNFeTranspTransporta = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspTransporta;
-using Torig = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.Torig;
 using TProcEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TProcEmi;
 using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.Extensions;
 using NFe.Core.NotasFiscais.ValueObjects;
-using Imposto = NFe.Core.NotasFiscais.Imposto;
 
 namespace NFe.Core.Sefaz
 {

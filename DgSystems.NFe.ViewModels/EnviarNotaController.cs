@@ -16,13 +16,11 @@ using NFe.Core.Sefaz;
 using NFe.Core.Utils.Acentuacao;
 using NFe.Core.Utils.PDF;
 using NFe.WPF.Events;
-using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.Model;
 using Destinatario = NFe.Core.NotasFiscais.Entities.Destinatario;
 using Emissor = NFe.Core.NotasFiscais.Emissor;
 using Pagamento = NFe.Core.NotasFiscais.Pagamento;
 using Produto = NFe.Core.NotasFiscais.Entities.Produto;
-using DgSystems.NFe.Extensions;
 
 namespace NFe.WPF.NotaFiscal.ViewModel
 {
