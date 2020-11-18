@@ -119,12 +119,17 @@
     <Compile Include="Sefaz\PisCreatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MyDevCert.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
+      <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
+      <Name>DgSystems.NFe.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
       <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
       <Name>NFe.Core</Name>

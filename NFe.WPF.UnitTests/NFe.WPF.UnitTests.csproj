@@ -110,16 +110,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DgSystems.NFe.ViewModels\DgSystems.NFe.ViewModels.csproj">
+      <Project>{CC19C00F-F36B-4FBC-A34F-E3FF9955FBF5}</Project>
+      <Name>DgSystems.NFe.ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
       <Project>{B844A95A-B767-4C52-9E5A-80081421CEC4}</Project>
       <Name>NFe.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NFe.WPF\NFe.WPF.csproj">
+    <ProjectReference Include="..\NFe.WPF\DgSystems.NFe.WPF.csproj">
       <Project>{d39abfe9-3ea9-4a92-adee-e47f72fcd3a4}</Project>
-      <Name>NFe.WPF</Name>
+      <Name>DgSystems.NFe.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

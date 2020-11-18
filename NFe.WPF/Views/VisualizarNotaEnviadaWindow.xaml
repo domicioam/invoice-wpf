@@ -1,0 +1,288 @@
+﻿<Window x:Class="EmissorNFe.View.NotaFiscal.VisualizarNotaEnviadaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:cvt="clr-namespace:EmissorNFe.View.Converters;assembly=DgSystems.NFe.Converters"
+        xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:local="clr-namespace:EmissorNFe.View.NotaFiscal"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"
+        x:Name="window"
+        Title="Visualizar Nota"
+        Height="612"
+        Width="1024"
+        Background="#FFF0F0F0"
+        DataContext="{Binding Source={StaticResource Locator}, Path=VisualizarNotaEnviada}">
+
+    <Window.Resources>
+        <CollectionViewSource Source="{Binding Destinatarios}"
+                              x:Key="destinatarios" />
+
+        <cvt:StringToCurrencyConverter x:Key="stringToCurrencyConverter" />
+        <cvt:StringToMaskConverter x:Key="stringToCpfConverter" />
+        <cvt:StringToCpfCnpjConverter x:Key="stringToCpfCnpjConverter" />
+
+        <cvt:InverseEnabledBoolToVisibilityConverter x:Key="ieb2vt"
+                                                     IsInverse="True" />
+        <cvt:InverseEnabledBoolToVisibilityConverter x:Key="ieb2vf"
+                                                     IsInverse="False" />
+        <system:Boolean x:Key="True">True</system:Boolean>
+        <system:Boolean x:Key="False">False</system:Boolean>
+
+        <Style TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBox BorderBrush="{x:Null}"
+                                 x:Name="PART_TextBox"
+                                 Text="{Binding Path=SelectedDate, StringFormat='dd/MM/yy', 
+                            RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="155" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label x:Name="label"
+               Content="CABEÇALHO DA NOTA"
+               Background="{x:Null}" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label x:Name="label1"
+                   Content="Tipo"
+                   Margin="6,6,6,0" />
+            <Label x:Name="label2"
+                   Content="Série"
+                   Grid.Column="1"
+                   Margin="6,6,6,0" />
+            <Label x:Name="label3"
+                   Content="Nº Nota"
+                   Grid.Column="2"
+                   Margin="6,6,6,0" />
+            <Label x:Name="label6"
+                   Content="{Binding NotaFiscal.Modelo}"
+                   Grid.Row="1"
+                   Margin="6,0,6,6" />
+            <Label x:Name="label7"
+                   Content="{Binding NotaFiscal.Serie}"
+                   Grid.Column="1"
+                   Grid.Row="1"
+                   Margin="6,0,6,6" />
+            <Label x:Name="label8"
+                   Content="{Binding NotaFiscal.Numero}"
+                   Grid.Column="2"
+                   Grid.Row="1"
+                   Margin="6,0,6,6" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="23" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="72*" />
+                <ColumnDefinition Width="83*" />
+            </Grid.ColumnDefinitions>
+            <Label  Content="Chave"
+                    Margin="2,0,6,0" />
+            <TextBox Text="{Binding NotaFiscal.Chave}"
+                     IsReadOnly="True"
+                     Grid.Row="1"
+                     Height="23"
+                     Margin="6,0" />
+            <Label x:Name="label4"
+                   Content="Destinatário"
+                   Grid.Row="2"
+                   Margin="2,0,6,0" />
+            <TextBox Text="{Binding NotaFiscal.Destinatario}"
+                     IsReadOnly="True"
+                     Grid.Row="3"
+                     Height="23"
+                     Margin="6,0" />
+            <Label x:Name="label9"
+                   Content="Finalidade"
+                   Grid.Row="4"
+                   Margin="2,0,6,0"
+                   Grid.Column="1" />
+            <TextBox x:Name="comboBox2"
+                     Text="{Binding NotaFiscal.Finalidade}"
+                     IsReadOnly="True"
+                     Grid.Row="5"
+                     Grid.Column="1"
+                     Margin="6,0" />
+            <Label x:Name="label13"
+                   Content="Natureza da Operação*"
+                   Grid.Row="4"
+                   Margin="2,0,6,0" />
+            <TextBox x:Name="natOperacaoTxt"
+                     Text="{Binding NotaFiscal.NaturezaOperacao}"
+                     IsReadOnly="True"
+                     Height="23"
+                     TextWrapping="Wrap"
+                     Grid.Row="5"
+                     Margin="6,0" />
+
+            <Label x:Name="lblDataHoraEmissao"
+                   Content="Data / Hora Emissão"
+                   Grid.Column="1"
+                   Grid.Row="0"
+                   Margin="2,0,6,0" />
+            <TextBox Grid.Column="1"
+                     Grid.Row="1"
+                     x:Name="txtDataHoraEmissao"
+                     Margin="6,0"
+                     Height="23"
+                     HorizontalAlignment="Stretch"
+                     IsReadOnly="True"
+                     Text="{Binding NotaFiscal.DataEmissao, StringFormat=dd/MM/yyyy - HH:mm:ss}" />
+            <Label x:Name="label10"
+                   Content="CPF / CNPJ"
+                   Grid.Column="1"
+                   Grid.Row="2"
+                   Margin="2,0,6,0"
+                   Visibility="{Binding IsDestinatarioEstrangeiro, Converter={StaticResource ieb2vt}}" />
+            <TextBox x:Name="textBox"
+                     MaxLength="18"
+                     Text="{Binding Path=DocumentoDestinatario, Mode=OneTime, Converter={StaticResource stringToCpfCnpjConverter}, ConverterParameter=999.999.999-99}"
+                     IsReadOnly="True"
+                     TextWrapping="Wrap"
+                     Grid.Column="1"
+                     Grid.Row="3"
+                     Margin="6,0"
+                     Visibility="{Binding IsDestinatarioEstrangeiro, Converter={StaticResource ieb2vt}}" />
+            <Label  Content="ID Estrangeiro"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Margin="2,0,6,0"
+                    Visibility="{Binding IsDestinatarioEstrangeiro, Converter={StaticResource ieb2vf}}" />
+            <TextBox  MaxLength="18"
+                      Text="{Binding Path=DocumentoDestinatario, Mode=OneTime}"
+                      IsReadOnly="True"
+                      TextWrapping="Wrap"
+                      Grid.Column="1"
+                      Grid.Row="3"
+                      Margin="6,0"
+                      Visibility="{Binding IsDestinatarioEstrangeiro, Converter={StaticResource ieb2vf}}" />
+
+        </Grid>
+
+        <Label x:Name="label15"
+               Content="PRODUTOS E SERVIÇOS"
+               Grid.Row="3"
+               Background="{x:Null}" />
+
+        <ListView x:Name="listProdutosNota"
+                  ItemsSource="{Binding NotaFiscal.Produtos}"
+                  Grid.Row="4"
+                  Margin="6"
+                  MinHeight="93"
+                  Height="93"
+                  MaxHeight="176"
+                  Background="WhiteSmoke"
+                  Foreground="#FF1E1E1E">
+            <ListView.View>
+                <GridView>
+                    <!--<GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ProdutoSelecionado.Descricao}" TextAlignment="Left" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            
+                        </GridViewColumn>-->
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=QtdeProduto}"
+                                    Header="Qtde"
+                                    Width="40" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Descricao}"
+                                    Width="250"
+                                    Header="Descrição" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ValorUnitario, Converter={StaticResource stringToCurrencyConverter}}"
+                                    Width="90"
+                                    Header="Valor Unitário" />
+                    <!--<GridViewColumn DisplayMemberBinding= "{Binding Path=Frete, Converter={StaticResource stringToCurrencyConverter}}" Width="40" Header="Frete"/>-->
+                    <!--<GridViewColumn DisplayMemberBinding= "{Binding Path=Seguro, Converter={StaticResource stringToCurrencyConverter}}" Width="50" Header="Seguro"/>-->
+                    <!--<GridViewColumn DisplayMemberBinding= "{Binding Path=Outros, Converter={StaticResource stringToCurrencyConverter}}" Width="45" Header="Outros"/>-->
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Descontos, Converter={StaticResource stringToCurrencyConverter}}"
+                                    Width="60"
+                                    Header="Desconto" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=TotalLiquido, Converter={StaticResource stringToCurrencyConverter}}"
+                                    Width="Auto"
+                                    Header="  Total  " />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Label x:Name="label17"
+               Content="FORMAS DE PAGAMENTO"
+               Grid.Row="5" />
+        <Grid Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"
+                               MinHeight="93" />
+            </Grid.RowDefinitions>
+
+            <ListView x:Name="listPagamentos"
+                      ItemsSource="{Binding NotaFiscal.Pagamentos}"
+                      Grid.Row="1"
+                      Margin="6"
+                      Height="93"
+                      Background="WhiteSmoke"
+                      Foreground="#FF1E1E1E">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=FormaPagamento}"
+                                        Width="125"
+                                        Header="Forma de Pagamento" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ValorTotal}"
+                                        Width="Auto"
+                                        Header="  Valor Total  " />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="7"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="5">
+            <Button x:Name="btnCancelarNota"
+                    Content="Cancelar Nota"
+                    Style="{StaticResource CancelButton}"
+                    Command="{Binding CancelarNotaCmd}"
+                    Padding="5"
+                    Margin="0,0,5,0" />
+            <Button x:Name="btnEnviarNota"
+                    Content="Emitir 2ª Via"
+                    Style="{StaticResource SaveButton}"
+                    Command="{Binding EmitirSegundaViaCmd}"
+                    Padding="5" />
+        </StackPanel>
+    </Grid>
+</Window>

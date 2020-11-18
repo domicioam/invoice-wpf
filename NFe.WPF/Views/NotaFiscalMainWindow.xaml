@@ -1,0 +1,326 @@
+﻿<UserControl x:Class="EmissorNFe.NotaFiscal.NotaFiscalMainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:EmissorNFe.NotaFiscal"
+             xmlns:cvt="clr-namespace:EmissorNFe.View.Converters;assembly=DgSystems.NFe.Converters"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             DataContext="{Binding Source={StaticResource Locator}, Path=NotaFiscalMain}">
+
+    <UserControl.Resources>
+        <cvt:BoolToStatusEnvioNotaConverter x:Key="BoolToStatusEnvioNotaConverter" />
+        <cvt:InverseEnabledBoolToVisibilityConverter x:Key="ieb2v"
+                                                     IsInverse="True" />
+        <system:Boolean x:Key="True">True</system:Boolean>
+
+        <BooleanToVisibilityConverter x:Key="b2v" />
+
+        <Style x:Key="{x:Type ListView}"
+               TargetType="{x:Type ListView}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="true" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                    Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                    Value="Auto" />
+            <Setter Property="ScrollViewer.CanContentScroll"
+                    Value="true" />
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListView}">
+                        <Border Name="Border"
+                                BorderThickness="1"
+                                BorderBrush="#FFCCCEDB"
+                                Background="#FFFFFF">
+                            <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsGrouping"
+                                     Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll"
+                                        Value="False" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#AAAAAA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCmd}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <xctk:BusyIndicator IsBusy="{Binding IsBusy}"
+                        BusyContent="{Binding BusyContent}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Content="+NFC-e"
+                        Padding="6,6"
+                        Command="{Binding AbrirNFCeCmd}"
+                        Margin="0,6"
+                        Height="30"
+                        Width="90"
+                        Foreground="White"
+                        Style="{StaticResource NewButton}"
+                        Click="Button_Click" />
+
+                <Button Content="+NF-e"
+                        Padding="6,6"
+                        Command="{Binding AbrirNFeCmd}"
+                        Margin="3,6,6,6"
+                        Width="90"
+                        Style="{StaticResource NewButton}"
+                        Foreground="White"
+                        Click="Button_Click_1" />
+            </StackPanel>
+            <ListView Grid.Row="1"
+                      x:Name="listView"
+                      Margin="5,0"
+                      ItemsSource="{Binding NotasFiscais}"
+                      HorizontalContentAlignment="Center"
+                      BorderBrush="#FFCCCEDB"
+                      FontSize="14">
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Nº"
+                                        Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Número}"
+                                               Margin="5,0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="Auto"
+                                        Header="Tipo">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Tipo}"
+                                               Margin="0,0,5,0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=DataEmissão, StringFormat='{}{0:dd/MM/yyyy HH:mm:ss}'}"
+                                        Width="Auto"
+                                        Header="Data Emissão" />
+                        <GridViewColumn Width="Auto"
+                                        Header="Data Autorização">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DataAutorização, 
+                                        StringFormat='{}{0:dd/MM/yyyy HH:mm:ss}'}"
+                                               Margin="5,0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Destinatário}"
+                                        Header="Destinatário"
+                                        Width="Auto" />
+                        <GridViewColumn Header="UF"
+                                        Width="40">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding UfDestinatário}"
+                                               Margin="5,0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Valor}"
+                                        Header="Valor"
+                                        Width="Auto" />
+                        <GridViewColumn Width="Auto"
+                                        Header="Status">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Status}"
+                                               Margin="5,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Status}"
+                                                                 Value="Pendente">
+                                                        <Setter Property="Foreground"
+                                                                Value="#FFF34949" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Ações"
+                                        Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Background="{x:Null}"
+                                                BorderBrush="{x:Null}"
+                                                Padding="0"
+                                                Margin="2,0,2,0"
+                                                Command="{Binding DataContext.VisualizarNotaCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}">
+                                            <Image Source="/Icons/visualizar.png"
+                                                   Stretch="None" />
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility"
+                                                            Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Enviada">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Contingencia">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Cancelada">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Background="{x:Null}"
+                                                BorderBrush="{x:Null}"
+                                                Padding="0"
+                                                Command="{Binding DataContext.EnviarNotaNovamenteCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}">
+                                            <Image Source="/Icons/repeat.png"
+                                                   Stretch="None" />
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility"
+                                                            Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Pendente">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Background="{x:Null}"
+                                                BorderBrush="{x:Null}"
+                                                Padding="0"
+                                                Command="{Binding DataContext.EnviarEmailCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}">
+                                            <Image Source="/Icons/mail.png"
+                                                   Stretch="None" />
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility"
+                                                            Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Enviada">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Contingencia">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Visible" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Cancelada">
+                                                            <Setter Property="Visibility"
+                                                                    Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Margin="0,5,5,0"
+                        Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin"
+                                Value="5,0,0,0" />
+                        <Setter Property="Width"
+                                Value="20" />
+                        <Setter Property="BorderBrush"
+                                Value="#FFCCCEDB" />
+                        <Setter Property="Background"
+                                Value="#FFE4E4F1" />
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="Primeira"
+                        Width="55"
+                        ToolTip="Primeira página"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="1" />
+                <Button Content="1"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="1" />
+                <Button Content="2"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="2" />
+                <Button Content="3"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="3" />
+                <Button Content="4"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="4" />
+                <Button Content="5"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="5" />
+                <Button Content="6"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="6" />
+                <Button Content="7"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="7" />
+                <Button Content="Última"
+                        Width="55"
+                        ToolTip="Última página"
+                        Command="{Binding MudarPaginaCmd}"
+                        CommandParameter="7" />
+            </StackPanel>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

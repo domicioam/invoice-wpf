@@ -1,0 +1,196 @@
+﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
+using EmissorNFe.Model;
+using GalaSoft.MvvmLight.Command;
+using NFe.Core.Cadastro;
+using NFe.Core.Cadastro.Destinatario;
+using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
+using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Entities;
+using NFe.WPF.Commands;
+using NFe.WPF.Events;
+using NFe.WPF.ViewModel.Base;
+
+namespace NFe.WPF.ViewModel
+{
+    public class DestinatarioViewModel : ViewModelBaseValidation
+    {
+        private DestinatarioModel _destinatarioParaSalvar;
+        private IEstadoRepository _estadoRepository;
+        private IEmissorService _emissorService;
+        private IDestinatarioService _destinatarioService;
+        private IMunicipioRepository _municipioService;
+
+        public ICommand SalvarDestinatarioCmd { get; set; }
+        public ICommand UfSelecionadoCmd { get; set; }
+        public ICommand LoadedCmd { get; set; }
+        public ICommand ClosedCmd { get; set; }
+
+        public DestinatarioModel DestinatarioParaSalvar
+        {
+            get
+            {
+                return _destinatarioParaSalvar;
+            }
+            set
+            {
+                SetProperty(ref _destinatarioParaSalvar, value);
+            }
+        }
+
+        public ObservableCollection<EstadoEntity> Estados { get; set; }
+        public ObservableCollection<MunicipioEntity> Municipios { get; set; }
+
+        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioRepository municipioService)
+        {
+            SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
+            LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);
+            ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
+            UfSelecionadoCmd = new RelayCommand(UfSelecionadoCmd_Execute, null);
+            Estados = new ObservableCollection<EstadoEntity>();
+            Municipios = new ObservableCollection<MunicipioEntity>();
+            _estadoRepository = estadoService;
+            _emissorService = emissorService;
+            _destinatarioService = destinatarioService;
+            _municipioService = municipioService;
+        }
+
+        internal void RemoverDestinatario(DestinatarioModel destinatarioVO)
+        {
+            _destinatarioService.ExcluirDestinatario(destinatarioVO.Id);
+
+            var theEvent = new DestinatarioSalvoEvent();
+            MessagingCenter.Send(this, nameof(DestinatarioSalvoEvent), theEvent);
+        }
+
+        private void ClosedCmd_Execute()
+        {
+            DestinatarioParaSalvar = null;
+        }
+
+        internal void AlterarDestinatario(DestinatarioModel destinatario)
+        {
+            DestinatarioParaSalvar = destinatario;
+
+            switch (destinatario.TipoDestinatario)
+            {
+                case TipoDestinatario.PessoaFisica:
+                    DestinatarioParaSalvar.CPF = destinatario.Documento;
+                    break;
+                case TipoDestinatario.PessoaJuridica:
+                    DestinatarioParaSalvar.CNPJ = destinatario.Documento;
+                    break;
+                case TipoDestinatario.Estrangeiro:
+                    DestinatarioParaSalvar.IdEstrangeiro = destinatario.Documento;
+                    break;
+            }
+
+
+
+            var command = new AlterarDestinatarioCommand(this);
+            MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);
+
+
+        }
+
+        private void UfSelecionadoCmd_Execute()
+        {
+            if (DestinatarioParaSalvar == null)
+                return;
+
+            var municipios = _municipioService.GetMunicipioByUf(DestinatarioParaSalvar.Endereco.UF);
+            Municipios.Clear();
+
+            foreach (var m in municipios)
+            {
+                Municipios.Add(m);
+            }
+        }
+
+        private void LoadedCmd_Execute(bool isNFe)
+        {
+            if (DestinatarioParaSalvar == null)
+            {
+                DestinatarioParaSalvar = new DestinatarioModel() { IsNFe = isNFe };
+            }
+            else
+            {
+                DestinatarioParaSalvar.IsNFe = isNFe;
+            }
+
+            var estados = _estadoRepository.GetEstados();
+
+            foreach (var estado in estados)
+            {
+                Estados.Add(estado);
+            }
+
+            var emitenteUf = _emissorService.GetEmissor().Endereco.UF;
+            DestinatarioParaSalvar.Endereco.UF = emitenteUf;
+
+            UfSelecionadoCmd_Execute();
+        }
+
+        private void SalvarDestinatarioCmd_Execute(Window window)
+        {
+            DestinatarioParaSalvar.ValidateModel();
+
+            if (!DestinatarioParaSalvar.HasErrors)
+            {
+                if (DestinatarioParaSalvar.Id != 0)
+                {
+                    var destinatarioEnt = _destinatarioService.GetDestinatarioByID(DestinatarioParaSalvar.Id);
+
+                    switch (DestinatarioParaSalvar.TipoDestinatario)
+                    {
+                        case TipoDestinatario.PessoaFisica:
+                            destinatarioEnt.Documento = DestinatarioParaSalvar.CPF;
+                            break;
+                        case TipoDestinatario.PessoaJuridica:
+                            destinatarioEnt.Documento = DestinatarioParaSalvar.CNPJ;
+                            break;
+                        case TipoDestinatario.Estrangeiro:
+                            destinatarioEnt.Documento = DestinatarioParaSalvar.IdEstrangeiro;
+                            break;
+                    }
+
+                    destinatarioEnt.Email = DestinatarioParaSalvar.Email;
+                    destinatarioEnt.TipoDestinatario = (int)DestinatarioParaSalvar.TipoDestinatario;
+                    destinatarioEnt.NomeRazao = DestinatarioParaSalvar.NomeRazao;
+                    destinatarioEnt.Telefone = DestinatarioParaSalvar.Telefone;
+                    destinatarioEnt.InscricaoEstadual = DestinatarioParaSalvar.InscricaoEstadual;
+
+                    if (!string.IsNullOrWhiteSpace(DestinatarioParaSalvar.Endereco.Logradouro))
+                    {
+                        destinatarioEnt.Endereco = new EnderecoDestinatarioEntity
+                        {
+                            Id = DestinatarioParaSalvar.Endereco.Id,
+                            Bairro = DestinatarioParaSalvar.Endereco.Bairro,
+                            Logradouro = DestinatarioParaSalvar.Endereco.Logradouro,
+                            Municipio = DestinatarioParaSalvar.Endereco.Municipio,
+                            Numero = DestinatarioParaSalvar.Endereco.Numero,
+                            UF = DestinatarioParaSalvar.Endereco.UF
+                        };
+                    }
+
+                    _destinatarioService.Salvar(destinatarioEnt);
+                }
+                else
+                {
+                    var destinatarioEntity = (DestinatarioEntity)DestinatarioParaSalvar;
+                    _destinatarioService.Salvar(destinatarioEntity);
+                }
+
+                var theEvent = new DestinatarioSalvoEvent() { Destinatario = DestinatarioParaSalvar };
+                MessagingCenter.Send(this, nameof(DestinatarioSalvoEvent), theEvent);
+
+                DestinatarioParaSalvar = null;
+                window.Close();
+            }
+        }
+    }
+}

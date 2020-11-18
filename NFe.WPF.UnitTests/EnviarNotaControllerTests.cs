@@ -10,7 +10,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
-using NFe.WPF.Exceptions;
+using NFe.WPF.NotaFiscal.ViewModel;
 using Xunit;
 using Emissor = NFe.Core.NotasFiscais.Emissor;
 

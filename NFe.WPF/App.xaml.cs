@@ -43,6 +43,7 @@ using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Utils;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
+using DgSystem.NFe.IoC;
 
 namespace EmissorNFe
 {
@@ -59,7 +60,7 @@ namespace EmissorNFe
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
         public static void Main()
         {
-            SplashScreen splashScreen = new SplashScreen("view/splashscreen.png");
+            SplashScreen splashScreen = new SplashScreen("images/splashscreen.png");
             splashScreen.Show(true);
             EmissorNFe.App app = new EmissorNFe.App();
             Run(app);
@@ -92,7 +93,7 @@ namespace EmissorNFe
             traceSource.TraceEvent(TraceEventType.Information, 1, "Data loaded");
 
             CreateDataDirectory();
-            RegisterTypes();
+            DependencyResolver.RegisterTypes();
             base.OnStartup(e);
         }
 
@@ -214,77 +215,6 @@ namespace EmissorNFe
             }
         }
 
-        private void RegisterTypes()
-        {
-            var container = new Container();
 
-            container.Register<MainViewModel>(Lifestyle.Singleton);
-            container.Register<ImpostoViewModel>(Lifestyle.Singleton);
-            container.Register<ProdutoViewModel>(Lifestyle.Singleton);
-            container.Register<EmitenteViewModel>(Lifestyle.Singleton);
-            container.Register<OpcoesViewModel>(Lifestyle.Singleton);
-            container.Register<CertificadoViewModel>(Lifestyle.Singleton);
-            container.Register<NFCeViewModel>(Lifestyle.Singleton);
-            container.Register<NotaFiscalMainViewModel>(Lifestyle.Singleton);
-            container.Register<NFeViewModel>(Lifestyle.Singleton);
-            container.Register<DestinatarioMainViewModel>(Lifestyle.Singleton);
-            container.Register<ProdutoMainViewModel>(Lifestyle.Singleton);
-            container.Register<ImpostoMainViewModel>(Lifestyle.Singleton);
-            container.Register<DestinatarioViewModel>(Lifestyle.Singleton);
-            container.Register<CancelarNotaViewModel>(Lifestyle.Singleton);
-            container.Register<VisualizarNotaEnviadaViewModel>(Lifestyle.Singleton);
-            container.Register<EnviarContabilidadeViewModel>(Lifestyle.Singleton);
-            container.Register<AcompanhamentoNotasViewModel>(Lifestyle.Singleton);
-            container.Register<EnviarEmailViewModel>(Lifestyle.Singleton);
-            container.Register<ImportarXMLViewModel>(Lifestyle.Singleton);
-
-            container.Register<IDialogService, MessageService>(Lifestyle.Singleton);
-
-            container.Register<INFeConsulta, NFeConsulta>(Lifestyle.Singleton);
-            container.Register<RijndaelManagedEncryption>(Lifestyle.Singleton);
-            container.Register<ICertificateManager, CertificateManager>(Lifestyle.Singleton);
-            container.Register<IEnviarNota, EnviarNotaController>(Lifestyle.Singleton);
-            container.Register<IEnviaNotaFiscalFacade, EnviaNotaFiscalFacade>(Lifestyle.Singleton);
-            container.Register<IServiceFactory, ServiceFactory>(Lifestyle.Singleton);
-            container.Register<INotaInutilizadaService, NotaInutilizadaService>(Lifestyle.Singleton);
-            container.Register<IEventoService, EventoService>(Lifestyle.Singleton);
-            container.Register<ImportadorXmlService>(Lifestyle.Singleton);
-            container.Register<IEmissorService, EmissorService>(Lifestyle.Singleton);
-            container.Register<ICertificadoService, CertificadoService>(Lifestyle.Singleton);
-            container.Register<IConfiguracaoService, ConfiguracaoService>(Lifestyle.Singleton);
-            container.Register<IConsultaStatusServicoFacade, ConsultaStatusServicoFacade>(Lifestyle.Singleton);
-            container.Register<IEventoRepository, EventoRepository>(Lifestyle.Singleton);
-            container.Register<INotaFiscalRepository, NotaFiscalRepository>(Lifestyle.Singleton);
-            container.Register<ICertificadoRepository, CertificadoRepository>(Lifestyle.Singleton);
-            container.Register<INotaInutilizadaRepository, NotaInutilizadaRepository>(Lifestyle.Singleton);
-            container.Register<IConfiguracaoRepository, ConfiguracaoRepository>(Lifestyle.Singleton);
-            container.Register<IDestinatarioRepository, DestinatarioRepository>(Lifestyle.Singleton);
-            container.Register<IEmitenteRepository, EmitenteRepository>(Lifestyle.Singleton);
-            container.Register<IGrupoImpostosRepository, GrupoImpostosRepository>(Lifestyle.Singleton);
-            container.Register<IProdutoRepository, ProdutoRepository>(Lifestyle.Singleton);
-            container.Register<ITransportadoraRepository, TransportadoraRepository>(Lifestyle.Singleton);
-            container.Register<IEstadoRepository, EstadoRepository>(Lifestyle.Singleton);
-            container.Register<IMunicipioRepository, MunicipioRepository>(Lifestyle.Singleton);
-            container.Register<INaturezaOperacaoRepository, NaturezaOperacaoRepository>(Lifestyle.Singleton);
-            container.Register<IHistoricoEnvioContabilidadeRepository, HistoricoEnvioContabilidadeRepository>(Lifestyle.Singleton);
-            container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteEmiteNotaFiscalContingenciaFacade>(Lifestyle.Singleton);
-            container.Register<ICancelaNotaFiscalFacade, CancelaNotaFiscalFacade>(Lifestyle.Singleton);
-            container.Register<NFeInutilizacao>(Lifestyle.Singleton);
-            container.Register<INFeCancelamento, NFeCancelamento>(Lifestyle.Singleton);
-            container.Register<MailManager>(Lifestyle.Singleton);
-            container.Register<ModoOnlineService>(Lifestyle.Singleton);
-            container.Register<IDestinatarioService, DestinatarioService>(Lifestyle.Singleton);
-            container.Register<GeradorZip>(Lifestyle.Singleton);
-            container.Register<GeradorPDF>(Lifestyle.Singleton);
-            container.Register<ITransportadoraService, TransportadoraService>(Lifestyle.Singleton);
-            container.Register<SefazSettings>(Lifestyle.Singleton);
-            container.Register<InutilizarNotaFiscalFacade>(Lifestyle.Singleton); 
-
-            container.Verify();
-
-            DependencyResolver = container;
-        }
-
-        public static Container DependencyResolver { get; set; }
     }
 }

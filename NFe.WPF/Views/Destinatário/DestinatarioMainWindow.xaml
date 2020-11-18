@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="EmissorNFe.View.Destinatário.DestinatarioMainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:EmissorNFe.View.Destinatário"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             DataContext="{Binding Source={StaticResource Locator}, Path=DestinatarioMain}">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCmd}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Button Content="+Destinatário"
+                Style="{StaticResource NewButton}"
+                Padding="6,6"
+                HorizontalAlignment="Right"
+                Margin="0,6,6,6"
+                Click="Button_Click" />
+        <ListView Grid.Row="1"
+                  x:Name="dataGrid"
+                  Margin="5,0"
+                  ItemsSource="{Binding Destinatarios}"
+                  FontSize="14">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=NomeRazao}"
+                                    Header="Nome"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Documento}"
+                                    Header="Documento"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Endereco.Municipio}"
+                                    Header="Município"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Endereco.UF}"
+                                    Header="UF"></GridViewColumn>
+                    <GridViewColumn Header="Ações">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding DataContext.AlterarDestinatarioCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="{x:Null}"
+                                            BorderBrush="{x:Null}"
+                                            Padding="0">
+                                        <Image Source="/Icons/edit.png"
+                                               Stretch="None" />
+                                    </Button>
+                                    <Button Command="{Binding DataContext.ExcluirDestinatarioCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="{x:Null}"
+                                            BorderBrush="{x:Null}"
+                                            Padding="0"
+                                            Margin="1,0,0,0">
+                                        <Image Source="/Icons/excluir.png"
+                                               Stretch="None" />
+                                    </Button>
+
+                                    <!--<Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" Command="{Binding DataContext.VisualizarNotaCmd, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                        CommandParameter="{Binding}">
+                                        <Image Source="/Icons/visualizar.png" Stretch="None"/>
+                                    </Button>-->
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

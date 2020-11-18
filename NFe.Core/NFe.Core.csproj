@@ -185,12 +185,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssinaturaDigital.cs" />
     <Compile Include="Cadastro\Certificado\CertificadoRepository.cs" />
     <Compile Include="Cadastro\Certificado\CertificadoService.cs" />
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
+    <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
+    <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
+    <Compile Include="Conversores\Enums\TUfConversor.cs" />
+    <Compile Include="Conversores\Enums\TUfDestConversor.cs" />
+    <Compile Include="Conversores\Enums\TUfEmiConversor.cs" />
+    <Compile Include="Conversores\UfToCodigoUfConversor.cs" />
+    <Compile Include="Conversores\UfToTCOrgaoIBGEConversor.cs" />
     <Compile Include="Extensions\Enumeration.cs" />
+    <Compile Include="GeradorPDF.cs" />
+    <Compile Include="GeradorZip.cs" />
+    <Compile Include="MailManager.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\DesoneracaoIcms.cs" />
@@ -238,7 +249,6 @@
     <Compile Include="NotasFiscais\Impostos\Ipi\IpiNt.cs" />
     <Compile Include="NotasFiscais\Impostos\Ipi\IpiTrib.cs" />
     <Compile Include="NotasFiscais\Impostos\Issqn.cs" />
-    <Compile Include="Messaging\MessagingCenter.cs" />
     <Compile Include="NotasFiscais\Entities\Documento.cs" />
     <Compile Include="NotasFiscais\Entities\Imposto.cs" />
     <Compile Include="NotasFiscais\Entities\Impostos.cs" />
@@ -268,6 +278,13 @@
     <Compile Include="NotasFiscais\Impostos\Pis\PisOutr.cs" />
     <Compile Include="NotasFiscais\Impostos\Pis\PisQtde.cs" />
     <Compile Include="NotasFiscais\Impostos\Pis\PisSt.cs" />
+    <Compile Include="PDF\NotaCancelada.cs" />
+    <Compile Include="PDF\RelatorioGerencial\Emitente.cs" />
+    <Compile Include="PDF\RelatorioGerencial\Evento.cs" />
+    <Compile Include="PDF\RelatorioGerencial\NotaFiscal.cs" />
+    <Compile Include="PDF\RelatorioGerencial\NotaInutilizada.cs" />
+    <Compile Include="PDF\ReportNFCeReadModel.cs" />
+    <Compile Include="PDF\ReportNFeReadModel.cs" />
     <Compile Include="Sefaz\CofinsCreator.cs" />
     <Compile Include="Sefaz\CofinsStCreator.cs" />
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
@@ -344,7 +361,6 @@
     <Compile Include="Interfaces\Repository\IProdutoRepository.cs" />
     <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Interfaces\Repository\ITransportadoraRepository.cs" />
-    <Compile Include="Interfaces\IXmlFileWritable.cs" />
     <Compile Include="Sefaz\Clients\IServiceFactory.cs" />
     <Compile Include="Sefaz\Clients\NfeConsulta2\INFeConsulta.cs" />
     <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\INFeCancelamento.cs" />
@@ -394,12 +410,6 @@
     </Compile>
     <Compile Include="Sefaz\Facades\InutilizarNotaFiscalFacade.cs" />
     <Compile Include="Sefaz\Utility\DecimalExtensions.cs" />
-    <Compile Include="Utils\Assinatura\ICertificateManager.cs" />
-    <Compile Include="Utils\PDF\NotaCancelada.cs" />
-    <Compile Include="Utils\PDF\RelatorioGerencial\Emitente.cs" />
-    <Compile Include="Utils\PDF\RelatorioGerencial\Evento.cs" />
-    <Compile Include="Utils\PDF\RelatorioGerencial\NotaFiscal.cs" />
-    <Compile Include="Utils\PDF\RelatorioGerencial\NotaInutilizada.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\MensagemRetornoTransmissaoNotasContingencia.cs" />
     <Compile Include="NotasFiscais\Entities\Destinatario.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
@@ -437,26 +447,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Utils\Acentuacao\Acentuacao.cs" />
-    <Compile Include="Utils\Assinatura\AssinaturaDigital.cs" />
-    <Compile Include="Utils\Assinatura\CertificateManager.cs" />
-    <Compile Include="Utils\Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
-    <Compile Include="Utils\Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
-    <Compile Include="Utils\Conversores\Enums\TUfConversor.cs" />
-    <Compile Include="Utils\Conversores\Enums\TUfDestConversor.cs" />
-    <Compile Include="Utils\Conversores\Enums\TUfEmiConversor.cs" />
-    <Compile Include="Utils\Conversores\UfToCodigoUfConversor.cs" />
-    <Compile Include="Utils\Conversores\UfToTCOrgaoIBGEConversor.cs" />
-    <Compile Include="Utils\CstListManager.cs" />
-    <Compile Include="Utils\Global.cs" />
-    <Compile Include="Utils\PDF\GeradorPDF.cs" />
-    <Compile Include="Utils\RijndaelManagedEncryption.cs" />
-    <Compile Include="Utils\SubstringExtensions.cs" />
-    <Compile Include="Utils\Xml\ValidadorXml.cs" />
-    <Compile Include="Utils\Xml\XmlExtensions.cs" />
-    <Compile Include="Utils\Xml\XmlFileHelper.cs" />
     <Compile Include="Sefaz\XmlUtil.cs" />
-    <Compile Include="Utils\Zip\GeradorZip.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\Retorno\TNfeProc.cs" />
@@ -472,6 +463,7 @@
     <Compile Include="Sefaz\Clients\NfeRetAutorizacao\Retorno\TRetConsReciNFe.cs" />
     <Compile Include="Sefaz\Clients\NfeStatusServico2\Envio\TConsStatServ.cs" />
     <Compile Include="Sefaz\Clients\NfeStatusServico2\Retorno\TRetConsStatServ.cs" />
+    <Compile Include="ValidadorXml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -670,7 +662,12 @@
     <WCFMetadataStorage Include="Connected Services\NFeRetAutorizacao4\" />
     <WCFMetadataStorage Include="Connected Services\NfeStatusServico4\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
+      <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
+      <Name>DgSystems.NFe.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Dlls\Microsoft.ReportViewer.Common.dll" />
     <Content Include="Dlls\Microsoft.ReportViewer.DataVisualization.dll" />
