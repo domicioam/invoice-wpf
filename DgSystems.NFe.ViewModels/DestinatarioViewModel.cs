@@ -89,12 +89,8 @@ namespace NFe.WPF.ViewModel
                     break;
             }
 
-
-
             var command = new AlterarDestinatarioCommand(this);
             MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);
-
-
         }
 
         private void UfSelecionadoCmd_Execute()

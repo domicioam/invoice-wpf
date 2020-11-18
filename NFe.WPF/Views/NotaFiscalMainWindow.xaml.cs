@@ -34,63 +34,7 @@ namespace EmissorNFe.NotaFiscal
         {
             InitializeComponent();
 
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, AlterarDestinatarioCommand>(this, nameof(AlterarDestinatarioCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                new DestinatarioWindow(e.DestinatarioViewModel) { Owner = mainWindow }.ShowDialog();
-            });
 
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, CancelarNotaFiscalCommand>(this, nameof(CancelarNotaFiscalCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                new CancelarNotaWindow(e.CancelarNotaViewModel) { Owner = mainWindow }.ShowDialog();
-            });
-
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, CancelarNotaFiscalCommand>(this, nameof(CancelarNotaFiscalCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                new CancelarNotaWindow(e.CancelarNotaViewModel) { Owner = mainWindow }.ShowDialog();
-            });
-
-
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, OpenEnviarEmailWindowCommand>(this, nameof(OpenEnviarEmailWindowCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                var window = new EnviarEmailWindow(e.EnviarEmailViewModel) { Owner = mainWindow };
-                window.ShowDialog();
-            });
-
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, OpenCadastroImpostoWindowCommand>(this, nameof(OpenCadastroImpostoWindowCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-
-                CadastroImpostoWindow cadastroImpostoWindow = new CadastroImpostoWindow() { Owner = mainWindow };
-                cadastroImpostoWindow.DataContext = e.ImpostoViewModel;
-                cadastroImpostoWindow.ShowDialog();
-            });
-
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, OpenVisualizarNotaEnviadaWindowCommand>(this, nameof(OpenVisualizarNotaEnviadaWindowCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-
-                new VisualizarNotaEnviadaWindow(e.VisualizarNotaEnviadaViewModel) { Owner = mainWindow }.ShowDialog();
-            });
-
-            MessagingCenter.Subscribe<NotaFiscalMainWindow, OpenCadastroProdutoWindowCommand>(this, nameof(OpenCadastroProdutoWindowCommand), (s, e) =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-
-                CadastroProdutoWindow cadastroProdutoWindow = new CadastroProdutoWindow() { Owner = mainWindow };
-                cadastroProdutoWindow.DataContext = e.ProdutoViewModel;
-                cadastroProdutoWindow.ShowDialog();
-            });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

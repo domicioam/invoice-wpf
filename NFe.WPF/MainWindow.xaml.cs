@@ -1,14 +1,21 @@
-﻿using EmissorNFe.Certificado;
+﻿using DgSystems.NFe.ViewModels.Commands;
+using EmissorNFe.Certificado;
 using EmissorNFe.Imposto;
 using EmissorNFe.NotaFiscal;
 using EmissorNFe.Produto;
 using EmissorNFe.View;
 using EmissorNFe.View.Configurações;
+using EmissorNFe.View.Destinatario;
 using EmissorNFe.View.Destinatário;
 using EmissorNFe.View.Emitente;
 using EmissorNFe.View.Gerencial;
+using EmissorNFe.View.NotaFiscal;
+using NFe.Core.Messaging;
 using NFe.WPF.Acompanhamento.View;
+using NFe.WPF.Commands;
 using NFe.WPF.View.Ferramentas;
+using NFe.WPF.View.NotaFiscal;
+using NFe.WPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +44,56 @@ namespace EmissorNFe
 
             ContentHolder.Content = new NotaFiscalMainWindow();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+
+            MessagingCenter.Subscribe<DestinatarioViewModel, AlterarDestinatarioCommand>(this, nameof(AlterarDestinatarioCommand), (s, e) =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+                new DestinatarioWindow(e.DestinatarioViewModel) { Owner = mainWindow }.ShowDialog();
+            });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, CancelarNotaFiscalCommand>(this, nameof(CancelarNotaFiscalCommand), (s, e) =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+                new CancelarNotaWindow(e.CancelarNotaViewModel) { Owner = mainWindow }.ShowDialog();
+            });
+
+            MessagingCenter.Subscribe<EnviarEmailViewModel, OpenEnviarEmailWindowCommand>(this, nameof(OpenEnviarEmailWindowCommand), (s, e) =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+                var window = new EnviarEmailWindow(e.EnviarEmailViewModel) { Owner = mainWindow };
+                window.ShowDialog();
+            });
+
+            MessagingCenter.Subscribe<ImpostoViewModel, OpenCadastroImpostoWindowCommand>(this, nameof(OpenCadastroImpostoWindowCommand), (s, e) =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+
+                CadastroImpostoWindow cadastroImpostoWindow = new CadastroImpostoWindow() { Owner = mainWindow };
+                cadastroImpostoWindow.DataContext = e.ImpostoViewModel;
+                cadastroImpostoWindow.ShowDialog();
+            });
+
+            MessagingCenter.Subscribe<VisualizarNotaEnviadaViewModel, OpenVisualizarNotaEnviadaWindowCommand>(this, nameof(OpenVisualizarNotaEnviadaWindowCommand), (s, e) =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+
+                new VisualizarNotaEnviadaWindow(e.VisualizarNotaEnviadaViewModel) { Owner = mainWindow }.ShowDialog();
+            });
+
+            MessagingCenter.Subscribe<ProdutoViewModel, OpenCadastroProdutoWindowCommand>(this, nameof(OpenCadastroProdutoWindowCommand), (s, e) =>
+            {
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+
+                CadastroProdutoWindow cadastroProdutoWindow = new CadastroProdutoWindow() { Owner = mainWindow };
+                cadastroProdutoWindow.DataContext = e.ProdutoViewModel;
+                cadastroProdutoWindow.ShowDialog();
+            });
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
