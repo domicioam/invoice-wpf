@@ -575,7 +575,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
     <Folder Include="Reports\PDF\" />
   </ItemGroup>
   <ItemGroup>
