@@ -574,9 +574,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Reports\PDF\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <SplashScreen Include="Images\SplashScreen.png" />
     <Resource Include="Icons\excluir.png" />
