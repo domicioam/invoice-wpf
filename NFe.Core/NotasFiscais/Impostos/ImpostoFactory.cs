@@ -12,6 +12,8 @@ namespace NFe.Core.NotasFiscais
     {
         internal Imposto CreateImposto(Entities.Imposto imposto)
         {
+            throw new NotImplementedException();
+
             OrigemMercadoria origem;
 
             switch (imposto.Origem)
