@@ -4,7 +4,7 @@ using System;
 
 namespace NFe.Core
 {
-    internal class MotivoDesoneracao : Enumeration
+    public class MotivoDesoneracao : Enumeration
     {
         public static readonly MotivoDesoneracao NaoPreenchido = new MotivoDesoneracao(0, "NaoPreenchido");
         public static readonly MotivoDesoneracao Taxi = new MotivoDesoneracao(1, "Taxi");

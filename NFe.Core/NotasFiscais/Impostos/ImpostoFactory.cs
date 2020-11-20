@@ -12,8 +12,6 @@ namespace NFe.Core.NotasFiscais
     {
         internal Imposto CreateImposto(Entities.Imposto imposto)
         {
-            throw new NotImplementedException();
-
             OrigemMercadoria origem;
 
             switch (imposto.Origem)
@@ -31,16 +29,20 @@ namespace NFe.Core.NotasFiscais
                     switch (imposto.CST)
                     {
                         case "01":
-                            return new CofinsCumulativoNaoCumulativo((decimal)imposto.BaseCalculo , (decimal)imposto.Aliquota);
+                            return new CofinsCumulativoNaoCumulativo((decimal)imposto.BaseCalculo, (decimal)imposto.Aliquota);
                     }
                     break;
                 case TipoImposto.Icms:
                     switch (imposto.CST)
                     {
                         case "60":
-                            return new IcmsCobradoAnteriormentePorSubstituicaoTributaria((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, new FundoCombatePobreza(0, 0), origem);
+                            return new IcmsCobradoAnteriormentePorSubstituicaoTributaria((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP), origem);
                         case "41":
-                            var desoneracaoIcms = new DesoneracaoIcms(0, MotivoDesoneracao.NaoPreenchido);
+                            DesoneracaoIcms desoneracaoIcms = null;
+                            if (imposto.ValorDesonerado > 0 || imposto.MotivoDesoneracao != null && imposto.MotivoDesoneracao != MotivoDesoneracao.NaoPreenchido)
+                            {
+                                desoneracaoIcms = new DesoneracaoIcms(imposto.ValorDesonerado, imposto.MotivoDesoneracao);
+                            }
                             return new IcmsNaoTributado(desoneracaoIcms, origem);
                     }
                     break;

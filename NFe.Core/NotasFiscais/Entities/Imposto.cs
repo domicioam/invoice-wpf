@@ -17,5 +17,9 @@ namespace NFe.Core.NotasFiscais.Entities
         public string CST { get; set; }
         public TipoImposto TipoImposto { get; set; }
         public Origem Origem { get; set; }
+        public decimal BaseCalculoFCP { get; set; }
+        public decimal AliquotaFCP { get; set; }
+        public decimal ValorDesonerado { get; set; }
+        public MotivoDesoneracao MotivoDesoneracao { get; set; }
     }
 }
