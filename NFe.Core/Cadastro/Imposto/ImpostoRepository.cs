@@ -21,14 +21,33 @@ namespace NFe.Repository.Repositories
 
         public int Salvar(GrupoImpostos grupoImpostos)
         {
-            var entity = _context.GrupoImpostos.Where(g => g.Id == grupoImpostos.Id).FirstOrDefault();
+            var grupoImpostosExistente = _context.GrupoImpostos.Where(g => g.Id == grupoImpostos.Id).FirstOrDefault();
             if (grupoImpostos.Id == 0)
             {
                 _context.Entry(grupoImpostos).State = EntityState.Added;
             }
             else
             {
-                _context.Entry(entity).CurrentValues.SetValues(grupoImpostos);
+                _context.Entry(grupoImpostosExistente).CurrentValues.SetValues(grupoImpostos);
+
+                // add new items
+
+                ImpostoIdComparer comparer = new ImpostoIdComparer();
+                var impostosParaAdicionar = grupoImpostos.Impostos.Except(grupoImpostosExistente.Impostos, comparer).ToList();
+
+                foreach (var imposto in impostosParaAdicionar)
+                {
+                    grupoImpostosExistente.Impostos.Add(imposto);
+                }
+
+                // remove items
+
+                var impostosParaRemover = grupoImpostosExistente.Impostos.Except(grupoImpostos.Impostos, comparer).ToList();
+
+                foreach (var imposto in impostosParaRemover)
+                {
+                    _context.Entry(imposto).State = EntityState.Deleted;
+                }
             }
             _context.SaveChanges();
 

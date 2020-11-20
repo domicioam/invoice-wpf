@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NFe.Core.Cadastro.Imposto
 {
@@ -28,5 +29,18 @@ namespace NFe.Core.Cadastro.Imposto
         public TipoImposto TipoImposto { get; set; }
         public Origem Origem { get; set; }
         public GrupoImpostos GrupoImpostos { get; set; }
+    }
+
+    internal class ImpostoIdComparer : IEqualityComparer<Imposto>
+    {
+        public bool Equals(Imposto x, Imposto y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(Imposto obj)
+        {
+            return obj.Id.GetHashCode();
+        }
     }
 }

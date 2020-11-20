@@ -50,7 +50,7 @@ namespace NFe.WPF.ViewModel
 
             foreach(var imposto in obj.Impostos)
             {
-                Impostos.Add(new Imposto() { Aliquota = imposto.Aliquota, CST = imposto.CST, Nome = imposto.TipoImposto.ToString() });
+                Impostos.Add(new Imposto() { Aliquota = imposto.Aliquota, CST = imposto.CST, Nome = imposto.TipoImposto.ToString(), Id = imposto.Id });
             }
 
             var command = new OpenCadastroImpostoWindowCommand(this);
@@ -153,22 +153,22 @@ namespace NFe.WPF.ViewModel
 
             foreach (var i in Impostos)
             {
-                switch (i.Nome)
+                switch (i.Nome.ToUpperInvariant())
                 {
                     case "ICMS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms  });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms, Id = i.Id  });
                         break;
 
                     case "PIS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS, Id = i.Id });
                         break;
 
                     case "COFINS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Confins });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Confins, Id = i.Id });
                         break;
 
                     case "IPI":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI, Id = i.Id });
                         break;
                 }
             }
@@ -228,5 +228,6 @@ namespace NFe.WPF.ViewModel
         public string Regime { get; set; }
         public double Aliquota { get; set; }
         public double Reducao { get; set; }
+        public int Id { get; set; }
     }
 }
