@@ -76,7 +76,7 @@ namespace NFe.Core.Sefaz
 
         private TNFeInfNFeDetImpostoCOFINS FillImpostoCofins(Impostos impostos)
         {
-            var cofins = impostos.FirstOrDefault(i => i is Cofins);
+            var cofins = impostos.FirstOrDefault(i => i is CofinsAliq);
 
             if (cofins == null) 
                 return null;
