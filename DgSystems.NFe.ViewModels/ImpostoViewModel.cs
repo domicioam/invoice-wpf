@@ -164,7 +164,7 @@ namespace NFe.WPF.ViewModel
                         break;
 
                     case "COFINS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Confins, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Cofins, Id = i.Id });
                         break;
 
                     case "IPI":

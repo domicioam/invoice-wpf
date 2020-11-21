@@ -10,7 +10,7 @@ namespace NFe.Core.Cadastro.Imposto
 
     public enum TipoImposto
     {
-        Confins,
+        Cofins,
         Icms,
         IcmsST,
         IPI,

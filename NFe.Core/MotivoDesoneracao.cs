@@ -6,7 +6,6 @@ namespace NFe.Core
 {
     public class MotivoDesoneracao : Enumeration
     {
-        public static readonly MotivoDesoneracao NaoPreenchido = new MotivoDesoneracao(0, "NaoPreenchido");
         public static readonly MotivoDesoneracao Taxi = new MotivoDesoneracao(1, "Taxi");
         public static readonly MotivoDesoneracao ProdutorAgropecuario = new MotivoDesoneracao(3, "ProdutorAgropecuario");
         public static readonly MotivoDesoneracao FrotistaLocadora = new MotivoDesoneracao(4, "FrotistaLocadora");

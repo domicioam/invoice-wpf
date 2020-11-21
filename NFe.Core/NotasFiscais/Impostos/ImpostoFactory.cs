@@ -20,12 +20,12 @@ namespace NFe.Core.NotasFiscais
                     origem = OrigemMercadoria.Nacional;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new NotSupportedException();
             }
 
             switch (imposto.TipoImposto)
             {
-                case TipoImposto.Confins:
+                case TipoImposto.Cofins:
                     switch (imposto.CST)
                     {
                         case "01":
@@ -39,7 +39,7 @@ namespace NFe.Core.NotasFiscais
                             return new IcmsCobradoAnteriormentePorSubstituicaoTributaria((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP), origem);
                         case "41":
                             DesoneracaoIcms desoneracaoIcms = null;
-                            if (imposto.ValorDesonerado > 0 || imposto.MotivoDesoneracao != null && imposto.MotivoDesoneracao != MotivoDesoneracao.NaoPreenchido)
+                            if (imposto.ValorDesonerado > 0 || imposto.MotivoDesoneracao != null)
                             {
                                 desoneracaoIcms = new DesoneracaoIcms(imposto.ValorDesonerado, imposto.MotivoDesoneracao);
                             }
@@ -60,10 +60,10 @@ namespace NFe.Core.NotasFiscais
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new NotSupportedException();
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException("");
         }
     }
 }

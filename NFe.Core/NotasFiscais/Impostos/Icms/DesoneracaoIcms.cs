@@ -14,7 +14,12 @@ namespace NFe.Core
         /// <param name="motivoDesoneracao"></param>
         public DesoneracaoIcms(decimal valorDesonerado, MotivoDesoneracao motivoDesoneracao)
         {
-            if (valorDesonerado > 0 && motivoDesoneracao == MotivoDesoneracao.NaoPreenchido)
+            if (valorDesonerado > 0 && motivoDesoneracao == null)
+            {
+                throw new ArgumentException("Motivo desoneração inválido.");
+            }
+
+            if (valorDesonerado <= 0 && motivoDesoneracao != null)
             {
                 throw new ArgumentException("Motivo desoneração inválido.");
             }
