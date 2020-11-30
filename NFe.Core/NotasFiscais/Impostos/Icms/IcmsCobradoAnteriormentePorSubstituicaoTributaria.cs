@@ -15,11 +15,11 @@ namespace NFe.Core
             _fcp = fcp;
         }
 
-        public decimal BaseCalculo { get;  }
 
         private FundoCombatePobreza _fcp;
+        public override decimal BaseCalculo { get;  }
 
-        public decimal Valor { get { return BaseCalculo * (Aliquota / 100); }  } // Ver casos onde o cálculo deve ser por dentro
+        public override decimal Valor { get { return BaseCalculo * (Aliquota / 100); }  } // Ver casos onde o cálculo deve ser por dentro
         public decimal BaseCalculoFundoCombatePobreza { get { return _fcp.BaseCalculo; } }
         public decimal AliquotaFCP { get { return _fcp.Aliquota; }  }
         public decimal ValorFundoCombatePobreza { get { return _fcp.Valor; }  }

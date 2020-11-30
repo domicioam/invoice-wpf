@@ -46,6 +46,7 @@ using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.Extensions;
 using NFe.Core.NotasFiscais.ValueObjects;
+using System.Linq;
 
 namespace NFe.Core.Sefaz
 {
@@ -112,16 +113,17 @@ namespace NFe.Core.Sefaz
         {
             var total = new TNFeInfNFeTotal
             {
-                ICMSTot = ConvertIcmsTotal(notaFiscal.TotalNFe.IcmsTotal), 
-                ISSQNtot = ConvertIssqn(notaFiscal.TotalNFe.IssqnTotal),
-                retTrib = ConvertTributosFederais(notaFiscal.TotalNFe.RetencaoTributosFederais)
+                ICMSTot = notaFiscal.TotalNFe.IcmsTotal == null ? null : ConvertIcmsTotal(notaFiscal.Produtos), 
+                ISSQNtot = ConvertIssqn(notaFiscal),
+                retTrib = ConvertTributosFederais(notaFiscal)
             };
 
             return total;
         }
 
-        private static TNFeInfNFeTotalRetTrib ConvertTributosFederais(RetencaoTributosFederais retencaoTributosFederais)
+        private static TNFeInfNFeTotalRetTrib ConvertTributosFederais(NotaFiscal notaFiscal)
         {
+            RetencaoTributosFederais retencaoTributosFederais = notaFiscal.TotalNFe.RetencaoTributosFederais;
             if (retencaoTributosFederais == null)
             {
                 return null;
@@ -139,8 +141,9 @@ namespace NFe.Core.Sefaz
             };
         }
 
-        private static TNFeInfNFeTotalISSQNtot ConvertIssqn(IssqnTotal issqnTotal)
+        private static TNFeInfNFeTotalISSQNtot ConvertIssqn(NotaFiscal notaFiscal)
         {
+            IssqnTotal issqnTotal = notaFiscal.TotalNFe.IssqnTotal;
             if (issqnTotal == null)
             {
                 return null;
@@ -163,34 +166,41 @@ namespace NFe.Core.Sefaz
             };
         }
 
-        private static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(IcmsTotal icmsTotal)
+        public static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(List<Produto> produtos)
         {
-            if (icmsTotal == null)
-            {
-                return null;
-            }
+
+            var impostosIcms = produtos.SelectMany(p => p.Impostos).Where(i => i is Icms);
+
+
+
+
+
+
+
 
             return new TNFeInfNFeTotalICMSTot
             {
-                vBC = icmsTotal.BaseCalculo.AsNumberFormattedString(),
-                vICMS = icmsTotal.ValorTotalIcms.AsNumberFormattedString(),
-                vICMSDeson = icmsTotal.ValorTotalDesonerado.AsNumberFormattedString(),
-                vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
-                vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
-                vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
-                vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
-                vFCPSTRet = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributariaRetidoAnteriormente.AsNumberFormattedString(),
-                vProd =  icmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
-                vFrete = icmsTotal.ValorTotalFrete.AsNumberFormattedString(),
-                vSeg = icmsTotal.ValorTotalSeguro.AsNumberFormattedString(),
-                vDesc = icmsTotal.ValorTotalDesconto.AsNumberFormattedString(),
-                vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
-                vIPI = icmsTotal.ValorTotalIpi.AsNumberFormattedString(),
-                vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
-                vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
-                vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
-                vOutro = icmsTotal.ValorDespesasAcessorias.AsNumberFormattedString(),
-                vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()
+                vBC = impostosIcms.Sum(i => (double)((Icms)i).BaseCalculo).AsNumberFormattedString(),
+                vICMS = impostosIcms.Sum(i => (double)((Icms)i).Valor).AsNumberFormattedString(),
+
+
+                //vICMSDeson = icmsTotal.ValorTotalDesonerado.AsNumberFormattedString(),
+                //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
+                //vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
+                //vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
+                //vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
+                //vFCPSTRet = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributariaRetidoAnteriormente.AsNumberFormattedString(),
+                //vProd =  icmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
+                //vFrete = icmsTotal.ValorTotalFrete.AsNumberFormattedString(),
+                //vSeg = icmsTotal.ValorTotalSeguro.AsNumberFormattedString(),
+                //vDesc = icmsTotal.ValorTotalDesconto.AsNumberFormattedString(),
+                //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
+                //vIPI = icmsTotal.ValorTotalIpi.AsNumberFormattedString(),
+                //vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
+                //vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
+                //vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
+                //vOutro = icmsTotal.ValorDespesasAcessorias.AsNumberFormattedString(),
+                //vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()
             };
         }
 

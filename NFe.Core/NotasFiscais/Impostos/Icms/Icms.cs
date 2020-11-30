@@ -18,7 +18,9 @@ namespace NFe.Core
 
         public CstEnum Cst { get; }
         public OrigemMercadoria Origem { get; }
+        public virtual decimal BaseCalculo { get; }
 
+        public virtual decimal Valor { get; }
         public class CstEnum : Enumeration
         {
             public CstEnum(int id, string name) : base(id, name)
