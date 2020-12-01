@@ -8,7 +8,7 @@ namespace NFe.Core
 {
     internal class Icms70 : IcmsSubstituicaoTributaria, IcmsDesonerado
     {
-        public Icms70(Desoneracao desoneracaoIcms, Icms.CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
+        public Icms70(Desoneracao desoneracaoIcms, Icms.CstEnum cst, OrigemMercadoria origem, NotasFiscais.FundoCombatePobreza fundoCombatePobreza) : base(cst, origem, fundoCombatePobreza)
         {
             Desoneracao = desoneracaoIcms;
         }

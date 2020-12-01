@@ -174,12 +174,7 @@ namespace NFe.Core.Sefaz
             var impostosIcms = impostos.Where(i => i is Icms);
             var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
             var icmsRetidoAnteriormente = impostos.Where(i => i is IcmsSubstituicaoTributariaRetidoAnteiormente);
-
-
-
-
-
-
+            var icmsSubstituicaoTributaria = impostos.Where(i => i is IcmsSubstituicaoTributaria);
 
 
             return new TNFeInfNFeTotalICMSTot
@@ -193,14 +188,14 @@ namespace NFe.Core.Sefaz
                 vSeg = produtos.Sum(p => p.Seguro).AsNumberFormattedString(),
                 vDesc = produtos.Sum(p => p.ValorDesconto).AsNumberFormattedString(),
                 vOutro = produtos.Sum(p => p.Outros).AsNumberFormattedString(),
+                vFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((FundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
 
+                //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
                 //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
                 //vIPI = icmsTotal.ValorTotalIpi.AsNumberFormattedString(),
                 //vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
                 //vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
                 //vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
-                //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
-                //vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
                 //vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
                 //vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
                 //vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()

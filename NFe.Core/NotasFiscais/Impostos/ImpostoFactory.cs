@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.NotasFiscais.Entities;
+using static NFe.Core.Icms;
 
 namespace NFe.Core.NotasFiscais
 {
@@ -44,6 +45,8 @@ namespace NFe.Core.NotasFiscais
                                 desoneracaoIcms = new Desoneracao(imposto.ValorDesonerado, imposto.MotivoDesoneracao);
                             }
                             return new IcmsNaoTributado(desoneracaoIcms, origem);
+                        case "10":
+                            return new Icms10((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, CstEnum.CST10, origem, new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP));
                     }
                     break;
                 case TipoImposto.IcmsST:

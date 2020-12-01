@@ -30,6 +30,7 @@ namespace NFe.Core
             public static readonly CstEnum CST60 = new CstEnum(60, "CST60");
             public static readonly CstEnum CST41 = new CstEnum(41, "CST41");
             public static readonly CstEnum CST40 = new CstEnum(40, "CST40");
+            public static readonly CstEnum CST10 = new CstEnum(10, "CST10");
 
             public static implicit operator TNFeInfNFeDetImpostoICMSICMS60CST(CstEnum cst)
             {

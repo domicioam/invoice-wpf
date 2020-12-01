@@ -5,10 +5,16 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class Icms10 : IcmsSubstituicaoTributaria
+    internal class Icms10 : IcmsSubstituicaoTributaria
     {
-        public Icms10(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
+        public Icms10(decimal aliquota, decimal baseCalculo, CstEnum cst, OrigemMercadoria origem, NotasFiscais.FundoCombatePobreza fundoCombatePobreza) : base(cst, origem, fundoCombatePobreza)
         {
+            Aliquota = aliquota;
+            BaseCalculo = baseCalculo;
         }
+
+        public override decimal BaseCalculo { get; }
+        public override decimal Valor { get { return BaseCalculo * (Aliquota / 100); } } // Ver casos onde o cálculo deve ser por dentro
+        public decimal Aliquota { get; }
     }
 }
