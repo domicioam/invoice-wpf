@@ -205,8 +205,9 @@
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Desoneracao.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\HasSubstituicaoTributaria.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsSubstituicaoTributariaRetidoAnteiormente.cs" />
-    <Compile Include="NotasFiscais\Impostos\Icms\FundoCombatePobreza.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\HasFundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Icms50.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsDesonerado.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsNaoTributado.cs" />
@@ -242,8 +243,8 @@
     <Compile Include="NotasFiscais\Impostos\Icms\Icms900.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsPart.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsSn90.cs" />
-    <Compile Include="NotasFiscais\Impostos\Icms\IcmsSubstituicaoTributaria.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsUfDestino.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\SubstituicaoTributaria.cs" />
     <Compile Include="NotasFiscais\Impostos\II.cs" />
     <Compile Include="NotasFiscais\Impostos\Imposto.cs" />
     <Compile Include="NotasFiscais\Impostos\ImpostoFactory.cs" />

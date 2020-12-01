@@ -58,7 +58,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_create_icms_41_with_empty_fields()
         {
             var icmsCreator = new IcmsCreator();
-            Imposto imposto = new IcmsNaoTributado(null, OrigemMercadoria.Nacional);
+            Imposto imposto = new IcmsNaoTributado(null, OrigemMercadoria.Nacional,0);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;
 
@@ -74,7 +74,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new IcmsCreator();
             var desoneracaoIcms = new Desoneracao(valorDesoneracao, MotivoDesoneracao.Outros);
-            Imposto imposto = new IcmsNaoTributado(desoneracaoIcms, OrigemMercadoria.Nacional);
+            Imposto imposto = new IcmsNaoTributado(desoneracaoIcms, OrigemMercadoria.Nacional,0);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;
 

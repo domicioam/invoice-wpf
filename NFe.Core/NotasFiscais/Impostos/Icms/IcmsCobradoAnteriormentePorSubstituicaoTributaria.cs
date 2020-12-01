@@ -7,11 +7,10 @@ using System.Text;
 namespace NFe.Core
 {
 
-    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : IcmsSubstituicaoTributariaRetidoAnteiormente, FundoCombatePobreza
+    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : IcmsSubstituicaoTributariaRetidoAnteiormente, HasFundoCombatePobreza
     {
-        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal aliquota, decimal baseCalculo, NotasFiscais.FundoCombatePobreza fcp, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
+        public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal aliquota, decimal baseCalculo, NotasFiscais.FundoCombatePobreza fcp, OrigemMercadoria origem) : base(CstEnum.CST60, origem, aliquota)
         {
-            Aliquota = aliquota;
             BaseCalculo = baseCalculo;
             FundoCombatePobreza = fcp;
         }
@@ -19,7 +18,6 @@ namespace NFe.Core
         public NotasFiscais.FundoCombatePobreza FundoCombatePobreza { get; }
         public override decimal BaseCalculo { get;  }
         public override decimal Valor { get { return BaseCalculo * (Aliquota / 100); }  } // Ver casos onde o cálculo deve ser por dentro
-        public decimal Aliquota { get;  }
     }
 }
  

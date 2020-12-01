@@ -1,6 +1,6 @@
 ﻿namespace NFe.Core
 {
-    internal interface FundoCombatePobreza
+    internal interface HasFundoCombatePobreza
     {
         NotasFiscais.FundoCombatePobreza FundoCombatePobreza { get; }
     }

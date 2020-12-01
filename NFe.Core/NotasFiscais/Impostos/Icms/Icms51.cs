@@ -5,10 +5,12 @@ using System.Text;
 
 namespace NFe.Core
 {
-    public class Icms51 : Icms
+    public class Icms51 : Icms, HasFundoCombatePobreza
     {
-        public Icms51(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
+        public Icms51(CstEnum cst, OrigemMercadoria origem, decimal aliquota) : base(cst, origem, aliquota)
         {
         }
+
+        public NotasFiscais.FundoCombatePobreza FundoCombatePobreza => throw new NotImplementedException();
     }
 }

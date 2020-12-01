@@ -9,9 +9,9 @@ namespace NFe.Core
     /// <summary>
     /// Equivalente do ICMS 60 no Simples Nacional
     /// </summary>
-    public class Icms500 : IcmsSubstituicaoTributariaRetidoAnteiormente, FundoCombatePobreza
+    public class Icms500 : IcmsSubstituicaoTributariaRetidoAnteiormente, HasFundoCombatePobreza
     {
-        public Icms500(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
+        public Icms500(CstEnum cst, OrigemMercadoria origem, decimal aliquota) : base(cst, origem, aliquota)
         {
         }
 

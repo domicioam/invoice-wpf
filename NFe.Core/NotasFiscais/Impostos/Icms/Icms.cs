@@ -10,10 +10,11 @@ namespace NFe.Core
 {
     public abstract class Icms : Imposto
     {
-        protected Icms(CstEnum cst, OrigemMercadoria origem)
+        protected Icms(CstEnum cst, OrigemMercadoria origem, decimal aliquota)
         {
             Cst = cst;
             Origem = origem;
+            Aliquota = aliquota;
         }
 
         public CstEnum Cst { get; }
@@ -21,6 +22,7 @@ namespace NFe.Core
         public virtual decimal BaseCalculo { get; }
 
         public virtual decimal Valor { get; }
+        public decimal Aliquota { get; }
         public class CstEnum : Enumeration
         {
             public CstEnum(int id, string name) : base(id, name)

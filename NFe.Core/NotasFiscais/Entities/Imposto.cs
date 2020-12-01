@@ -21,5 +21,7 @@ namespace NFe.Core.NotasFiscais.Entities
         public decimal AliquotaFCP { get; set; }
         public decimal ValorDesonerado { get; set; }
         public MotivoDesoneracao MotivoDesoneracao { get; set; }
+        public decimal BaseCalculoST { get; internal set; }
+        public decimal AliquotaST { get; internal set; }
     }
 }

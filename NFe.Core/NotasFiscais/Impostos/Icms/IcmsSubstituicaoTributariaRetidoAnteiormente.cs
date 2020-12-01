@@ -8,7 +8,7 @@ namespace NFe.Core
 {
     public class IcmsSubstituicaoTributariaRetidoAnteiormente : Icms
     {
-        public IcmsSubstituicaoTributariaRetidoAnteiormente(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
+        public IcmsSubstituicaoTributariaRetidoAnteiormente(CstEnum cst, OrigemMercadoria origem, decimal aliquota) : base(cst, origem, aliquota)
         {
         }
     }

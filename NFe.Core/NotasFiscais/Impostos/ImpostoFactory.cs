@@ -44,9 +44,10 @@ namespace NFe.Core.NotasFiscais
                             {
                                 desoneracaoIcms = new Desoneracao(imposto.ValorDesonerado, imposto.MotivoDesoneracao);
                             }
-                            return new IcmsNaoTributado(desoneracaoIcms, origem);
+                            return new IcmsNaoTributado(desoneracaoIcms, origem, (decimal)imposto.Aliquota);
                         case "10":
-                            return new Icms10((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, CstEnum.CST10, origem, new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP));
+                            return new Icms10((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, CstEnum.CST10, origem, new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP), 
+                                new Impostos.Icms.SubstituicaoTributaria(new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP), imposto.BaseCalculoST, imposto.AliquotaST));
                     }
                     break;
                 case TipoImposto.IcmsST:

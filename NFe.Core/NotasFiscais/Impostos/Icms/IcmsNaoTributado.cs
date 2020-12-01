@@ -12,7 +12,7 @@ namespace NFe.Core
     internal class IcmsNaoTributado : Icms, IcmsDesonerado
     {
 
-        public IcmsNaoTributado(Desoneracao desoneracaoIcms, OrigemMercadoria origem) : base(CstEnum.CST41, origem)
+        public IcmsNaoTributado(Desoneracao desoneracaoIcms, OrigemMercadoria origem, decimal aliquota) : base(CstEnum.CST41, origem, aliquota)
         {
             Desoneracao = desoneracaoIcms;
         }

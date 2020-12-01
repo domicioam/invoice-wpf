@@ -174,7 +174,7 @@ namespace NFe.Core.Sefaz
             var impostosIcms = impostos.Where(i => i is Icms);
             var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
             var icmsRetidoAnteriormente = impostos.Where(i => i is IcmsSubstituicaoTributariaRetidoAnteiormente);
-            var icmsSubstituicaoTributaria = impostos.Where(i => i is IcmsSubstituicaoTributaria);
+            var icmsSubstituicaoTributaria = impostos.Where(i => i is HasSubstituicaoTributaria);
 
 
             return new TNFeInfNFeTotalICMSTot
@@ -182,13 +182,13 @@ namespace NFe.Core.Sefaz
                 vBC = impostosIcms.Sum(i => (double)((Icms)i).BaseCalculo).AsNumberFormattedString(),
                 vICMS = impostosIcms.Sum(i => (double)((Icms)i).Valor).AsNumberFormattedString(),
                 vICMSDeson = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado).AsNumberFormattedString(),
-                vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((FundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
+                vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((HasFundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
                 vProd = produtos.Sum(p => p.ValorTotal).AsNumberFormattedString(),
                 vFrete = produtos.Sum(p => p.Frete).AsNumberFormattedString(),
                 vSeg = produtos.Sum(p => p.Seguro).AsNumberFormattedString(),
                 vDesc = produtos.Sum(p => p.ValorDesconto).AsNumberFormattedString(),
                 vOutro = produtos.Sum(p => p.Outros).AsNumberFormattedString(),
-                vFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((FundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
+                vFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.FundoCombatePobreza.Valor).AsNumberFormattedString(),
 
                 //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
                 //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),

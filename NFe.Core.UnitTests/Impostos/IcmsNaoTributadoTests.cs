@@ -13,7 +13,7 @@ namespace NFe.Core.UnitTests
         public void Should_create_correctly_when_fields_valid()
         {
             var desoneracao = new Desoneracao(10, MotivoDesoneracao.ProdutorAgropecuario);
-            var icms41 = new IcmsNaoTributado(desoneracao, OrigemMercadoria.Nacional);
+            var icms41 = new IcmsNaoTributado(desoneracao, OrigemMercadoria.Nacional,0);
 
             Assert.Equal(Icms.CstEnum.CST41, icms41.Cst);
             Assert.Equal(OrigemMercadoria.Nacional, icms41.Origem);
