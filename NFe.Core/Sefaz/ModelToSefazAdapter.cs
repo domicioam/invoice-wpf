@@ -47,6 +47,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.Extensions;
 using NFe.Core.NotasFiscais.ValueObjects;
 using System.Linq;
+using NFe.Core.NotasFiscais.Impostos.Icms;
 
 namespace NFe.Core.Sefaz
 {
@@ -169,7 +170,10 @@ namespace NFe.Core.Sefaz
         public static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(List<Produto> produtos)
         {
 
-            var impostosIcms = produtos.SelectMany(p => p.Impostos).Where(i => i is Icms);
+            IEnumerable<NotasFiscais.Imposto> impostos = produtos.SelectMany(p => p.Impostos);
+            var impostosIcms = impostos.Where(i => i is Icms);
+            var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
+            var icmsRetidoAnteriormente = impostos.Where(i => i is Icms500 || i is IcmsCobradoAnteriormentePorSubstituicaoTributaria);
 
 
 
@@ -182,14 +186,13 @@ namespace NFe.Core.Sefaz
             {
                 vBC = impostosIcms.Sum(i => (double)((Icms)i).BaseCalculo).AsNumberFormattedString(),
                 vICMS = impostosIcms.Sum(i => (double)((Icms)i).Valor).AsNumberFormattedString(),
+                vICMSDeson = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado).AsNumberFormattedString(),
+                vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((IFundoCombatePobreza)i).ValorFundoCombatePobreza).AsNumberFormattedString(),
 
-
-                //vICMSDeson = icmsTotal.ValorTotalDesonerado.AsNumberFormattedString(),
                 //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
+                //vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
                 //vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
                 //vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
-                //vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
-                //vFCPSTRet = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributariaRetidoAnteriormente.AsNumberFormattedString(),
                 //vProd =  icmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
                 //vFrete = icmsTotal.ValorTotalFrete.AsNumberFormattedString(),
                 //vSeg = icmsTotal.ValorTotalSeguro.AsNumberFormattedString(),

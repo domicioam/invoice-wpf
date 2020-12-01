@@ -204,8 +204,10 @@
     <Compile Include="MailManager.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
-    <Compile Include="NotasFiscais\Impostos\Icms\DesoneracaoIcms.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\Desoneracao.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\IFundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Icms50.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\IcmsDesonerado.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsNaoTributado.cs" />
     <Compile Include="MotivoDesoneracao.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\Cofins.cs" />

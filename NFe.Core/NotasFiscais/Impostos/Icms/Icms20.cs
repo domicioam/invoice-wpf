@@ -1,13 +1,14 @@
-﻿using System;
+﻿using NFe.Core.NotasFiscais.Impostos.Icms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace NFe.Core
 {
-    public class Icms20 : Icms
+    internal class Icms20 : IcmsDesonerado
     {
-        public Icms20(CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
+        public Icms20(Desoneracao desoneracaoIcms, CstEnum cst, OrigemMercadoria origem) : base(desoneracaoIcms, cst, origem)
         {
         }
     }

@@ -44,10 +44,10 @@ namespace NFe.Core.Sefaz
                     CST = icms41.Cst
                 };
 
-                if (icms41.DesoneracaoIcms != null)
+                if (icms41.Desoneracao != null)
                 {
-                    icmsDet41.vICMSDeson = icms41.DesoneracaoIcms.ValorDesonerado.ToPositiveDecimalAsStringOrNull();
-                    icmsDet41.motDesICMS = icms41.DesoneracaoIcms.MotivoDesoneracao;
+                    icmsDet41.vICMSDeson = icms41.Desoneracao.ValorDesonerado.ToPositiveDecimalAsStringOrNull();
+                    icmsDet41.motDesICMS = icms41.Desoneracao.MotivoDesoneracao;
                 }
 
                 icmsDet.Item = icmsDet41;

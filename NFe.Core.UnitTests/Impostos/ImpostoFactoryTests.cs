@@ -66,7 +66,7 @@ namespace NFe.Core.UnitTests.Impostos
             Assert.True(result is IcmsNaoTributado);
             var icms = result as IcmsNaoTributado;
             Assert.Equal(CstEnum.CST41, icms.Cst);
-            Assert.Null(icms.DesoneracaoIcms);
+            Assert.Null(icms.Desoneracao);
         }
 
         [Fact]
@@ -87,8 +87,8 @@ namespace NFe.Core.UnitTests.Impostos
             Assert.True(result is IcmsNaoTributado);
             var icms = result as IcmsNaoTributado;
             Assert.Equal(CstEnum.CST41, icms.Cst);
-            Assert.Equal(1m, icms.DesoneracaoIcms.ValorDesonerado);
-            Assert.NotNull(icms.DesoneracaoIcms.MotivoDesoneracao);
+            Assert.Equal(1m, icms.Desoneracao.ValorDesonerado);
+            Assert.NotNull(icms.Desoneracao.MotivoDesoneracao);
         }
 
         [Fact]

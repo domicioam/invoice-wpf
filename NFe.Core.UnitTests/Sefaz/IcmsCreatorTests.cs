@@ -73,7 +73,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_create_icms_41_national_origin_with_corect_values(decimal valorDesoneracao)
         {
             var icmsCreator = new IcmsCreator();
-            var desoneracaoIcms = new DesoneracaoIcms(valorDesoneracao, MotivoDesoneracao.Outros);
+            var desoneracaoIcms = new Desoneracao(valorDesoneracao, MotivoDesoneracao.Outros);
             Imposto imposto = new IcmsNaoTributado(desoneracaoIcms, OrigemMercadoria.Nacional);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;

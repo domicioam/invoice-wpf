@@ -6,7 +6,7 @@ using System.Text;
 namespace NFe.Core
 {
 
-    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms
+    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms, IFundoCombatePobreza
     {
         public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal aliquota, decimal baseCalculo, FundoCombatePobreza fcp, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
         {
@@ -14,7 +14,6 @@ namespace NFe.Core
             BaseCalculo = baseCalculo;
             _fcp = fcp;
         }
-
 
         private FundoCombatePobreza _fcp;
         public override decimal BaseCalculo { get;  }

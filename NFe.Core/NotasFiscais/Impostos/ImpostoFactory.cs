@@ -38,10 +38,10 @@ namespace NFe.Core.NotasFiscais
                         case "60":
                             return new IcmsCobradoAnteriormentePorSubstituicaoTributaria((decimal)imposto.Aliquota, (decimal)imposto.BaseCalculo, new FundoCombatePobreza(imposto.AliquotaFCP, imposto.BaseCalculoFCP), origem);
                         case "41":
-                            DesoneracaoIcms desoneracaoIcms = null;
+                            Desoneracao desoneracaoIcms = null;
                             if (imposto.ValorDesonerado > 0 || imposto.MotivoDesoneracao != null)
                             {
-                                desoneracaoIcms = new DesoneracaoIcms(imposto.ValorDesonerado, imposto.MotivoDesoneracao);
+                                desoneracaoIcms = new Desoneracao(imposto.ValorDesonerado, imposto.MotivoDesoneracao);
                             }
                             return new IcmsNaoTributado(desoneracaoIcms, origem);
                     }
