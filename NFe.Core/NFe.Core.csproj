@@ -244,6 +244,7 @@
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsSn90.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsSt.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsUfDestino.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\IRetidoAnteriormentePorST.cs" />
     <Compile Include="NotasFiscais\Impostos\II.cs" />
     <Compile Include="NotasFiscais\Impostos\Imposto.cs" />
     <Compile Include="NotasFiscais\Impostos\ImpostoFactory.cs" />

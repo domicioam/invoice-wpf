@@ -173,7 +173,7 @@ namespace NFe.Core.Sefaz
             IEnumerable<NotasFiscais.Imposto> impostos = produtos.SelectMany(p => p.Impostos);
             var impostosIcms = impostos.Where(i => i is Icms);
             var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
-            var icmsRetidoAnteriormente = impostos.Where(i => i is Icms500 || i is IcmsCobradoAnteriormentePorSubstituicaoTributaria);
+            var icmsRetidoAnteriormente = impostos.Where(i => i is IRetidoAnteriormentePorST);
 
 
 
