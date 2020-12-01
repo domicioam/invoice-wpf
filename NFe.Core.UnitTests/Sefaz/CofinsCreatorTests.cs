@@ -76,7 +76,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_throw_exception_when_cofins_type_is_wrong()
         {
             var cofinsCreator = new CofinsCreator();
-            Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0,0,new FundoCombatePobreza(0,0), OrigemMercadoria.Nacional);
+            Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0,0,new NotasFiscais.FundoCombatePobreza(0,0), OrigemMercadoria.Nacional);
 
             Assert.Throws<ArgumentException>(() => cofinsCreator.Create(imposto));
         }

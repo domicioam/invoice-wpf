@@ -206,7 +206,7 @@
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Desoneracao.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsSubstituicaoTributariaRetidoAnteiormente.cs" />
-    <Compile Include="NotasFiscais\Impostos\Icms\IFundoCombatePobreza.cs" />
+    <Compile Include="NotasFiscais\Impostos\Icms\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Icms50.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsDesonerado.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\IcmsNaoTributado.cs" />

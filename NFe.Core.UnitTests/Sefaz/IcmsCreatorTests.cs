@@ -18,7 +18,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new IcmsCreator();
 
-            Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, 0, new FundoCombatePobreza(0, 0), OrigemMercadoria.Nacional);
+            Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, 0, new NotasFiscais.FundoCombatePobreza(0, 0), OrigemMercadoria.Nacional);
             var detImposto = (TNFeInfNFeDetImpostoICMS) icmsCreator.Create(imposto);
             var detImpostoIcms60 = (TNFeInfNFeDetImpostoICMSICMS60) detImposto.Item;
 
@@ -39,7 +39,7 @@ namespace NFe.Core.UnitTests.Sefaz
             var icmsCreator = new IcmsCreator();
             OrigemMercadoria origem = OrigemMercadoria.Nacional;
 
-            var imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(aliquota, baseCalculo, new FundoCombatePobreza(percentualFundoCombatePobreza, baseCalculoFundoCombatePobreza), origem);
+            var imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(aliquota, baseCalculo, new NotasFiscais.FundoCombatePobreza(percentualFundoCombatePobreza, baseCalculoFundoCombatePobreza), origem);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms60 = (TNFeInfNFeDetImpostoICMSICMS60)detImposto.Item;
 

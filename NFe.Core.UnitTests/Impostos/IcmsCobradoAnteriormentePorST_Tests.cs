@@ -13,9 +13,9 @@ namespace NFe.Core.UnitTests
         [Fact]
         public void Should_calculate_using_base_calculo()
         {
-            var icms60 = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(18, 65, new FundoCombatePobreza(2, 65), OrigemMercadoria.Nacional);
+            var icms60 = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(18, 65, new NotasFiscais.FundoCombatePobreza(2, 65), OrigemMercadoria.Nacional);
             Assert.Equal(11.7m, icms60.Valor);
-            Assert.Equal(1.3m, icms60.ValorFundoCombatePobreza);
+            Assert.Equal(1.3m, icms60.FundoCombatePobreza.Valor);
         }
     }
 }

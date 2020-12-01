@@ -187,7 +187,7 @@ namespace NFe.Core.Sefaz
                 vBC = impostosIcms.Sum(i => (double)((Icms)i).BaseCalculo).AsNumberFormattedString(),
                 vICMS = impostosIcms.Sum(i => (double)((Icms)i).Valor).AsNumberFormattedString(),
                 vICMSDeson = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado).AsNumberFormattedString(),
-                vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((IFundoCombatePobreza)i).ValorFundoCombatePobreza).AsNumberFormattedString(),
+                vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((FundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
                 vProd = produtos.Sum(p => p.ValorTotal).AsNumberFormattedString(),
                 vFrete = produtos.Sum(p => p.Frete).AsNumberFormattedString(),
                 vSeg = produtos.Sum(p => p.Seguro).AsNumberFormattedString(),
