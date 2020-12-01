@@ -7,7 +7,7 @@ using System.Text;
 namespace NFe.Core
 {
 
-    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : Icms, IFundoCombatePobreza, IRetidoAnteriormentePorST
+    public class IcmsCobradoAnteriormentePorSubstituicaoTributaria : IcmsSubstituicaoTributariaRetidoAnteiormente, IFundoCombatePobreza
     {
         public IcmsCobradoAnteriormentePorSubstituicaoTributaria(decimal aliquota, decimal baseCalculo, FundoCombatePobreza fcp, OrigemMercadoria origem) : base(CstEnum.CST60, origem)
         {

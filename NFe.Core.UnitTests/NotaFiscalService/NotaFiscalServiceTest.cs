@@ -266,7 +266,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
 
             var produtos = new List<Produto>
             {
-                new Produto(impostos, 0, "5656", "0001", "GLP 13KG", "27111910", 1, "UN", 65, 0, false)
+                new Produto(impostos, 0, "5656", "0001", "GLP 13KG", "27111910", 1, "UN", 65, 0, false,0,0,0)
             };
             var pagamentos = new List<Pagamento>
             {

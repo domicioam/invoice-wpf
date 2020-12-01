@@ -19,8 +19,8 @@ namespace NFe.Core.UnitTests.Sefaz
             List<Imposto> impostos_list = new List<Imposto> { imposto };
             NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
 
-            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false);
-            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false);
+            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
+            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             List<Produto> produtos = new List<Produto> { produto1, produto2 };
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(produtos);
@@ -38,8 +38,8 @@ namespace NFe.Core.UnitTests.Sefaz
             List<Imposto> impostos_list = new List<Imposto> { imposto };
             NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
 
-            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false);
-            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false);
+            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false,0, 0,0);
+            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false,0, 0,0);
             List<Produto> produtos = new List<Produto> { produto1, produto2 };
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(produtos);
@@ -56,8 +56,8 @@ namespace NFe.Core.UnitTests.Sefaz
             List<Imposto> impostos_list = new List<Imposto> { imposto };
             NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
 
-            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false);
-            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false);
+            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
+            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             List<Produto> produtos = new List<Produto> { produto1, produto2 };
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(produtos);

@@ -173,7 +173,7 @@ namespace NFe.Core.Sefaz
             IEnumerable<NotasFiscais.Imposto> impostos = produtos.SelectMany(p => p.Impostos);
             var impostosIcms = impostos.Where(i => i is Icms);
             var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
-            var icmsRetidoAnteriormente = impostos.Where(i => i is IRetidoAnteriormentePorST);
+            var icmsRetidoAnteriormente = impostos.Where(i => i is IcmsSubstituicaoTributariaRetidoAnteiormente);
 
 
 
@@ -188,21 +188,21 @@ namespace NFe.Core.Sefaz
                 vICMS = impostosIcms.Sum(i => (double)((Icms)i).Valor).AsNumberFormattedString(),
                 vICMSDeson = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado).AsNumberFormattedString(),
                 vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((IFundoCombatePobreza)i).ValorFundoCombatePobreza).AsNumberFormattedString(),
+                vProd = produtos.Sum(p => p.ValorTotal).AsNumberFormattedString(),
+                vFrete = produtos.Sum(p => p.Frete).AsNumberFormattedString(),
+                vSeg = produtos.Sum(p => p.Seguro).AsNumberFormattedString(),
+                vDesc = produtos.Sum(p => p.ValorDesconto).AsNumberFormattedString(),
+                vOutro = produtos.Sum(p => p.Outros).AsNumberFormattedString(),
 
-                //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
-                //vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
-                //vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
-                //vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
-                //vProd =  icmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
-                //vFrete = icmsTotal.ValorTotalFrete.AsNumberFormattedString(),
-                //vSeg = icmsTotal.ValorTotalSeguro.AsNumberFormattedString(),
-                //vDesc = icmsTotal.ValorTotalDesconto.AsNumberFormattedString(),
                 //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
                 //vIPI = icmsTotal.ValorTotalIpi.AsNumberFormattedString(),
                 //vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
                 //vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
                 //vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
-                //vOutro = icmsTotal.ValorDespesasAcessorias.AsNumberFormattedString(),
+                //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
+                //vFCPST = icmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria.AsNumberFormattedString(),
+                //vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
+                //vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
                 //vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()
             };
         }

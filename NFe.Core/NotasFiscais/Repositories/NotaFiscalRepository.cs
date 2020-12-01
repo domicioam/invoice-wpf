@@ -548,7 +548,7 @@ namespace NFe.Repository.Repositories
                 var newProduto = new Produto(impostos, 0, det.prod.CFOP.Replace("Item", string.Empty),
                     det.prod.cProd, det.prod.xProd, det.prod.NCM,
                     int.Parse(det.prod.qCom), det.prod.uCom,
-                    double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 0, ambiente == Ambiente.Producao)
+                    double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 0, ambiente == Ambiente.Producao, double.Parse(det.prod.vFrete, CultureInfo.InvariantCulture), double.Parse(det.prod.vSeg, CultureInfo.InvariantCulture), double.Parse(det.prod.vOutro, CultureInfo.InvariantCulture))
                 {
                     Cest = det.prod.CEST
                 };

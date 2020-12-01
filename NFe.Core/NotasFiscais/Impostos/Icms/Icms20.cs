@@ -6,10 +6,13 @@ using System.Text;
 
 namespace NFe.Core
 {
-    internal class Icms20 : IcmsDesonerado
+    internal class Icms20 : Icms, IcmsDesonerado
     {
-        public Icms20(Desoneracao desoneracaoIcms, CstEnum cst, OrigemMercadoria origem) : base(desoneracaoIcms, cst, origem)
+        public Icms20(Desoneracao desoneracaoIcms, CstEnum cst, OrigemMercadoria origem) : base(cst, origem)
         {
+            Desoneracao = desoneracaoIcms;
         }
+
+        public Desoneracao Desoneracao { get; }
     }
 }

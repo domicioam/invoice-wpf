@@ -255,7 +255,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     produtoEntity.GrupoImpostos.CFOP, produtoEntity.Codigo, produtoEntity.Descricao, produtoEntity.NCM,
                     notaFiscal.Produtos.First(p => p.ProdutoSelecionado.Id == produtoEntity.Id).QtdeProduto,
                     produtoEntity.UnidadeComercial,
-                    produtoNota.ValorUnitario, produtoNota.Descontos, _sefazSettings.Ambiente == Ambiente.Homologacao);
+                    produtoNota.ValorUnitario, produtoNota.Descontos, _sefazSettings.Ambiente == Ambiente.Homologacao, produtoNota.Frete, produtoNota.Seguro, produtoNota.Outros);
 
                 produtos.Add(produto);
             }
