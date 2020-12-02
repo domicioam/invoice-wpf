@@ -98,5 +98,39 @@ namespace NFe.Core.UnitTests.Sefaz
             Assert.Equal("250.00", result.vBCST);
             Assert.Equal("25.00", result.vST);
         }
+
+        [Fact]
+        public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Com_E_Sem_ST()
+        {
+            Imposto imposto = new Imposto
+            {
+                Aliquota = 10,
+                BaseCalculo = 125,
+                AliquotaST = 7,
+                BaseCalculoST = 100,
+                CST = "10",
+                Origem = Cadastro.Imposto.Origem.Nacional,
+                TipoImposto = Cadastro.Imposto.TipoImposto.Icms,
+                AliquotaFCP = 5,
+                BaseCalculoFCP = 60
+            };
+            List<Imposto> impostos_list = new List<Imposto> { imposto };
+            NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
+
+            var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
+            var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
+            List<Produto> produtos = new List<Produto> { produto1, produto2 };
+
+            var result = ModelToSefazAdapter.ConvertIcmsTotal(produtos);
+
+            Assert.Equal("250.00", result.vBC);
+            Assert.Equal("25.00", result.vICMS);
+            Assert.Equal("0.00", result.vFCPSTRet);
+            Assert.Equal("6.00", result.vFCPST);
+            Assert.Equal("200.00", result.vBCST);
+            Assert.Equal("14.00", result.vST);
+            Assert.Equal("6.00", result.vFCP);
+        }
+
     }
 }

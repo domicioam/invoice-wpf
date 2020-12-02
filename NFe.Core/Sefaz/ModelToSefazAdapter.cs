@@ -191,6 +191,7 @@ namespace NFe.Core.Sefaz
                 vFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.FundoCombatePobreza.Valor).AsNumberFormattedString(),
                 vBCST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.BaseCalculo).AsNumberFormattedString(),
                 vST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.Valor).AsNumberFormattedString(),
+                vFCP = impostosIcms.Where(i => i is HasFundoCombatePobreza).Sum(i => (double)((HasFundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
 
                 //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
                 //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
