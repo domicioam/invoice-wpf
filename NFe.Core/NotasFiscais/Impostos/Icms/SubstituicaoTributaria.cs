@@ -17,7 +17,7 @@ namespace NFe.Core.NotasFiscais.Impostos.Icms
 
         public FundoCombatePobreza FundoCombatePobreza { get; }
         public decimal BaseCalculo { get; }
-        public decimal Valor { get; }
+        public decimal Valor { get { return BaseCalculo * (Aliquota / 100); } }
         public decimal Aliquota { get; }
     }
 }

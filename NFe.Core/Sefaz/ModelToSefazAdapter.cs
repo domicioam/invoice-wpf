@@ -189,6 +189,8 @@ namespace NFe.Core.Sefaz
                 vDesc = produtos.Sum(p => p.ValorDesconto).AsNumberFormattedString(),
                 vOutro = produtos.Sum(p => p.Outros).AsNumberFormattedString(),
                 vFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.FundoCombatePobreza.Valor).AsNumberFormattedString(),
+                vBCST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.BaseCalculo).AsNumberFormattedString(),
+                vST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.Valor).AsNumberFormattedString(),
 
                 //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
                 //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
@@ -196,8 +198,7 @@ namespace NFe.Core.Sefaz
                 //vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
                 //vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
                 //vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
-                //vBCST = icmsTotal.BaseCalculoST.AsNumberFormattedString(),
-                //vST = icmsTotal.ValorTotalST.AsNumberFormattedString(),
+
                 //vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()
             };
         }
