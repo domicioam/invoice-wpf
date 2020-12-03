@@ -8,5 +8,6 @@ namespace NFe.Core
 {
     public abstract class Ipi : Imposto
     {
+        public decimal Valor { get; set; }
     }
 }

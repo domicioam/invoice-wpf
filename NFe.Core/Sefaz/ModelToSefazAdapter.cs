@@ -169,38 +169,59 @@ namespace NFe.Core.Sefaz
 
         public static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(List<Produto> produtos)
         {
-
             IEnumerable<NotasFiscais.Imposto> impostos = produtos.SelectMany(p => p.Impostos);
             var impostosIcms = impostos.Where(i => i is Icms);
             var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
             var icmsRetidoAnteriormente = impostos.Where(i => i is IcmsSubstituicaoTributariaRetidoAnteiormente);
             var icmsSubstituicaoTributaria = impostos.Where(i => i is HasSubstituicaoTributaria);
+            var impostosII = impostos.Where(i => i is II);
+            var impostosIpi = impostos.Where(i => i is Ipi);
+            var impostosPis = impostos.Where(i => i is Pis);
+            var impostosCofins = impostos.Where(i => i is CofinsBase);
 
+            double valorTotalST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.Valor);
+            double valorTotalFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.FundoCombatePobreza.Valor);
+            double valorTotalFrete = produtos.Sum(p => p.Frete);
+            double valorTotalSeguro = produtos.Sum(p => p.Seguro);
+            double valorTotalOutros = produtos.Sum(p => p.Outros);
+            double valorTotalII = impostosII.Sum(i => (double)((II)i).Valor);
+            double valorTotalIPI = impostosIpi.Sum(i => (double)((Ipi)i).Valor);
+            double valorTotalDesconto = produtos.Sum(p => p.ValorDesconto);
+            double valorTotalIcmsDesonerado = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado);
+            double valorTotalProdutos = produtos.Sum(p => p.ValorTotal);
 
             return new TNFeInfNFeTotalICMSTot
             {
                 vBC = impostosIcms.Sum(i => (double)((Icms)i).BaseCalculo).AsNumberFormattedString(),
                 vICMS = impostosIcms.Sum(i => (double)((Icms)i).Valor).AsNumberFormattedString(),
-                vICMSDeson = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado).AsNumberFormattedString(),
+                vICMSDeson = valorTotalIcmsDesonerado.AsNumberFormattedString(),
                 vFCPSTRet = icmsRetidoAnteriormente.Sum(i => (double)((HasFundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
-                vProd = produtos.Sum(p => p.ValorTotal).AsNumberFormattedString(),
-                vFrete = produtos.Sum(p => p.Frete).AsNumberFormattedString(),
-                vSeg = produtos.Sum(p => p.Seguro).AsNumberFormattedString(),
-                vDesc = produtos.Sum(p => p.ValorDesconto).AsNumberFormattedString(),
-                vOutro = produtos.Sum(p => p.Outros).AsNumberFormattedString(),
-                vFCPST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.FundoCombatePobreza.Valor).AsNumberFormattedString(),
+                vProd = valorTotalProdutos.AsNumberFormattedString(),
+                vFrete = valorTotalFrete.AsNumberFormattedString(),
+                vSeg = valorTotalSeguro.AsNumberFormattedString(),
+                vDesc = valorTotalDesconto.AsNumberFormattedString(),
+                vOutro = valorTotalOutros.AsNumberFormattedString(),
+                vFCPST = valorTotalFCPST.AsNumberFormattedString(),
                 vBCST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.BaseCalculo).AsNumberFormattedString(),
-                vST = icmsSubstituicaoTributaria.Sum(i => (double)((HasSubstituicaoTributaria)i).SubstituicaoTributaria.Valor).AsNumberFormattedString(),
+                vST = valorTotalST.AsNumberFormattedString(),
                 vFCP = impostosIcms.Where(i => i is HasFundoCombatePobreza).Sum(i => (double)((HasFundoCombatePobreza)i).FundoCombatePobreza.Valor).AsNumberFormattedString(),
+                vII = valorTotalII.AsNumberFormattedString(),
+                vIPI = valorTotalIPI.AsNumberFormattedString(),
+                vPIS = impostosPis.Sum(i => (double)((Pis)i).Valor).AsNumberFormattedString(),
+                vCOFINS = impostosCofins.Sum(i => (double)((CofinsBase)i).Valor).AsNumberFormattedString(),
+                vNF = (valorTotalProdutos
+                    + valorTotalST
+                    + valorTotalFCPST
+                    + valorTotalFrete
+                    + valorTotalSeguro
+                    + valorTotalOutros
+                    + valorTotalII
+                    + valorTotalIPI 
+                    - valorTotalDesconto
+                    - valorTotalIcmsDesonerado)
+                    .AsNumberFormattedString()
 
-                //vFCP = icmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
-                //vII = icmsTotal.ValorTotalII.AsNumberFormattedString(),
-                //vIPI = icmsTotal.ValorTotalIpi.AsNumberFormattedString(),
                 //vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
-                //vPIS = icmsTotal.ValorTotalPis.AsNumberFormattedString(),
-                //vCOFINS = icmsTotal.ValorTotalCofins.AsNumberFormattedString(),
-
-                //vNF = icmsTotal.ValorTotalNFe.AsNumberFormattedString()
             };
         }
 

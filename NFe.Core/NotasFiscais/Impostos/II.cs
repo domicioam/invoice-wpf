@@ -8,5 +8,6 @@ namespace NFe.Core
 {
     public class II : Imposto
     {
+        public decimal Valor { get; set; }
     }
 }

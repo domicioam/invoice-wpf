@@ -114,6 +114,7 @@ namespace NFe.Core.UnitTests.Sefaz
                 AliquotaFCP = 5,
                 BaseCalculoFCP = 60
             };
+
             List<Imposto> impostos_list = new List<Imposto> { imposto };
             NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
 
@@ -130,7 +131,22 @@ namespace NFe.Core.UnitTests.Sefaz
             Assert.Equal("200.00", result.vBCST);
             Assert.Equal("14.00", result.vST);
             Assert.Equal("6.00", result.vFCP);
+            Assert.Equal("270.00", result.vNF);
         }
 
+        [Fact]
+        public void Should_Calculate_Total_Correctly()
+        {
+            var impostos_list = new List<Imposto>();
+            impostos_list.Add(new Imposto { Aliquota = 1, BaseCalculo = 10, TipoImposto = Cadastro.Imposto.TipoImposto.Cofins, CST = "01", Origem = Cadastro.Imposto.Origem.Nacional }); // 0.1
+            impostos_list.Add(new Imposto { CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = Cadastro.Imposto.TipoImposto.Icms, Origem = Cadastro.Imposto.Origem.Nacional }); // 0.4
+            impostos_list.Add(new Imposto { CST = "04", Origem = Cadastro.Imposto.Origem.Nacional, TipoImposto = Cadastro.Imposto.TipoImposto.PIS });
+
+            var produto = new Produto(new NotasFiscais.Entities.Impostos(impostos_list), 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 5, 10, 15); // 125 + 5 + 10 + 15
+
+            var result = ModelToSefazAdapter.ConvertIcmsTotal(new List<Produto> { produto });
+
+            Assert.Equal("155.00", result.vNF);
+        }
     }
 }

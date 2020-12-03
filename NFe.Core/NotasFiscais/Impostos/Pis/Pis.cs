@@ -16,6 +16,7 @@ namespace NFe.Core
         }
 
         public CstEnum Cst { get; }
+        public decimal Valor { get; set; }
 
         public class CstEnum : Enumeration
         {
