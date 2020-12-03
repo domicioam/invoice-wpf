@@ -161,42 +161,11 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             return identificacao;
         }
 
+        [Obsolete("The fields set in this method are ignored.")]
         private static TotalNFe GetTotalNFe(NotaFiscalModel notaFiscal)
         {
-
-            double sumValorTotal = 0;
-            double sumValorTotalFrete = 0;
-            double sumValorTotalSeguro = 0;
-            double sumValorTotalDesconto = 0;
-
-            foreach (var produto in notaFiscal.Produtos)
-            {
-                sumValorTotal += produto.TotalLiquido;
-                sumValorTotalFrete += produto.Frete;
-                sumValorTotalSeguro += produto.Seguro;
-                sumValorTotalDesconto += produto.Descontos;
-            }
-
             var totalNFe = new TotalNFe { IcmsTotal = new IcmsTotal() };
-            var icmsTotal = totalNFe.IcmsTotal;
-            icmsTotal.BaseCalculo = 0.00;
-            icmsTotal.ValorTotalIcms = 0.00;
-            icmsTotal.ValorTotalDesonerado = 0.00;
-            icmsTotal.BaseCalculoST = 0.00;
-            icmsTotal.ValorTotalST = 0.00;
-            icmsTotal.ValorTotalProdutos = sumValorTotal;
-            icmsTotal.ValorTotalFrete = sumValorTotalFrete;
-            icmsTotal.ValorTotalSeguro = sumValorTotalSeguro;
-            icmsTotal.ValorTotalDesconto = sumValorTotalDesconto;
-            icmsTotal.ValorTotalII = 0.00;
-            icmsTotal.ValorTotalIpi = 0.00;
-            icmsTotal.ValorTotalPis = 0.00;
-            icmsTotal.ValorTotalCofins = 0.00;
-            icmsTotal.ValorDespesasAcessorias = 0.00;
-            icmsTotal.ValorTotalNFe = sumValorTotal;
-
-            throw new NotImplementedException();
-            //return totalNFe;
+            return totalNFe;
         }
 
         private static List<Pagamento> GetPagamentos(NotaFiscalModel notaFiscal)
