@@ -135,14 +135,14 @@ namespace NFe.Core.UnitTests.Sefaz
         }
 
         [Fact]
-        public void Should_Calculate_Total_Correctly()
+        public void Should_Calculate_Total_Correctly_When_Imposto_not_in_total_calculation()
         {
             var impostos_list = new List<Imposto>();
-            impostos_list.Add(new Imposto { Aliquota = 1, BaseCalculo = 10, TipoImposto = Cadastro.Imposto.TipoImposto.Cofins, CST = "01", Origem = Cadastro.Imposto.Origem.Nacional }); // 0.1
-            impostos_list.Add(new Imposto { CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = Cadastro.Imposto.TipoImposto.Icms, Origem = Cadastro.Imposto.Origem.Nacional }); // 0.4
+            impostos_list.Add(new Imposto { Aliquota = 1, BaseCalculo = 10, TipoImposto = Cadastro.Imposto.TipoImposto.Cofins, CST = "01", Origem = Cadastro.Imposto.Origem.Nacional });
+            impostos_list.Add(new Imposto { CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = Cadastro.Imposto.TipoImposto.Icms, Origem = Cadastro.Imposto.Origem.Nacional }); 
             impostos_list.Add(new Imposto { CST = "04", Origem = Cadastro.Imposto.Origem.Nacional, TipoImposto = Cadastro.Imposto.TipoImposto.PIS });
 
-            var produto = new Produto(new NotasFiscais.Entities.Impostos(impostos_list), 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 5, 10, 15); // 125 + 5 + 10 + 15
+            var produto = new Produto(new NotasFiscais.Entities.Impostos(impostos_list), 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 5, 10, 15); 
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(new List<Produto> { produto });
 
