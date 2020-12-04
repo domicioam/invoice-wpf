@@ -17,14 +17,15 @@ namespace NFe.Core.Sefaz
 
         internal TNFeInfNFeDetImposto CreateNfeDetImposto(Impostos impostos)
         {
-            var nfeDetImposto = new TNFeInfNFeDetImposto();
-
-            nfeDetImposto.Items = FillImpostoItems(impostos).ToArray();
-            nfeDetImposto.PIS = FillImpostoPis(impostos);
-            nfeDetImposto.PISST = FillImpostoPisst(impostos);
-            nfeDetImposto.COFINS = FillImpostoCofins(impostos);
-            nfeDetImposto.COFINSST = FillImpostoCofinsst(impostos);
-            nfeDetImposto.ICMSUFDest = FillImpostoIcmsUfDestino(impostos);
+            var nfeDetImposto = new TNFeInfNFeDetImposto
+            {
+                Items = FillImpostoItems(impostos).ToArray(),
+                PIS = FillImpostoPis(impostos),
+                PISST = FillImpostoPisst(impostos),
+                COFINS = FillImpostoCofins(impostos),
+                COFINSST = FillImpostoCofinsst(impostos),
+                ICMSUFDest = FillImpostoIcmsUfDestino(impostos)
+            };
 
             return nfeDetImposto;
         }

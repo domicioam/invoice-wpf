@@ -219,9 +219,8 @@ namespace NFe.Core.Sefaz
                     + valorTotalIPI 
                     - valorTotalDesconto
                     - valorTotalIcmsDesonerado)
-                    .AsNumberFormattedString()
-
-                //vIPIDevol = icmsTotal.TotalIpiDevolvido.AsNumberFormattedString(),
+                    .AsNumberFormattedString(),
+                vIPIDevol = "0.00"
             };
         }
 

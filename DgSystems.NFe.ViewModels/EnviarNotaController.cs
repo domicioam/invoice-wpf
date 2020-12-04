@@ -139,7 +139,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             else
                 tipoDestinatario = TipoDestinatario.PessoaJuridica;
 
-
             var destinatario = new Destinatario(ambiente, _modelo, destinatarioSelecionado?.Telefone,
                 destinatarioSelecionado?.Email, endereco, tipoDestinatario, inscricaoEstadual, documento: new Documento(documento),
                 nomeRazao: nomeRazao);
