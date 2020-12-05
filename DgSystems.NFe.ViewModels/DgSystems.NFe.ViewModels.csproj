@@ -94,7 +94,6 @@
     <Compile Include="Commands\OpenCadastroProdutoWindowCommand.cs" />
     <Compile Include="Commands\OpenEnviarEmailWindowCommand.cs" />
     <Compile Include="Commands\OpenVisualizarNotaEnviadaWindowCommand.cs" />
-    <Compile Include="Commands\RemoverProdutoCommand.cs" />
     <Compile Include="Commands\VisualizarNotaFiscalCommand.cs" />
     <Compile Include="DestinatarioMainViewModel.cs" />
     <Compile Include="DestinatarioModel.cs" />

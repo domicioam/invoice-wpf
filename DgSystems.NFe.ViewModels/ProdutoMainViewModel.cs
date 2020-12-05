@@ -41,8 +41,7 @@ namespace NFe.WPF.ViewModel
 
         private void RemoverProdutoCmd_Execute(ProdutoListItem obj)
         {
-            var command = new RemoverProdutoCommand(obj);
-            MessagingCenter.Send(this, nameof(RemoverProdutoCommand), command);
+            // invoke repository and remove product by id
         }
 
         private void AlterarProdutoCmd_Execute(ProdutoListItem obj)
