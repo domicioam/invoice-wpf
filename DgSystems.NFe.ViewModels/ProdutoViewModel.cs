@@ -55,6 +55,16 @@ namespace NFe.WPF.ViewModel
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _produtoRepository = produtoRepository;
             _grupoImpostosRepository = grupoImpostosRepository;
+
+            MessagingCenter.Subscribe<ProdutoMainViewModel, RemoverProdutoCommand>(this, nameof(RemoverProdutoCommand), (s, e) =>
+            {
+                RemoverProduto(e.Produto);
+            });
+        }
+
+        private void RemoverProduto(ProdutoListItem produto)
+        {
+            throw new NotImplementedException();
         }
 
         private void AlterarProduto_Execute(string produtoCodigo)

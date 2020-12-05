@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
+using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
@@ -34,13 +35,14 @@ namespace NFe.WPF.ViewModel
             {
                 ProdutoVM_ProdutoAdicionadoEvent();
             });
-            
+
             _produtoViewModel = produtoViewModel;
         }
 
         private void RemoverProdutoCmd_Execute(ProdutoListItem obj)
         {
-            throw new NotImplementedException();
+            var command = new RemoverProdutoCommand(obj);
+            MessagingCenter.Send(this, nameof(RemoverProdutoCommand), command);
         }
 
         private void AlterarProdutoCmd_Execute(ProdutoListItem obj)
