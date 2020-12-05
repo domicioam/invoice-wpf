@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
@@ -13,6 +15,9 @@ namespace NFe.WPF.ViewModel
 {
     public class ProdutoMainViewModel
     {
+        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private IDialogService _dialogService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly ProdutoViewModel _produtoViewModel;
         public ObservableCollection<ProdutoListItem> Produtos { get; set; }
@@ -22,12 +27,13 @@ namespace NFe.WPF.ViewModel
 
         public ICommand LoadedCmd { get; set; }
 
-        public ProdutoMainViewModel(IProdutoRepository produtoRepository, ProdutoViewModel produtoViewModel)
+        public ProdutoMainViewModel(IProdutoRepository produtoRepository, ProdutoViewModel produtoViewModel, IDialogService dialogService)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             Produtos = new ObservableCollection<ProdutoListItem>();
             AlterarProdutoCmd = new RelayCommand<ProdutoListItem>(AlterarProdutoCmd_Execute, null);
             RemoverProdutoCmd = new RelayCommand<ProdutoListItem>(RemoverProdutoCmd_Execute, null);
+            _dialogService = dialogService;
 
             _produtoRepository = produtoRepository;
 
@@ -39,9 +45,19 @@ namespace NFe.WPF.ViewModel
             _produtoViewModel = produtoViewModel;
         }
 
-        private void RemoverProdutoCmd_Execute(ProdutoListItem obj)
+        private async void RemoverProdutoCmd_Execute(ProdutoListItem obj)
         {
-            // invoke repository and remove product by id
+            try
+            {
+                var produto = _produtoRepository.GetByCodigo(obj.Codigo);
+                _produtoRepository.Excluir(produto);
+                PopularListaProdutos();
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+                await _dialogService.ShowError("Ocorreu um erro ao remover o produto desejado.", "Erro", "OK", null);
+            }
         }
 
         private void AlterarProdutoCmd_Execute(ProdutoListItem obj)
