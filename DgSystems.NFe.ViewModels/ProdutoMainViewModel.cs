@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
@@ -16,6 +17,7 @@ namespace NFe.WPF.ViewModel
         public ObservableCollection<ProdutoListItem> Produtos { get; set; }
 
         public ICommand AlterarProdutoCmd { get; set; }
+        public ICommand RemoverProdutoCmd { get; set; }
 
         public ICommand LoadedCmd { get; set; }
 
@@ -24,6 +26,7 @@ namespace NFe.WPF.ViewModel
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             Produtos = new ObservableCollection<ProdutoListItem>();
             AlterarProdutoCmd = new RelayCommand<ProdutoListItem>(AlterarProdutoCmd_Execute, null);
+            RemoverProdutoCmd = new RelayCommand<ProdutoListItem>(RemoverProdutoCmd_Execute, null);
 
             _produtoRepository = produtoRepository;
 
@@ -33,6 +36,11 @@ namespace NFe.WPF.ViewModel
             });
             
             _produtoViewModel = produtoViewModel;
+        }
+
+        private void RemoverProdutoCmd_Execute(ProdutoListItem obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void AlterarProdutoCmd_Execute(ProdutoListItem obj)
