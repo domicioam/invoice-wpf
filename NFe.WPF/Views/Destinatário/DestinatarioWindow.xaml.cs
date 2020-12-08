@@ -1,4 +1,5 @@
-﻿using NFe.WPF.ViewModel;
+﻿using EmissorNFe.ViewModel;
+using NFe.WPF.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace EmissorNFe.View.Destinatario
         public DestinatarioWindow()
         {
             Resources.Add("TextoExpander", "Endereço (Opcional NFC - e)");
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Destinatario;
             InitializeComponent();
         }
 
@@ -31,6 +33,7 @@ namespace EmissorNFe.View.Destinatario
             Resources.Add("IsNFE", isNFe);
             var textoExpander = isNFe ? "Endereço (Obrigatório NF-e)" : "Endereço (Opcional NFC - e)";
             Resources.Add("TextoExpander", textoExpander);
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Destinatario;
             InitializeComponent();
         }
 
