@@ -13,25 +13,9 @@
 */
 
 using DgSystem.NFe.IoC;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Views;
-using Microsoft.Practices.ServiceLocation;
-using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Interfaces;
-using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
-using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
-using NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2;
-using NFe.Core.NotasFiscais.Services;
-using NFe.Repository;
-using NFe.Repository.Repositories;
 using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.WPF.View;
 using NFe.WPF.ViewModel;
-using NFe.WPF.ViewModel.Services;
+
 using SimpleInjector;
 
 namespace EmissorNFe.ViewModel
