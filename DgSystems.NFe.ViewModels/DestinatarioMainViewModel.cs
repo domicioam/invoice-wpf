@@ -41,7 +41,32 @@ namespace NFe.WPF.ViewModel
 
         private void AlterarDestinatarioCmd_Execute(DestinatarioModel obj)
         {
-            _destinatarioViewModel.DestinatarioParaSalvar = obj;
+            // To avoid data binding with list in DestinatarioMainViewModel
+            var destinatario = new DestinatarioModel
+            (
+                obj.CNPJ,
+                obj.CPF,
+                obj.Email,
+                obj.Id,
+                obj.IdEstrangeiro,
+                obj.InscricaoEstadual,
+                obj.IsNFe,
+                obj.NomeRazao,
+                obj.Telefone,
+                obj.TipoDestinatario,
+                new EnderecoDestinatarioModel
+                {
+                    Bairro = obj.Endereco.Bairro,
+                    CEP = obj.Endereco.CEP,
+                    Id = obj.Endereco.Id,
+                    Logradouro = obj.Endereco.Logradouro,
+                    Municipio = obj.Endereco.Municipio,
+                    Numero = obj.Endereco.Numero,
+                    UF = obj.Endereco.UF
+                }
+            );
+
+            _destinatarioViewModel.DestinatarioParaSalvar = destinatario;
 
             var command = new AlterarDestinatarioCommand(_destinatarioViewModel);
             MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);

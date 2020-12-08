@@ -18,6 +18,21 @@ namespace EmissorNFe.Model
             Endereco = new EnderecoDestinatarioModel();
         }
 
+        public DestinatarioModel(string cnpj, string cpf, string email, int id, string idEstrangeiro, string inscricaoEstadual, bool isNFe, string nomeRazao, string telefone, TipoDestinatario tipoDestinatario, EnderecoDestinatarioModel enderecoDestinatarioModel)
+        {
+            CNPJ = cnpj;
+            CPF = cpf;
+            Email = email;
+            Id = id;
+            IdEstrangeiro = idEstrangeiro;
+            InscricaoEstadual = inscricaoEstadual;
+            IsNFe = isNFe;
+            NomeRazao = nomeRazao;
+            Telefone = telefone;
+            TipoDestinatario = tipoDestinatario;
+            Endereco = enderecoDestinatarioModel;
+        }
+
         private TipoDestinatario _tipoDestinatario;
 
         public TipoDestinatario TipoDestinatario
