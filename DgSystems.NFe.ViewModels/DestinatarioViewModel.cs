@@ -113,6 +113,7 @@ namespace NFe.WPF.ViewModel
             else
             {
                 var municipios = _municipioService.GetMunicipioByUf(DestinatarioParaSalvar.Endereco.UF);
+                Municipios.Clear();
                 foreach (var m in municipios)
                 {
                     Municipios.Add(m);
