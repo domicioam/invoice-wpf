@@ -17,6 +17,7 @@ using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Repository.Repositories;
+using NFe.WPF.Commands;
 using NFe.WPF.Events;
 using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.Model;
@@ -326,7 +327,10 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             if (!destSelecionado.HasErrors) 
                 return;
 
-            _destinatarioViewModel.AlterarDestinatario(destSelecionado);
+            _destinatarioViewModel.DestinatarioParaSalvar = destSelecionado;
+
+            var command = new AlterarDestinatarioCommand(_destinatarioViewModel);
+            MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);
 
             destSelecionado.ValidateModel();
             if (!destSelecionado.HasErrors) 

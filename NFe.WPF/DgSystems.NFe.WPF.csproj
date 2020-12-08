@@ -276,7 +276,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Views\AcompanhamentoNotas.xaml.cs">
       <DependentUpon>AcompanhamentoNotas.xaml</DependentUpon>
     </Compile>

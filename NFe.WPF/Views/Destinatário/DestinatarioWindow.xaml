@@ -146,7 +146,7 @@
                         <ComboBox ItemsSource="{Binding Estados}" DisplayMemberPath="Uf"  SelectedValue="{Binding DestinatarioParaSalvar.Endereco.UF}" Template="{StaticResource ComboBoxTemplateAzul}" SelectedValuePath="Uf" Margin="6,0,6,6">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding UfSelecionadoCmd}" />
+                                    <i:InvokeCommandAction Command="{Binding UfSelecionadoCmd, Mode=OneWay}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ComboBox>

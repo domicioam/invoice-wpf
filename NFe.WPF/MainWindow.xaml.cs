@@ -45,7 +45,7 @@ namespace EmissorNFe
             ContentHolder.Content = new NotaFiscalMainWindow();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 
-            MessagingCenter.Subscribe<DestinatarioViewModel, AlterarDestinatarioCommand>(this, nameof(AlterarDestinatarioCommand), (s, e) =>
+            MessagingCenter.Subscribe<DestinatarioMainViewModel, AlterarDestinatarioCommand>(this, nameof(AlterarDestinatarioCommand), (s, e) =>
             {
                 var app = Application.Current;
                 var mainWindow = app.MainWindow;

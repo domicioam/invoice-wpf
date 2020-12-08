@@ -39,6 +39,22 @@ namespace NFe.WPF.ViewModel
             set
             {
                 SetProperty(ref _destinatarioParaSalvar, value);
+
+                if (value != null)
+                {
+                    switch (value.TipoDestinatario)
+                    {
+                        case TipoDestinatario.PessoaFisica:
+                            DestinatarioParaSalvar.CPF = value.Documento;
+                            break;
+                        case TipoDestinatario.PessoaJuridica:
+                            DestinatarioParaSalvar.CNPJ = value.Documento;
+                            break;
+                        case TipoDestinatario.Estrangeiro:
+                            DestinatarioParaSalvar.IdEstrangeiro = value.Documento;
+                            break;
+                    }
+                }
             }
         }
 
@@ -59,38 +75,9 @@ namespace NFe.WPF.ViewModel
             _municipioService = municipioService;
         }
 
-        internal void RemoverDestinatario(DestinatarioModel destinatarioVO)
-        {
-            _destinatarioService.ExcluirDestinatario(destinatarioVO.Id);
-
-            var theEvent = new DestinatarioSalvoEvent();
-            MessagingCenter.Send(this, nameof(DestinatarioSalvoEvent), theEvent);
-        }
-
         private void ClosedCmd_Execute()
         {
             DestinatarioParaSalvar = null;
-        }
-
-        internal void AlterarDestinatario(DestinatarioModel destinatario)
-        {
-            DestinatarioParaSalvar = destinatario;
-
-            switch (destinatario.TipoDestinatario)
-            {
-                case TipoDestinatario.PessoaFisica:
-                    DestinatarioParaSalvar.CPF = destinatario.Documento;
-                    break;
-                case TipoDestinatario.PessoaJuridica:
-                    DestinatarioParaSalvar.CNPJ = destinatario.Documento;
-                    break;
-                case TipoDestinatario.Estrangeiro:
-                    DestinatarioParaSalvar.IdEstrangeiro = destinatario.Documento;
-                    break;
-            }
-
-            var command = new AlterarDestinatarioCommand(this);
-            MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);
         }
 
         private void UfSelecionadoCmd_Execute()
@@ -109,15 +96,6 @@ namespace NFe.WPF.ViewModel
 
         private void LoadedCmd_Execute(bool isNFe)
         {
-            if (DestinatarioParaSalvar == null)
-            {
-                DestinatarioParaSalvar = new DestinatarioModel() { IsNFe = isNFe };
-            }
-            else
-            {
-                DestinatarioParaSalvar.IsNFe = isNFe;
-            }
-
             var estados = _estadoRepository.GetEstados();
 
             foreach (var estado in estados)
@@ -125,10 +103,23 @@ namespace NFe.WPF.ViewModel
                 Estados.Add(estado);
             }
 
-            var emitenteUf = _emissorService.GetEmissor().Endereco.UF;
-            DestinatarioParaSalvar.Endereco.UF = emitenteUf;
+            if (DestinatarioParaSalvar == null)
+            {
+                DestinatarioParaSalvar = new DestinatarioModel() { IsNFe = isNFe };
+                var emitenteUf = _emissorService.GetEmissor().Endereco.UF;
+                DestinatarioParaSalvar.Endereco.UF = emitenteUf;
+                UfSelecionadoCmd_Execute();
+            }
+            else
+            {
+                var municipios = _municipioService.GetMunicipioByUf(DestinatarioParaSalvar.Endereco.UF);
+                foreach (var m in municipios)
+                {
+                    Municipios.Add(m);
+                }
 
-            UfSelecionadoCmd_Execute();
+                DestinatarioParaSalvar.IsNFe = isNFe;
+            }
         }
 
         private void SalvarDestinatarioCmd_Execute(Window window)

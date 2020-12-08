@@ -7,6 +7,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Messaging;
+using NFe.WPF.Commands;
 using NFe.WPF.Events;
 
 namespace NFe.WPF.ViewModel
@@ -40,12 +41,18 @@ namespace NFe.WPF.ViewModel
 
         private void AlterarDestinatarioCmd_Execute(DestinatarioModel obj)
         {
-            _destinatarioViewModel.AlterarDestinatario(obj);
+            _destinatarioViewModel.DestinatarioParaSalvar = obj;
+
+            var command = new AlterarDestinatarioCommand(_destinatarioViewModel);
+            MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);
         }
 
         private void ExcluirDestinatarioCmd_Execute(DestinatarioModel destinatarioVO)
         {
-            _destinatarioViewModel.RemoverDestinatario(destinatarioVO);
+            _destinatarioService.ExcluirDestinatario(destinatarioVO.Id);
+
+            var theEvent = new DestinatarioSalvoEvent();
+            MessagingCenter.Send(this, nameof(DestinatarioSalvoEvent), theEvent);
         }
 
         private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel DestinatarioParaSalvar)
