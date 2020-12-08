@@ -61,7 +61,9 @@
                                         <Image Source="/Icons/edit.png"
                                                Stretch="None" />
                                     </Button>
-                                    <Button Background="{x:Null}"
+                                    <Button Command="{Binding DataContext.RemoverImpostoCmd, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Background="{x:Null}"
                                             BorderBrush="{x:Null}"
                                             Padding="0">
                                         <Image Source="/Icons/excluir.png"
