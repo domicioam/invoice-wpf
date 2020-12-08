@@ -23,6 +23,8 @@ namespace NFe.Core.Cadastro.Destinatario
         [StringLength(60)]
         [Required]
         public string Municipio { get; set; }
+        [StringLength(10)]
+        public string CEP { get; set; }
         public virtual DestinatarioEntity Destinatario { get; set; }
     }
 }

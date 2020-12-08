@@ -11,54 +11,63 @@ namespace NFe.Core.Cadastro.Destinatario
 {
     public class DestinatarioRepository : IDestinatarioRepository
     {
-        private NFeContext _context;
-
-        public DestinatarioRepository()
-        {
-            _context = new NFeContext();
-        }
-
         public int Salvar(DestinatarioEntity destinatario)
         {
-            if (destinatario.Id == 0)
+            using (var context = new NFeContext())
             {
-                _context.Entry(destinatario).State = EntityState.Added;
-            }
-            else
-            {
-                _context.Entry(destinatario).State = EntityState.Modified;
-            }
+                if (destinatario.Id == 0)
+                {
+                    context.Entry(destinatario).State = EntityState.Added;
+                }
+                else
+                {
+                    context.Entry(destinatario).State = EntityState.Modified;
+                    context.Entry(destinatario.Endereco).State = EntityState.Modified;
+                }
 
-            _context.SaveChanges();
-            return destinatario.Id;
+                context.SaveChanges();
+                return destinatario.Id;
+            }
         }
 
         public List<DestinatarioEntity> GetAll()
         {
-            return _context.Destinatario.ToList();
+            using (var context = new NFeContext())
+            {
+                return context.Destinatario.Include(d => d.Endereco).ToList();
+            }
         }
 
         public Task<List<DestinatarioEntity>> GetAllAsync()
         {
-            return _context.Destinatario.ToListAsync();
+            using (var context = new NFeContext())
+            {
+                return context.Destinatario.Include(d => d.Endereco).ToListAsync();
+            }
         }
 
         public DestinatarioEntity GetDestinatarioByID(int id)
         {
-            return _context.Destinatario.FirstOrDefault(d => d.Id == id);
+            using (var context = new NFeContext())
+            {
+                return context.Destinatario.Include(d => d.Endereco).FirstOrDefault(d => d.Id == id);
+            }
         }
 
         public void ExcluirDestinatario(int id)
         {
-            var destinatario = _context.Destinatario.FirstOrDefault(d => d.Id == id);
-
-            if (destinatario.Endereco != null)
+            using (var context = new NFeContext())
             {
-                _context.EnderecoDestinatario.Remove(destinatario.Endereco);
-            }
+                var destinatario = context.Destinatario.FirstOrDefault(d => d.Id == id);
 
-            _context.Destinatario.Remove(destinatario);
-            _context.SaveChanges();
+                if (destinatario.Endereco != null)
+                {
+                    context.EnderecoDestinatario.Remove(destinatario.Endereco);
+                }
+
+                context.Destinatario.Remove(destinatario);
+                context.SaveChanges();
+            }
         }
     }
 }

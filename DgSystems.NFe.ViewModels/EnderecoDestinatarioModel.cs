@@ -72,6 +72,7 @@ namespace EmissorNFe.Model
             enderecoModel.Municipio = endTO.Municipio;
             enderecoModel.Numero = endTO.Numero;
             enderecoModel.UF = endTO.UF;
+            enderecoModel.CEP = endTO.CEP;
 
             return enderecoModel;
         }
@@ -85,6 +86,7 @@ namespace EmissorNFe.Model
             endTO.Municipio = endModel.Municipio;
             endTO.Numero = endModel.Numero;
             endTO.UF = endModel.UF;
+            endTO.CEP = endModel.CEP;
 
             return endTO;
         }

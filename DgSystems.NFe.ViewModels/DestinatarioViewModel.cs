@@ -161,7 +161,8 @@ namespace NFe.WPF.ViewModel
                             Logradouro = DestinatarioParaSalvar.Endereco.Logradouro,
                             Municipio = DestinatarioParaSalvar.Endereco.Municipio,
                             Numero = DestinatarioParaSalvar.Endereco.Numero,
-                            UF = DestinatarioParaSalvar.Endereco.UF
+                            UF = DestinatarioParaSalvar.Endereco.UF,
+                            CEP = DestinatarioParaSalvar.Endereco.CEP
                         };
                     }
 
