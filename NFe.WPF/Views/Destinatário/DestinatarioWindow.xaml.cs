@@ -20,6 +20,7 @@ namespace EmissorNFe.View.Destinatario
         public DestinatarioWindow(bool isNFe)
         {
             Resources.Add("IsNFE", isNFe);
+            Resources.Add("IsExpanded", isNFe);
             var textoExpander = isNFe ? "Endereço (Obrigatório NF-e)" : "Endereço (Opcional NFC - e)";
             Resources.Add("TextoExpander", textoExpander);
             this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Destinatario;
@@ -32,6 +33,10 @@ namespace EmissorNFe.View.Destinatario
             Resources.Add("IsNFE", isNFe);
             var textoExpander = isNFe ? "Endereço (Obrigatório NF-e)" : "Endereço (Opcional NFC - e)";
             Resources.Add("TextoExpander", textoExpander);
+            if(!string.IsNullOrWhiteSpace(viewModel.DestinatarioParaSalvar.Endereco.UF))
+            {
+                Resources.Add("IsExpanded", true);
+            }
 
             this.DataContext = viewModel;
             InitializeComponent();
