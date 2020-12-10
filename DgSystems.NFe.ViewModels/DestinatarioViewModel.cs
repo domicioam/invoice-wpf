@@ -19,6 +19,20 @@ namespace NFe.WPF.ViewModel
 {
     public class DestinatarioViewModel : ViewModelBaseValidation
     {
+        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioRepository municipioService)
+        {
+            SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
+            LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);
+            ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
+            UfSelecionadoCmd = new RelayCommand(UfSelecionadoCmd_Execute, null);
+            Estados = new ObservableCollection<EstadoEntity>();
+            Municipios = new ObservableCollection<MunicipioEntity>();
+            _estadoRepository = estadoService;
+            _emissorService = emissorService;
+            _destinatarioService = destinatarioService;
+            _municipioService = municipioService;
+        }
+
         private DestinatarioModel _destinatarioParaSalvar;
         private IEstadoRepository _estadoRepository;
         private IEmissorService _emissorService;
@@ -60,20 +74,6 @@ namespace NFe.WPF.ViewModel
 
         public ObservableCollection<EstadoEntity> Estados { get; set; }
         public ObservableCollection<MunicipioEntity> Municipios { get; set; }
-
-        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioService destinatarioService, IMunicipioRepository municipioService)
-        {
-            SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
-            LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);
-            ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
-            UfSelecionadoCmd = new RelayCommand(UfSelecionadoCmd_Execute, null);
-            Estados = new ObservableCollection<EstadoEntity>();
-            Municipios = new ObservableCollection<MunicipioEntity>();
-            _estadoRepository = estadoService;
-            _emissorService = emissorService;
-            _destinatarioService = destinatarioService;
-            _municipioService = municipioService;
-        }
 
         private void ClosedCmd_Execute()
         {
