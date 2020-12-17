@@ -12,6 +12,7 @@ using NFe.Core.Entitities.Enums;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotasFiscais.Repositories;
 using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums;
@@ -524,6 +525,7 @@ namespace NFe.Repository.Repositories
                 var icms = new Imposto { TipoImposto = TipoImposto.Icms, Aliquota = 0 };
 
                 var icms60 = icmsDet.Item as Retorno.TNFeInfNFeDetImpostoICMSICMS60;
+                icms.Origem = icms60.orig.ToOrigem();
                 if (icms60 != null)
                 {
                     icms.CST = TabelaIcmsCst.IcmsCobradoAnteriormentePorST;
@@ -540,8 +542,6 @@ namespace NFe.Repository.Repositories
                     Aliquota = 0,
                     CST = pisNt.CST.ToString().Replace("Item", string.Empty)
                 };
-
-                var cfop = det.prod.CFOP.Replace("Item", string.Empty);
 
                 var impostos = new Impostos(new List<Imposto> { icms, pis});
 

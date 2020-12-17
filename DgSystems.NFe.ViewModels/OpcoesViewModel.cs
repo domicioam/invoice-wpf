@@ -11,104 +11,14 @@ namespace NFe.WPF.ViewModel
 {
     public class OpcoesViewModel : ViewModelBaseValidation
     {
-        private string _serieNFeProd;
-        private string _proximoNumNFeProd;
-        private string _proximoNumNFCeProd;
-        private string _serieNFCeProd;
-        private string _cscIDProd;
-        private string _cscProd;
-        private string _emailContabilidadeProd;
+        private string _serieNFe;
+        private string _proximoNumNFe;
+        private string _proximoNumNFCe;
+        private string _serieNFCe;
+        private string _cscID;
+        private string _csc;
+        private string _emailContabilidade;
         private readonly IConfiguracaoService _configuracaoService;
-
-        [Required]
-        public string SerieNFeProd
-        {
-            get
-            {
-                return _serieNFeProd;
-            }
-            set
-            {
-                SetProperty(ref _serieNFeProd, value);
-            }
-        }
-
-        [Required]
-        public string ProximoNumNFeProd
-        {
-            get
-            {
-                return _proximoNumNFeProd;
-            }
-            set
-            {
-                SetProperty(ref _proximoNumNFeProd, value);
-            }
-        }
-
-        [Required]
-        public string ProximoNumNFCeProd
-        {
-            get
-            {
-                return _proximoNumNFCeProd;
-            }
-            set
-            {
-                SetProperty(ref _proximoNumNFCeProd, value);
-            }
-        }
-
-        [Required]
-        public string SerieNFCeProd
-        {
-            get
-            {
-                return _serieNFCeProd;
-            }
-            set
-            {
-                SetProperty(ref _serieNFCeProd, value);
-            }
-        }
-
-        [Required]
-        public string CscIdProd
-        {
-            get
-            {
-                return _cscIDProd;
-            }
-            set
-            {
-                SetProperty(ref _cscIDProd, value);
-            }
-        }
-
-        [Required]
-        public string CscProd
-        {
-            get { return _cscProd; }
-            set
-            {
-                SetProperty(ref _cscProd, value);
-            }
-        }
-
-        [Required]
-        [EmailAddress]
-        public string EmailContabilidadeProd
-        {
-            get { return _emailContabilidadeProd; }
-            set
-            {
-                SetProperty(ref _emailContabilidadeProd, value);
-            }
-        }
-
-        public ICommand SalvarCmd { get; set; }
-        public ICommand LoadedCmd { get; set; }
-        public ConfiguracaoEntity Configuracao { get; set; }
 
         public OpcoesViewModel(IConfiguracaoService configuracaoService)
         {
@@ -117,6 +27,96 @@ namespace NFe.WPF.ViewModel
             _configuracaoService = configuracaoService;
         }
 
+        [Required]
+        public string SerieNFe
+        {
+            get
+            {
+                return _serieNFe;
+            }
+            set
+            {
+                SetProperty(ref _serieNFe, value);
+            }
+        }
+
+        [Required]
+        public string ProximoNumNFe
+        {
+            get
+            {
+                return _proximoNumNFe;
+            }
+            set
+            {
+                SetProperty(ref _proximoNumNFe, value);
+            }
+        }
+
+        [Required]
+        public string ProximoNumNFCe
+        {
+            get
+            {
+                return _proximoNumNFCe;
+            }
+            set
+            {
+                SetProperty(ref _proximoNumNFCe, value);
+            }
+        }
+
+        [Required]
+        public string SerieNFCe
+        {
+            get
+            {
+                return _serieNFCe;
+            }
+            set
+            {
+                SetProperty(ref _serieNFCe, value);
+            }
+        }
+
+        [Required]
+        public string CscId
+        {
+            get
+            {
+                return _cscID;
+            }
+            set
+            {
+                SetProperty(ref _cscID, value);
+            }
+        }
+
+        [Required]
+        public string Csc
+        {
+            get { return _csc; }
+            set
+            {
+                SetProperty(ref _csc, value);
+            }
+        }
+
+        [Required]
+        [EmailAddress]
+        public string EmailContabilidade
+        {
+            get { return _emailContabilidade; }
+            set
+            {
+                SetProperty(ref _emailContabilidade, value);
+            }
+        }
+
+        public ConfiguracaoEntity Configuracao { get; set; }
+        public ICommand LoadedCmd { get; set; }
+        public ICommand SalvarCmd { get; set; }
+
         private void LoadedCmd_Execute()
         {
             var configuracao = _configuracaoService.GetConfiguracao();
@@ -124,13 +124,13 @@ namespace NFe.WPF.ViewModel
             if (configuracao == null)
                 return;
 
-            CscProd = configuracao.Csc;
-            CscIdProd = configuracao.CscId;
-            EmailContabilidadeProd = configuracao.EmailContabilidade;
-            ProximoNumNFCeProd = configuracao.ProximoNumNFCe;
-            ProximoNumNFeProd = configuracao.ProximoNumNFe;
-            SerieNFCeProd = configuracao.SerieNFCe;
-            SerieNFeProd = configuracao.SerieNFe;
+            Csc = configuracao.Csc;
+            CscId = configuracao.CscId;
+            EmailContabilidade = configuracao.EmailContabilidade;
+            ProximoNumNFCe = configuracao.ProximoNumNFCe;
+            ProximoNumNFe = configuracao.ProximoNumNFe;
+            SerieNFCe = configuracao.SerieNFCe;
+            SerieNFe = configuracao.SerieNFe;
 
             Configuracao = configuracao;
         }
@@ -152,13 +152,13 @@ namespace NFe.WPF.ViewModel
                     configuracao = _configuracaoService.GetConfiguracao();
                 }
 
-                configuracao.Csc = CscProd;
-                configuracao.CscId = CscIdProd;
-                configuracao.EmailContabilidade = EmailContabilidadeProd;
-                configuracao.ProximoNumNFCe = ProximoNumNFCeProd;
-                configuracao.ProximoNumNFe = ProximoNumNFeProd;
-                configuracao.SerieNFCe = SerieNFCeProd;
-                configuracao.SerieNFe = SerieNFeProd;
+                configuracao.Csc = Csc;
+                configuracao.CscId = CscId;
+                configuracao.EmailContabilidade = EmailContabilidade;
+                configuracao.ProximoNumNFCe = ProximoNumNFCe;
+                configuracao.ProximoNumNFe = ProximoNumNFe;
+                configuracao.SerieNFCe = SerieNFCe;
+                configuracao.SerieNFe = SerieNFe;
 
                 _configuracaoService.Salvar(configuracao);
                 Configuracao = null;

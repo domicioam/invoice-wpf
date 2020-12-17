@@ -5,7 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:EmissorNFe.View.Configurações"
         WindowStartupLocation="CenterOwner"
         xmlns:cvt="clr-namespace:EmissorNFe.View.Converters;assembly=DgSystems.NFe.Converters"
         mc:Ignorable="d"
@@ -47,47 +46,33 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Content="CONFIGURAÇÕES" Margin="6"   />
-        <StackPanel Grid.Row="1" VerticalAlignment="Center"     >
-            <Label Content="Ambiente" Margin="7,6,6,0"/>
-            <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="rbHom" Content="Homologação" GroupName="group1" IsChecked="{ Binding IsProducao, Converter={StaticResource BoolInverterConverter},ConverterParameter={StaticResource False}}" Margin="10,6,6,0"/>
-                <RadioButton x:Name="rbProd" Content="Produção" GroupName="group1" IsChecked="{Binding IsProducao, Converter={StaticResource BoolInverterConverter},ConverterParameter={StaticResource True}}"  Margin="6"/>
-            </StackPanel>
-        </StackPanel>
         <StackPanel Grid.Row="2" Margin="6" VerticalAlignment="Center" >
             <Label Content="Série NF-e*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding SerieNFeHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
-                <TextBox TextWrapping="Wrap" Text="{Binding SerieNFeProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
+                <TextBox TextWrapping="Wrap" Text="{Binding SerieNFe}"  Margin="6,0,6,6"/>
         </StackPanel>
         <StackPanel Grid.Row="3" Margin="6"  VerticalAlignment="Center" >
             <Label Content="Próximo Nº NF-e*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding ProximoNumNFeHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding ProximoNumNFeProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
+            <TextBox TextWrapping="Wrap" Text="{Binding ProximoNumNFe}"  Margin="6,0,6,6"/>
         </StackPanel>
         <StackPanel Grid.Row="4" Margin="6" VerticalAlignment="Center">
             <Label Content="Série NFC-e*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding SerieNFCeHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding SerieNFCeProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
+            <TextBox TextWrapping="Wrap" Text="{Binding SerieNFCe}"  Margin="6,0,6,6"/>
         </StackPanel>
         <StackPanel Grid.Row="5" Margin="6"   VerticalAlignment="Center">
             <Label Content="Próximo Nº NFC-e*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding ProximoNumNFCeHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding ProximoNumNFCeProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
+            <TextBox TextWrapping="Wrap" Text="{Binding ProximoNumNFCe}"  Margin="6,0,6,6"/>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"    >
+        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
             <Label Content="CSC ID*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding CscIdHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding CscIdProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
+            <TextBox TextWrapping="Wrap" Text="{Binding CscId}"  Margin="6,0,6,6"/>
         </StackPanel>
         <StackPanel Grid.Row="3" Grid.Column="1"  VerticalAlignment="Center" >
             <Label Content="CSC*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding CscHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding CscProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6"/>
+            <TextBox TextWrapping="Wrap" Text="{Binding Csc}"  Margin="6,0,6,6"/>
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="1"  VerticalAlignment="Center" >
             <Label Content="Email Contabilidade*" Margin="6,6,6,0"/>
-            <TextBox TextWrapping="Wrap" Text="{Binding EmailContabilidadeHom}" Visibility="{Binding IsChecked, ElementName=rbHom, Converter={StaticResource b2v}}" Margin="6,0,6,6" />
-            <TextBox TextWrapping="Wrap" Text="{Binding EmailContabilidadeProd}" Visibility="{Binding IsChecked, ElementName=rbProd, Converter={StaticResource b2v}}" Margin="6,0,6,6" />
+            <TextBox TextWrapping="Wrap" Text="{Binding EmailContabilidade}"  Margin="6,0,6,6" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Content="Salvar" Command="{Binding SalvarCmd}" Style="{StaticResource SaveButton}" CommandParameter="{Binding ElementName=Configuracoes}" Margin="6,6,0,0"/>
