@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Height="200" Width="300"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Certificado}" Background="#FFEEEEF2">
+        Background="#FFEEEEF2">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>

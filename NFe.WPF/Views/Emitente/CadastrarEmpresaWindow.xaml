@@ -11,8 +11,7 @@
         x:Name="window"
         mc:Ignorable="d"
         Background="#FFF0F0F0"
-        Height="600" Width="800"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Empresa}">
+        Height="600" Width="800">
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">

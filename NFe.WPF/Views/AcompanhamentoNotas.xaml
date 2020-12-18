@@ -12,8 +12,7 @@
         ResizeMode="CanMinimize"
         Title="Acompanhamento"
         Height="500"
-        Width="600"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Acompanhamento}">
+        Width="600">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

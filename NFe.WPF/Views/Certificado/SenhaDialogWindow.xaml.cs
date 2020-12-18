@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmissorNFe.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace EmissorNFe.View.Certificado
     {
         public SenhaDialogWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Certificado;
+
             InitializeComponent();
         }
 

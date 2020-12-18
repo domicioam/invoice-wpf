@@ -10,8 +10,7 @@
         Background="#FFF0F0F0"
         Title="Envio para contabilidade"
         Height="200" Width="400"
-        x:Name="window"
-        DataContext="{Binding Source={StaticResource Locator}, Path=EnviarContabilidade}">
+        x:Name="window">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="177*"/>

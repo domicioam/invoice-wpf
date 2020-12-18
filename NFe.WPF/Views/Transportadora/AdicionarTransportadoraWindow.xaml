@@ -8,8 +8,7 @@
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d" Background="#FFEEEEF2"
         Title="Nova Transportadora" Height="485" Width="800"
-        Name="transportadoraWindow"
-        DataContext="{Binding Source={StaticResource Locator}, Path=NFe}">
+        Name="transportadoraWindow">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />

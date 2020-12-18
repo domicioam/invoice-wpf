@@ -9,8 +9,7 @@
         Height="450"
         WindowStartupLocation="CenterOwner"
         ResizeMode="CanMinimize"
-        Width="800"
-        DataContext="{Binding Source={StaticResource Locator}, Path=ImportarXML}">
+        Width="800">
 
     <Grid>
         <Grid.RowDefinitions>

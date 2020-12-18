@@ -24,6 +24,7 @@ namespace EmissorNFe.Certificado
     {
         public AdicionarCertificadoWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Certificado;
             InitializeComponent();
         }
 

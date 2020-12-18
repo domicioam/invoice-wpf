@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using EmissorNFe.ViewModel;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace NFe.WPF.View.Ferramentas
     {
         public ImportarXMLFornecedorWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).ImportarXML;
+
             InitializeComponent();
         }
 

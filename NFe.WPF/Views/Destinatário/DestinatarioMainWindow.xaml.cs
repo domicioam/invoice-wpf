@@ -1,4 +1,5 @@
 ﻿using EmissorNFe.View.Destinatario;
+using EmissorNFe.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,8 @@ namespace EmissorNFe.View.Destinatário
     {
         public DestinatarioMainWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).DestinatarioMain;
+
             InitializeComponent();
         }
 

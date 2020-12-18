@@ -10,8 +10,7 @@
         Background="#FFF0F0F0"
         Name="certificadoWindow"
         Title="Gerenciamento de Certificado"
-        Height="600" Width="800" ResizeMode="CanMinimize"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Certificado}">
+        Height="600" Width="800" ResizeMode="CanMinimize">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

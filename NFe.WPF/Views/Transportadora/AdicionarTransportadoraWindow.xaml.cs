@@ -1,4 +1,5 @@
-﻿using NFe.WPF.ViewModel.Services;
+﻿using EmissorNFe.ViewModel;
+using NFe.WPF.ViewModel.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace EmissorNFe.View.Transportadora
     {
         public AdicionarTransportadoraWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).NFe;
+
             InitializeComponent();
         }
     }
