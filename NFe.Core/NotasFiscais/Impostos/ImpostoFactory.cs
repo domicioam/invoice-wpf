@@ -18,8 +18,10 @@ namespace NFe.Core.NotasFiscais
             switch (imposto.Origem)
             {
                 case Origem.Nacional:
+                case null:
                     origem = OrigemMercadoria.Nacional;
                     break;
+
                 default:
                     throw new NotSupportedException();
             }

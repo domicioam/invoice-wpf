@@ -545,10 +545,22 @@ namespace NFe.Repository.Repositories
 
                 var impostos = new Impostos(new List<Imposto> { icms, pis});
 
-                var newProduto = new Produto(impostos, 0, det.prod.CFOP.Replace("Item", string.Empty),
+                double.TryParse(det.prod.vSeg, NumberStyles.Float, CultureInfo.InvariantCulture, out double seguro);
+                double.TryParse(det.prod.vOutro, NumberStyles.Float, CultureInfo.InvariantCulture, out double outros);
+                double.TryParse(det.prod.vFrete, NumberStyles.Float, CultureInfo.InvariantCulture, out double frete);
+
+                var newProduto = new Produto(impostos, 
+                    0, 
+                    det.prod.CFOP.Replace("Item", string.Empty),
                     det.prod.cProd, det.prod.xProd, det.prod.NCM,
-                    int.Parse(det.prod.qCom), det.prod.uCom,
-                    double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 0, ambiente == Ambiente.Producao, double.Parse(det.prod.vFrete, CultureInfo.InvariantCulture), double.Parse(det.prod.vSeg, CultureInfo.InvariantCulture), double.Parse(det.prod.vOutro, CultureInfo.InvariantCulture))
+                    int.Parse(det.prod.qCom), 
+                    det.prod.uCom,
+                    double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 
+                    0, 
+                    ambiente == Ambiente.Producao,
+                    frete,
+                    seguro,
+                    outros)
                 {
                     Cest = det.prod.CEST
                 };
