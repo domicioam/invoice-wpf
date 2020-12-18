@@ -94,6 +94,14 @@ namespace EmissorNFe
 
             CreateDataDirectory();
             DependencyResolver.RegisterTypes();
+
+            /*
+ *             <vm:ViewModelLocator x:Key="Locator"
+                     d:IsDataSource="True" />*/
+            var locator = new ViewModelLocator(DependencyResolver.Container);
+            this.Resources.Add("Locator", locator);
+
+
             base.OnStartup(e);
         }
 

@@ -6,12 +6,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              d1p1:Ignorable="d"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:EmissorNFe.ViewModel"
              xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
     <Application.Resources>
         <ResourceDictionary>
-            <vm:ViewModelLocator x:Key="Locator"
-                                 d:IsDataSource="True" />
             <!-- ESTILOS -->
             <!-- COMBOBOX -->
             <ControlTemplate x:Key="ComboBoxControlTemplateCustom"

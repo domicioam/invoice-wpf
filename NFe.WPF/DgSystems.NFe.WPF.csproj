@@ -52,7 +52,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -276,78 +276,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModelLocator.cs" />
-    <Compile Include="Views\AcompanhamentoNotas.xaml.cs">
-      <DependentUpon>AcompanhamentoNotas.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CadastroImpostoWindow.xaml.cs">
-      <DependentUpon>CadastroImpostoWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CadastroProdutoWindow.xaml.cs">
-      <DependentUpon>CadastroProdutoWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CancelarNotaWindow.xaml.cs">
-      <DependentUpon>CancelarNotaWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Certificado\AdicionarCertificadoWindow.xaml.cs">
-      <DependentUpon>AdicionarCertificadoWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Certificado\SenhaDialogWindow.xaml.cs">
-      <DependentUpon>SenhaDialogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Configurações\OpcoesWindows.xaml.cs">
-      <DependentUpon>OpcoesWindows.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Destinatário\DestinatarioMainWindow.xaml.cs">
-      <DependentUpon>DestinatarioMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Destinatário\DestinatarioWindow.xaml.cs">
-      <DependentUpon>DestinatarioWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Emitente\CadastrarEmpresaWindow.xaml.cs">
-      <DependentUpon>CadastrarEmpresaWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EnviarEmailWindow.xaml.cs">
-      <DependentUpon>EnviarEmailWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ferramentas\ImportarXMLFornecedorWindow.xaml.cs">
-      <DependentUpon>ImportarXMLFornecedorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Ferramentas\ImportarXMLWindow.xaml.cs">
-      <DependentUpon>ImportarXMLWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Gerencial\EnvioRelatorioContabilidadeWindow.xaml.cs">
-      <DependentUpon>EnvioRelatorioContabilidadeWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ImpostoMainWindow.xaml.cs">
-      <DependentUpon>ImpostoMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NFCeWindow.xaml.cs">
-      <DependentUpon>NFCeWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NFeWindow.xaml.cs">
-      <DependentUpon>NFeWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NotaFiscalMainWindow.xaml.cs">
-      <DependentUpon>NotaFiscalMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProdutoMainWindow.xaml.cs">
-      <DependentUpon>ProdutoMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SplashScreenWindow.xaml.cs">
-      <DependentUpon>SplashScreenWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Transportadora\AdicionarTransportadoraWindow.xaml.cs">
-      <DependentUpon>AdicionarTransportadoraWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VisualizarNotaEnviadaWindow.xaml.cs">
-      <DependentUpon>VisualizarNotaEnviadaWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -355,100 +284,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\AcompanhamentoNotas.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CadastroImpostoWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CadastroProdutoWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CancelarNotaWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Certificado\AdicionarCertificadoWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Certificado\SenhaDialogWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Configurações\OpcoesWindows.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Destinatário\DestinatarioMainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Destinatário\DestinatarioWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Emitente\CadastrarEmpresaWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EnviarEmailWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ferramentas\ImportarXMLFornecedorWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ferramentas\ImportarXMLWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Gerencial\EnvioRelatorioContabilidadeWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ImpostoMainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\NFCeWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\NFeWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\NotaFiscalMainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ProdutoMainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SplashScreenWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Transportadora\AdicionarTransportadoraWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\VisualizarNotaEnviadaWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

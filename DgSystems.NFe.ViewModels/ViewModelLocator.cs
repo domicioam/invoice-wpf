@@ -12,7 +12,6 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using DgSystem.NFe.IoC;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 
@@ -31,9 +30,10 @@ namespace EmissorNFe.ViewModel
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
-        public ViewModelLocator()
+        public ViewModelLocator(Container container)
         {
-            _container = DependencyResolver.Container;
+            //_container = DependencyResolver.Container;
+            _container = container;
         }
 
         public MainViewModel Main
