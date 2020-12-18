@@ -10,6 +10,7 @@ using EmissorNFe.View.Destinatário;
 using EmissorNFe.View.Emitente;
 using EmissorNFe.View.Gerencial;
 using EmissorNFe.View.NotaFiscal;
+using EmissorNFe.ViewModel;
 using NFe.Core.Messaging;
 using NFe.WPF.Acompanhamento.View;
 using NFe.WPF.Commands;
@@ -40,6 +41,8 @@ namespace EmissorNFe
     {
         public MainWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Main;
+
             InitializeComponent();
 
             ContentHolder.Content = new NotaFiscalMainWindow();

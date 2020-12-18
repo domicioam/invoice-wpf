@@ -25,11 +25,6 @@
         <cvt:StringToPlacaVeiculo x:Key="stringToMaskConverter" />
     </Window.Resources>
 
-    <Window.DataContext>
-        <Binding Path="NFe"
-                 Source="{StaticResource Locator}" />
-    </Window.DataContext>
-
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCmd}"

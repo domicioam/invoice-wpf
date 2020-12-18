@@ -13,8 +13,7 @@
         Title="Novo Produto"
         Height="285"
         Width="800"
-        ResizeMode="CanMinimize"
-        DataContext="{Binding Produto, Source={StaticResource Locator}}">
+        ResizeMode="CanMinimize">
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">

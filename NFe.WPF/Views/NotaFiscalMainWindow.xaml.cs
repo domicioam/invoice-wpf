@@ -32,6 +32,7 @@ namespace EmissorNFe.NotaFiscal
     {
         public NotaFiscalMainWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).NotaFiscalMain;
             InitializeComponent();
 
 

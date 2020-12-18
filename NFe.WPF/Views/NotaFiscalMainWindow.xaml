@@ -10,8 +10,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              d:DesignHeight="300"
-             d:DesignWidth="300"
-             DataContext="{Binding Source={StaticResource Locator}, Path=NotaFiscalMain}">
+             d:DesignWidth="300">
 
     <UserControl.Resources>
         <cvt:BoolToStatusEnvioNotaConverter x:Key="BoolToStatusEnvioNotaConverter" />

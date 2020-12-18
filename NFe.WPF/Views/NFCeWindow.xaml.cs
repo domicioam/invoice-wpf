@@ -1,6 +1,7 @@
 ﻿using EmissorNFe.View;
 using EmissorNFe.View.Destinatario;
 using EmissorNFe.View.NotaFiscal;
+using EmissorNFe.ViewModel;
 using NFe.WPF.ViewModel.Services;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace EmissorNFe.NotaFiscal
 
         public NFCeWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).NFCe;
             InitializeComponent();
         }
 

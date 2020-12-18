@@ -12,8 +12,7 @@
         Background="#FFEEEEF2"
         Icon="icone_nfe_4aG_icon.ico"
         WindowState="Maximized"
-        WindowStartupLocation="CenterScreen"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        WindowStartupLocation="CenterScreen">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

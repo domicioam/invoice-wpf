@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using EmissorNFe.ViewModel;
 using NFe.WPF.ViewModel;
 
 namespace EmissorNFe.View.NotaFiscal
@@ -22,6 +23,7 @@ namespace EmissorNFe.View.NotaFiscal
     {
         public CancelarNotaWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).CancelarNota;
             InitializeComponent();
         }
 

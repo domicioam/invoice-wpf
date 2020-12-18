@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmissorNFe.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace EmissorNFe.Produto
     {
         public ProdutoMainWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).ProdutoMain;
             InitializeComponent();
         }
 

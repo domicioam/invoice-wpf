@@ -9,7 +9,6 @@
         ResizeMode="NoResize"
         Height="200"
         Width="300"
-        DataContext="{Binding Source={StaticResource Locator}, Path=EnviarEmail}"
         Background="#FFEEEEF2"
         x:Name="window">
    <Grid>

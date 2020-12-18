@@ -9,8 +9,7 @@
         x:Name="window"
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d"
-        Title="Cancelamento de Nota" Height="181.144" Width="456.992"
-        DataContext="{Binding Source={StaticResource Locator}, Path=CancelarNota}">
+        Title="Cancelamento de Nota" Height="181.144" Width="456.992">
     <Grid Margin="10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="31*"/>

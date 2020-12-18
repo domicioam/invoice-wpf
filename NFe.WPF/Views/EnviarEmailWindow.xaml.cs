@@ -21,7 +21,12 @@ namespace NFe.WPF.View.NotaFiscal
    /// </summary>
    public partial class EnviarEmailWindow : Window, IClosable
    {
-      public EnviarEmailWindow(ViewModel.EnviarEmailViewModel enviarEmailViewModel)
+        public EnviarEmailWindow()
+        {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).EnviarEmail;
+            InitializeComponent();
+        }
+        public EnviarEmailWindow(ViewModel.EnviarEmailViewModel enviarEmailViewModel)
       {
          InitializeComponent();
          DataContext = enviarEmailViewModel;

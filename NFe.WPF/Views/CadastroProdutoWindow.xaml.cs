@@ -1,4 +1,5 @@
-﻿using NFe.WPF.ViewModel.Services;
+﻿using EmissorNFe.ViewModel;
+using NFe.WPF.ViewModel.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace EmissorNFe.Produto
     {
         public CadastroProdutoWindow()
         {
+            this.DataContext = (Application.Current.Resources["Locator"] as ViewModelLocator).Produto;
             InitializeComponent();
         }
 
