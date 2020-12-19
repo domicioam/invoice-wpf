@@ -1,5 +1,4 @@
 ﻿using EmissorNFe.ViewModel;
-using Microsoft.Practices.ServiceLocation;
 using NFe.Core;
 using System;
 using System.Collections.Generic;
