@@ -12,6 +12,7 @@ namespace NFe.Core.Interfaces
     public interface INotaFiscalRepository
     {
         int Salvar(NotaFiscalEntity notafiscal);
+        int Salvar(NotaFiscal notaFiscal, string xml);
         List<NotaFiscalEntity> GetAll();
         NotaFiscalEntity GetNotaFiscalById(int idNotaFiscalDb, bool isLoadXmlData);
         NotaFiscalEntity GetNotaFiscalByChave(string chave);

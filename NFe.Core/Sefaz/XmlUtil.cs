@@ -113,7 +113,7 @@ namespace NFe.Core.Sefaz
             }
         }
 
-        internal static string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
+        public static string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
         {
             var nfeProc = new TNfeProc();
             var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";

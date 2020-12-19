@@ -201,6 +201,7 @@
     <Compile Include="Extensions\Enumeration.cs" />
     <Compile Include="GeradorPDF.cs" />
     <Compile Include="GeradorZip.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="MailManager.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
@@ -294,6 +295,7 @@
     <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
     <Compile Include="Sefaz\Facades\QrCode.cs" />
     <Compile Include="Sefaz\Facades\ResultadoEnvio.cs" />
+    <Compile Include="Sefaz\Facades\XmlNFe.cs" />
     <Compile Include="Sefaz\IcmsCreator.cs" />
     <Compile Include="Sefaz\IcmsUfDestinoDirector.cs" />
     <Compile Include="Sefaz\IImpostoCreator.cs" />

@@ -23,7 +23,7 @@ namespace NFe.Core.Sefaz.Facades
 
         public NotaFiscal NotaFiscal { get; }
         public TProtNFe Protocolo { get; }
-        internal QrCode QrCode { get; }
+        public QrCode QrCode { get; }
         public TNFe Nfe { get; }
         public XmlNode Node { get; }
     }

@@ -9,7 +9,7 @@ namespace NFe.Core.Events
 {
     public class NotaFiscalEmitidaEmContingenciaEvent 
     {
-        public string justificativa { get; internal set; }
-        public DateTime horário { get; internal set; }
+        public string justificativa { get; set; }
+        public DateTime horário { get; set; }
     }
 }

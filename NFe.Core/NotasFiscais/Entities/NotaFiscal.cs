@@ -24,6 +24,9 @@ namespace NFe.Core.NotasFiscais
             TotalNFe = totalNFe;
             InfoAdicional = infoAdicional;
             Produtos = produtos;
+
+            if (Identificacao.Ambiente == Ambiente.Homologacao)
+                Produtos[0].Descricao = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
         }
 
         internal string ID { get; set; }

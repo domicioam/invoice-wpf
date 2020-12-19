@@ -239,6 +239,37 @@ namespace NFe.Repository.Repositories
             }
         }
 
+        public virtual int Salvar(NotaFiscal notaFiscal, string xml)
+        {
+            var notaFiscalEntity = new NotaFiscalEntity
+            {
+                UfDestinatario = notaFiscal.Destinatario?.Endereco != null ? notaFiscal.Destinatario.Endereco.UF : notaFiscal.Emitente.Endereco.UF,
+                Destinatario = notaFiscal.Destinatario == null ? "CONSUMIDOR NÃO IDENTIFICADO" : notaFiscal.Destinatario.NomeRazao,
+                DocumentoDestinatario = notaFiscal.Destinatario?.Documento.Numero,
+                Status = notaFiscal.Identificacao.Status.GetIntValue(),
+                Chave = notaFiscal.Identificacao.Chave.ToString(),
+                DataEmissao = notaFiscal.Identificacao.DataHoraEmissao,
+                Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65",
+                Serie = notaFiscal.Identificacao.Serie.ToString(),
+                TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString(),
+                ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto,
+                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.ValorDespesasAcessorias,
+                ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete,
+                ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms,
+                ValorProdutos = notaFiscal.ValorTotalProdutos,
+                ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro,
+                ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe,
+                Numero = notaFiscal.Identificacao.Numero,
+                DataAutorizacao = notaFiscal.DataHoraAutorização,
+                Protocolo = notaFiscal.ProtocoloAutorizacao
+            };
+
+            if (notaFiscalEntity.Status != (int)Status.CANCELADA)
+                notaFiscalEntity.XmlPath = XmlFileHelper.SaveXmlFile(notaFiscalEntity, xml);
+
+            return Salvar(notaFiscalEntity);
+        }
+
         public List<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime periodo, bool isLoadXmlData)
         {
             var notasdb = GetNotasFiscaisPorMesAno(periodo);
