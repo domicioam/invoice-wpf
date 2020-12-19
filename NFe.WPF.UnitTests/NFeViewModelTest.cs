@@ -20,6 +20,8 @@ using System.Text;
 using System.Threading.Tasks;
 using NFe.WPF.NotaFiscal.ViewModel;
 using Xunit;
+using NFe.Core.Sefaz.Facades;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NFe.WPF.UnitTests
 {
@@ -87,18 +89,22 @@ namespace NFe.WPF.UnitTests
             var destinatarioService = new Mock<IDestinatarioService>().Object;
             var municipioService = new Mock<IMunicipioRepository>().Object;
             var sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
+            var configuracaoRepository = new Mock<IConfiguracaoRepository>().Object;
+            var notaFiscalContigenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
+            var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
+            var certificadoRepository = new Mock<ICertificadoRepository>().Object;
 
             var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, sefazSettings);
+                configuracaoService, emissorService, produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository);
 
 
             var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, estadoService, emissorService, municipioService,
                 new Mock<ITransportadoraService>().Object, destinatarioService, new Mock<INaturezaOperacaoRepository>().Object, configuracaoService, destinatarioVM);
 
             vm.EnviarNota(_notaFiscalFixture.NFeRemessa, Modelo.Modelo55, new Mock<IClosable>().Object).Wait();
-            notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsNotNull<NFe.Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>()));
+            notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsNotNull<NFe.Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()));
         } 
     }
 }

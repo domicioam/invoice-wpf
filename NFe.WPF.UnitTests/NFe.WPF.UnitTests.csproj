@@ -108,6 +108,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
+      <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
+      <Name>DgSystems.NFe.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DgSystems.NFe.ViewModels\DgSystems.NFe.ViewModels.csproj">
       <Project>{CC19C00F-F36B-4FBC-A34F-E3FF9955FBF5}</Project>
       <Name>DgSystems.NFe.ViewModels</Name>
@@ -123,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="MyDevCert.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
