@@ -26,6 +26,7 @@ using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
+using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.PDF;
 using NFe.Core.Utils.Xml;
@@ -54,6 +55,7 @@ namespace NFe.WPF.ViewModel
         private bool _isNotasPendentesVerificadas;
         private string _mensagensErroContingencia;
         private readonly INFeConsulta _nfeConsulta;
+        private readonly ICertificadoRepository _certificadoRepository;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
@@ -68,7 +70,7 @@ namespace NFe.WPF.ViewModel
             IEmissorService emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, INFeConsulta nfeConsulta)
+            INotaFiscalRepository notaFiscalRepository, INFeConsulta nfeConsulta, ICertificadoRepository certificadoRepository)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -86,6 +88,7 @@ namespace NFe.WPF.ViewModel
             _visualizarNotaEnviadaViewModel = visualizarNotaEnviadaViewModel;
             _enviarEmailViewModel = enviarEmailViewModel;
             _nfeConsulta = nfeConsulta;
+            _certificadoRepository = certificadoRepository;
 
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
 
@@ -226,8 +229,15 @@ namespace NFe.WPF.ViewModel
 
             try
             {
+                var certificadoEntity = _certificadoRepository.GetCertificado();
+                X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType(certificadoEntity);
+
+                var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
+
+                XmlNFe xmlNFe = new XmlNFe(notaFiscalBo, nFeNamespaceName, certificado, config.CscId, config.Csc);
+
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
-                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc);
+                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe);
 
                 IsBusy = false;
 

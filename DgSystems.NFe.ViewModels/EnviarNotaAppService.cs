@@ -47,11 +47,10 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificadoRepository _certificadoRepository;
-        private readonly ICertificateManager _certificateManager;
-        private readonly RijndaelManagedEncryption _encryptor;
+
 
         public EnviarNotaAppService(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IConfiguracaoRepository configuracaoRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, RijndaelManagedEncryption encryptor)
+            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IConfiguracaoRepository configuracaoRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository)
         {
             _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
@@ -63,8 +62,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             _notaFiscalRepository = notaFiscalRepository;
             _certificadoRepository = certificadoRepository;
-            _certificateManager = certificateManager;
-            _encryptor = encryptor;
         }
 
         public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo)
@@ -111,7 +108,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                var csc = config.Csc;
 
                var certificadoEntity = _certificadoRepository.GetCertificado();
-               X509Certificate2 certificado = PickCertificateBasedOnInstallationType(certificadoEntity);
+               X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType(certificadoEntity);
 
                var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
@@ -124,6 +121,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                    if (configuração.IsContingencia)
                    {
                        _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
+                       var nfeProcXml = XmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                       _notaFiscalRepository.Salvar(notaFiscal, nfeProcXml);
                    } else
                    {
                        var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
@@ -161,24 +160,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
             return notaFiscal;
         }
-
-        private X509Certificate2 PickCertificateBasedOnInstallationType(Core.Cadastro.Certificado.CertificadoEntity certificadoEntity)
-        {
-            X509Certificate2 certificado;
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-            {
-
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            }
-            else
-            {
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
-            }
-
-            return certificado;
-        }
-
 
         public async Task ImprimirNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {

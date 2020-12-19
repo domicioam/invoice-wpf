@@ -33,7 +33,7 @@ namespace NFe.Core.Sefaz.Facades
 {
     public interface IEmiteNotaFiscalContingenciaFacade
     {
-        int EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc);
+        NotaFiscal EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc);
         Task<List<string>> TransmitirNotasFiscalEmContingencia();
         void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar, INotaFiscalRepository notaFiscalRepository);
     }
@@ -48,6 +48,7 @@ namespace NFe.Core.Sefaz.Facades
         private readonly IConfiguracaoService _configuracaoService;
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly ICertificateManager _certificateManager;
+        private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private bool _isFirstTimeRecheckingRecipts;
         private bool _isFirstTimeResending;
@@ -76,7 +77,7 @@ namespace NFe.Core.Sefaz.Facades
             _encryptor = encryptor;
         }
 
-        public int EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc)
+        public NotaFiscal EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc)
         {
             QrCode qrCode = new QrCode();
             string newNodeXml;
@@ -134,22 +135,9 @@ namespace NFe.Core.Sefaz.Facades
 
             if (node == null) throw new ArgumentException("Xml inválido.");
 
-            var lote = (TEnviNFe)XmlUtil.Deserialize<TEnviNFe>(node.OuterXml);
-            var nfe = lote.NFe[0];
-
-            //salvar nota PreEnvio aqui
             notaFiscal.Identificacao.Status = new StatusEnvio(Status.CONTINGENCIA);
-
-            var idNotaCopiaSeguranca =  _notaFiscalRepository.SalvarNotaFiscalPendente(notaFiscal,
-                XmlUtil.GerarNfeProcXml(nfe, qrCode));
-
-            var notaFiscalEntity =  _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
-            notaFiscalEntity.Status = (int)Status.CONTINGENCIA;
-            var nfeProcXml = XmlUtil.GerarNfeProcXml(nfe, qrCode);
-
-             _notaFiscalRepository.Salvar(notaFiscalEntity, nfeProcXml);
             notaFiscal.QrCodeUrl = qrCode.ToString();
-            return idNotaCopiaSeguranca;
+            return notaFiscal;
         }
 
         public async Task<List<string>> TransmitirNotasFiscalEmContingencia() //Chamar esse método quando o serviço voltar
