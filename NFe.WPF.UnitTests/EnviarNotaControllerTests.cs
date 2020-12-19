@@ -27,12 +27,16 @@ namespace NFe.WPF.UnitTests
         public EnviarNotaControllerTests(NotaFiscalFixture notaFiscalFixture)
         {
             _notaFiscalFixture = notaFiscalFixture;
+            AppContext.SetSwitch("Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms", true);
+            AppContext.SetSwitch("Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms", true);
         }
 
         [Fact]
         public void NFCeModel_EnviarNota_Sucesso()
         {
             // Arrange
+
+
 
             var configuracaoServiceMock = new Mock<IConfiguracaoService>();
             configuracaoServiceMock
