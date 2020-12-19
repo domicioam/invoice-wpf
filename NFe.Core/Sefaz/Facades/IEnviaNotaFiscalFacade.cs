@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using NFe.Core.Entitities;
-using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
-using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
-using NFe.Core.Interfaces;
+﻿using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Services
 {
     public interface IEnviaNotaFiscalFacade
     {
-        int EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc);
+        ResultadoEnvio EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc);
     }
 }

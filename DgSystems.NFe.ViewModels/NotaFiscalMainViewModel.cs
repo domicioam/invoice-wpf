@@ -89,7 +89,7 @@ namespace NFe.WPF.ViewModel
 
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
 
-            MessagingCenter.Subscribe<EnviarNotaController, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
+            MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
             {
                 EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal);
             });

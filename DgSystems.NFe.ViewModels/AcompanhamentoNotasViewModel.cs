@@ -44,7 +44,7 @@ namespace NFe.WPF.ViewModel
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             FiltrarCmd = new RelayCommand(FiltrarCmd_Execute, null);
 
-            MessagingCenter.Subscribe<EnviarNotaController, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
+            MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
             {
                 NotaFiscalVM_NotaEnviadaEvent();
             });

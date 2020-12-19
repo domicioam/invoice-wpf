@@ -48,7 +48,6 @@ namespace NFe.Core.Sefaz.Facades
         private readonly IConfiguracaoService _configuracaoService;
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly ICertificateManager _certificateManager;
-        private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private bool _isFirstTimeRecheckingRecipts;
         private bool _isFirstTimeResending;

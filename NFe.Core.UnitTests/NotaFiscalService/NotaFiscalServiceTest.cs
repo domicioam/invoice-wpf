@@ -56,7 +56,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, 
                 nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Utils.RijndaelManagedEncryption());
 
-            var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
+            var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
 
@@ -111,7 +111,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
 
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
 
-            var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
+            var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
@@ -158,7 +158,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
 
             var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new Utils.RijndaelManagedEncryption());
 
-            var notaFiscalService = new EnviaNotaFiscalFacade(configuracaoRepository, notaFiscalRepository,
+            var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, notaFiscalRepository,
                 certificadoRepository, configuracaoService, serviceFactory, nfeConsulta, certificateManager,
                 notaFiscalContingenciaService, new Utils.RijndaelManagedEncryption());
 

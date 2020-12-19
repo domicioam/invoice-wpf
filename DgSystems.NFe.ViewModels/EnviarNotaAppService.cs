@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Views;
@@ -24,7 +25,7 @@ using Produto = NFe.Core.NotasFiscais.Entities.Produto;
 
 namespace NFe.WPF.NotaFiscal.ViewModel
 {
-    public class EnviarNotaController : IEnviarNota
+    public class EnviarNotaAppService : IEnviarNota
     {
         private readonly IDialogService _dialogService;
         private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
@@ -32,9 +33,10 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly IEmissorService _emissorService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly SefazSettings _sefazSettings;
+        private readonly IConfiguracaoRepository _configuracaoRepository;
 
-        public EnviarNotaController(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings)
+        public EnviarNotaAppService(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
+            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IConfiguracaoRepository configuracaoRepository)
         {
             _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
@@ -42,6 +44,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _emissorService = emissorService;
             _produtoRepository = produtoRepository;
             _sefazSettings = sefazSettings;
+            _configuracaoRepository = configuracaoRepository;
         }
 
         public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo)
@@ -86,7 +89,56 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
                var cscId = config.CscId;
                var csc = config.Csc;
-               _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
+               try
+               {
+                   var configuração = _configuracaoRepository.GetConfiguracao();
+
+                   if (configuração.IsContingencia)
+                   {
+                       return _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
+                   } else
+                   {
+                       var result = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc);
+
+                       // salvar em caso de sucesso:
+
+                       NotaFiscalEntity notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalById(idNotaCopiaSeguranca, false);
+                       notaFiscalEntity.Status = (int)Status.ENVIADA;
+                       notaFiscalEntity.DataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto,
+                           DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
+
+                       notaFiscalEntity.Protocolo = protocolo.infProt.nProt;
+                       var xmlNFeProc = XmlUtil.GerarNfeProcXml(nfe, qrCode, protocolo);
+                       _notaFiscalRepository.Salvar(notaFiscalEntity, xmlNFeProc);
+                       return notaFiscalEntity;
+                   }
+               }
+               catch (WebException e) // test scenario without connection
+               {
+                   log.Error(e);
+
+                   // Necessário para não tentar enviar a mesma nota como contingência.
+                   _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
+
+                   // Stop execution if model 55
+                   if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
+                       throw;
+
+                   var message = GetExceptionMessage(e);
+
+                   PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
+
+                   return _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
+               }
+               catch (Exception e)
+               {
+                   _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, node);
+                   _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, node);
+
+                   // salvar nota fiscal quando acontece erro para fazer debug depois
+                   idNotaCopiaSeguranca = SalvarNotaFiscalPréEnvio(notaFiscal, qrCode, nfe);
+
+               }
            });
 
             var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };

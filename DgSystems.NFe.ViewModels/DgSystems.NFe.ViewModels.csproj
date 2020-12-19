@@ -103,7 +103,7 @@
     <Compile Include="EnderecoTransportadoraModel.cs" />
     <Compile Include="EnviarContabilidadeViewModel.cs" />
     <Compile Include="EnviarEmailViewModel.cs" />
-    <Compile Include="EnviarNotaController.cs" />
+    <Compile Include="EnviarNotaAppService.cs" />
     <Compile Include="Events\ConfiguracaoAlteradaEvent.cs" />
     <Compile Include="Events\DestinatarioSalvoEvent.cs" />
     <Compile Include="Events\ImpostoAdicionadoEvent.cs" />

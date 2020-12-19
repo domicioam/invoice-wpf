@@ -75,7 +75,7 @@ namespace NFe.WPF.UnitTests
 
 
 
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
+            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService,
                 configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
@@ -131,7 +131,7 @@ namespace NFe.WPF.UnitTests
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
 
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
+            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService,
                 configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
@@ -187,7 +187,7 @@ namespace NFe.WPF.UnitTests
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
 
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
+            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService,
                 configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act
@@ -243,7 +243,7 @@ namespace NFe.WPF.UnitTests
             var emissorService = emissorServiceMock.Object;
             var produtoService = produtoServiceMock.Object;
 
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaController(dialogService, notaFiscalService,
+            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService,
                 configuracaoService, emissorService, produtoService, new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             // Act

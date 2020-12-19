@@ -10,7 +10,7 @@ using NFe.Core.NotasFiscais.ValueObjects;
 
 namespace NFe.Core.Sefaz.Facades
 {
-    class QrCode
+    public class QrCode
     {
         private string _qrCode;
 

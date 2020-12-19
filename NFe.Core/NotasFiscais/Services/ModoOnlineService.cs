@@ -25,7 +25,7 @@ namespace NFe.Core.NotasFiscais.Services
             _configuracaoRepository = configuracaoRepository;
             _consultaStatusServicoService = consultaStatusServicoService;
 
-            MessagingCenter.Subscribe<EnviaNotaFiscalFacade, NotaFiscalEmitidaEmContingenciaEvent>(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), (s, e) =>
+            MessagingCenter.Subscribe<EnviarNotaFiscalService, NotaFiscalEmitidaEmContingenciaEvent>(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), (s, e) =>
             {
                 EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent(e.justificativa, e.horário);
             });
