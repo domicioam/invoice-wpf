@@ -47,10 +47,10 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificadoRepository _certificadoRepository;
-
+        private readonly XmlUtil _xmlUtil;
 
         public EnviarNotaAppService(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IConfiguracaoRepository configuracaoRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository)
+            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IConfiguracaoRepository configuracaoRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository, XmlUtil xmlUtil)
         {
             _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
@@ -62,6 +62,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             _notaFiscalRepository = notaFiscalRepository;
             _certificadoRepository = certificadoRepository;
+            _xmlUtil = xmlUtil;
         }
 
         public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo)
@@ -116,18 +117,16 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
                try
                {
-                   var configuração = _configuracaoRepository.GetConfiguracao();
-
-                   if (configuração.IsContingencia)
+                   if (config.IsContingencia)
                    {
                        _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
-                       var nfeProcXml = XmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                       var nfeProcXml = _xmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
                        _notaFiscalRepository.Salvar(notaFiscal, nfeProcXml);
                    } else
                    {
                        var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
 
-                       var xmlNFeProc = XmlUtil.GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
+                       var xmlNFeProc = _xmlUtil.GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
                        _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
                    }
 

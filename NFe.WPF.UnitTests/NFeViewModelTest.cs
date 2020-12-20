@@ -93,11 +93,13 @@ namespace NFe.WPF.UnitTests
             var notaFiscalContigenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
             var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
+            var xmlUtil = new Mock<XmlUtil>().Object;
+
 
             var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);
 
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService,
-                configuracaoService, emissorService, produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository);
+                configuracaoService, emissorService, produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
 
 
             var vm = new NFeViewModel(enviarNotaController, dialogService, produtoService, estadoService, emissorService, municipioService,

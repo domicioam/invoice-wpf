@@ -1,82 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
+using System.Text;
 using System.Xml.Serialization;
-using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Entitities;
-using NFe.Core.Entitities.Enums;
+using System.Collections.Generic;
+
 using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.Sefaz.Facades;
-using NFe.Core.Utils.Conversores.Enums;
-using NFe.Core.Utils.Conversores.Enums.Autorizacao;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
-using ItemChoiceType3 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemChoiceType3;
-using ItemChoiceType6 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemChoiceType6;
-using ItemsChoiceType5 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemsChoiceType5;
-using TAmb = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TAmb;
-using TEndereco = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEndereco;
-using TEnderEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmi;
-using TEnderEmiCPais = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmiCPais;
-using TEnderEmiXPais = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmiXPais;
-using TFinNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TFinNFe;
-using TMod = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TMod;
 using TNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFe;
-using TNFeInfNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFe;
-using TNFeInfNFeDest = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDest;
-using TNFeInfNFeDestIndIEDest = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDestIndIEDest;
-using TNFeInfNFeDet = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDet;
-using TNFeInfNFeDetImposto = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImposto;
-using TNFeInfNFeDetImpostoCOFINS = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINS;
-using TNFeInfNFeDetImpostoCOFINSCOFINSAliq =
-    NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSAliq;
-using TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST =
-    NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoCOFINSCOFINSAliqCST;
-using TNFeInfNFeDetImpostoICMS = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMS;
-using TNFeInfNFeDetImpostoICMSICMS40 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS40;
-using TNFeInfNFeDetImpostoICMSICMS40CST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS40CST;
-using TNFeInfNFeDetImpostoICMSICMS60 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS60;
-using TNFeInfNFeDetImpostoICMSICMS60CST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoICMSICMS60CST;
-using TNFeInfNFeDetImpostoPIS = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPIS;
-using TNFeInfNFeDetImpostoPISPISNT = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISNT;
-using TNFeInfNFeDetImpostoPISPISNTCST = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetImpostoPISPISNTCST;
-using TNFeInfNFeDetProd = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProd;
-using TNFeInfNFeDetProdComb = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdComb;
-using TNFeInfNFeDetProdIndTot = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDetProdIndTot;
-using TNFeInfNFeEmit = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeEmit;
-using TNFeInfNFeEmitCRT = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeEmitCRT;
-using TNFeInfNFeIde = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIde;
-using TNFeInfNFeIdeIdDest = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeIdDest;
-using TNFeInfNFeIdeIndFinal = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeIndFinal;
-using TNFeInfNFeIdeIndPres = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeIndPres;
-using TNFeInfNFeIdeTpEmis = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeTpEmis;
-using TNFeInfNFeIdeTpImp = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeTpImp;
-using TNFeInfNFeIdeTpNF = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeIdeTpNF;
-using TNFeInfNFeInfAdic = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeInfAdic;
-using TNFeInfNFePag = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFePag;
-using TNFeInfNFePagDetPag = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFePagDetPag;
-using TNFeInfNFePagDetPagTPag = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFePagDetPagTPag;
-using TNFeInfNFeSupl = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeSupl;
-using TNFeInfNFeTotal = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTotal;
-using TNFeInfNFeTotalICMSTot = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTotalICMSTot;
-using TNFeInfNFeTransp = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTransp;
-using TNFeInfNFeTranspModFrete = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspModFrete;
-using TNFeInfNFeTranspTransporta = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspTransporta;
-using Torig = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.Torig;
-using TProcEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TProcEmi;
 using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
-using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
 
 /** O método para pegar a nota fiscal a partir do xml encontra-se em NFeAutorizacaoNormal.GetNotaFiscalFromNfeProcXML() **/
 
 namespace NFe.Core.Sefaz
 {
-    public static class XmlUtil
+    public class XmlUtil
     {
         public static string Serialize<T>(T value, string namespaceName)
         {
@@ -113,7 +53,7 @@ namespace NFe.Core.Sefaz
             }
         }
 
-        public static string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
+        public virtual string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
         {
             var nfeProc = new TNfeProc();
             var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";

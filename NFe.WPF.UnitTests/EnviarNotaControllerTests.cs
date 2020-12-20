@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using AutoFixture;
 using GalaSoft.MvvmLight.Views;
 using Moq;
 using NFe.Core.Cadastro.Certificado;
@@ -12,6 +13,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Assinatura;
 using NFe.WPF.NotaFiscal.ViewModel;
@@ -35,13 +37,10 @@ namespace NFe.WPF.UnitTests
         public void NFCeModel_EnviarNota_Sucesso()
         {
             // Arrange
-
-
-
             var configuracaoServiceMock = new Mock<IConfiguracaoService>();
             configuracaoServiceMock
                 .Setup(m => m.GetConfiguracao())
-                .Returns(new ConfiguracaoEntity());
+                .Returns(new ConfiguracaoEntity() { CscId = "000001", Csc = "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0" });
 
             var emissorServiceMock = new Mock<IEmissorService>();
             emissorServiceMock
@@ -75,14 +74,10 @@ namespace NFe.WPF.UnitTests
                     }
                 });
 
-            var dialogService = new Mock<IDialogService>().Object;
-            var notaFiscalService = new Mock<IEnviaNotaFiscalFacade>().Object;
-            var configuracaoService = configuracaoServiceMock.Object;
-            var emissorService = emissorServiceMock.Object;
-            var produtoService = produtoServiceMock.Object;
-            var configuracaoRepository = new Mock<IConfiguracaoRepository>().Object;
-            var notaFiscalContigenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
-            var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
+            var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalFacade>();
+            notaFiscalServiceMock.Setup(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()))
+                .Returns(new ResultadoEnvio(null, null, null, null, null));
+            Mock<INotaFiscalRepository> notaFiscalRepositoryMock = new Mock<INotaFiscalRepository>();
 
             CertificadoEntity certificadoEntity = new CertificadoEntity
             {
@@ -106,13 +101,21 @@ namespace NFe.WPF.UnitTests
                 .Setup(m => m.GetCertificateByPath(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(() => cert);
 
-            Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService, 
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepositoryMock.Object);
+            SefazSettings sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
+            var enviarNotaAppService = new EnviarNotaAppService
+            (
+                new Mock<IDialogService>().Object, notaFiscalServiceMock.Object, configuracaoServiceMock.Object, 
+                emissorServiceMock.Object, produtoServiceMock.Object, sefazSettings, new Mock<IConfiguracaoRepository>().Object, new Mock<IEmiteNotaFiscalContingenciaFacade>().Object,           
+                notaFiscalRepositoryMock.Object, certificadoRepositoryMock.Object, new Mock<XmlUtil>().Object
+            );
 
             // Act
 
-            enviarNotaController.EnviarNota(_notaFiscalFixture.NFCeModel, Modelo.Modelo65).Wait();
+            enviarNotaAppService.EnviarNota(_notaFiscalFixture.NFCeModel, Modelo.Modelo65).Wait();
+
+            // Assert
+            notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
+            notaFiscalRepositoryMock.Verify(m => m.Salvar(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>()));
         }
 
         [Fact]
@@ -166,10 +169,12 @@ namespace NFe.WPF.UnitTests
             var notaFiscalContigenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
             var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
+            var xmlUtil = new Mock<XmlUtil>().Object;
+
 
             Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService,
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository);
+                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
 
             // Act
 
@@ -227,10 +232,12 @@ namespace NFe.WPF.UnitTests
             var notaFiscalContigenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
             var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
+            var xmlUtil = new Mock<XmlUtil>().Object;
+
 
             Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService,
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository);
+                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
 
             // Act
 
@@ -288,10 +295,12 @@ namespace NFe.WPF.UnitTests
             var notaFiscalContigenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
             var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
+            var xmlUtil = new Mock<XmlUtil>().Object;
+
 
             Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
             var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService,
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository);
+                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
 
             // Act
 

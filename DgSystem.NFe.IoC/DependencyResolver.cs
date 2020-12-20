@@ -98,6 +98,7 @@ namespace DgSystem.NFe.IoC
             container.Register<ITransportadoraService, TransportadoraService>(Lifestyle.Transient);
             container.Register<SefazSettings>(Lifestyle.Transient);
             container.Register<InutilizarNotaFiscalFacade>(Lifestyle.Transient);
+            container.Register<XmlUtil>(Lifestyle.Transient);
 
             container.Verify();
 
