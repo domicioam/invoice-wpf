@@ -45,7 +45,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly XmlUtil _xmlUtil;
 
-        public EnviarNotaAppService(IEnviaNotaFiscalFacade enviaNotaFiscalService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, 
+        public EnviarNotaAppService(IEnviaNotaFiscalFacade enviaNotaFiscalService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil)
         {
             _enviaNotaFiscalService = enviaNotaFiscalService;
@@ -71,7 +71,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             if (isNotaComPagamento && valorTotalProdutos != valorTotalPagamentos)
             {
                 await dialogService.ShowError("Valor total da nota não corresponde ao valor de pagamento.",
-                    "Erro!", "Ok", null);
+                "Erro!", "Ok", null);
                 throw new ArgumentException("Valor total da nota não corresponde ao valor de pagamento.");
             }
 
@@ -79,72 +79,73 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             Core.NotasFiscais.NotaFiscal notaFiscal = null;
 
             await Task.Run(() =>
-           {
-               const TipoEmissao tipoEmissao = TipoEmissao.Normal;
-               var destinatario = CreateDestinatario(notaFiscalModel, _sefazSettings.Ambiente, modelo);
-               var documentoDanfe = destinatario != null ? destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario) : "CPF";
-               var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emissor.Endereco.UF);
+            {
+                const TipoEmissao tipoEmissao = TipoEmissao.Normal;
+                var destinatario = CreateDestinatario(notaFiscalModel, _sefazSettings.Ambiente, modelo);
+                var documentoDanfe = destinatario != null ? destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario) : "CPF";
+                var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emissor.Endereco.UF);
 
-               var identificacao = CreateIdentificacaoNFe(notaFiscalModel, codigoUF, DateTime.Now, emissor, modelo,
-                   Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, _sefazSettings.Ambiente, documentoDanfe);
-               var produtos = GetProdutos(notaFiscalModel);
-               var pagamentos = GetPagamentos(notaFiscalModel);
-               var totalNFe = GetTotalNFe(notaFiscalModel);
-               var infoAdicional = new InfoAdicional(produtos);
-               var transporte = GetTransporte(notaFiscalModel, modelo);
+                var identificacao = CreateIdentificacaoNFe(notaFiscalModel, codigoUF, DateTime.Now, emissor, modelo,
+                    Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, _sefazSettings.Ambiente, documentoDanfe);
+                var produtos = GetProdutos(notaFiscalModel);
+                var pagamentos = GetPagamentos(notaFiscalModel);
+                var totalNFe = GetTotalNFe(notaFiscalModel);
+                var infoAdicional = new InfoAdicional(produtos);
+                var transporte = GetTransporte(notaFiscalModel, modelo);
 
-               notaFiscal = new Core.NotasFiscais.NotaFiscal(emissor, destinatario, identificacao, transporte,
-                   totalNFe, infoAdicional, produtos, pagamentos);
+                notaFiscal = new Core.NotasFiscais.NotaFiscal(emissor, destinatario, identificacao, transporte,
+                    totalNFe, infoAdicional, produtos, pagamentos);
 
-               var cscId = config.CscId;
-               var csc = config.Csc;
-               var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
+                var cscId = config.CscId;
+                var csc = config.Csc;
+                var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
-               XmlNFe xmlNFe = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
+                XmlNFe xmlNFe = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
 
-               try
-               {
-                   if (config.IsContingencia)
-                   {
-                       _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
-                       var nfeProcXml = _xmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
-                       _notaFiscalRepository.Salvar(notaFiscal, nfeProcXml);
-                   } else
-                   {
-                       var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
+                try
+                {
+                    if (config.IsContingencia)
+                    {
+                        _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
+                        var nfeProcXml = _xmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                        _notaFiscalRepository.Salvar(notaFiscal, nfeProcXml);
+                    }
+                    else
+                    {
+                        var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
 
-                       var xmlNFeProc = _xmlUtil.GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
-                       _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
-                   }
+                        var xmlNFeProc = _xmlUtil.GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
+                        _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
+                    }
 
-                   var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
-                   MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
-               }
-               catch (WebException e) // test scenario without connection
-               {
-                   log.Error(e);
+                    var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
+                    MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
+                }
+                catch (WebException e) // test scenario without connection
+                {
+                    log.Error(e);
 
-                   // Necessário para não tentar enviar a mesma nota como contingência.
-                   _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
+                    // Necessário para não tentar enviar a mesma nota como contingência.
+                    _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
 
-                   // Stop execution if model 55
-                   if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
-                       throw;
+                    // Stop execution if model 55
+                    if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
+                        throw;
 
-                   var message = GetExceptionMessage(e);
+                    var message = GetExceptionMessage(e);
 
-                   PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
-                   _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
-               }
-               catch (Exception e)
-               {
-                   log.Error(e);
+                    PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
+                    _emiteNotaFiscalContingenciaService.EmitirNotaContingencia(notaFiscal, cscId, csc);
+                }
+                catch (Exception e)
+                {
+                    log.Error(e);
 
-                   _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
-                   notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
-                   _notaFiscalRepository.Salvar(notaFiscal, xmlNFe.XmlNode.OuterXml);
-               }
-           });
+                    _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
+                    notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
+                    _notaFiscalRepository.Salvar(notaFiscal, xmlNFe.XmlNode.OuterXml);
+                }
+            });
 
             return notaFiscal;
         }
@@ -279,8 +280,13 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
                 var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new Core.NotasFiscais.Entities.Imposto()
                 {
-                    Aliquota = i.Aliquota, BaseCalculo = i.BaseCalculo, CST = i.CST, Id = i.Id,
-                    GrupoImpostosId = i.GrupoImpostosId, Origem = i.Origem, Reducao = i.Reducao,
+                    Aliquota = i.Aliquota,
+                    BaseCalculo = i.BaseCalculo,
+                    CST = i.CST,
+                    Id = i.Id,
+                    GrupoImpostosId = i.GrupoImpostosId,
+                    Origem = i.Origem,
+                    Reducao = i.Reducao,
                     TipoImposto = i.TipoImposto
                 });
 
