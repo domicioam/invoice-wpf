@@ -60,7 +60,7 @@ namespace NFe.Core.NotasFiscais
         public bool IsEnviada { get; set; }
         public DateTime DataHoraAutorização { get; set; }
 
-        internal void CalcularChave()
+        public void CalcularChave()
         {
             Identificacao.Chave.CalcularChave();
         }

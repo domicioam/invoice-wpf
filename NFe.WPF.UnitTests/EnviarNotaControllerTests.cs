@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -116,6 +117,94 @@ namespace NFe.WPF.UnitTests
             // Assert
             notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
             notaFiscalRepositoryMock.Verify(m => m.Salvar(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>()));
+        }
+
+        [Fact]
+        public void NFCeModel_EnviarNota_Contingencia_Quando_Sem_Conexao()
+        {
+            // Arrange
+            var configuracaoServiceMock = new Mock<IConfiguracaoService>();
+            configuracaoServiceMock
+                .Setup(m => m.GetConfiguracao())
+                .Returns(new ConfiguracaoEntity() { CscId = "000001", Csc = "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0" });
+
+            var emissorServiceMock = new Mock<IEmissorService>();
+            Emissor emissor = new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
+                                "Regime Normal",
+                                new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
+                                string.Empty);
+            emissorServiceMock
+                .Setup(m => m.GetEmissor())
+                .Returns(emissor);
+
+            var produtoServiceMock = new Mock<IProdutoRepository>();
+            produtoServiceMock
+                .Setup(m => m.GetAll())
+                .Returns(new List<ProdutoEntity>()
+                {
+                    new ProdutoEntity()
+                    {
+                        Id = 1,
+                        ValorUnitario = 65,
+                        Codigo = "0001",
+                        Descricao = "Botijão P13",
+                        GrupoImpostos = new GrupoImpostos()
+                        {
+                            Id = 1,
+                            CFOP = "5656",
+                            Descricao = "Gás Venda",
+                            Impostos = _notaFiscalFixture.Impostos
+                        },
+                        GrupoImpostosId = 1,
+                        NCM = "27111910",
+                        UnidadeComercial = "UN"
+                    }
+                });
+
+            var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalFacade>();
+            notaFiscalServiceMock.Setup(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()))
+                .Throws(new WebException());
+            Mock<INotaFiscalRepository> notaFiscalRepositoryMock = new Mock<INotaFiscalRepository>();
+
+            CertificadoEntity certificadoEntity = new CertificadoEntity
+            {
+                Caminho = "MyDevCert.pfx",
+                Nome = "MOCK NAME",
+                NumeroSerial = "1234",
+                Senha = "VqkVinLLG4/EAKUokpnVDg=="
+            };
+
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            certificadoRepositoryMock
+                .Setup(m => m.GetCertificado())
+                .Returns(() => certificadoEntity);
+
+            var cert = new X509Certificate2("MyDevCert.pfx", "SuperS3cret!");
+            certificadoRepositoryMock.Setup(m => m.PickCertificateBasedOnInstallationType())
+                .Returns(() => cert);
+
+            var certificadoManagerMock = new Mock<ICertificateManager>();
+            certificadoManagerMock
+                .Setup(m => m.GetCertificateByPath(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(() => cert);
+
+            SefazSettings sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
+
+            Mock<IEmiteNotaFiscalContingenciaFacade> notaFiscalContigenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            var enviarNotaAppService = new EnviarNotaAppService
+            (
+                notaFiscalServiceMock.Object, configuracaoServiceMock.Object, produtoServiceMock.Object, sefazSettings, notaFiscalContigenciaServiceMock.Object,
+                notaFiscalRepositoryMock.Object, new Mock<XmlUtil>().Object
+            );
+
+            // Act
+
+            enviarNotaAppService.EnviarNota(_notaFiscalFixture.NFCeModel, Modelo.Modelo65, emissor, cert, new Mock<IDialogService>().Object).Wait();
+
+            // Assert
+            notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
+            configuracaoServiceMock.Verify(m => m.SalvarPróximoNúmeroSérie(It.IsAny<Modelo>(), It.IsAny<Ambiente>()), Times.Once);
+            notaFiscalContigenciaServiceMock.Verify(m => m.SaveNotaFiscalContingencia(It.IsAny<X509Certificate2>(), It.IsAny<ConfiguracaoEntity>(), It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<XmlNFe>()), Times.Once);
         }
 
         [Fact]
@@ -249,7 +338,7 @@ namespace NFe.WPF.UnitTests
         }
 
         [Fact]
-        public async Task NFeModel_EnviarNota_Should_Throw_Exception_When_NotaFiscal_Is_Has_Errors()
+        public async Task NFeModel_EnviarNota_Should_Throw_Exception_When_NotaFiscal_Has_Errors()
         {
             // Arrange
 

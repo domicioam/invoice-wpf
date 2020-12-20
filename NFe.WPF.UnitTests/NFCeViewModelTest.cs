@@ -175,7 +175,7 @@ namespace NFe.WPF.UnitTests
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
 
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
-            enviarNotaMock.Verify(m => m.EnviarNota(It.IsNotNull<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()), Times.Once);
+            enviarNotaMock.Verify(m => m.EnviarNota(It.IsNotNull<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>(), It.IsAny<IDialogService>()), Times.Once);
         }
 
         [Fact]
@@ -211,7 +211,7 @@ namespace NFe.WPF.UnitTests
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
 
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
-            enviarNotaMock.Verify(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()), Times.Once);
+            enviarNotaMock.Verify(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>(), It.IsAny<IDialogService>()), Times.Once);
             enviarNotaMock.Verify(m => m.ImprimirNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>()), Times.Once);
         }
 
@@ -237,7 +237,7 @@ namespace NFe.WPF.UnitTests
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var enviarNotaMock = new Mock<IEnviarNotaAppService>();
-            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()))
+            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>(), It.IsAny<IDialogService>()))
                 .Throws(new ArgumentException());
             var dialogServiceMock = new Mock<IDialogService>();
             dialogServiceMock.Setup(m => m.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null))
@@ -275,7 +275,7 @@ namespace NFe.WPF.UnitTests
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var enviarNotaMock = new Mock<IEnviarNotaAppService>();
-            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()))
+            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>(), It.IsAny<IDialogService>()))
                 .Throws(new Exception());
             var dialogServiceMock = new Mock<IDialogService>();
             dialogServiceMock.Setup(m => m.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null))

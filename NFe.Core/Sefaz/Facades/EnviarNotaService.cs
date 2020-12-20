@@ -24,8 +24,6 @@ namespace NFe.Core.NotasFiscais.Services
         private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IConfiguracaoService _configuracaoService;
-
-        
         private readonly INFeConsulta _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
 

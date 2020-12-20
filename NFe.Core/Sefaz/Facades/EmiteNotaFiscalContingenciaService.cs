@@ -33,7 +33,7 @@ namespace NFe.Core.Sefaz.Facades
 {
     public interface IEmiteNotaFiscalContingenciaFacade
     {
-        NotaFiscal EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc);
+        NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName, XmlNFe xmlNFe);
         Task<List<string>> TransmitirNotasFiscalEmContingencia();
         void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar, INotaFiscalRepository notaFiscalRepository);
     }
@@ -77,15 +77,18 @@ namespace NFe.Core.Sefaz.Facades
             _encryptor = encryptor;
         }
 
-        public NotaFiscal EmitirNotaContingencia(NotaFiscal notaFiscal, string cscId, string csc)
+        public NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName, XmlNFe xmlNFe)
         {
-            QrCode qrCode = new QrCode();
-            string newNodeXml;
-            const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
-            var digVal = string.Empty;
+            notaFiscal = SetContingenciaFields(config, notaFiscal);
+            var xmlNFeContingencia = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
+            notaFiscal.QrCodeUrl = xmlNFe.QrCode.ToString();
 
-            var config = _configuracaoService.GetConfiguracao();
+            _notaFiscalRepository.Salvar(notaFiscal, xmlNFeContingencia.XmlNode.OuterXml);
+            return notaFiscal;
+        }
 
+        private Core.NotasFiscais.NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, Core.NotasFiscais.NotaFiscal notaFiscal)
+        {
             notaFiscal.Identificacao.Numero = _configuracaoService.ObterProximoNumeroNotaFiscal(notaFiscal.Identificacao.Modelo);
             notaFiscal.Identificacao.DataHoraEntradaContigencia = config.DataHoraEntradaContingencia;
             notaFiscal.Identificacao.JustificativaContigencia = config.JustificativaContingencia;
@@ -93,50 +96,7 @@ namespace NFe.Core.Sefaz.Facades
                 ? TipoEmissao.ContigenciaNfce
                 : TipoEmissao.FsDa;
             notaFiscal.CalcularChave();
-
-            X509Certificate2 certificado;
-
-            var certificadoEntity = _certificadoRepository.GetCertificado();
-
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            else
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
-
-            if (_sefazSettings.Ambiente == Ambiente.Homologacao)
-                notaFiscal.Produtos[0].Descricao = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL";
-
-            var refUri = "#NFe" + notaFiscal.Identificacao.Chave;
-
-            var xml = Regex.Replace(XmlUtil.GerarXmlLoteNFe(notaFiscal, nFeNamespaceName), "<motDesICMS>1</motDesICMS>",
-                string.Empty);
-            XmlNode node = AssinaturaDigital.AssinarLoteComUmaNota(xml, refUri, certificado, ref digVal);
-
-            if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
-            {
-                qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
-                    digVal, _sefazSettings.Ambiente,
-                    notaFiscal.Identificacao.DataHoraEmissao,
-                    notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("F", CultureInfo.InvariantCulture),
-                    notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms.ToString("F", CultureInfo.InvariantCulture), cscId,
-                    csc, notaFiscal.Identificacao.TipoEmissao);
-
-                newNodeXml = node.InnerXml.Replace("<qrCode />", "<qrCode>" + qrCode + "</qrCode>");
-            }
-            else
-            {
-                newNodeXml = node.InnerXml.Replace("<infNFeSupl><qrCode /></infNFeSupl>", "");
-            }
-
-            var document = new XmlDocument();
-            document.LoadXml(newNodeXml);
-            node = document.DocumentElement;
-
-            if (node == null) throw new ArgumentException("Xml inválido.");
-
             notaFiscal.Identificacao.Status = new StatusEnvio(Status.CONTINGENCIA);
-            notaFiscal.QrCodeUrl = qrCode.ToString();
             return notaFiscal;
         }
 

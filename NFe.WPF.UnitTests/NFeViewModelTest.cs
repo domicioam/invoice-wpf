@@ -98,7 +98,7 @@ namespace NFe.WPF.UnitTests
 
             var destinatarioVM = new DestinatarioViewModel(estadoService, emissorService, destinatarioService, municipioService);
 
-            var enviarNotaController = new EnviarNotaAppService(dialogService, notaFiscalService,
+            var enviarNotaController = new EnviarNotaAppService(notaFiscalService,
                 configuracaoService, produtoService, sefazSettings, notaFiscalContigenciaService, notaFiscalRepository, xmlUtil);
 
 
