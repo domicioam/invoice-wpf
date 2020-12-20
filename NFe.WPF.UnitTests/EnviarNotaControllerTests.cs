@@ -43,12 +43,13 @@ namespace NFe.WPF.UnitTests
                 .Returns(new ConfiguracaoEntity() { CscId = "000001", Csc = "E3BB2129-7ED0-31A10-CCB8-1B8BAC8FA2D0" });
 
             var emissorServiceMock = new Mock<IEmissorService>();
+            Emissor emissor = new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
+                                "Regime Normal",
+                                new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
+                                string.Empty);
             emissorServiceMock
                 .Setup(m => m.GetEmissor())
-                .Returns(new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
-                    "Regime Normal",
-                    new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
-                    string.Empty));
+                .Returns(emissor);
 
             var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
@@ -93,7 +94,7 @@ namespace NFe.WPF.UnitTests
                 .Returns(() => certificadoEntity);
 
             var cert = new X509Certificate2("MyDevCert.pfx", "SuperS3cret!");
-            certificadoRepositoryMock.Setup(m => m.PickCertificateBasedOnInstallationType(certificadoEntity))
+            certificadoRepositoryMock.Setup(m => m.PickCertificateBasedOnInstallationType())
                 .Returns(() => cert);
 
             var certificadoManagerMock = new Mock<ICertificateManager>();
@@ -104,14 +105,13 @@ namespace NFe.WPF.UnitTests
             SefazSettings sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
             var enviarNotaAppService = new EnviarNotaAppService
             (
-                new Mock<IDialogService>().Object, notaFiscalServiceMock.Object, configuracaoServiceMock.Object, 
-                emissorServiceMock.Object, produtoServiceMock.Object, sefazSettings, new Mock<IConfiguracaoRepository>().Object, new Mock<IEmiteNotaFiscalContingenciaFacade>().Object,           
-                notaFiscalRepositoryMock.Object, certificadoRepositoryMock.Object, new Mock<XmlUtil>().Object
+                notaFiscalServiceMock.Object, configuracaoServiceMock.Object, produtoServiceMock.Object, sefazSettings, new Mock<IEmiteNotaFiscalContingenciaFacade>().Object,         
+                notaFiscalRepositoryMock.Object, new Mock<XmlUtil>().Object
             );
 
             // Act
 
-            enviarNotaAppService.EnviarNota(_notaFiscalFixture.NFCeModel, Modelo.Modelo65).Wait();
+            enviarNotaAppService.EnviarNota(_notaFiscalFixture.NFCeModel, Modelo.Modelo65,emissor, cert, new Mock<IDialogService>().Object).Wait();
 
             // Assert
             notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
@@ -129,12 +129,13 @@ namespace NFe.WPF.UnitTests
                 .Returns(new ConfiguracaoEntity());
 
             var emissorServiceMock = new Mock<IEmissorService>();
+            Emissor emissor = new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
+                                "Regime Normal",
+                                new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
+                                string.Empty);
             emissorServiceMock
                 .Setup(m => m.GetEmissor())
-                .Returns(new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
-                    "Regime Normal",
-                    new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
-                    string.Empty));
+                .Returns(emissor);
 
             var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
@@ -171,14 +172,16 @@ namespace NFe.WPF.UnitTests
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
             var xmlUtil = new Mock<XmlUtil>().Object;
 
+            var cert = new X509Certificate2("MyDevCert.pfx", "SuperS3cret!");
 
-            Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService,
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
+
+            Core.Sefaz.SefazSettings sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
+            var enviarNotaController = new EnviarNotaAppService(notaFiscalService, configuracaoService,
+                produtoService, sefazSettings, notaFiscalContigenciaService, notaFiscalRepository, xmlUtil);
 
             // Act
 
-            enviarNotaController.EnviarNota(_notaFiscalFixture.NFeModelWithPagamento, Modelo.Modelo55).Wait();
+            enviarNotaController.EnviarNota(_notaFiscalFixture.NFeModelWithPagamento, Modelo.Modelo55, emissor, cert, dialogService).Wait();
         }
 
         [Fact]
@@ -192,12 +195,13 @@ namespace NFe.WPF.UnitTests
                 .Returns(new ConfiguracaoEntity());
 
             var emissorServiceMock = new Mock<IEmissorService>();
+            Emissor emissor = new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
+                                "Regime Normal",
+                                new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
+                                string.Empty);
             emissorServiceMock
                 .Setup(m => m.GetEmissor())
-                .Returns(new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
-                    "Regime Normal",
-                    new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
-                    string.Empty));
+                .Returns(emissor);
 
             var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
@@ -233,15 +237,15 @@ namespace NFe.WPF.UnitTests
             var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
             var xmlUtil = new Mock<XmlUtil>().Object;
+            var cert = new X509Certificate2("MyDevCert.pfx", "SuperS3cret!");
 
-
-            Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService,
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
+            SefazSettings sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
+            var enviarNotaController = new EnviarNotaAppService(notaFiscalService, configuracaoService,
+                produtoService, sefazSettings, notaFiscalContigenciaService, notaFiscalRepository, xmlUtil);
 
             // Act
 
-            await Assert.ThrowsAnyAsync<ArgumentException>(() => enviarNotaController.EnviarNota(_notaFiscalFixture.NFeTotalInvalido, Modelo.Modelo55));
+            await Assert.ThrowsAnyAsync<ArgumentException>(() => enviarNotaController.EnviarNota(_notaFiscalFixture.NFeTotalInvalido, Modelo.Modelo55, emissor, cert, dialogService));
         }
 
         [Fact]
@@ -255,12 +259,13 @@ namespace NFe.WPF.UnitTests
                 .Returns(new ConfiguracaoEntity());
 
             var emissorServiceMock = new Mock<IEmissorService>();
+            Emissor emissor = new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
+                                "Regime Normal",
+                                new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
+                                string.Empty);
             emissorServiceMock
                 .Setup(m => m.GetEmissor())
-                .Returns(new Emissor(string.Empty, string.Empty, "98586321444578", string.Empty, string.Empty, string.Empty,
-                    "Regime Normal",
-                    new Endereco(string.Empty, string.Empty, string.Empty, "BRASILIA", string.Empty, "DF"),
-                    string.Empty));
+                .Returns(emissor);
 
             var produtoServiceMock = new Mock<IProdutoRepository>();
             produtoServiceMock
@@ -296,15 +301,15 @@ namespace NFe.WPF.UnitTests
             var notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var certificadoRepository = new Mock<ICertificadoRepository>().Object;
             var xmlUtil = new Mock<XmlUtil>().Object;
+            var cert = new X509Certificate2("MyDevCert.pfx", "SuperS3cret!");
 
-
-            Core.Sefaz.SefazSettings sefazSettings = new Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao };
-            var enviarNotaController = new NotaFiscal.ViewModel.EnviarNotaAppService(dialogService, notaFiscalService, configuracaoService, emissorService,
-                produtoService, sefazSettings, configuracaoRepository, notaFiscalContigenciaService, notaFiscalRepository, certificadoRepository, xmlUtil);
+            SefazSettings sefazSettings = new SefazSettings() { Ambiente = Ambiente.Homologacao };
+            var enviarNotaController = new EnviarNotaAppService(notaFiscalService, configuracaoService,
+                produtoService, sefazSettings, notaFiscalContigenciaService, notaFiscalRepository, xmlUtil);
 
             // Act
 
-            await Assert.ThrowsAnyAsync<NotaFiscalModelHasErrorsException>(() => enviarNotaController.EnviarNota(_notaFiscalFixture.NFeModelWithErrors, Modelo.Modelo55));
+            await Assert.ThrowsAnyAsync<NotaFiscalModelHasErrorsException>(() => enviarNotaController.EnviarNota(_notaFiscalFixture.NFeModelWithErrors, Modelo.Modelo55, emissor, cert, dialogService));
         }
     }
 }

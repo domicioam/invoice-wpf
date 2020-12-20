@@ -229,8 +229,7 @@ namespace NFe.WPF.ViewModel
 
             try
             {
-                var certificadoEntity = _certificadoRepository.GetCertificado();
-                X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType(certificadoEntity);
+                X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
 
                 var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using EmissorNFe.VO;
@@ -50,14 +51,17 @@ namespace NFe.WPF.UnitTests
                     _notaFiscalFixture.ProdutoEntity
                 });
 
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
+
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("55");
             var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
@@ -81,15 +85,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("55");
             var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
@@ -116,15 +121,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
             var produto = new ProdutoVO() {Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0};
@@ -154,21 +160,22 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
-            var enviarNotaMock = new Mock<IEnviarNota>();
+            var enviarNotaMock = new Mock<IEnviarNotaAppService>();
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
                 enviarNotaMock.Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
 
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
-            enviarNotaMock.Verify(m => m.EnviarNota(It.IsNotNull<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>()), Times.Once);
+            enviarNotaMock.Verify(m => m.EnviarNota(It.IsNotNull<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()), Times.Once);
         }
 
         [Fact]
@@ -186,24 +193,25 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
-            var enviarNotaMock = new Mock<IEnviarNota>();
+            var enviarNotaMock = new Mock<IEnviarNotaAppService>();
             var dialogServiceMock = new Mock<IDialogService>();
             dialogServiceMock.Setup(m => m.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null))
                 .Returns(Task.FromResult(true));
             var nfce = new NFCeViewModel(dialogServiceMock.Object,
                 enviarNotaMock.Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
 
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
-            enviarNotaMock.Verify(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>()), Times.Once);
+            enviarNotaMock.Verify(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Core.NotasFiscais.Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()), Times.Once);
             enviarNotaMock.Verify(m => m.ImprimirNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>()), Times.Once);
         }
 
@@ -222,13 +230,14 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
-            var enviarNotaMock = new Mock<IEnviarNota>();
-            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>()))
+            var enviarNotaMock = new Mock<IEnviarNotaAppService>();
+            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()))
                 .Throws(new ArgumentException());
             var dialogServiceMock = new Mock<IDialogService>();
             dialogServiceMock.Setup(m => m.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null))
@@ -236,7 +245,7 @@ namespace NFe.WPF.UnitTests
             var nfce = new NFCeViewModel(dialogServiceMock.Object,
                 enviarNotaMock.Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
@@ -259,13 +268,14 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
-            var enviarNotaMock = new Mock<IEnviarNota>();
-            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>()))
+            var enviarNotaMock = new Mock<IEnviarNotaAppService>();
+            enviarNotaMock.Setup(m => m.EnviarNota(It.IsAny<NotaFiscalModel>(), It.IsAny<Modelo>(), It.IsAny<Core.NotasFiscais.Emissor>(), It.IsAny<X509Certificate2>()))
                 .Throws(new Exception());
             var dialogServiceMock = new Mock<IDialogService>();
             dialogServiceMock.Setup(m => m.ShowMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), null))
@@ -273,7 +283,7 @@ namespace NFe.WPF.UnitTests
             var nfce = new NFCeViewModel(dialogServiceMock.Object,
                 enviarNotaMock.Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.NotaFiscal = _notaFiscalFixture.NFCeModel;
             nfce.EnviarNotaCmd.Execute(new Mock<IClosable>().Object);
@@ -296,15 +306,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
             var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
@@ -337,15 +348,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
             var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
@@ -380,15 +392,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>() { new DestinatarioEntity() });
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("65");
             Assert.NotEmpty(nfce.Destinatarios);
@@ -409,15 +422,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>() { new DestinatarioEntity() });
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
             var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
@@ -449,15 +463,16 @@ namespace NFe.WPF.UnitTests
                 {
                     _notaFiscalFixture.ProdutoEntity
                 });
-
+            var certificadoRepositoryMock = new Mock<ICertificadoRepository>();
+            var emissorServiceMock = new Mock<IEmissorService>();
             var destinatarioServiceMock = new Mock<IDestinatarioService>();
             destinatarioServiceMock.Setup(m => m.GetAll())
                 .Returns(new List<DestinatarioEntity>());
             var destinatario = new DestinatarioViewModel(new Mock<IEstadoRepository>().Object, new Mock<IEmissorService>().Object, destinatarioServiceMock.Object, new Mock<IMunicipioRepository>().Object);
             var nfce = new NFCeViewModel(new Mock<IDialogService>().Object,
-                new Mock<IEnviarNota>().Object, new Mock<INaturezaOperacaoRepository>().Object,
+                new Mock<IEnviarNotaAppService>().Object, new Mock<INaturezaOperacaoRepository>().Object,
                 configuracaoServiceMock.Object, produtoServiceMock.Object,
-                destinatarioServiceMock.Object);
+                destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
             var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };

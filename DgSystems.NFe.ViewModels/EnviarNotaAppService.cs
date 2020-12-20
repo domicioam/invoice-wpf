@@ -33,39 +33,31 @@ using Produto = NFe.Core.NotasFiscais.Entities.Produto;
 
 namespace NFe.WPF.NotaFiscal.ViewModel
 {
-    public class EnviarNotaAppService : IEnviarNota
+    public class EnviarNotaAppService : IEnviarNotaAppService
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly IDialogService _dialogService;
         private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
         private readonly IConfiguracaoService _configuracaoService;
-        private readonly IEmissorService _emissorService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly SefazSettings _sefazSettings;
-        private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
-        private readonly ICertificadoRepository _certificadoRepository;
         private readonly XmlUtil _xmlUtil;
 
-        public EnviarNotaAppService(IDialogService dialogService, IEnviaNotaFiscalFacade enviaNotaFiscalService,
-            IConfiguracaoService configuracaoService, IEmissorService emissorService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IConfiguracaoRepository configuracaoRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, ICertificadoRepository certificadoRepository, XmlUtil xmlUtil)
+        public EnviarNotaAppService(IEnviaNotaFiscalFacade enviaNotaFiscalService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, 
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil)
         {
-            _dialogService = dialogService;
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoService = configuracaoService;
-            _emissorService = emissorService;
             _produtoRepository = produtoRepository;
             _sefazSettings = sefazSettings;
-            _configuracaoRepository = configuracaoRepository;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             _notaFiscalRepository = notaFiscalRepository;
-            _certificadoRepository = certificadoRepository;
             _xmlUtil = xmlUtil;
         }
 
-        public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo)
+        public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
         {
             notaFiscalModel.ValidateModel();
 
@@ -78,7 +70,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
             if (isNotaComPagamento && valorTotalProdutos != valorTotalPagamentos)
             {
-                await _dialogService.ShowError("Valor total da nota não corresponde ao valor de pagamento.",
+                await dialogService.ShowError("Valor total da nota não corresponde ao valor de pagamento.",
                     "Erro!", "Ok", null);
                 throw new ArgumentException("Valor total da nota não corresponde ao valor de pagamento.");
             }
@@ -91,26 +83,21 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                const TipoEmissao tipoEmissao = TipoEmissao.Normal;
                var destinatario = CreateDestinatario(notaFiscalModel, _sefazSettings.Ambiente, modelo);
                var documentoDanfe = destinatario != null ? destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario) : "CPF";
-               var emitente = _emissorService.GetEmissor();
-               var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
+               var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emissor.Endereco.UF);
 
-               var identificacao = CreateIdentificacaoNFe(notaFiscalModel, codigoUF, DateTime.Now, emitente, modelo,
+               var identificacao = CreateIdentificacaoNFe(notaFiscalModel, codigoUF, DateTime.Now, emissor, modelo,
                    Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, _sefazSettings.Ambiente, documentoDanfe);
-               var produtos = GetProdutos(notaFiscalModel, config);
+               var produtos = GetProdutos(notaFiscalModel);
                var pagamentos = GetPagamentos(notaFiscalModel);
                var totalNFe = GetTotalNFe(notaFiscalModel);
                var infoAdicional = new InfoAdicional(produtos);
                var transporte = GetTransporte(notaFiscalModel, modelo);
 
-               notaFiscal = new Core.NotasFiscais.NotaFiscal(emitente, destinatario, identificacao, transporte,
+               notaFiscal = new Core.NotasFiscais.NotaFiscal(emissor, destinatario, identificacao, transporte,
                    totalNFe, infoAdicional, produtos, pagamentos);
 
                var cscId = config.CscId;
                var csc = config.Csc;
-
-               var certificadoEntity = _certificadoRepository.GetCertificado();
-               X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType(certificadoEntity);
-
                var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
                XmlNFe xmlNFe = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
@@ -280,7 +267,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             return pagamentosNf;
         }
 
-        private List<Produto> GetProdutos(NotaFiscalModel notaFiscal, ConfiguracaoEntity config)
+        private List<Produto> GetProdutos(NotaFiscalModel notaFiscal)
         {
             var idsProdutosSelecionados = notaFiscal.Produtos.Select(p => p.ProdutoSelecionado.Id);
             var produtosTo = _produtoRepository.GetAll().Where(p => idsProdutosSelecionados.Contains(p.Id));

@@ -112,6 +112,11 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             return Salvar(notaFiscalEntity);
         }
 
+        public int Salvar(NotaFiscal notaFiscal, string xml)
+        {
+            throw new NotImplementedException();
+        }
+
         public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string v)
         {
             var NotaFiscalEntity = new NotaFiscalEntity();

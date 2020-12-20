@@ -46,8 +46,9 @@ namespace NFe.Core.Cadastro.Certificado
             return _context.Certificado.OrderByDescending(o => o.Id).FirstOrDefault();
         }
 
-        public X509Certificate2 PickCertificateBasedOnInstallationType(Core.Cadastro.Certificado.CertificadoEntity certificadoEntity)
+        public X509Certificate2 PickCertificateBasedOnInstallationType()
         {
+            var certificadoEntity = GetCertificado();
             X509Certificate2 certificado;
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
             {

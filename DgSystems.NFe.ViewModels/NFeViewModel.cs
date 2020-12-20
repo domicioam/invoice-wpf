@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using EmissorNFe.Model;
@@ -32,7 +33,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNota enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel)
+        public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoRepository certificadoRepository)
         {
             Pagamento = new PagamentoVO();
             Produto = new ProdutoVO();
@@ -53,6 +54,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _naturezaOperacaoRepository = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
             _destinatarioViewModel = destinatarioViewModel;
+            _certificadoRepository = certificadoRepository;
 
             AdicionarProdutoCmd = new RelayCommand<object>(AdicionarProdutoCmd_Execute, null);
             GerarPagtoCmd = new RelayCommand<object>(GerarPagtoCmd_Execute, null);
@@ -244,7 +246,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         public ICommand ExcluirTransportadoraCmd { get; set; }
         #endregion Commands
 
-        private IEnviarNota _enviarNotaController;
+        private IEnviarNotaAppService _enviarNotaController;
         private IDialogService _dialogService;
         private IEstadoRepository _estadoRepository;
         private IProdutoRepository _produtoRepository;
@@ -255,7 +257,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private IConfiguracaoService _configuracaoService;
         private DestinatarioViewModel _destinatarioViewModel;
-
+        private ICertificadoRepository _certificadoRepository;
 
         private void SalvarTransportadoraCmd_Execute(IClosable closable)
         {
@@ -477,7 +479,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
             try
             {
-               var notaFiscal = await _enviarNotaController.EnviarNota(NotaFiscal, _modelo);
+                X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
+                var emissor = _emissorService.GetEmissor();
+                var notaFiscal = await _enviarNotaController.EnviarNota(NotaFiscal, _modelo, emissor, certificado, _dialogService);
                 IsBusy = false;
                 bool result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
                 if (result)

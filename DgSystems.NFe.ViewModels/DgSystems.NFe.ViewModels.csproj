@@ -113,7 +113,7 @@
     <Compile Include="Events\NotaFiscalPendenteReenviadaEvent.cs" />
     <Compile Include="Events\NotasTransmitidasEvent.cs" />
     <Compile Include="Events\ProdutoAdicionadoEvent.cs" />
-    <Compile Include="IEnviarNota.cs" />
+    <Compile Include="IEnviarNotaAppService.cs" />
     <Compile Include="ImportarXMLFornecedorViewModel.cs" />
     <Compile Include="ImportarXMLViewModel.cs" />
     <Compile Include="ImpostoMainViewModel.cs" />

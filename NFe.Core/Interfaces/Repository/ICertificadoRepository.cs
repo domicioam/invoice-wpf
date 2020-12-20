@@ -8,6 +8,6 @@ namespace NFe.Core.Interfaces
         int Salvar(CertificadoEntity certificado);
         void Excluir(CertificadoEntity certificado);
         CertificadoEntity GetCertificado();
-        X509Certificate2 PickCertificateBasedOnInstallationType(CertificadoEntity certificadoEntity);
+        X509Certificate2 PickCertificateBasedOnInstallationType();
     }
 }
