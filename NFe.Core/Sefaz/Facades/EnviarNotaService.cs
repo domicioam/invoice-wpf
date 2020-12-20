@@ -28,14 +28,12 @@ namespace NFe.Core.NotasFiscais.Services
         
         private readonly INFeConsulta _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
-        private readonly RijndaelManagedEncryption _encryptor;
 
-        public EnviarNotaFiscalService(IConfiguracaoService configuracaoService, IServiceFactory serviceFactory, INFeConsulta nfeConsulta, RijndaelManagedEncryption encryptor)
+        public EnviarNotaFiscalService(IConfiguracaoService configuracaoService, IServiceFactory serviceFactory, INFeConsulta nfeConsulta)
         {
             _configuracaoService = configuracaoService;
             _serviceFactory = serviceFactory;
             _nfeConsulta = nfeConsulta;
-            _encryptor = encryptor;
         }
 
         public ResultadoEnvio EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado, XmlNFe xmlNFe)
