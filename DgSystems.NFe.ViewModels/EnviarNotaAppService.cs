@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Views;
-using NFe.Core;
 using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
@@ -20,9 +17,7 @@ using NFe.Core.NotasFiscais.Services;
 using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
-using NFe.Core.Utils;
 using NFe.Core.Utils.Acentuacao;
-using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.PDF;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
@@ -131,7 +126,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                         throw;
 
                     var message = GetExceptionMessage(e);
-
                     PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
 
                     notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName, xmlNFe);
@@ -174,7 +168,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
             string documento, nomeRazao, inscricaoEstadual = null;
             DestinatarioModel destinatarioSelecionado = null;
-            Core.NotasFiscais.Endereco endereco = null;
+            Endereco endereco = null;
 
             if (notaFiscal.DestinatarioSelecionado.Documento != null)
             {

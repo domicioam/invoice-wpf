@@ -77,11 +77,11 @@ namespace NFe.Core.Sefaz.Facades
             _encryptor = encryptor;
         }
 
-        public NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName, XmlNFe xmlNFe)
+        public NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
         {
             notaFiscal = SetContingenciaFields(config, notaFiscal);
             var xmlNFeContingencia = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
-            notaFiscal.QrCodeUrl = xmlNFe.QrCode.ToString();
+            notaFiscal.QrCodeUrl = xmlNFeContingencia.QrCode.ToString();
 
             _notaFiscalRepository.Salvar(notaFiscal, xmlNFeContingencia.XmlNode.OuterXml);
             return notaFiscal;
