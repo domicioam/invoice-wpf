@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
 using System.Xml;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Entitities;
-using NFe.Core.Events;
-using NFe.Core.Interfaces;
-using NFe.Core.Messaging;
-using NFe.Core.NFeAutorizacao4;
-using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.NotasFiscais.ValueObjects;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Security.Cryptography.X509Certificates;
+
 using NFe.Core.Sefaz;
-using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
-using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Xml;
-using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
+using NFe.Core.Entitities;
+using NFe.Core.Sefaz.Facades;
+using NFe.Core.NFeAutorizacao4;
+using NFe.Core.Utils.Assinatura;
+using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.NotasFiscais.ValueObjects;
+using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
