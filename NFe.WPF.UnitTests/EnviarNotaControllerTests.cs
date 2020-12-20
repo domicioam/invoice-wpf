@@ -204,7 +204,7 @@ namespace NFe.WPF.UnitTests
             // Assert
             notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
             configuracaoServiceMock.Verify(m => m.SalvarPróximoNúmeroSérie(It.IsAny<Modelo>(), It.IsAny<Ambiente>()), Times.Once);
-            notaFiscalContigenciaServiceMock.Verify(m => m.SaveNotaFiscalContingencia(It.IsAny<X509Certificate2>(), It.IsAny<ConfiguracaoEntity>(), It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<XmlNFe>()), Times.Once);
+            notaFiscalContigenciaServiceMock.Verify(m => m.SaveNotaFiscalContingencia(It.IsAny<X509Certificate2>(), It.IsAny<ConfiguracaoEntity>(), It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
         [Fact]

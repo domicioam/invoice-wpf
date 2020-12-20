@@ -17,7 +17,7 @@
             ValorTotalIpi = valorTotalIpi;
             ValorTotalPis = valorTotalPis;
             ValorTotalCofins = valorTotalCofins;
-            ValorDespesasAcessorias = valorDespesasAcessorias;
+            TotalOutros = valorDespesasAcessorias;
             ValorTotalNFe = valorTotalNFe;
             ValorTotalAproximadoTributos = valorTotalAproximadoTributos;
         }
@@ -39,7 +39,7 @@
         public double ValorTotalIpi { get; set; }
         public double ValorTotalPis { get; set; }
         public double ValorTotalCofins { get; set; }
-        public double ValorDespesasAcessorias { get; set; }
+        public double TotalOutros { get; set; }
         public double ValorTotalNFe { get; set; }
         public double ValorTotalAproximadoTributos { get; set; }
         public double TotalFundoCombatePobreza { get; internal set; }

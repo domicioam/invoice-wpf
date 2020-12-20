@@ -90,7 +90,7 @@ namespace NFe.Core.NotasFiscais.Services
                         notaFiscalEntity.Serie = notaFiscal.Identificacao.Serie.ToString();
                         notaFiscalEntity.TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString();
                         notaFiscalEntity.ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto;
-                        notaFiscalEntity.ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.ValorDespesasAcessorias;
+                        notaFiscalEntity.ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros;
                         notaFiscalEntity.ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete;
                         notaFiscalEntity.ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms;
                         notaFiscalEntity.ValorProdutos = notaFiscal.ValorTotalProdutos;

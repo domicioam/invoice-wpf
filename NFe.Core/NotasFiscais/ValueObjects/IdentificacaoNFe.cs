@@ -11,6 +11,10 @@ namespace NFe.Core.NotasFiscais
 
         private string _numero;
 
+        internal IdentificacaoNFe()
+        {
+        }
+
         public IdentificacaoNFe(CodigoUfIbge uf, DateTime dataHoraEmissao, string cnpjEmissor, Modelo modelo, int serie,
             string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, Emissor emitente,
             string naturezaOperacao,

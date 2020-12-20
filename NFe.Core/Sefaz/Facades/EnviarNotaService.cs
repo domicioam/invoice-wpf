@@ -47,7 +47,7 @@ namespace NFe.Core.NotasFiscais.Services
             {
                 var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), notaFiscal.Emitente.Endereco.UF);
                 NFeAutorizacao4Soap client = CriarClientWS(notaFiscal, certificado, codigoUf);
-                TProtNFe protocolo = RetornarProtocoloParaLoteSomenteComUmaNotaFiscal(xmlNFe.XmlNode, client);
+                TProtNFe protocolo = InvocaServico_E_RetornaProtocolo(xmlNFe.XmlNode, client);
 
                 if (IsSuccess(protocolo))
                 {
@@ -117,9 +117,7 @@ namespace NFe.Core.NotasFiscais.Services
             return protocolo.infProt.cStat.Equals("100");
         }
 
-
-
-        private static TProtNFe RetornarProtocoloParaLoteSomenteComUmaNotaFiscal(XmlNode node, NFeAutorizacao4Soap client)
+        private static TProtNFe InvocaServico_E_RetornaProtocolo(XmlNode node, NFeAutorizacao4Soap client)
         {
             var inValue = new nfeAutorizacaoLoteRequest { nfeDadosMsg = node };
 
@@ -135,8 +133,6 @@ namespace NFe.Core.NotasFiscais.Services
             var client = (NFeAutorizacao4Soap)servico.SoapClient;
             return client;
         }
-
-
 
         private static NotaFiscal AtribuirValoresApósEnvioComSucesso(NotaFiscal notaFiscal, QrCode qrCode, TProtNFe protocolo)
         {

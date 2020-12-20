@@ -685,7 +685,7 @@ namespace NFe.Core.Utils.PDF
                     {
                         BaseCalculo = calculoImposto.BaseCalculo,
                         BaseCalculoST = calculoImposto.BaseCalculoST,
-                        ValorDespesasAcessorias = calculoImposto.ValorDespesasAcessorias,
+                        ValorDespesasAcessorias = calculoImposto.TotalOutros,
                         ValorTotalAproximado = calculoImposto.ValorTotalAproximadoTributos,
                         ValorTotalCofins = calculoImposto.ValorTotalCofins,
                         ValorTotalDesconto = calculoImposto.ValorTotalDesconto,

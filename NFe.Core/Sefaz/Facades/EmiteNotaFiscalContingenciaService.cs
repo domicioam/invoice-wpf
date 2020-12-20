@@ -33,7 +33,7 @@ namespace NFe.Core.Sefaz.Facades
 {
     public interface IEmiteNotaFiscalContingenciaFacade
     {
-        NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName, XmlNFe xmlNFe);
+        NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName);
         Task<List<string>> TransmitirNotasFiscalEmContingencia();
         void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar, INotaFiscalRepository notaFiscalRepository);
     }

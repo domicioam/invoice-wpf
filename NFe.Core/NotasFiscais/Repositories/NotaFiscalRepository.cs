@@ -203,7 +203,7 @@ namespace NFe.Repository.Repositories
                 Serie = notaFiscal.Identificacao.Serie.ToString(),
                 TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString(),
                 ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto,
-                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.ValorDespesasAcessorias,
+                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros,
                 ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete,
                 ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms,
                 ValorProdutos = notaFiscal.ValorTotalProdutos,
@@ -253,7 +253,7 @@ namespace NFe.Repository.Repositories
                 Serie = notaFiscal.Identificacao.Serie.ToString(),
                 TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString(),
                 ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto,
-                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.ValorDespesasAcessorias,
+                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros,
                 ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete,
                 ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms,
                 ValorProdutos = notaFiscal.ValorTotalProdutos,
@@ -532,7 +532,7 @@ namespace NFe.Repository.Repositories
             icmsTotal.ValorTotalIpi = double.Parse(infNfeTotal.vIPI, CultureInfo.InvariantCulture);
             icmsTotal.ValorTotalPis = double.Parse(infNfeTotal.vPIS, CultureInfo.InvariantCulture);
             icmsTotal.ValorTotalCofins = double.Parse(infNfeTotal.vCOFINS, CultureInfo.InvariantCulture);
-            icmsTotal.ValorDespesasAcessorias = double.Parse(infNfeTotal.vOutro, CultureInfo.InvariantCulture);
+            icmsTotal.TotalOutros = double.Parse(infNfeTotal.vOutro, CultureInfo.InvariantCulture);
             icmsTotal.ValorTotalNFe = double.Parse(infNfeTotal.vNF, CultureInfo.InvariantCulture);
 
             return totalNFe;

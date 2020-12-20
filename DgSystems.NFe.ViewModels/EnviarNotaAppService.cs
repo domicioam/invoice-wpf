@@ -101,7 +101,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                 {
                     if (config.IsContingencia)
                     {
-                        notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName, xmlNFe);
+                        notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
                     }
                     else
                     {
@@ -128,7 +128,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     var message = GetExceptionMessage(e);
                     PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
 
-                    notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName, xmlNFe);
+                    notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
                 }
                 catch (Exception e)
                 {
