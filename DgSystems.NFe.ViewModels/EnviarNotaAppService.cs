@@ -151,6 +151,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                }
                catch (Exception e)
                {
+                   log.Error(e);
+
                    _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
                    notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
                    _notaFiscalRepository.Salvar(notaFiscal, xmlNFe.XmlNode.OuterXml);
