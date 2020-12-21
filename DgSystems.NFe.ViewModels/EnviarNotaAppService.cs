@@ -59,7 +59,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             if (notaFiscalModel.HasErrors)
                 throw new NotaFiscalModelHasErrorsException("Nota fiscal contém erros de validação não resolvidos.");
 
-            double valorTotalProdutos = notaFiscalModel.Produtos.Sum(c => c.QtdeProduto * c.ValorUnitario);
+            double valorTotalProdutos = notaFiscalModel.Produtos.Sum(c => c.QtdeProduto * c.ValorUnitario - c.Descontos + c.Outros + c.Frete + c.Seguro);
             double valorTotalPagamentos = notaFiscalModel.Pagamentos.Sum(p => p.QtdeParcelas * p.ValorParcela);
             bool isNotaComPagamento = notaFiscalModel.Pagamentos[0].FormaPagamento != "Sem Pagamento";
 
