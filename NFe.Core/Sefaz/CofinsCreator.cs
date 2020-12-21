@@ -23,9 +23,9 @@ namespace NFe.Core.Sefaz
                 cofinsDetAliq = new TNFeInfNFeDetImpostoCOFINSCOFINSAliq()
                 {
                     CST = cofinsCumulativo.Cst,
-                    pCOFINS = cofinsCumulativo.Aliquota.ToPositiveDecimalAsStringOrNull(),
-                    vBC = cofinsCumulativo.BaseCalculo.ToPositiveDecimalAsStringOrNull(),
-                    vCOFINS = cofinsCumulativo.Valor.ToPositiveDecimalAsStringOrNull()
+                    pCOFINS = cofinsCumulativo.Aliquota.ToString(),
+                    vBC = cofinsCumulativo.BaseCalculo.ToString(),
+                    vCOFINS = cofinsCumulativo.Valor.ToString()
                 };
             }
             else if (cofinsAliq.Cst == CofinsBase.CstEnum.CST02)
@@ -34,9 +34,9 @@ namespace NFe.Core.Sefaz
                 cofinsDetAliq = new TNFeInfNFeDetImpostoCOFINSCOFINSAliq()
                 {
                     CST = cofinsAliquotaDiferenciada.Cst,
-                    pCOFINS = cofinsAliquotaDiferenciada.Aliquota.ToPositiveDecimalAsStringOrNull(),
-                    vBC = cofinsAliquotaDiferenciada.BaseCalculo.ToPositiveDecimalAsStringOrNull(),
-                    vCOFINS = cofinsAliquotaDiferenciada.Valor.ToPositiveDecimalAsStringOrNull()
+                    pCOFINS = cofinsAliquotaDiferenciada.Aliquota.ToString(),
+                    vBC = cofinsAliquotaDiferenciada.BaseCalculo.ToString(),
+                    vCOFINS = cofinsAliquotaDiferenciada.Valor.ToString()
                 };
             }
             else

@@ -114,7 +114,7 @@ namespace NFe.Core.Sefaz
         {
             var total = new TNFeInfNFeTotal
             {
-                ICMSTot = notaFiscal.TotalNFe.IcmsTotal == null ? null : ConvertIcmsTotal(notaFiscal), 
+                ICMSTot = notaFiscal.TotalNFe.IcmsTotal == null ? null : ConvertIcmsTotal(notaFiscal),
                 ISSQNtot = ConvertIssqn(notaFiscal),
                 retTrib = ConvertTributosFederais(notaFiscal)
             };
@@ -215,7 +215,14 @@ namespace NFe.Core.Sefaz
             var valorTotalII = impostosII.Sum(i => (double)((II)i).Valor);
             var valorTotalIPI = impostosIpi.Sum(i => (double)((Ipi)i).Valor);
             var valorTotalDesconto = produtos.Sum(p => p.ValorDesconto);
-            var valorTotalIcmsDesonerado = icmsDesonerados.Sum(i => (double)((IcmsDesonerado)i).Desoneracao.ValorDesonerado);
+            var valorTotalIcmsDesonerado = icmsDesonerados.Sum(i =>
+            {
+                var icmsDesonerado = ((IcmsDesonerado)i);
+                if (icmsDesonerado.Desoneracao != null)
+                    return (double)icmsDesonerado.Desoneracao.ValorDesonerado;
+
+                return 0;
+            });
             var valorTotalProdutos = produtos.Sum(p => p.ValorTotal);
             var valorTotalBaseCalculoIcms = impostosIcms.Sum(i => (double)((Icms)i).BaseCalculo);
             var valorTotalIcms = impostosIcms.Sum(i => (double)((Icms)i).Valor);

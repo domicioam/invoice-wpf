@@ -137,7 +137,8 @@ namespace NFe.Core.NotasFiscais.Services
         private static NotaFiscal AtribuirValoresApósEnvioComSucesso(NotaFiscal notaFiscal, QrCode qrCode, TProtNFe protocolo)
         {
             var dataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto, DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
-            notaFiscal.QrCodeUrl = qrCode.ToString();
+            if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
+                notaFiscal.QrCodeUrl = qrCode.ToString();
             notaFiscal.Identificacao.Status = new StatusEnvio(Status.ENVIADA);
             notaFiscal.DhAutorizacao = dataAutorizacao.ToString("dd/MM/yyyy HH:mm:ss");
             notaFiscal.DataHoraAutorização = dataAutorizacao;
