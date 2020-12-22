@@ -114,7 +114,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
                     MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
                 }
-                catch (WebException e) // test scenario without connection
+                catch (WebException e)
                 {
                     log.Error(e);
 
@@ -137,6 +137,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
                     notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
                     _notaFiscalRepository.Salvar(notaFiscal, xmlNFe.XmlNode.OuterXml);
+                    throw;
                 }
             });
 
