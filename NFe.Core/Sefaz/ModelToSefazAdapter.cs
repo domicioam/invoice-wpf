@@ -1,19 +1,23 @@
-﻿using System;
-using System.Globalization;
-using System.Collections.Generic;
-
+﻿using NFe.Core.Extensions;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotasFiscais.Impostos.Icms;
+using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using ItemChoiceType3 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemChoiceType3;
+using ItemChoiceType6 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemChoiceType6;
+using ItemsChoiceType5 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemsChoiceType5;
 using TAmb = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TAmb;
 using TEndereco = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEndereco;
 using TEnderEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmi;
 using TEnderEmiCPais = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmiCPais;
 using TEnderEmiXPais = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TEnderEmiXPais;
-using ItemChoiceType3 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemChoiceType3;
-using ItemChoiceType6 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemChoiceType6;
-using ItemsChoiceType5 = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.ItemsChoiceType5;
 using TFinNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TFinNFe;
 using TMod = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TMod;
 using TNFeInfNFeDest = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeDest;
@@ -43,11 +47,6 @@ using TNFeInfNFeTranspModFrete = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeIn
 using TNFeInfNFeTranspTransporta = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFeInfNFeTranspTransporta;
 using TProcEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TProcEmi;
 using TVeiculo = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TVeiculo;
-using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
-using NFe.Core.Extensions;
-using NFe.Core.NotasFiscais.ValueObjects;
-using System.Linq;
-using NFe.Core.NotasFiscais.Impostos.Icms;
 
 namespace NFe.Core.Sefaz
 {
@@ -195,9 +194,9 @@ namespace NFe.Core.Sefaz
             };
         }
 
-        private static IcmsTotal CalculateIcmsTotal(List<Produto> produtos)
+        private static IcmsTotal CalculateIcmsTotal(IReadOnlyCollection<Produto> produtos)
         {
-            IEnumerable<NotasFiscais.Imposto> impostos = produtos.SelectMany(p => p.Impostos);
+            var impostos = produtos.SelectMany(p => p.Impostos);
             var impostosIcms = impostos.Where(i => i is Icms);
             var icmsDesonerados = impostos.Where(i => i is IcmsDesonerado);
             var icmsRetidoAnteriormente = impostos.Where(i => i is IcmsSubstituicaoTributariaRetidoAnteiormente);
@@ -231,16 +230,16 @@ namespace NFe.Core.Sefaz
             var valorTotalFCP = impostosIcms.Where(i => i is HasFundoCombatePobreza).Sum(i => (double)((HasFundoCombatePobreza)i).FundoCombatePobreza.Valor);
             var valorTotalPis = impostosPis.Sum(i => (double)((Pis)i).Valor);
             var valorTotalCofins = impostosCofins.Sum(i => (double)((CofinsBase)i).Valor);
-            double totalNFe = (valorTotalProdutos
-                    + valorTotalST
-                    + valorTotalFCPST
-                    + valorTotalFrete
-                    + valorTotalSeguro
-                    + valorTotalOutros
-                    + valorTotalII
-                    + valorTotalIPI
-                    - valorTotalDesconto
-                    - valorTotalIcmsDesonerado);
+            var totalNFe = (valorTotalProdutos
+                            + valorTotalST
+                            + valorTotalFCPST
+                            + valorTotalFrete
+                            + valorTotalSeguro
+                            + valorTotalOutros
+                            + valorTotalII
+                            + valorTotalIPI
+                            - valorTotalDesconto
+                            - valorTotalIcmsDesonerado);
 
             var icmsTotal = new IcmsTotal()
             {
@@ -319,23 +318,7 @@ namespace NFe.Core.Sefaz
 
         private static TNFeInfNFePag GetPagamento(NotaFiscal notaFiscal)
         {
-            if (notaFiscal.Pagamentos == null)
-                return null;
-
-            var listaPagamentos = new List<TNFeInfNFePagDetPag>();
-
-            foreach (var pagamento in notaFiscal.Pagamentos)
-            {
-                var newPag = new TNFeInfNFePagDetPag
-                {
-                    vPag = pagamento.Valor.AsNumberFormattedString(),
-                    tPag = (TNFeInfNFePagDetPagTPag)(int)pagamento.FormaPagamento
-                };
-
-                listaPagamentos.Add(newPag);
-            }
-
-            return new TNFeInfNFePag { detPag = listaPagamentos.ToArray() };
+            return notaFiscal.Pagamentos == null ? null : new TNFeInfNFePag { detPag = notaFiscal.Pagamentos.Select(pagamento => new TNFeInfNFePagDetPag { vPag = pagamento.Valor.AsNumberFormattedString(), tPag = (TNFeInfNFePagDetPagTPag)(int)pagamento.FormaPagamento }).ToArray() };
         }
 
         private static TNFeInfNFeIde GetIdentificacao(NotaFiscal notaFiscal)
@@ -363,11 +346,10 @@ namespace NFe.Core.Sefaz
                 cDV = notaFiscal.Identificacao.Chave.DigitoVerificador.ToString()
             };
 
-            if (IsContingency(notaFiscal))
-            {
-                ide.dhCont = notaFiscal.Identificacao.DataHoraEntradaContigencia.ToString("yyyy-MM-ddTHH:mm:sszzz");
-                ide.xJust = notaFiscal.Identificacao.JustificativaContigencia;
-            }
+            if (!IsContingency(notaFiscal)) return ide;
+
+            ide.dhCont = notaFiscal.Identificacao.DataHoraEntradaContigencia.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            ide.xJust = notaFiscal.Identificacao.JustificativaContigencia;
 
             return ide;
         }
@@ -528,7 +510,7 @@ namespace NFe.Core.Sefaz
         {
             var directorFactory = new ImpostoCreatorFactory();
             var impostoFactory = new NfeDetImpostoFactory(directorFactory);
-            TNFeInfNFeDetImposto nfeDetImposto = impostoFactory.CreateNfeDetImposto(produto.Impostos);
+            var nfeDetImposto = impostoFactory.CreateNfeDetImposto(produto.Impostos);
 
             return nfeDetImposto;
         }
