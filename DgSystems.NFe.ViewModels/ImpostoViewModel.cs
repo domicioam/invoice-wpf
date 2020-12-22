@@ -88,6 +88,7 @@ namespace NFe.WPF.ViewModel
         public ICommand CancelarCmd { set; get; }
         public ICommand ImpostoSelecionadoCmd { set; get; }
         public ICommand AdiciionarImpostoCmd { set; get; }
+        public ICommand RemoverImpostoCmd { set; get; }
 
         public ImpostoViewModel(IGrupoImpostosRepository grupoImpostosRepository)
         {
@@ -95,6 +96,7 @@ namespace NFe.WPF.ViewModel
             CancelarCmd = new RelayCommand<object>(CancelarCmd_Execute, null);
             ImpostoSelecionadoCmd = new RelayCommand(ImpostoSelecionadoCmd_Execute, null);
             AdiciionarImpostoCmd = new RelayCommand(AdiciionarImpostoCmd_Execute, null);
+            RemoverImpostoCmd = new RelayCommand<Imposto>(RemoverImpostoCmd_Execute, null);
 
             ICMS = new ICMS();
             ICMSST = new ICMSST();
@@ -105,6 +107,11 @@ namespace NFe.WPF.ViewModel
             Imposto = new Imposto();
             Impostos = new ObservableCollection<Imposto>();
             _grupoImpostosRepository = grupoImpostosRepository;
+        }
+
+        private void RemoverImpostoCmd_Execute(Imposto imposto)
+        {
+            Impostos.Remove(imposto);
         }
 
         private void AdiciionarImpostoCmd_Execute()

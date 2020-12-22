@@ -12,62 +12,70 @@ namespace NFe.Repository.Repositories
 {
     public class GrupoImpostosRepository : IGrupoImpostosRepository
     {
-        private NFeContext _context;
-
-        public GrupoImpostosRepository()
-        {
-            _context = new NFeContext();
-        }
-
         public int Salvar(GrupoImpostos grupoImpostos)
         {
-            var grupoImpostosExistente = _context.GrupoImpostos.Where(g => g.Id == grupoImpostos.Id).FirstOrDefault();
-            if (grupoImpostos.Id == 0)
+            using (var context = new NFeContext())
             {
-                _context.Entry(grupoImpostos).State = EntityState.Added;
-            }
-            else
-            {
-                _context.Entry(grupoImpostosExistente).CurrentValues.SetValues(grupoImpostos);
-
-                // add new items
-
-                ImpostoIdComparer comparer = new ImpostoIdComparer();
-                var impostosParaAdicionar = grupoImpostos.Impostos.Except(grupoImpostosExistente.Impostos, comparer).ToList();
-
-                foreach (var imposto in impostosParaAdicionar)
+                var grupoImpostosExistente = context.GrupoImpostos.Where(g => g.Id == grupoImpostos.Id).FirstOrDefault();
+                if (grupoImpostos.Id == 0)
                 {
-                    grupoImpostosExistente.Impostos.Add(imposto);
+                    context.Entry(grupoImpostos).State = EntityState.Added;
+                }
+                else
+                {
+                    context.Entry(grupoImpostosExistente).CurrentValues.SetValues(grupoImpostos);
+
+                    // add new items
+
+                    ImpostoIdComparer comparer = new ImpostoIdComparer();
+                    var impostosParaAdicionar = grupoImpostos.Impostos.Except(grupoImpostosExistente.Impostos, comparer)
+                        .ToList();
+
+                    foreach (var imposto in impostosParaAdicionar)
+                    {
+                        grupoImpostosExistente.Impostos.Add(imposto);
+                    }
+
+                    // remove items
+
+                    var impostosParaRemover = grupoImpostosExistente.Impostos.Except(grupoImpostos.Impostos, comparer)
+                        .ToList();
+
+                    foreach (var imposto in impostosParaRemover)
+                    {
+                        context.Entry(imposto).State = EntityState.Deleted;
+                    }
                 }
 
-                // remove items
+                context.SaveChanges();
 
-                var impostosParaRemover = grupoImpostosExistente.Impostos.Except(grupoImpostos.Impostos, comparer).ToList();
-
-                foreach (var imposto in impostosParaRemover)
-                {
-                    _context.Entry(imposto).State = EntityState.Deleted;
-                }
+                return grupoImpostos.Id;
             }
-            _context.SaveChanges();
-
-            return grupoImpostos.Id;
         }
 
         public void Excluir(GrupoImpostos grupoImpostos)
         {
-            _context.GrupoImpostos.Remove(grupoImpostos);
-            _context.SaveChanges();
+            using (var context = new NFeContext())
+            {
+                context.GrupoImpostos.Remove(grupoImpostos);
+                context.SaveChanges();
+            }
         }
 
         public List<GrupoImpostos> GetAll()
         {
-            return _context.GrupoImpostos.ToList();
+            using (var context = new NFeContext())
+            {
+                return context.GrupoImpostos.Include(g => g.Impostos).ToList();
+            }
         }
 
         public GrupoImpostos GetById(int id)
         {
-            return _context.GrupoImpostos.Where(i => i.Id == id).FirstOrDefault();
+            using (var context = new NFeContext())
+            {
+                return context.GrupoImpostos.Include(g => g.Impostos).Where(i => i.Id == id).FirstOrDefault();
+            }
         }
     }
 }
