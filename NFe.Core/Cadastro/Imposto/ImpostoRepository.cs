@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NFe.Core;
-using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Interfaces;
 
-namespace NFe.Repository.Repositories
+namespace NFe.Core.Cadastro.Imposto
 {
     public class GrupoImpostosRepository : IGrupoImpostosRepository
     {
@@ -16,7 +11,7 @@ namespace NFe.Repository.Repositories
         {
             using (var context = new NFeContext())
             {
-                var grupoImpostosExistente = context.GrupoImpostos.Where(g => g.Id == grupoImpostos.Id).FirstOrDefault();
+                var grupoImpostosExistente = context.GrupoImpostos.FirstOrDefault(g => g.Id == grupoImpostos.Id);
                 if (grupoImpostos.Id == 0)
                 {
                     context.Entry(grupoImpostos).State = EntityState.Added;
@@ -27,7 +22,7 @@ namespace NFe.Repository.Repositories
 
                     // add new items
 
-                    ImpostoIdComparer comparer = new ImpostoIdComparer();
+                    var comparer = new ImpostoIdComparer();
                     var impostosParaAdicionar = grupoImpostos.Impostos.Except(grupoImpostosExistente.Impostos, comparer)
                         .ToList();
 
@@ -74,7 +69,7 @@ namespace NFe.Repository.Repositories
         {
             using (var context = new NFeContext())
             {
-                return context.GrupoImpostos.Include(g => g.Impostos).Where(i => i.Id == id).FirstOrDefault();
+                return context.GrupoImpostos.Include(g => g.Impostos).FirstOrDefault(i => i.Id == id);
             }
         }
     }
