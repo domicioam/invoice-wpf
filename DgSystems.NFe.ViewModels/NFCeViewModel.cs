@@ -197,7 +197,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             {
                 X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
                 var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaController.EnviarNota(NotaFiscal, _modelo, emissor,certificado, _dialogService);
+                var notaFiscal = await _enviarNotaController.EnviarNotaAsync(NotaFiscal, _modelo, emissor,certificado, _dialogService);
                 IsBusy = false;
                 var result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
                 if (result)

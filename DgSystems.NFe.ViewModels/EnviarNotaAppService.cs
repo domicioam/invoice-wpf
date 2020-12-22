@@ -52,7 +52,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _xmlUtil = xmlUtil;
         }
 
-        public async Task<Core.NotasFiscais.NotaFiscal> EnviarNota(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
+        public async Task<Core.NotasFiscais.NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
         {
             notaFiscalModel.ValidateModel();
 
