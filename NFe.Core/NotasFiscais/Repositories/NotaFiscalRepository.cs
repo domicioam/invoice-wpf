@@ -5,33 +5,24 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using NFe.Core;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
 using NFe.Core.Interfaces;
-using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
-using NFe.Core.NotasFiscais.Repositories;
 using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Xml;
-using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
-using Imposto = NFe.Core.NotasFiscais.Entities.Imposto;
 using Retorno = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
+using TUf = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TUf;
+using TUfEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TUfEmi;
 
-namespace NFe.Repository.Repositories
+namespace NFe.Core.NotasFiscais.Repositories
 {
     public class NotaFiscalRepository : INotaFiscalRepository
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IConfiguracaoRepository _configuracaoRepository;
-
-        public NotaFiscalRepository(IConfiguracaoRepository configuracaoRepository)
-        {
-            _configuracaoRepository = configuracaoRepository;
-        }
 
         public void ExcluirNota(string chave)
         {
@@ -53,10 +44,7 @@ namespace NFe.Repository.Repositories
         {
             using (var context = new NFeContext())
             {
-                if (notafiscal.Id == 0)
-                    context.Entry(notafiscal).State = EntityState.Added;
-                else
-                    context.Entry(notafiscal).State = EntityState.Modified;
+                context.Entry(notafiscal).State = notafiscal.Id == 0 ? EntityState.Added : EntityState.Modified;
 
                 context.SaveChanges();
                 return notafiscal.Id;
@@ -69,9 +57,7 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
 
-                if (config == null) return null;
-
-                return context.NotaFiscal.ToList();
+                return config == null ? null : context.NotaFiscal.ToList();
             }
         }
 
@@ -81,9 +67,7 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
 
-                if (config == null) return null;
-
-                return context.NotaFiscal.Take(quantity).ToList();
+                return config == null ? null : context.NotaFiscal.Take(quantity).ToList();
             }
         }
 
@@ -175,13 +159,13 @@ namespace NFe.Repository.Repositories
             {
                 var config = context.Configuracao.FirstOrDefault();
 
-                if (config == null) return null;
-
-                return context.NotaFiscal
-                    .OrderByDescending(n => n.Id)
-                                .Skip(skip)
-                                .Take(pageSize)
-                                .ToList();
+                return config == null
+                    ? null
+                    : context.NotaFiscal
+                        .OrderByDescending(n => n.Id)
+                        .Skip(skip)
+                        .Take(pageSize)
+                        .ToList();
             }
         }
 
@@ -291,21 +275,9 @@ namespace NFe.Repository.Repositories
         public List<NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial,
             DateTime periodoFinal, bool isLoadXmlData)
         {
-            var notas = new List<NotaFiscal>();
-
             var notasDb = GetNotasFiscaisPorPeriodo(periodoInicial, periodoFinal);
 
-            foreach (var notaDb in notasDb)
-            {
-                var notaTo = notaDb;
-
-                var xml = notaTo.LoadXml();
-                var notaFiscal = GetNotaFiscalFromNfeProcXml(xml);
-
-                notas.Add(notaFiscal);
-            }
-
-            return notas;
+            return notasDb.Select(notaTo => notaTo.LoadXml()).Select(xml => GetNotaFiscalFromNfeProcXml(xml)).ToList();
         }
 
         public IEnumerable<NotaFiscalEntity> GetNotasFiscaisPorPeriodo(DateTime periodoInicial, DateTime periodoFinal)
@@ -553,7 +525,7 @@ namespace NFe.Repository.Repositories
             {
                 var icmsDet = (Retorno.TNFeInfNFeDetImpostoICMS)det.imposto.Items[0];
 
-                var icms = new Imposto { TipoImposto = TipoImposto.Icms, Aliquota = 0 };
+                var icms = new Entities.Imposto { TipoImposto = TipoImposto.Icms, Aliquota = 0 };
 
                 var icms60 = icmsDet.Item as Retorno.TNFeInfNFeDetImpostoICMSICMS60;
                 icms.Origem = icms60.orig.ToOrigem();
@@ -561,20 +533,16 @@ namespace NFe.Repository.Repositories
                 {
                     icms.CST = TabelaIcmsCst.IcmsCobradoAnteriormentePorST;
                 }
-                else if (icmsDet.Item is Retorno.TNFeInfNFeDetImpostoICMSICMS40)
-                {
-                    icms.CST = TabelaIcmsCst.Isenta;
-                }
 
                 var pisNt = (Retorno.TNFeInfNFeDetImpostoPISPISNT)det.imposto.PIS.Item;
-                var pis = new Imposto
+                var pis = new Entities.Imposto
                 {
                     TipoImposto = TipoImposto.PIS,
                     Aliquota = 0,
                     CST = pisNt.CST.ToString().Replace("Item", string.Empty)
                 };
 
-                var impostos = new Impostos(new List<Imposto> { icms, pis});
+                var impostos = new Entities.Impostos(new List<Entities.Imposto> { icms, pis});
 
                 double.TryParse(det.prod.vSeg, NumberStyles.Float, CultureInfo.InvariantCulture, out double seguro);
                 double.TryParse(det.prod.vOutro, NumberStyles.Float, CultureInfo.InvariantCulture, out double outros);

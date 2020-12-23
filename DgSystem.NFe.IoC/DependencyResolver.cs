@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Cadastro.Imposto;
+using NFe.Core.NotasFiscais.Repositories;
 
 namespace DgSystem.NFe.IoC
 {
