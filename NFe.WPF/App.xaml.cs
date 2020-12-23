@@ -56,13 +56,11 @@ namespace EmissorNFe
 
             TraceSource traceSource = new TraceSource("EmissorNFe");
             traceSource.TraceEvent(TraceEventType.Information, 1, "Data loaded");
+            log4net.Config.XmlConfigurator.Configure();
 
             CreateDataDirectory();
             DependencyResolver.RegisterTypes();
 
-            /*
- *             <vm:ViewModelLocator x:Key="Locator"
-                     d:IsDataSource="True" />*/
             var locator = new ViewModelLocator(DependencyResolver.Container);
             this.Resources.Add("Locator", locator);
 
