@@ -469,10 +469,10 @@ namespace NFe.Core.Sefaz
                         vUnTrib = notaFiscal.Produtos[i].ValorUnidadeComercial.AsNumberFormattedString(),
                         CFOP = notaFiscal.Produtos[i].Cfop.ToString().Replace("Item", string.Empty),
                         indTot = TNFeInfNFeDetProdIndTot.Item1,
-                        vFrete = notaFiscal.Produtos[i].Frete.AsNumberFormattedString(),
-                        vOutro = notaFiscal.Produtos[i].Outros.AsNumberFormattedString(),
-                        vSeg = notaFiscal.Produtos[i].Seguro.AsNumberFormattedString(),
-                        vDesc = notaFiscal.Produtos[i].Seguro.AsNumberFormattedString()
+                        vFrete = notaFiscal.Produtos[i].Frete.ToPositiveDecimalAsStringOrNull(),
+                        vOutro = notaFiscal.Produtos[i].Outros.ToPositiveDecimalAsStringOrNull(),
+                        vSeg = notaFiscal.Produtos[i].Seguro.ToPositiveDecimalAsStringOrNull(),
+                        vDesc = notaFiscal.Produtos[i].Seguro.ToPositiveDecimalAsStringOrNull()
                     }
                 };
 

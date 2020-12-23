@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NFe.Core.Sefaz.Utility
 {
-    static class DecimalExtensions
+    public static class DecimalExtensions
     {
         public static string ToPositiveDecimalAsStringOrNull(this decimal value)
         {

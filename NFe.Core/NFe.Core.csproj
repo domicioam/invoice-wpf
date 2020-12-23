@@ -416,7 +416,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Sefaz\Facades\InutilizarNotaFiscalFacade.cs" />
-    <Compile Include="Sefaz\Utility\DecimalExtensions.cs" />
     <Compile Include="Sefaz\Clients\NfeAutorizacao\MensagemRetornoTransmissaoNotasContingencia.cs" />
     <Compile Include="NotasFiscais\Entities\Destinatario.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
@@ -681,6 +680,9 @@
     <Content Include="Dlls\Microsoft.ReportViewer.Design.dll" />
     <Content Include="Dlls\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
     <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sefaz\Utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

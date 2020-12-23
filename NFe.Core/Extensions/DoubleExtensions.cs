@@ -13,5 +13,15 @@ namespace NFe.Core.Extensions
         {
             return value.ToString("F", CultureInfo.InvariantCulture);
         }
+
+        public static string ToPositiveDecimalAsStringOrNull(this double value)
+        {
+            if (value > 0)
+            {
+                return value.ToString();
+            }
+
+            return null;
+        }
     }
 }
