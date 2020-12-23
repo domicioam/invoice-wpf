@@ -258,6 +258,7 @@
     <Compile Include="NotasFiscais\Entities\Impostos.cs" />
     <Compile Include="NotasFiscais\Entities\TCfop.cs" />
     <Compile Include="NotasFiscais\Impostos\OrigemMercadoria.cs" />
+    <Compile Include="NotasFiscais\Repositories\ImpostoExtensions.cs" />
     <Compile Include="NotasFiscais\Repositories\TorigExtensions.cs" />
     <Compile Include="NotasFiscais\ValueObjects\Ambiente.cs" />
     <Compile Include="NotasFiscais\ValueObjects\Chave.cs" />

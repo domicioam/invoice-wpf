@@ -524,14 +524,16 @@ namespace NFe.Core.NotasFiscais.Repositories
             foreach (var det in nfe.infNFe.det)
             {
                 var icmsDet = (Retorno.TNFeInfNFeDetImpostoICMS)det.imposto.Items[0];
-
-                var icms = new Entities.Imposto { TipoImposto = TipoImposto.Icms, Aliquota = 0 };
-
-                var icms60 = icmsDet.Item as Retorno.TNFeInfNFeDetImpostoICMSICMS60;
-                icms.Origem = icms60.orig.ToOrigem();
-                if (icms60 != null)
+                dynamic item = icmsDet.Item;
+                Entities.Imposto icms = null;
+                try
                 {
-                    icms.CST = TabelaIcmsCst.IcmsCobradoAnteriormentePorST;
+                    icms = ImpostoExtensions.ToImposto(item);
+                }
+                catch (Exception e)
+                {
+                    log.Error(e);
+                    throw new ArgumentException("The object provided is not a valid Imposto.");
                 }
 
                 var pisNt = (Retorno.TNFeInfNFeDetImpostoPISPISNT)det.imposto.PIS.Item;
