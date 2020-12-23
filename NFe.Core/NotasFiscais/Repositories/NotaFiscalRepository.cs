@@ -533,7 +533,7 @@ namespace NFe.Core.NotasFiscais.Repositories
                 catch (Exception e)
                 {
                     log.Error(e);
-                    throw new ArgumentException("The object provided is not a valid Imposto.");
+                    throw new ArgumentException("The object provided is not a valid Imposto or a Imposto still not supported.");
                 }
 
                 var pisNt = (Retorno.TNFeInfNFeDetImpostoPISPISNT)det.imposto.PIS.Item;
