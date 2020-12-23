@@ -44,7 +44,7 @@ namespace NFe.Core
             modelBuilder.Entity<GrupoImpostos>()
                 .HasMany(e => e.Impostos)
                 .WithRequired(e => e.GrupoImpostos)
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<NotaFiscalEntity>()
                 .Property(e => e.Modelo)

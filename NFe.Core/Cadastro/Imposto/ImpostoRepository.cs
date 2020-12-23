@@ -52,7 +52,9 @@ namespace NFe.Core.Cadastro.Imposto
         {
             using (var context = new NFeContext())
             {
-                context.GrupoImpostos.Remove(grupoImpostos);
+                var grupo = context.GrupoImpostos.First(i => i.Id == grupoImpostos.Id);
+                context.GrupoImpostos.Remove(grupo);
+                
                 context.SaveChanges();
             }
         }
