@@ -52,8 +52,8 @@ namespace NFe.Core.Cadastro.Imposto
         {
             using (var context = new NFeContext())
             {
-                var grupo = context.GrupoImpostos.First(i => i.Id == grupoImpostos.Id);
-                context.GrupoImpostos.Remove(grupo);
+                context.Entry(grupoImpostos).State = EntityState.Modified;
+                context.GrupoImpostos.Remove(grupoImpostos);
                 
                 context.SaveChanges();
             }
