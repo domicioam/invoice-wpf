@@ -52,7 +52,7 @@ namespace NFe.WPF.ViewModel
             catch(Exception e)
             {
                 log.Error(e);
-                await _dialogService.ShowError("Ocorreu um erro ao remover o produto desejado.", "Erro", "OK", null);
+                await _dialogService.ShowError("Ocorreu um erro ao remover o imposto desejado.", "Erro", "OK", null);
             }
         }
 
