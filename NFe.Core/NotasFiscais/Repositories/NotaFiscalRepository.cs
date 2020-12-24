@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using DgSystems.NFe.Extensions;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
@@ -524,16 +525,21 @@ namespace NFe.Core.NotasFiscais.Repositories
             foreach (var det in nfe.infNFe.det)
             {
                 var icmsDet = (Retorno.TNFeInfNFeDetImpostoICMS)det.imposto.Items[0];
-                dynamic item = icmsDet.Item;
-                Entities.Imposto icms = null;
-                try
+                Entities.Imposto icms;
+
+                switch (icmsDet.Item)
                 {
-                    icms = ImpostoExtensions.ToImposto(item);
-                }
-                catch (Exception e)
-                {
-                    log.Error(e);
-                    throw new ArgumentException("The object provided is not a valid Imposto or a Imposto still not supported.");
+                    case Retorno.TNFeInfNFeDetImpostoICMSICMS60 icms60:
+                        icms = icms60.ToImposto();
+                        break;
+                    case Retorno.TNFeInfNFeDetImpostoICMSICMS40 icms40:
+                        icms = icms40.ToImposto();
+                        break;
+                    case Retorno.TNFeInfNFeDetImpostoICMSICMS10 icms10:
+                        icms = icms10.ToImposto();
+                        break;
+                    default:
+                        throw new ArgumentException("The object provided is not a valid Imposto or a Imposto still not supported.");
                 }
 
                 var pisNt = (Retorno.TNFeInfNFeDetImpostoPISPISNT)det.imposto.PIS.Item;
@@ -546,9 +552,9 @@ namespace NFe.Core.NotasFiscais.Repositories
 
                 var impostos = new Entities.Impostos(new List<Entities.Imposto> { icms, pis});
 
-                double.TryParse(det.prod.vSeg, NumberStyles.Float, CultureInfo.InvariantCulture, out double seguro);
-                double.TryParse(det.prod.vOutro, NumberStyles.Float, CultureInfo.InvariantCulture, out double outros);
-                double.TryParse(det.prod.vFrete, NumberStyles.Float, CultureInfo.InvariantCulture, out double frete);
+                var seguro = det.prod.vSeg.ToDouble(CultureInfo.InvariantCulture);
+                var outros = det.prod.vOutro.ToDouble(CultureInfo.InvariantCulture);
+                var frete = det.prod.vFrete.ToDouble(CultureInfo.InvariantCulture);
 
                 var newProduto = new Produto(impostos, 
                     0, 
@@ -556,7 +562,7 @@ namespace NFe.Core.NotasFiscais.Repositories
                     det.prod.cProd, det.prod.xProd, det.prod.NCM,
                     int.Parse(det.prod.qCom), 
                     det.prod.uCom,
-                    double.Parse(det.prod.vUnCom, CultureInfo.InvariantCulture), 
+                    det.prod.vUnCom.ToDouble(CultureInfo.InvariantCulture), 
                     0, 
                     ambiente == Ambiente.Producao,
                     frete,

@@ -96,6 +96,7 @@
     <Compile Include="IXmlFileWritable.cs" />
     <Compile Include="MessageService.cs" />
     <Compile Include="Messaging\MessagingCenter.cs" />
+    <Compile Include="NumberExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RijndaelManagedEncryption.cs" />
     <Compile Include="SubstringExtensions.cs" />
