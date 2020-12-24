@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
 using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;

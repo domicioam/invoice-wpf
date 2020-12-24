@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using DgSystems.NFe.ViewModels;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 

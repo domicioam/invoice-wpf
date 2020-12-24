@@ -8,6 +8,7 @@ using NFe.WPF.ViewModel.Base;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Data;
+using DgSystems.NFe.ViewModels;
 using NFe.Core.Interfaces;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.Events;

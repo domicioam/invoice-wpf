@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using EmissorNFe.Model;
 using GalaSoft.MvvmLight.CommandWpf;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
@@ -33,10 +32,11 @@ using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
+using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Mementos;
 
-namespace NFe.WPF.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class NotaFiscalMainViewModel : ViewModelBaseValidation
     {
@@ -92,30 +92,26 @@ namespace NFe.WPF.ViewModel
 
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
 
-            MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent), (s, e) =>
-            {
-                EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal);
-            });
+            SubscribeToEvents();
+        }
 
-            MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this, nameof(NotasFiscaisTransmitidasEvent), (s, e) =>
-            {
-                ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro);
-            });
+        private void SubscribeToEvents()
+        {
+            MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent),
+                (s, e) => { EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal); });
 
-            MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent), (s, e) =>
-            {
-                OpcoesVM_ConfiguracaoAlteradaEventHandler();
-            });
+            MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this,
+                nameof(NotasFiscaisTransmitidasEvent),
+                (s, e) => { ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro); });
 
-            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent), (s, e) =>
-            {
-                NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal);
-            });
+            MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent),
+                (s, e) => { OpcoesVM_ConfiguracaoAlteradaEventHandler(); });
 
-            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this, nameof(NotaFiscalInutilizadaEvent), (s, e) =>
-            {
-                NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal);
-            });
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent),
+                (s, e) => { NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal); });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this,
+                nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal); });
         }
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
@@ -149,12 +145,12 @@ namespace NFe.WPF.ViewModel
             NotasFiscais.Remove(notaMemento);
         }
 
-        private async void EnviarNotaController_NotaEnviadaEventHandler(Core.NotasFiscais.NotaFiscal notaEnviada)
+        private async void EnviarNotaController_NotaEnviadaEventHandler(global::NFe.Core.NotasFiscais.NotaFiscal notaEnviada)
         {
             await PopularListaNotasFiscais();
 
             var certificado = _certificadoService.GetX509Certificate2();
-            var config = _configuracaoService.GetConfiguracao();
+            var config = await _configuracaoService.GetConfiguracaoAsync();
             var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
             var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
             await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
@@ -168,7 +164,7 @@ namespace NFe.WPF.ViewModel
                 await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
                {
                    var certificado = _certificadoService.GetX509Certificate2();
-                   var config = _configuracaoService.GetConfiguracao();
+                   var config = await _configuracaoService.GetConfiguracaoAsync();
                    var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                    var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
                    await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
@@ -184,11 +180,12 @@ namespace NFe.WPF.ViewModel
                 var mainWindow = app.MainWindow;
                 var sb = new StringBuilder();
 
-                foreach (var msg in mensagensErro) sb.Append("\n" + msg);
+                foreach (var msg in mensagensErro) 
+                    sb.Append("\n" + msg);
 
                 if (_isLoaded)
                     MessageBox.Show(mainWindow,  "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
-                        sb.ToString(), "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
+                        sb, "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                     _mensagensErroContingencia = sb.ToString();
             }));
@@ -199,19 +196,16 @@ namespace NFe.WPF.ViewModel
             IsBusy = true;
             BusyContent = "Enviando...";
 
-            var config = _configuracaoService.GetConfiguracao();
-
+            var config = await _configuracaoService.GetConfiguracaoAsync();
             var modelo = notaPendenteMemento.Tipo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55;
 
-            //Preencher objeto da NotaFiscal a partir do XML e enviar para a correspondente ViewModel NFe ou NFCe
             var app = Application.Current;
-            var mainWindow = app.MainWindow;
 
             if (!_consultaStatusServicoService.ExecutarConsultaStatus(config, modelo))
             {
-                MessageBox.Show(mainWindow,
-                    "Serviço continua indisponível. Aguarde o reestabelecimento da conexão e tente novamente.",
-                    "Erro de conexão ou serviço indisponível", MessageBoxButton.OK, MessageBoxImage.Information);
+                var mensagem = "Serviço continua indisponível. Aguarde o reestabelecimento da conexão e tente novamente.";
+                var caption = "Erro de conexão ou serviço indisponível";
+                MessageBox.Show(app.MainWindow, mensagem, caption, MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -229,18 +223,16 @@ namespace NFe.WPF.ViewModel
 
             try
             {
-                X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
-
-                var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
-
-                XmlNFe xmlNFe = new XmlNFe(notaFiscalBo, nFeNamespaceName, certificado, config.CscId, config.Csc);
+                var certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
+                const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
+                var xmlNFe = new XmlNFe(notaFiscalBo, nFeNamespaceName, certificado, config.CscId, config.Csc);
 
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
                 _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe);
 
                 IsBusy = false;
 
-                var mbResult = MessageBox.Show(mainWindow, "Nota enviada com sucesso! Deseja imprimi-la?",
+                var mbResult = MessageBox.Show(app.MainWindow, "Nota enviada com sucesso! Deseja imprimi-la?",
                     "Emissão NFe", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
 
                 if (mbResult == MessageBoxResult.Yes)
@@ -256,14 +248,14 @@ namespace NFe.WPF.ViewModel
                 Destinatario destinatario;
                 var destinatarioUf = notaFiscalBo.Emitente.Endereco.UF;
 
-                if (notaFiscalBo.Destinatario != null)
+                if (notaFiscalBo.Destinatario == null)
                 {
-                    destinatario = notaFiscalBo.Destinatario;
-                    destinatarioUf = destinatario.Endereco != null ? destinatario.Endereco.UF : destinatarioUf;
+                    destinatario = new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
                 }
                 else
                 {
-                    destinatario = new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
+                    destinatario = notaFiscalBo.Destinatario;
+                    destinatarioUf = destinatario.Endereco != null ? destinatario.Endereco.UF : destinatarioUf;
                 }
 
                 var valorTotalProdutos = notaFiscalBo.ValorTotalProdutos.ToString("N2", new CultureInfo("pt-BR"));
@@ -281,7 +273,7 @@ namespace NFe.WPF.ViewModel
             catch (Exception e)
             {
                 log.Error(e);
-                MessageBox.Show(mainWindow,
+                MessageBox.Show(app.MainWindow,
                     "Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + e.InnerException.Message,
                     "Erro", MessageBoxButton.OK, MessageBoxImage.Information);
             }

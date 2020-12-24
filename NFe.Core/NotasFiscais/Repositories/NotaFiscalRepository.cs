@@ -57,7 +57,6 @@ namespace NFe.Core.NotasFiscais.Repositories
             using (var context = new NFeContext())
             {
                 var config = context.Configuracao.FirstOrDefault();
-
                 return config == null ? null : context.NotaFiscal.ToList();
             }
         }
@@ -76,7 +75,6 @@ namespace NFe.Core.NotasFiscais.Repositories
         {
             using (var context = new NFeContext())
             {
-                var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal
                     .Where(n => n.Status == (int)Status.PENDENTE).ToList();
             }
@@ -107,7 +105,6 @@ namespace NFe.Core.NotasFiscais.Repositories
         {
             using (var context = new NFeContext())
             {
-                var config = context.Configuracao.FirstOrDefault();
                 var nota = context.NotaFiscal.First(c =>
                     c.Numero.Equals(numero) && c.Serie.Equals(serie) && c.Modelo.Equals(modelo));
                 context.NotaFiscal.Remove(nota);
@@ -127,7 +124,6 @@ namespace NFe.Core.NotasFiscais.Repositories
         {
             using (var context = new NFeContext())
             {
-                var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal
                     .Where(n => n.Status == (int) Status.CONTINGENCIA).ToList();
             }
@@ -146,7 +142,6 @@ namespace NFe.Core.NotasFiscais.Repositories
         {
             using (var context = new NFeContext())
             {
-                var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal.FirstOrDefault(c =>
                     c.Numero.Equals(numero) && c.Serie.Equals(serie) && c.Modelo.Equals(modelo));
             }
@@ -154,7 +149,7 @@ namespace NFe.Core.NotasFiscais.Repositories
 
         public IEnumerable<NotaFiscalEntity> Take(int pageSize, int page)
         {
-            int skip = (page - 1) * pageSize;
+            var skip = (page - 1) * pageSize;
 
             using (var context = new NFeContext())
             {
@@ -278,14 +273,13 @@ namespace NFe.Core.NotasFiscais.Repositories
         {
             var notasDb = GetNotasFiscaisPorPeriodo(periodoInicial, periodoFinal);
 
-            return notasDb.Select(notaTo => notaTo.LoadXml()).Select(xml => GetNotaFiscalFromNfeProcXml(xml)).ToList();
+            return notasDb.Select(notaTo => notaTo.LoadXml()).Select(GetNotaFiscalFromNfeProcXml).ToList();
         }
 
         public IEnumerable<NotaFiscalEntity> GetNotasFiscaisPorPeriodo(DateTime periodoInicial, DateTime periodoFinal)
         {
             using (var context = new NFeContext())
             {
-                var config = context.Configuracao.FirstOrDefault();
                 return context.NotaFiscal.Where(n =>
                     n.DataEmissao >= periodoInicial && n.DataEmissao <= periodoFinal &&
                     n.Status == (int) Status.ENVIADA).ToList();
@@ -349,8 +343,7 @@ namespace NFe.Core.NotasFiscais.Repositories
 
             if (!Directory.Exists(notasComErroDir)) Directory.CreateDirectory(notasComErroDir);
 
-            using (var stream =
-                File.Create(Path.Combine(notasComErroDir, notaFiscal.Identificacao.Chave + " - erro.xml")))
+            using (var stream = File.Create(Path.Combine(notasComErroDir, notaFiscal.Identificacao.Chave + " - erro.xml")))
             {
                 using (var writer = new StreamWriter(stream))
                 {
@@ -413,7 +406,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             if (nfeDest.enderDest != null)
             {
                 var uf = TUfDestConversor.ToUfString((TUf)(int)nfeDest.enderDest.UF);
-                var endereco = new Core.NotasFiscais.Endereco(nfeDest.enderDest.xLgr, nfeDest.enderDest.nro,
+                var endereco = new Endereco(nfeDest.enderDest.xLgr, nfeDest.enderDest.nro,
                     nfeDest.enderDest.xBairro, nfeDest.enderDest.xMun, nfeDest.enderDest.CEP, uf);
 
                 var ambiente = (Ambiente)(int)nfe.infNFe.ide.tpAmb;
@@ -430,7 +423,6 @@ namespace NFe.Core.NotasFiscais.Repositories
                 return new Destinatario(ambiente, modelo, null, nfeDest.email, null, tipoDestinatario, nfeDest.IE,
                     nomeRazao: nfeDest.xNome, documento: new Documento(nfeDest.Item));
             }
-
         }
 
         private IdentificacaoNFe GetIdentificacao(Retorno.TNFe nfe, Emissor emitente)
@@ -465,24 +457,23 @@ namespace NFe.Core.NotasFiscais.Repositories
         private Transporte GetTransporte(Retorno.TNFe nfe)
         {
             var transportadoraNFe = nfe.infNFe.transp.transporta;
-            if (transportadoraNFe != null)
-            {
-                var uf = TUfConversor.ToSiglaUf((TUf)(int)transportadoraNFe.UF);
+            if (transportadoraNFe == null)
+                return nfe.infNFe.transp.modFrete == Retorno.TNFeInfNFeTranspModFrete.Item9
+                    ? new Transporte(Modelo.Modelo65, null, null)
+                    : null;
+            
+            var uf = TUfConversor.ToSiglaUf((TUf)(int)transportadoraNFe.UF);
 
-                var modelo = nfe.infNFe.ide.mod == Retorno.TMod.Item55 ? Modelo.Modelo55 : Modelo.Modelo65;
-                var transportadora = new Transportadora(transportadoraNFe.Item, transportadoraNFe.xEnder,
-                    transportadoraNFe.IE, transportadoraNFe.xMun, uf, transportadoraNFe.xNome);
+            var modelo = nfe.infNFe.ide.mod == Retorno.TMod.Item55 ? Modelo.Modelo55 : Modelo.Modelo65;
+            var transportadora = new Transportadora(transportadoraNFe.Item, transportadoraNFe.xEnder,
+                transportadoraNFe.IE, transportadoraNFe.xMun, uf, transportadoraNFe.xNome);
 
-                if (nfe.infNFe.transp.Items.Length <= 0) return new Transporte(modelo, transportadora, null);
-                var veiculoNFe = (Retorno.TVeiculo)nfe.infNFe.transp.Items[0];
-                var veiculo = new Veiculo(veiculoNFe.placa, TUfConversor.ToSiglaUf(veiculoNFe.UF));
+            if (nfe.infNFe.transp.Items.Length <= 0) return new Transporte(modelo, transportadora, null);
+            var veiculoNFe = (Retorno.TVeiculo)nfe.infNFe.transp.Items[0];
+            var veiculo = new Veiculo(veiculoNFe.placa, TUfConversor.ToSiglaUf(veiculoNFe.UF));
 
-                return new Transporte(modelo, transportadora, veiculo);
-            }
+            return new Transporte(modelo, transportadora, veiculo);
 
-            return nfe.infNFe.transp.modFrete == Retorno.TNFeInfNFeTranspModFrete.Item9
-                ? new Transporte(Modelo.Modelo65, null, null)
-                : null;
         }
 
         private TotalNFe GetTotalNFe(Retorno.TNFe nfe)
