@@ -141,8 +141,7 @@
       <HintPath>Dlls\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="QRCoder, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QRCoder.1.3.2\lib\net40\QRCoder.dll</HintPath>
@@ -276,6 +275,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Utils\Assinatura\ICertificateManager.cs" />
     <Compile Include="Utils\PDF\NotaCancelada.cs" />
     <Compile Include="Utils\PDF\RelatorioGerencial\Emitente.cs" />
@@ -298,7 +298,6 @@
     <Compile Include="NotasFiscais\InfoAdicional.cs" />
     <Compile Include="Cadastro\NaturezaOperacaoService.cs" />
     <Compile Include="Cadastro\Produto\ProdutoService.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="NotasFiscais\NotaFiscal.cs" />
     <Compile Include="NotasFiscais\Services\EnviaNotaFiscalService.cs" />
     <Compile Include="NotasFiscais\Cartao.cs" />
