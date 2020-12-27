@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E908496-5E78-411F-9AF0-3CCDBC4E90EA}</ProjectGuid>
+    <ProjectGuid>{DCDE4DD6-C495-408D-8951-5EA801AB48E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NFe.Core.UnitTests</RootNamespace>
-    <AssemblyName>NFe.Core.UnitTests</AssemblyName>
+    <RootNamespace>NFe.WPF.UnitTests</RootNamespace>
+    <AssemblyName>NFe.WPF.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -46,11 +46,23 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ExpectedObjects, Version=2.3.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExpectedObjects.2.3.6\lib\net40\ExpectedObjects.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net48\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Fare.2.1.2\lib\net35\Fare.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.15.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.15.2\lib\net45\Moq.dll</HintPath>
@@ -61,9 +73,12 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -92,30 +107,29 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ConfiguracaoService\ConfiguracaoRepositoryFake.cs" />
-    <Compile Include="ConfiguracaoService\ConfiguracaoServiceTest.cs" />
-    <Compile Include="Converters\TUfConversorTest.cs" />
-    <Compile Include="Facades\CancelaNotaFiscalServiceTests.cs" />
-    <Compile Include="Facades\EmiteNotaFiscalContingenciaServiceTests.cs" />
-    <Compile Include="Impostos\CofinsAliquotaNormalTests.cs" />
-    <Compile Include="Impostos\IcmsCobradoAnteriormentePorST_Tests.cs" />
-    <Compile Include="Impostos\IcmsNaoTributadoTests.cs" />
-    <Compile Include="Impostos\ImpostoFactoryTests.cs" />
-    <Compile Include="Impostos\NfeDetImpostoFactoryTests.cs" />
-    <Compile Include="Impostos\PisOperacaoIsentaContribuicaoTests.cs" />
-    <Compile Include="Impostos\PisOperacaoTributavelMonofasicaTests.cs" />
-    <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
-    <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
-    <Compile Include="NotaFiscalService\ConfiguracaoRepositoryFake.cs" />
-    <Compile Include="NotaFiscalService\NFeAutorizacao4SoapClientFake.cs" />
-    <Compile Include="NotaFiscalService\NotaFiscalRepositoryFake.cs" />
-    <Compile Include="NotaFiscalService\NotaFiscalServiceTest.cs" />
+    <Compile Include="EnviarNotaControllerTests.cs" />
+    <Compile Include="NFCeViewModelTest.cs" />
+    <Compile Include="NFeViewModelTest.cs" />
+    <Compile Include="NotaFiscalFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CertificadoServiceTests.cs" />
-    <Compile Include="Sefaz\CofinsCreatorTests.cs" />
-    <Compile Include="Sefaz\IcmsCreatorTests.cs" />
-    <Compile Include="Sefaz\ModelToSefazAdapterTests.cs" />
-    <Compile Include="Sefaz\PisCreatorTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
+      <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
+      <Name>DgSystems.NFe.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DgSystems.NFe.ViewModels\DgSystems.NFe.ViewModels.csproj">
+      <Project>{CC19C00F-F36B-4FBC-A34F-E3FF9955FBF5}</Project>
+      <Name>DgSystems.NFe.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFe.Core\DgSystems.NFe.Core.csproj">
+      <Project>{B844A95A-B767-4C52-9E5A-80081421CEC4}</Project>
+      <Name>DgSystems.NFe.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NFe.WPF\DgSystems.NFe.WPF.csproj">
+      <Project>{d39abfe9-3ea9-4a92-adee-e47f72fcd3a4}</Project>
+      <Name>DgSystems.NFe.WPF</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -125,18 +139,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
-      <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
-      <Name>DgSystems.NFe.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
-      <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
-      <Name>NFe.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

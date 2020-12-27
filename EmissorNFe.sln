@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.WPF", "NFe.WPF\DgSystems.NFe.WPF.csproj", "{D39ABFE9-3EA9-4A92-ADEE-E47F72FCD3A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFe.Core", "NFe.Core\NFe.Core.csproj", "{B844A95A-B767-4C52-9E5A-80081421CEC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.Core", "NFe.Core\DgSystems.NFe.Core.csproj", "{B844A95A-B767-4C52-9E5A-80081421CEC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFe.Core.UnitTests", "NFe.Core.UnitTests\NFe.Core.UnitTests.csproj", "{2E908496-5E78-411F-9AF0-3CCDBC4E90EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.Core.UnitTests", "NFe.Core.UnitTests\DgSystems.NFe.Core.UnitTests.csproj", "{2E908496-5E78-411F-9AF0-3CCDBC4E90EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFe.Core.IntegrationTests", "NFe.Core.IntegrationTests\NFe.Core.IntegrationTests.csproj", "{678D86BD-E9EC-457D-949C-783AE63AAAB7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.Core.IntegrationTests", "NFe.Core.IntegrationTests\DgSystems.NFe.Core.IntegrationTests.csproj", "{678D86BD-E9EC-457D-949C-783AE63AAAB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFe.WPF.UnitTests", "NFe.WPF.UnitTests\NFe.WPF.UnitTests.csproj", "{DCDE4DD6-C495-408D-8951-5EA801AB48E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.WPF.UnitTests", "NFe.WPF.UnitTests\DgSystems.NFe.WPF.UnitTests.csproj", "{DCDE4DD6-C495-408D-8951-5EA801AB48E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFe.WPF.IntegrationTests", "NFe.WPF.IntegrationTests\NFe.WPF.IntegrationTests.csproj", "{A46A0E77-1F6A-4F66-9183-6C2CC2CCC2BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.WPF.IntegrationTests", "NFe.WPF.IntegrationTests\DgSystems.NFe.WPF.IntegrationTests.csproj", "{A46A0E77-1F6A-4F66-9183-6C2CC2CCC2BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.Views", "DgSystems.NFe.Views\DgSystems.NFe.Views.csproj", "{D3A99A34-F638-466D-8C8A-1E9048137975}"
 EndProject

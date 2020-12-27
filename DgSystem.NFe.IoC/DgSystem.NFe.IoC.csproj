@@ -85,9 +85,9 @@
       <Project>{CC19C00F-F36B-4FBC-A34F-E3FF9955FBF5}</Project>
       <Name>DgSystems.NFe.ViewModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
+    <ProjectReference Include="..\NFe.Core\DgSystems.NFe.Core.csproj">
       <Project>{B844A95A-B767-4C52-9E5A-80081421CEC4}</Project>
-      <Name>NFe.Core</Name>
+      <Name>DgSystems.NFe.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

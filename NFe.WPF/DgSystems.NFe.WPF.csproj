@@ -385,9 +385,9 @@
       <Project>{d3a99a34-f638-466d-8c8a-1e9048137975}</Project>
       <Name>DgSystems.NFe.Views</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NFe.Core\NFe.Core.csproj">
+    <ProjectReference Include="..\NFe.Core\DgSystems.NFe.Core.csproj">
       <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
-      <Name>NFe.Core</Name>
+      <Name>DgSystems.NFe.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
