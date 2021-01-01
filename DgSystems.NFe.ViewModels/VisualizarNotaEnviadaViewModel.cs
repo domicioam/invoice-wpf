@@ -112,7 +112,7 @@ namespace NFe.WPF.ViewModel
                 produtoVO.QtdeProduto = produto.QtdeUnidadeComercial;
                 produtoVO.Descricao = produto.Descricao;
                 produtoVO.ValorUnitario = produto.ValorUnidadeComercial;
-                produtoVO.Descontos = produto.ValorDesconto;
+                produtoVO.Descontos = produto.Desconto;
                 produtoVO.TotalLiquido = produto.ValorTotal;
 
                 NotaFiscal.Produtos.Add(produtoVO);

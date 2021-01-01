@@ -213,7 +213,7 @@ namespace NFe.Core.Sefaz
             var valorTotalOutros = produtos.Sum(p => p.Outros);
             var valorTotalII = impostosII.Sum(i => (double)((II)i).Valor);
             var valorTotalIPI = impostosIpi.Sum(i => (double)((Ipi)i).Valor);
-            var valorTotalDesconto = produtos.Sum(p => p.ValorDesconto);
+            var valorTotalDesconto = produtos.Sum(p => p.Desconto);
             var valorTotalIcmsDesonerado = icmsDesonerados.Sum(i =>
             {
                 var icmsDesonerado = ((IcmsDesonerado)i);
@@ -472,7 +472,7 @@ namespace NFe.Core.Sefaz
                         vFrete = notaFiscal.Produtos[i].Frete.ToPositiveDecimalAsStringOrNull(),
                         vOutro = notaFiscal.Produtos[i].Outros.ToPositiveDecimalAsStringOrNull(),
                         vSeg = notaFiscal.Produtos[i].Seguro.ToPositiveDecimalAsStringOrNull(),
-                        vDesc = notaFiscal.Produtos[i].Seguro.ToPositiveDecimalAsStringOrNull()
+                        vDesc = notaFiscal.Produtos[i].Desconto.ToPositiveDecimalAsStringOrNull()
                     }
                 };
 

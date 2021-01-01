@@ -623,7 +623,7 @@ namespace NFe.Core.Utils.PDF
                 UnidadeComercial = produto.UnidadeComercial,
                 Quantidade = produto.QtdeUnidadeComercial,
                 ValorUnitario = produto.ValorUnidadeComercial,
-                ValorDesconto = produto.ValorDesconto,
+                ValorDesconto = produto.Desconto,
                 ValorLiquido = produto.ValorTotal
             }).ToList();
 

@@ -9,7 +9,7 @@ namespace NFe.Core.NotasFiscais.Entities
     {
         public Produto(Impostos impostos, int id, string cfop, string codigo, string descricao, string ncm,
             int qtdeUnidadeComercial, string unidadeComercial,
-            double valorUnidadeComercial, double valorDesconto, bool isProducao, double frete, double seguro, double outros)
+            double valorUnidadeComercial, double desconto, bool isProducao, double frete, double seguro, double outros)
         {
             Impostos = impostos;
             Id = id;
@@ -21,7 +21,7 @@ namespace NFe.Core.NotasFiscais.Entities
             UnidadeComercial = unidadeComercial;
             ValorUnidadeComercial = valorUnidadeComercial; //quando unidade comercial não for UN, isso aqui muda, arrumar no banco (ver exemplo no teste unitário NFeManager)
             ValorTotal = QtdeUnidadeComercial * ValorUnidadeComercial;
-            ValorDesconto = valorDesconto;
+            Desconto = desconto;
             Frete = frete;
             Seguro = seguro;
             Outros = outros;
@@ -42,7 +42,7 @@ namespace NFe.Core.NotasFiscais.Entities
 
         public double ValorTotal { get; set; }
 
-        public double ValorDesconto { get; set; }
+        public double Desconto { get; set; }
 
         public string CstTexto
         {
