@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Xml;
 using AutoFixture;
+using DgSystems.NFe.ViewModels;
 using GalaSoft.MvvmLight.Views;
 using Moq;
 using NFe.Core.Cadastro.Certificado;

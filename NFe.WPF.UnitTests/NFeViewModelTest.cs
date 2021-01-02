@@ -22,6 +22,7 @@ using NFe.WPF.NotaFiscal.ViewModel;
 using Xunit;
 using NFe.Core.Sefaz.Facades;
 using System.Security.Cryptography.X509Certificates;
+using DgSystems.NFe.ViewModels;
 
 namespace NFe.WPF.UnitTests
 {
