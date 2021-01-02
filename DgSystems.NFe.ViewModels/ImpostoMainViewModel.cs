@@ -17,7 +17,6 @@ namespace DgSystems.NFe.ViewModels
 
         private readonly IDialogService _dialogService;
         private readonly IGrupoImpostosRepository _grupoImpostosRepository;
-        private readonly ImpostoViewModel _impostoViewModel;
         public ObservableCollection<GrupoImpostos> Impostos { get; set; }
 
         public ICommand LoadedCmd { get; set; }
@@ -25,7 +24,7 @@ namespace DgSystems.NFe.ViewModels
         public ICommand RemoverImpostoCmd { get; set; }
 
 
-        public ImpostoMainViewModel(IGrupoImpostosRepository grupoImpostosRepository, ImpostoViewModel impostoViewModel, IDialogService dialogService)
+        public ImpostoMainViewModel(IGrupoImpostosRepository grupoImpostosRepository, IDialogService dialogService)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             Impostos = new ObservableCollection<GrupoImpostos>();
@@ -37,7 +36,6 @@ namespace DgSystems.NFe.ViewModels
                 ImpostoVM_ImpostoAdicionadoEvent();
             });
 
-            _impostoViewModel = impostoViewModel;
             _grupoImpostosRepository = grupoImpostosRepository;
             _dialogService = dialogService;
         }
@@ -59,7 +57,8 @@ namespace DgSystems.NFe.ViewModels
 
         private void AlterarImpostoCmd_Execute(GrupoImpostos obj)
         {
-            _impostoViewModel.AlterarImposto(obj);
+            var impostoViewModel = new ImpostoViewModel(new GrupoImpostosRepository());
+            impostoViewModel.AlterarImposto(obj);
         }
 
         private void ImpostoVM_ImpostoAdicionadoEvent()
