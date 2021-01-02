@@ -7,16 +7,17 @@ using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.WPF.Events;
+using NFe.WPF.ViewModel;
 
-namespace NFe.WPF.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class ImpostoMainViewModel
     {
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private IDialogService _dialogService;
-        private IGrupoImpostosRepository _grupoImpostosRepository;
-        private ImpostoViewModel _impostoViewModel;
+        private readonly IDialogService _dialogService;
+        private readonly IGrupoImpostosRepository _grupoImpostosRepository;
+        private readonly ImpostoViewModel _impostoViewModel;
         public ObservableCollection<GrupoImpostos> Impostos { get; set; }
 
         public ICommand LoadedCmd { get; set; }
