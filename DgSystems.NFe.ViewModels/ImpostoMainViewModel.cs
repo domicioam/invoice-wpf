@@ -7,7 +7,6 @@ using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.WPF.Events;
-using NFe.WPF.ViewModel;
 
 namespace DgSystems.NFe.ViewModels
 {
