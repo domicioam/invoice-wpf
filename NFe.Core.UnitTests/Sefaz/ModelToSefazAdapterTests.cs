@@ -1,34 +1,37 @@
-﻿using AutoFixture;
+﻿using System.Collections.Generic;
+using NFe.Core;
+using NFe.Core.Cadastro.Imposto;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
+using Endereco = NFe.Core.Endereco;
+using Imposto = NFe.Core.NotasFiscais.Entities.Imposto;
 
-namespace NFe.Core.UnitTests.Sefaz
+namespace DgSystems.NFe.Core.UnitTests.Sefaz
 {
     public class ModelToSefazAdapterTests
     {
         [Fact]
         public void test_ConvertIcmsTotal()
         {
-
-            NotasFiscais.Entities.Imposto imposto = new NotasFiscais.Entities.Imposto { Aliquota = 10, BaseCalculo = 125, CST = "60", Origem = Cadastro.Imposto.Origem.Nacional, TipoImposto = Cadastro.Imposto.TipoImposto.Icms };
-            List<NotasFiscais.Entities.Imposto> impostos_list = new List<NotasFiscais.Entities.Imposto> { imposto };
-            NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
+            var imposto = new Imposto
+            {
+                Aliquota = 10, BaseCalculo = 125, CST = "60", Origem = Origem.Nacional, TipoImposto = TipoImposto.Icms
+            };
+            var impostos_list = new List<Imposto> {imposto};
+            var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
-            List<Produto> produtos = new List<Produto> { produto1, produto2 };
+            var produtos = new List<Produto> {produto1, produto2};
 
-            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal", new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
+            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
+                new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotasFiscais.NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos, null);
-            notaFiscal.TotalNFe = new NotasFiscais.ValueObjects.TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
+            notaFiscal.TotalNFe = new TotalNFe();
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -41,17 +44,22 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             // IcmsNaoTributado
 
-            NotasFiscais.Entities.Imposto imposto = new NotasFiscais.Entities.Imposto { Aliquota = 10, BaseCalculo = 125, CST = "41", Origem = Cadastro.Imposto.Origem.Nacional, TipoImposto = Cadastro.Imposto.TipoImposto.Icms, MotivoDesoneracao = MotivoDesoneracao.Outros, ValorDesonerado = 50 };
-            List<NotasFiscais.Entities.Imposto> impostos_list = new List<NotasFiscais.Entities.Imposto> { imposto };
-            NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
+            var imposto = new Imposto
+            {
+                Aliquota = 10, BaseCalculo = 125, CST = "41", Origem = Origem.Nacional, TipoImposto = TipoImposto.Icms,
+                MotivoDesoneracao = MotivoDesoneracao.Outros, ValorDesonerado = 50
+            };
+            var impostos_list = new List<Imposto> {imposto};
+            var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
-            List<Produto> produtos = new List<Produto> { produto1, produto2 };
-            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal", new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
+            var produtos = new List<Produto> {produto1, produto2};
+            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
+                new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotasFiscais.NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos, null);
-            notaFiscal.TotalNFe = new NotasFiscais.ValueObjects.TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
+            notaFiscal.TotalNFe = new TotalNFe();
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -63,17 +71,22 @@ namespace NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Retido_Anteriormente()
         {
-            NotasFiscais.Entities.Imposto imposto = new NotasFiscais.Entities.Imposto { Aliquota = 10, BaseCalculo = 125, CST = "60", Origem = Cadastro.Imposto.Origem.Nacional, TipoImposto = Cadastro.Imposto.TipoImposto.Icms, AliquotaFCP = 5, BaseCalculoFCP = 60 };
-            List<NotasFiscais.Entities.Imposto> impostos_list = new List<NotasFiscais.Entities.Imposto> { imposto };
-            NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
+            var imposto = new Imposto
+            {
+                Aliquota = 10, BaseCalculo = 125, CST = "60", Origem = Origem.Nacional, TipoImposto = TipoImposto.Icms,
+                AliquotaFCP = 5, BaseCalculoFCP = 60
+            };
+            var impostos_list = new List<Imposto> {imposto};
+            var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
-            List<Produto> produtos = new List<Produto> { produto1, produto2 };
-            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal", new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
+            var produtos = new List<Produto> {produto1, produto2};
+            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
+                new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotasFiscais.NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos, null);
-            notaFiscal.TotalNFe = new NotasFiscais.ValueObjects.TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
+            notaFiscal.TotalNFe = new TotalNFe();
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -85,28 +98,29 @@ namespace NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Por_ST()
         {
-            NotasFiscais.Entities.Imposto imposto = new NotasFiscais.Entities.Imposto
+            var imposto = new Imposto
             {
                 Aliquota = 0,
                 BaseCalculo = 0,
                 AliquotaST = 10,
                 BaseCalculoST = 125,
                 CST = "10",
-                Origem = Cadastro.Imposto.Origem.Nacional,
-                TipoImposto = Cadastro.Imposto.TipoImposto.Icms,
+                Origem = Origem.Nacional,
+                TipoImposto = TipoImposto.Icms,
                 AliquotaFCP = 5,
                 BaseCalculoFCP = 60
             };
-            List<NotasFiscais.Entities.Imposto> impostos_list = new List<NotasFiscais.Entities.Imposto> { imposto };
-            NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
+            var impostos_list = new List<Imposto> {imposto};
+            var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
-            List<Produto> produtos = new List<Produto> { produto1, produto2 };
-            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal", new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
+            var produtos = new List<Produto> {produto1, produto2};
+            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
+                new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotasFiscais.NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos, null);
-            notaFiscal.TotalNFe = new NotasFiscais.ValueObjects.TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
+            notaFiscal.TotalNFe = new TotalNFe();
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -121,29 +135,30 @@ namespace NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Com_E_Sem_ST()
         {
-            NotasFiscais.Entities.Imposto imposto = new NotasFiscais.Entities.Imposto
+            var imposto = new Imposto
             {
                 Aliquota = 10,
                 BaseCalculo = 125,
                 AliquotaST = 7,
                 BaseCalculoST = 100,
                 CST = "10",
-                Origem = Cadastro.Imposto.Origem.Nacional,
-                TipoImposto = Cadastro.Imposto.TipoImposto.Icms,
+                Origem = Origem.Nacional,
+                TipoImposto = TipoImposto.Icms,
                 AliquotaFCP = 5,
                 BaseCalculoFCP = 60
             };
 
-            List<NotasFiscais.Entities.Imposto> impostos_list = new List<NotasFiscais.Entities.Imposto> { imposto };
-            NotasFiscais.Entities.Impostos impostos = new NotasFiscais.Entities.Impostos(impostos_list);
+            var impostos_list = new List<Imposto> {imposto};
+            var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
             var produto2 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
-            List<Produto> produtos = new List<Produto> { produto1, produto2 };
-            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal", new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
+            var produtos = new List<Produto> {produto1, produto2};
+            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
+                new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotasFiscais.NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos, null);
-            notaFiscal.TotalNFe = new NotasFiscais.ValueObjects.TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
+            notaFiscal.TotalNFe = new TotalNFe();
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -160,21 +175,26 @@ namespace NFe.Core.UnitTests.Sefaz
         [Fact]
         public void Should_Calculate_Total_Correctly_When_Imposto_not_in_total_calculation()
         {
-            var impostos_list = new List<NotasFiscais.Entities.Imposto>();
-            impostos_list.Add(new NotasFiscais.Entities.Imposto { Aliquota = 1, BaseCalculo = 10, TipoImposto = Cadastro.Imposto.TipoImposto.Cofins, CST = "01", Origem = Cadastro.Imposto.Origem.Nacional });
-            impostos_list.Add(new NotasFiscais.Entities.Imposto { CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = Cadastro.Imposto.TipoImposto.Icms, Origem = Cadastro.Imposto.Origem.Nacional });
-            impostos_list.Add(new NotasFiscais.Entities.Imposto { CST = "04", Origem = Cadastro.Imposto.Origem.Nacional, TipoImposto = Cadastro.Imposto.TipoImposto.PIS });
+            var impostos_list = new List<Imposto>();
+            impostos_list.Add(new Imposto
+            {
+                Aliquota = 1, BaseCalculo = 10, TipoImposto = TipoImposto.Cofins, CST = "01", Origem = Origem.Nacional
+            });
+            impostos_list.Add(new Imposto
+                {CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = TipoImposto.Icms, Origem = Origem.Nacional});
+            impostos_list.Add(new Imposto {CST = "04", Origem = Origem.Nacional, TipoImposto = TipoImposto.PIS});
 
-            var produto = new Produto(new NotasFiscais.Entities.Impostos(impostos_list), 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 5, 10, 15);
+            var produto = new Produto(new Impostos(impostos_list), 0, "1101", "1234", "Produto", "1234", 1, "UN", 125,
+                0, false, 5, 10, 15);
 
-            List<Produto> produtos = new List<Produto> { produto };
-            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal", new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
+            var produtos = new List<Produto> {produto};
+            var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
+                new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotasFiscais.NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos, null);
-            notaFiscal.TotalNFe = new NotasFiscais.ValueObjects.TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
+            notaFiscal.TotalNFe = new TotalNFe();
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
-
 
 
             Assert.Equal("155.00", result.vNF);
