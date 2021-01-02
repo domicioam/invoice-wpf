@@ -305,6 +305,7 @@
     <Compile Include="Sefaz\IpiDirector.cs" />
     <Compile Include="Sefaz\IssqnDirector.cs" />
     <Compile Include="Sefaz\ModelToSefazAdapter.cs" />
+    <Compile Include="Sefaz\NFeClassesExtensions.cs" />
     <Compile Include="Sefaz\NfeDetImpostoFactory.cs" />
     <Compile Include="Sefaz\PisAliqDirector.cs" />
     <Compile Include="Sefaz\PisNtDirector.cs" />

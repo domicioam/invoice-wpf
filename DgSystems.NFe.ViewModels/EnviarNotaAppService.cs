@@ -137,7 +137,8 @@ namespace DgSystems.NFe.ViewModels
 
                     _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
                     notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
-                    _notaFiscalRepository.Salvar(notaFiscal, xmlNFe.XmlNode.OuterXml);
+                    var xmlProc = _xmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                    _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
                     throw;
                 }
             });

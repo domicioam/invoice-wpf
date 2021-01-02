@@ -366,8 +366,7 @@ namespace DgSystems.NFe.ViewModels
                 var document = new XmlDocument();
                 var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
 
-                var mensagemRetorno =
-                    _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
+                var mensagemRetorno = _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
 
                 if (!mensagemRetorno.IsEnviada)
                     return null;
