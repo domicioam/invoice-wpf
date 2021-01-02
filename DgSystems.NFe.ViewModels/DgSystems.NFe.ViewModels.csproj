@@ -83,11 +83,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acompanhamento.cs" />
     <Compile Include="AcompanhamentoNotasViewModel.cs" />
     <Compile Include="Base\ViewModelBaseValidation.cs" />
     <Compile Include="CancelarNotaViewModel.cs" />
     <Compile Include="CertificadoModel.cs" />
     <Compile Include="CertificadoViewModel.cs" />
+    <Compile Include="COFINS.cs" />
     <Compile Include="Commands\AlterarDestinatarioCommand.cs" />
     <Compile Include="Commands\CancelarNotaFiscalCommand.cs" />
     <Compile Include="Commands\EnviarEmailCommand.cs" />
@@ -113,11 +115,15 @@
     <Compile Include="Events\NotaFiscalPendenteReenviadaEvent.cs" />
     <Compile Include="Events\NotasTransmitidasEvent.cs" />
     <Compile Include="Events\ProdutoAdicionadoEvent.cs" />
+    <Compile Include="ICMS.cs" />
+    <Compile Include="ICMSST.cs" />
     <Compile Include="IEnviarNotaAppService.cs" />
     <Compile Include="ImportarXMLFornecedorViewModel.cs" />
     <Compile Include="ImportarXMLViewModel.cs" />
+    <Compile Include="Imposto.cs" />
     <Compile Include="ImpostoMainViewModel.cs" />
     <Compile Include="ImpostoViewModel.cs" />
+    <Compile Include="IPI.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Mementos\NotaFiscalMemento.cs" />
     <Compile Include="NaturezaOperacaoModel.cs" />
@@ -134,6 +140,7 @@
     <Compile Include="Commands\OpenCadastroImpostoWindowCommand.cs" />
     <Compile Include="PagamentoModel.cs" />
     <Compile Include="PagamentoVO.cs" />
+    <Compile Include="PIS.cs" />
     <Compile Include="ProdutoListItem.cs" />
     <Compile Include="ProdutoMainViewModel.cs" />
     <Compile Include="ProdutoViewModel.cs" />
