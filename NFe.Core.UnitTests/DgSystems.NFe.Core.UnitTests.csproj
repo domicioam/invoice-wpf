@@ -106,6 +106,7 @@
     <Compile Include="Impostos\PisOperacaoTributavelMonofasicaTests.cs" />
     <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
+    <Compile Include="NotaFiscalFixture.cs" />
     <Compile Include="NotaFiscalService\ConfiguracaoRepositoryFake.cs" />
     <Compile Include="NotaFiscalService\NFeAutorizacao4SoapClientFake.cs" />
     <Compile Include="NotaFiscalService\NotaFiscalRepositoryFake.cs" />
