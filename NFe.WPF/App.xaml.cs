@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
 using DgSystem.NFe.IoC;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.ViewModel;
 
 namespace EmissorNFe

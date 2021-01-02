@@ -12,13 +12,12 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using DgSystems.NFe.ViewModels;
+using EmissorNFe.ViewModel;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
-
 using SimpleInjector;
 
-namespace EmissorNFe.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -26,14 +25,13 @@ namespace EmissorNFe.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        private Container _container;
+        private readonly Container _container;
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator(Container container)
         {
-            //_container = DependencyResolver.Container;
             _container = container;
         }
 
