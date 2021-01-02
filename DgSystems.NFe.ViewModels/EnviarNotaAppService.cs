@@ -71,7 +71,7 @@ namespace DgSystems.NFe.ViewModels
                 throw new ArgumentException("Valor total da nota não corresponde ao valor de pagamento.");
             }
 
-            var config = _configuracaoService.GetConfiguracao();
+            var config = await _configuracaoService.GetConfiguracaoAsync();
             NotaFiscal notaFiscal = null;
 
             await Task.Run(() =>
@@ -179,7 +179,7 @@ namespace DgSystems.NFe.ViewModels
                 if (notaFiscal.DestinatarioSelecionado.Endereco.Logradouro != null)
                 {
                     var enderecoModel = notaFiscal.DestinatarioSelecionado.Endereco;
-                    endereco = new global::NFe.Core.NotasFiscais.Endereco(enderecoModel.Logradouro, enderecoModel.Numero, enderecoModel.Bairro,
+                    endereco = new Endereco(enderecoModel.Logradouro, enderecoModel.Numero, enderecoModel.Bairro,
                         enderecoModel.Municipio, enderecoModel.CEP, enderecoModel.UF);
                 }
 
