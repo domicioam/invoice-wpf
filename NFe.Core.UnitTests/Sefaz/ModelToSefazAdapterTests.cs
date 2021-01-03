@@ -5,14 +5,22 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using Xunit;
 using Endereco = NFe.Core.Endereco;
 using Imposto = NFe.Core.NotasFiscais.Entities.Imposto;
 
 namespace DgSystems.NFe.Core.UnitTests.Sefaz
 {
-    public class ModelToSefazAdapterTests
+    public class ModelToSefazAdapterTests : IClassFixture<NotaFiscalFixture>
     {
+        private NotaFiscalFixture _fixture;
+
+        public ModelToSefazAdapterTests(NotaFiscalFixture fixture)
+        {
+            _fixture = fixture;
+        }
+        
         [Fact]
         public void test_ConvertIcmsTotal()
         {
@@ -198,6 +206,18 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
 
 
             Assert.Equal("155.00", result.vNF);
+        }
+
+        [Fact]
+        public void Should_set_correct_fields_when_nota_fiscal_is_valid()
+        {
+            var tNFe = ModelToSefazAdapter.GetLoteNFe(_fixture.NotaFiscal);
+
+            // Identificação
+            var infIde = tNFe.NFe[0].infNFe.ide;
+            Assert.Equal(TAmb.Item2, infIde.tpAmb);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.NaturezaOperacao, infIde.natOp);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.Chave.DigitoVerificador.ToString(), infIde.cDV);
         }
     }
 }
