@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DgSystems.NFe.Extensions;
 using NFe.Core;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.NotasFiscais;
@@ -218,6 +219,12 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             Assert.Equal(TAmb.Item2, infIde.tpAmb);
             Assert.Equal(_fixture.NotaFiscal.Identificacao.NaturezaOperacao, infIde.natOp);
             Assert.Equal(_fixture.NotaFiscal.Identificacao.Chave.DigitoVerificador.ToString(), infIde.cDV);
+            Assert.Equal(TFinNFe.Item1, infIde.finNFe); 
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.DataHoraEmissao.ToUtcFormatedString(), infIde.dhEmi);
+            Assert.Equal(TNFeInfNFeIdeIndPres.Item1 , infIde.indPres); // better create another nota fiscal specific to this unit test to not depend on external changes to NotaFiscal object
+            Assert.Equal(TNFeInfNFeIdeTpEmis.Item1, infIde.tpEmis);
+            Assert.Equal(TNFeInfNFeIdeTpImp.Item4, infIde.tpImp);
+            Assert.Equal(TNFeInfNFeIdeIdDest.Item1, infIde.idDest);
         }
     }
 }

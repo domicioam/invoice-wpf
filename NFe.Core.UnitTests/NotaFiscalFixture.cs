@@ -19,11 +19,14 @@ namespace DgSystems.NFe.Core.UnitTests
         {
             var data = new DateTime(2020, 10, 20);
             var endereçoEmitente = new Endereco("QUADRA 200 CONJUNTO 20", "20", "BRASILIA", "BRASILIA", "70000000", "DF");
+            
             var emitente = new Emissor("RAZAO SOCIAL", "NOME FANTASIA", "12345678998765", "1234567898765",
                 "1234567898765", "4784900", "Regime Normal", endereçoEmitente, "99999999");
+            
             var identificação = new IdentificacaoNFe(CodigoUfIbge.DF, data, emitente.CNPJ, Modelo.Modelo65, 1,
                 "20887", TipoEmissao.Normal, Ambiente.Homologacao, emitente, "Venda", FinalidadeEmissao.Normal, true,
                 PresencaComprador.Presencial, "CPF");
+            
             var transporte = new Transporte(Modelo.Modelo65, null, null);
             const int valorTotalProdutos = 65;
             var totalIcms = new IcmsTotal(0, 0, 0, 0, 0, valorTotalProdutos, 0, 0, 0, 0, 0, 0, 0, 0, valorTotalProdutos,

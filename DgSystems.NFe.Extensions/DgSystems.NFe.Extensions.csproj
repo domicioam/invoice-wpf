@@ -91,6 +91,7 @@
     <Compile Include="Assinatura\CertificateManager.cs" />
     <Compile Include="Assinatura\ICertificateManager.cs" />
     <Compile Include="CstListManager.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DecimalExtensions.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="IXmlFileWritable.cs" />
