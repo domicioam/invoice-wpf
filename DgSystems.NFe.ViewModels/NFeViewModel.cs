@@ -208,7 +208,7 @@ namespace DgSystems.NFe.ViewModels
             set
             {
                 _pagamento = value;
-                RaisePropertyChanged("Pagamento");
+                RaisePropertyChanged(nameof(Pagamento));
             }
         }
 
