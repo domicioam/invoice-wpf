@@ -20,18 +20,18 @@ using NFe.Core.NotasFiscais;
 using NFe.Repository.Repositories;
 using NFe.WPF.Commands;
 using NFe.WPF.Events;
-using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.Model;
+using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
 
-namespace NFe.WPF.NotaFiscal.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class NFeViewModel : ViewModelBaseValidation
     {
-        private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private const string DefaultNaturezaOperacao = "Remessa de vasilhames";
+        static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoRepository certificadoRepository)
         {
@@ -79,9 +79,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                 DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario);
             });
 
-            foreach (var produtoDB in produtosDb)
+            foreach (var produtoDb in produtosDb)
             {
-                ProdutosCombo.Add((ProdutoEntity)produtoDB);
+                ProdutosCombo.Add(produtoDb);
             }
 
             IndicadoresPresenca = new List<string>()
@@ -135,7 +135,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             }
             catch(Exception e)
             {
-                log.Error(e);
+                Log.Error(e);
                 _dialogService.ShowError("Não foi possível remover a transportadora.", "Erro!", null, null);
             }
         }
@@ -246,18 +246,18 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         public ICommand ExcluirTransportadoraCmd { get; set; }
         #endregion Commands
 
-        private IEnviarNotaAppService _enviarNotaController;
-        private IDialogService _dialogService;
-        private IEstadoRepository _estadoRepository;
-        private IProdutoRepository _produtoRepository;
-        private IEmissorService _emissorService;
-        private IMunicipioRepository _municipioService;
-        private ITransportadoraService _transportadoraService;
-        private IDestinatarioService _destinatarioService;
-        private INaturezaOperacaoRepository _naturezaOperacaoRepository;
-        private IConfiguracaoService _configuracaoService;
-        private DestinatarioViewModel _destinatarioViewModel;
-        private ICertificadoRepository _certificadoRepository;
+        private readonly IEnviarNotaAppService _enviarNotaController;
+        private readonly IDialogService _dialogService;
+        private readonly IEstadoRepository _estadoRepository;
+        private readonly IProdutoRepository _produtoRepository;
+        private readonly IEmissorService _emissorService;
+        private readonly IMunicipioRepository _municipioService;
+        private readonly ITransportadoraService _transportadoraService;
+        private readonly IDestinatarioService _destinatarioService;
+        private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
+        private readonly IConfiguracaoService _configuracaoService;
+        private readonly DestinatarioViewModel _destinatarioViewModel;
+        private readonly ICertificadoRepository _certificadoRepository;
 
         private void SalvarTransportadoraCmd_Execute(IClosable closable)
         {
@@ -309,7 +309,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             Pagamento.ValorParcela += Produto.TotalLiquido;
             ProdutosCombo.Remove(Produto.ProdutoSelecionado);
 
-            RaisePropertyChanged("ProdutosCombo");
+            RaisePropertyChanged(nameof(ProdutosCombo));
             RaisePropertyChanged("ProdutosGrid");
             Produto = new ProdutoVO();
         }
@@ -448,7 +448,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     var natModel = new NaturezaOperacaoModel() { Id = naturezaDB.Id, Descricao = naturezaDB.Descricao };
                     NaturezasOperacoes.Add(natModel);
 
-                    if (natModel.Descricao.Equals(DEFAULT_NATUREZA_OPERACAO))
+                    if (natModel.Descricao.Equals(DefaultNaturezaOperacao))
                     {
                         NaturezaOperacaoSelecionada = natModel;
                     }
@@ -456,7 +456,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             }
             else
             {
-                NaturezaOperacaoSelecionada = NaturezasOperacoes.FirstOrDefault(n => n.Descricao.Equals(DEFAULT_NATUREZA_OPERACAO));
+                NaturezaOperacaoSelecionada = NaturezasOperacoes.FirstOrDefault(n => n.Descricao.Equals(DefaultNaturezaOperacao));
             }
         }
 
@@ -493,12 +493,12 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             }
             catch (ArgumentException e)
             {
-                log.Error(e);
+                Log.Error(e);
                 await _dialogService.ShowError("Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + e.InnerException.Message, "Erro", "Ok", null);
             }
             catch (Exception e)
             {
-                log.Error(e);
+                Log.Error(e);
                 await _dialogService.ShowError("Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + e.InnerException.Message, "Erro", "Ok", null);
             }
             finally
