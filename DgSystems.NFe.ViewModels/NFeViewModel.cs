@@ -213,7 +213,7 @@ namespace DgSystems.NFe.ViewModels
         }
 
         public Dictionary<string, string> FormasPagamento { get; set; }
-        public List<string> EstadosUF { get; private set; }
+        public List<string> EstadosUF { get; }
         public List<int> Parcelas { get; set; }
 
         public ProdutoVO Produto

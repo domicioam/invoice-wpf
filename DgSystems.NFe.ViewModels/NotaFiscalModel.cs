@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
 using EmissorNFe.Model.Base;
 using EmissorNFe.VO;

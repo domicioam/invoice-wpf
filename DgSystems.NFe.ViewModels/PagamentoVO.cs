@@ -1,13 +1,7 @@
-﻿using EmissorNFe.Model.Base;
-using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using EmissorNFe.Model.Base;
 
-namespace EmissorNFe.VO
+namespace DgSystems.NFe.ViewModels
 {
     public class PagamentoVO : ObservableObjectValidation
     {
@@ -26,7 +20,7 @@ namespace EmissorNFe.VO
 
         private double _valorParcela;
         [Required]
-        [Range(0.1, Double.MaxValue)]
+        [Range(0.1, double.MaxValue)]
         public double ValorParcela
         {
             get

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
 using EmissorNFe.VO;
 using NFe.Core.Cadastro.Imposto;
