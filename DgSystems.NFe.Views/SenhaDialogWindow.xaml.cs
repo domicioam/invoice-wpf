@@ -1,7 +1,7 @@
-﻿using NFe.WPF.ViewModel;
-using System.Windows;
+﻿using System.Windows;
+using DgSystems.NFe.ViewModels;
 
-namespace EmissorNFe.View.Certificado
+namespace DgSystems.NFe.Views
 {
     /// <summary>
     /// Interaction logic for SenhaDialogWindow.xaml

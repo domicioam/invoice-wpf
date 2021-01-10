@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Input;
 using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
-using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Configuracoes;

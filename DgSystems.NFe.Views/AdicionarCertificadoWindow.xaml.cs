@@ -1,7 +1,7 @@
 ﻿using DgSystems.NFe.ViewModels;
-using EmissorNFe.View.Certificado;
 using NFe.WPF.ViewModel;
 using System.Windows;
+using DgSystems.NFe.Views;
 
 namespace EmissorNFe.Certificado
 {

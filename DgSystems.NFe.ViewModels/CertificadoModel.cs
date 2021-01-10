@@ -1,32 +1,78 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NFe.Core.Cadastro.Certificado;
 
-namespace EmissorNFe.Model
+namespace DgSystems.NFe.ViewModels
 {
-    public class CertificadoModel
+    public class CertificadoModel : IEquatable<CertificadoModel>
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Caminho { get; set; }
-        public string NumeroSerial { get; set; }
-        public string Senha { get; internal set; }
-
-        public static explicit operator CertificadoModel(CertificadoEntity certificadoEntity)
+        private CertificadoModel(string nome, string caminho, string numeroSerial, string senha)
         {
-            if (certificadoEntity == null) return null;
+            Nome = nome;
+            Caminho = caminho;
+            NumeroSerial = numeroSerial;
+            Senha = senha;
+        }
 
-            var certificadoModel = new CertificadoModel();
-            certificadoModel.Id = certificadoEntity.Id;
-            certificadoModel.Caminho = certificadoEntity.Caminho;
-            certificadoModel.Nome = certificadoEntity.Nome;
-            certificadoModel.NumeroSerial = certificadoEntity.NumeroSerial;
-            certificadoModel.Senha = certificadoEntity.Senha;
+        private CertificadoModel()
+        {
 
+        }
+
+        public int Id { get; }
+        public string Nome { get; }
+        public string Caminho { get; }
+        public string NumeroSerial { get; }
+        public string Senha { get; }
+
+        public static explicit operator CertificadoModel(CertificadoEntity other)
+        {
+            if (other == null) return null;
+
+            var certificadoModel = new CertificadoModel(other.Nome, other.Caminho, other.NumeroSerial, other.Senha);
             return certificadoModel;
+        }
+
+        public static CertificadoModel CreateWithoutParameters()
+        {
+            return new CertificadoModel();
+        }
+
+        public static CertificadoModel CreateCertificadoArquivoLocal(string nome, string caminho, string numeroSerial, string senha)
+        {
+            return new CertificadoModel(nome, caminho, numeroSerial, senha);
+        }
+
+        public static CertificadoModel CreateCertificadoInstalado(string nome, string numeroSerial, string senha)
+        {
+            return new CertificadoModel(nome, null, numeroSerial, senha);
+        }
+
+        public bool Equals(CertificadoModel other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id && Nome == other.Nome && Caminho == other.Caminho && NumeroSerial == other.NumeroSerial && Senha == other.Senha;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CertificadoModel) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Id;
+                hashCode = (hashCode * 397) ^ (Nome != null ? Nome.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Caminho != null ? Caminho.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (NumeroSerial != null ? NumeroSerial.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Senha != null ? Senha.GetHashCode() : 0);
+                return hashCode;
+            }
         }
     }
 }
