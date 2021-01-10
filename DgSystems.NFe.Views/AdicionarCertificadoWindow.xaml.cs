@@ -1,20 +1,7 @@
-﻿using EmissorNFe.View.Certificado;
-using EmissorNFe.ViewModel;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DgSystems.NFe.ViewModels;
+using EmissorNFe.View.Certificado;
+using NFe.WPF.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using DgSystems.NFe.ViewModels;
 
 namespace EmissorNFe.Certificado
 {
@@ -31,7 +18,7 @@ namespace EmissorNFe.Certificado
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            new SenhaDialogWindow() { Owner = this }.ShowDialog();
+            new SenhaDialogWindow((CertificadoViewModel)DataContext) { Owner = this }.ShowDialog();
         }
     }
 }
