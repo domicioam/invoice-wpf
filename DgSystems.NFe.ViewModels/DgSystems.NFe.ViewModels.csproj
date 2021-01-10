@@ -139,7 +139,6 @@
     <Compile Include="OpcoesViewModel.cs" />
     <Compile Include="Commands\OpenCadastroImpostoWindowCommand.cs" />
     <Compile Include="PagamentoModel.cs" />
-    <Compile Include="PagamentoVO.cs" />
     <Compile Include="PIS.cs" />
     <Compile Include="ProdutoListItem.cs" />
     <Compile Include="ProdutoMainViewModel.cs" />

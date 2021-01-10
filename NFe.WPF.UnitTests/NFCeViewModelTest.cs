@@ -64,7 +64,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("55");
-            var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
+            var pagamento = new PagamentoModel() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
             nfce.Pagamento = pagamento;
             nfce.GerarPagtoCmd.Execute(null);
             Assert.Contains(pagamento, nfce.NotaFiscal.Pagamentos);
@@ -97,7 +97,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("55");
-            var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
+            var pagamento = new PagamentoModel() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
             nfce.Pagamento = pagamento;
             nfce.GerarPagtoCmd.Execute(null);
             nfce.ExcluirPagamentoCmd.Execute(pagamento);
@@ -368,7 +368,7 @@ namespace NFe.WPF.UnitTests
 
             nfce.AdicionarProdutoCmd.Execute(null);
 
-            var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = totalLiquido, ValorTotal = totalLiquido.ToString() };
+            var pagamento = new PagamentoModel() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = totalLiquido, ValorTotal = totalLiquido.ToString() };
             nfce.Pagamento = pagamento;
             nfce.GerarPagtoCmd.Execute(null);
 

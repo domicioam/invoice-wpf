@@ -28,7 +28,7 @@ namespace NFe.WPF.NotaFiscal.Model
         private string _modeloNota;
         private string _naturezaOperacao;
         private string _numero;
-        private ObservableCollection<PagamentoVO> _pagamentos;
+        private ObservableCollection<PagamentoModel> _pagamentos;
         private ObservableCollection<ProdutoModel> _produtos;
         private string _serie;
 
@@ -84,7 +84,7 @@ namespace NFe.WPF.NotaFiscal.Model
         }
 
         [Required]
-        public ObservableCollection<PagamentoVO> Pagamentos
+        public ObservableCollection<PagamentoModel> Pagamentos
         {
             get { return _pagamentos; }
             set { SetProperty(ref _pagamentos, value); }

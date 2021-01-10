@@ -34,7 +34,7 @@ namespace DgSystems.NFe.ViewModels
 
         public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoRepository certificadoRepository)
         {
-            Pagamento = new PagamentoVO();
+            Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
             var produtosDb = produtoRepository.GetAll();
             DestinatarioParaSalvar = new DestinatarioModel();
@@ -147,7 +147,7 @@ namespace DgSystems.NFe.ViewModels
             set { SetProperty(ref _notaFiscal, value); }
         }
 
-        private PagamentoVO _pagamento;
+        private PagamentoModel _pagamento;
         private ProdutoModel _produto;
         private Modelo _modelo;
         private NaturezaOperacaoModel _naturezaOperacaoParaSalvar;
@@ -201,7 +201,7 @@ namespace DgSystems.NFe.ViewModels
 
         public List<string> IndicadoresPresenca { get; set; }
         public List<string> Finalidades { get; set; }
-        public PagamentoVO Pagamento
+        public PagamentoModel Pagamento
         {
             get { return _pagamento; }
             set
@@ -279,7 +279,7 @@ namespace DgSystems.NFe.ViewModels
 
         private void GerarPagtoCmd_Execute(object obj)
         {
-            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoVO>();
+            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoModel>();
 
             Pagamento.ValidateModel();
 
@@ -287,7 +287,7 @@ namespace DgSystems.NFe.ViewModels
                 return;
 
             NotaFiscal.Pagamentos.Add(Pagamento);
-            Pagamento = new PagamentoVO();
+            Pagamento = new PagamentoModel();
         }
 
         private async void EnviarNotaCmd_Execute(IClosable closable)
@@ -403,7 +403,7 @@ namespace DgSystems.NFe.ViewModels
             }
 
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            Pagamento = new PagamentoVO {FormaPagamento = "Dinheiro"};
+            Pagamento = new PagamentoModel {FormaPagamento = "Dinheiro"};
 
             var config = _configuracaoService.GetConfiguracao();
 
@@ -463,7 +463,7 @@ namespace DgSystems.NFe.ViewModels
         {
             if (!NotaFiscal.NaturezaOperacao.Equals("Venda"))
             {
-                NotaFiscal.Pagamentos = new ObservableCollection<PagamentoVO>() { new PagamentoVO() { FormaPagamento = "Sem Pagamento" } };
+                NotaFiscal.Pagamentos = new ObservableCollection<PagamentoModel>() { new PagamentoModel() { FormaPagamento = "Sem Pagamento" } };
             }
 
             NotaFiscal.ValidateModel();

@@ -69,7 +69,7 @@ namespace NFe.WPF.ViewModel
         internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
             NotaFiscal = (NFCeModel)notaFiscal;
-            NotaFiscal.Pagamentos = new ObservableCollection<PagamentoVO>();
+            NotaFiscal.Pagamentos = new ObservableCollection<PagamentoModel>();
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
 
             _notaFiscalBO = notaFiscal;
@@ -80,7 +80,7 @@ namespace NFe.WPF.ViewModel
 
                 foreach (var pagamento in _notaFiscalBO.Pagamentos)
                 {
-                    var pagamentoVO = new PagamentoVO();
+                    var pagamentoVO = new PagamentoModel();
                     pagamentoVO.FormaPagamento = pagamento.FormaPagamentoTexto;
                     pagamentoVO.ValorTotal = pagamento.Valor.ToString("N2", new CultureInfo("pt-BR"));
 
@@ -89,7 +89,7 @@ namespace NFe.WPF.ViewModel
             }
             else
             {
-                NotaFiscal.Pagamentos.Add(new PagamentoVO() { FormaPagamento = "N/A" });
+                NotaFiscal.Pagamentos.Add(new PagamentoModel() { FormaPagamento = "N/A" });
             }
 
             //Preenche documento destinatário

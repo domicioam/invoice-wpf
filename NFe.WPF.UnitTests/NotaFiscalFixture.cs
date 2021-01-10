@@ -62,9 +62,9 @@ namespace NFe.WPF.UnitTests
                     }
                 }
             };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
             {
-                new PagamentoVO()
+                new PagamentoModel()
                 {
                     FormaPagamento = "Dinheiro",
                     QtdeParcelas = 1,
@@ -136,9 +136,9 @@ namespace NFe.WPF.UnitTests
                         }
                     }
                 };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
                 {
-                    new PagamentoVO()
+                    new PagamentoModel()
                     {
                         FormaPagamento = "Dinheiro",
                         QtdeParcelas = 1,
@@ -228,7 +228,7 @@ namespace NFe.WPF.UnitTests
                     }
                 };
 
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>() { new PagamentoVO() { FormaPagamento = "Sem Pagamento" } };
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>() { new PagamentoModel() { FormaPagamento = "Sem Pagamento" } };
 
                 notaFiscalModel.TransportadoraSelecionada = new TransportadoraModel()
                 {
@@ -312,9 +312,9 @@ namespace NFe.WPF.UnitTests
                         }
                     }
                 };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
                 {
-                    new PagamentoVO()
+                    new PagamentoModel()
                     {
                         FormaPagamento = "Dinheiro",
                         QtdeParcelas = 1,
@@ -403,9 +403,9 @@ namespace NFe.WPF.UnitTests
                     }
                 }
             };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
             {
-                new PagamentoVO()
+                new PagamentoModel()
                 {
                     FormaPagamento = "Dinheiro",
                     QtdeParcelas = 1,

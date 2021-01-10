@@ -29,7 +29,7 @@ namespace DgSystems.NFe.ViewModels
 
         public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoRepository certificadoRepository, IEmissorService emissorService)
         {
-            Pagamento = new PagamentoVO();
+            Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
             DestinatarioParaSalvar = new DestinatarioModel();
             TransportadoraParaSalvar = new TransportadoraModel();
@@ -43,7 +43,7 @@ namespace DgSystems.NFe.ViewModels
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);
             ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
             ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
-            ExcluirPagamentoCmd = new RelayCommand<PagamentoVO>(ExcluirPagamentoCmd_Execute, null);
+            ExcluirPagamentoCmd = new RelayCommand<PagamentoModel>(ExcluirPagamentoCmd_Execute, null);
 
             _dialogService = dialogService;
             _enviarNotaAppService = enviarNotaAppService;
@@ -95,7 +95,7 @@ namespace DgSystems.NFe.ViewModels
             set { SetProperty(ref _notaFiscal, value); }
         }
 
-        private PagamentoVO _pagamento;
+        private PagamentoModel _pagamento;
         private ProdutoModel _produto;
         private Modelo _modelo;
         private bool _isBusy;
@@ -119,7 +119,7 @@ namespace DgSystems.NFe.ViewModels
         public ObservableCollection<DestinatarioModel> Destinatarios { get; set; }
         public ObservableCollection<TransportadoraModel> Transportadoras { get; set; }
         public List<string> Finalidades { get; set; }
-        public PagamentoVO Pagamento
+        public PagamentoModel Pagamento
         {
             get { return _pagamento; }
             set
@@ -216,14 +216,14 @@ namespace DgSystems.NFe.ViewModels
 
         private void GerarPagtoCmd_Execute(object obj)
         {
-            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoVO>();
+            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoModel>();
             Pagamento.ValidateModel();
 
             if (Pagamento.HasErrors)
                 return;
 
             NotaFiscal.Pagamentos.Add(Pagamento);
-            Pagamento = new PagamentoVO();
+            Pagamento = new PagamentoModel();
         }
 
         private void AdicionarProdutoCmd_Execute(object obj)
@@ -267,7 +267,7 @@ namespace DgSystems.NFe.ViewModels
             Destinatarios.Clear();
         }
 
-        private void ExcluirPagamentoCmd_Execute(PagamentoVO pagamento)
+        private void ExcluirPagamentoCmd_Execute(PagamentoModel pagamento)
         {
             NotaFiscal.Pagamentos.Remove(pagamento);
             Pagamento.ValorParcela += pagamento.ValorParcela * pagamento.QtdeParcelas;
@@ -297,7 +297,7 @@ namespace DgSystems.NFe.ViewModels
             }
 
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            Pagamento = new PagamentoVO { FormaPagamento = "Dinheiro" };
+            Pagamento = new PagamentoModel { FormaPagamento = "Dinheiro" };
 
             var config = _configuracaoService.GetConfiguracao();
 
