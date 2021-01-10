@@ -104,11 +104,11 @@ namespace NFe.WPF.ViewModel
             NotaFiscal.Serie = _notaFiscalBO.Identificacao.Serie.ToString("D3");
 
             //Preenche produtos
-            NotaFiscal.Produtos = new ObservableCollection<ProdutoVO>();
+            NotaFiscal.Produtos = new ObservableCollection<ProdutoModel>();
 
             foreach (var produto in _notaFiscalBO.Produtos)
             {
-                var produtoVO = new ProdutoVO();
+                var produtoVO = new ProdutoModel();
                 produtoVO.QtdeProduto = produto.QtdeUnidadeComercial;
                 produtoVO.Descricao = produto.Descricao;
                 produtoVO.ValorUnitario = produto.ValorUnidadeComercial;

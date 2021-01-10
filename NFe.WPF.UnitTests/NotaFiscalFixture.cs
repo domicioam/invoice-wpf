@@ -36,9 +36,9 @@ namespace NFe.WPF.UnitTests
                 notaFiscalModel.Finalidade = "Normal";
                 notaFiscalModel.NaturezaOperacao = "Venda";
                 notaFiscalModel.DestinatarioSelecionado = new DestinatarioModel();
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
             {
-                new ProdutoVO()
+                new ProdutoModel()
                 {
                     QtdeProduto = 1,
                     ValorUnitario = 65,
@@ -110,9 +110,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
                 {
-                    new ProdutoVO()
+                    new ProdutoModel()
                     {
                         QtdeProduto = 1,
                         ValorUnitario = 65,
@@ -201,9 +201,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
                 {
-                    new ProdutoVO()
+                    new ProdutoModel()
                     {
                         QtdeProduto = 1,
                         ValorUnitario = 65,
@@ -286,9 +286,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
                 {
-                    new ProdutoVO()
+                    new ProdutoModel()
                     {
                         QtdeProduto = 1,
                         ValorUnitario = 65,
@@ -377,9 +377,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
             {
-                new ProdutoVO()
+                new ProdutoModel()
                 {
                     QtdeProduto = 1,
                     ValorUnitario = 65,

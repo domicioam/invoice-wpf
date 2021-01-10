@@ -133,7 +133,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() {Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0};
+            var produto = new ProdutoModel() {Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0};
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");
@@ -318,7 +318,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");
@@ -360,7 +360,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");
@@ -434,7 +434,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("65");
@@ -475,7 +475,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");

@@ -35,7 +35,7 @@ namespace DgSystems.NFe.ViewModels
         public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoRepository certificadoRepository)
         {
             Pagamento = new PagamentoVO();
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
             var produtosDb = produtoRepository.GetAll();
             DestinatarioParaSalvar = new DestinatarioModel();
             TransportadoraParaSalvar = new TransportadoraModel();
@@ -62,7 +62,7 @@ namespace DgSystems.NFe.ViewModels
             EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_Execute);
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);
             ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
-            ExcluirProdutoNotaCmd = new RelayCommand<ProdutoVO>(ExcluirProdutoNotaCmd_Execute, null);
+            ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
             UfSelecionadoCmd = new RelayCommand(UfSelecionadoCmd_Execute, null);
             TransportadoraWindowLoadedCmd = new RelayCommand(TransportadoraWindowLoadedCmd_Execute, null);
             DestinatarioChangedCmd = new RelayCommand<DestinatarioModel>(DestinatarioChangedCmd_Execute, null);
@@ -148,7 +148,7 @@ namespace DgSystems.NFe.ViewModels
         }
 
         private PagamentoVO _pagamento;
-        private ProdutoVO _produto;
+        private ProdutoModel _produto;
         private Modelo _modelo;
         private NaturezaOperacaoModel _naturezaOperacaoParaSalvar;
 
@@ -215,7 +215,7 @@ namespace DgSystems.NFe.ViewModels
         public List<string> EstadosUF { get; }
         public List<int> Parcelas { get; set; }
 
-        public ProdutoVO Produto
+        public ProdutoModel Produto
         {
             get
             {
@@ -302,7 +302,7 @@ namespace DgSystems.NFe.ViewModels
             if (Produto.HasErrors) 
                 return;
 
-            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
+            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoModel>();
 
             NotaFiscal.Produtos.Add(Produto);
             Pagamento.ValorParcela += Produto.TotalLiquido;
@@ -310,7 +310,7 @@ namespace DgSystems.NFe.ViewModels
 
             RaisePropertyChanged(nameof(ProdutosCombo));
             RaisePropertyChanged("ProdutosGrid");
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
         }
 
         private void DestinatarioChangedCmd_Execute(DestinatarioModel destSelecionado)
@@ -367,7 +367,7 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        private void ExcluirProdutoNotaCmd_Execute(ProdutoVO produto)
+        private void ExcluirProdutoNotaCmd_Execute(ProdutoModel produto)
         {
             NotaFiscal.Produtos.Remove(produto);
             ProdutosCombo.Add(produto.ProdutoSelecionado);
@@ -385,7 +385,7 @@ namespace DgSystems.NFe.ViewModels
         private void ClosedCmd_Execute()
         {
             NotaFiscal = null;
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
         }
 
         private void LoadedCmd_Execute(string modelo)

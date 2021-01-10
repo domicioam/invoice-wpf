@@ -30,7 +30,7 @@ namespace DgSystems.NFe.ViewModels
         public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoRepository certificadoRepository, IEmissorService emissorService)
         {
             Pagamento = new PagamentoVO();
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
             DestinatarioParaSalvar = new DestinatarioModel();
             TransportadoraParaSalvar = new TransportadoraModel();
             Destinatarios = new ObservableCollection<DestinatarioModel>();
@@ -42,7 +42,7 @@ namespace DgSystems.NFe.ViewModels
             EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_Execute);
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);
             ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
-            ExcluirProdutoNotaCmd = new RelayCommand<ProdutoVO>(ExcluirProdutoNotaCmd_Execute, null);
+            ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
             ExcluirPagamentoCmd = new RelayCommand<PagamentoVO>(ExcluirPagamentoCmd_Execute, null);
 
             _dialogService = dialogService;
@@ -96,7 +96,7 @@ namespace DgSystems.NFe.ViewModels
         }
 
         private PagamentoVO _pagamento;
-        private ProdutoVO _produto;
+        private ProdutoModel _produto;
         private Modelo _modelo;
         private bool _isBusy;
 
@@ -132,7 +132,7 @@ namespace DgSystems.NFe.ViewModels
         public Dictionary<string, string> FormasPagamento { get; set; }
         public List<int> Parcelas { get; set; }
 
-        public ProdutoVO Produto
+        public ProdutoModel Produto
         {
             get
             {
@@ -233,7 +233,7 @@ namespace DgSystems.NFe.ViewModels
             if (Produto.HasErrors)
                 return;
 
-            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
+            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoModel>();
 
             if (string.IsNullOrEmpty(NotaFiscal.NaturezaOperacao))
             {
@@ -247,10 +247,10 @@ namespace DgSystems.NFe.ViewModels
 
             RaisePropertyChanged(nameof(ProdutosCombo));
             RaisePropertyChanged("ProdutosGrid");
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
         }
 
-        private void ExcluirProdutoNotaCmd_Execute(ProdutoVO produto)
+        private void ExcluirProdutoNotaCmd_Execute(ProdutoModel produto)
         {
             NotaFiscal.Produtos.Remove(produto);
             Pagamento.ValorParcela = NotaFiscal.Produtos.Sum(p => p.TotalLiquido);
@@ -262,7 +262,7 @@ namespace DgSystems.NFe.ViewModels
         private void ClosedCmd_Execute()
         {
             NotaFiscal = null;
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
             ProdutosCombo.Clear();
             Destinatarios.Clear();
         }

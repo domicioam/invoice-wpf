@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DgSystems.NFe.ViewModels
 {
-    public class ProdutoVO : ObservableObjectValidation
+    public class ProdutoModel : ObservableObjectValidation
     {
         private ProdutoEntity _produtoSelecionado;
 
