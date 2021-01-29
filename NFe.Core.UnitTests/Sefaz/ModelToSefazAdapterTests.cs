@@ -225,6 +225,8 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             Assert.Equal(TNFeInfNFeIdeTpEmis.Item1, infIde.tpEmis);
             Assert.Equal(TNFeInfNFeIdeTpImp.Item4, infIde.tpImp);
             Assert.Equal(TNFeInfNFeIdeIdDest.Item1, infIde.idDest);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.Numero, infIde.nNF);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.NaturezaOperacao, infIde.natOp);
         }
     }
 }
