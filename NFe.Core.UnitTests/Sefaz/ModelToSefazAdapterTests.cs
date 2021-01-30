@@ -6,6 +6,7 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
+using NFe.Core.Utils.Conversores.Enums.Autorizacao;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using Xunit;
 using Endereco = NFe.Core.Endereco;
@@ -216,17 +217,28 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
 
             // Identificação
             var infIde = tNFe.NFe[0].infNFe.ide;
-            Assert.Equal(TAmb.Item2, infIde.tpAmb);
-            Assert.Equal(_fixture.NotaFiscal.Identificacao.NaturezaOperacao, infIde.natOp);
-            Assert.Equal(_fixture.NotaFiscal.Identificacao.Chave.DigitoVerificador.ToString(), infIde.cDV);
-            Assert.Equal(TFinNFe.Item1, infIde.finNFe); 
-            Assert.Equal(_fixture.NotaFiscal.Identificacao.DataHoraEmissao.ToUtcFormatedString(), infIde.dhEmi);
-            Assert.Equal(TNFeInfNFeIdeIndPres.Item1 , infIde.indPres); // better create another nota fiscal specific to this unit test to not depend on external changes to NotaFiscal object
-            Assert.Equal(TNFeInfNFeIdeTpEmis.Item1, infIde.tpEmis);
-            Assert.Equal(TNFeInfNFeIdeTpImp.Item4, infIde.tpImp);
-            Assert.Equal(TNFeInfNFeIdeIdDest.Item1, infIde.idDest);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.UF.ToTCodUfIBGE(), infIde.cUF);
             Assert.Equal(_fixture.NotaFiscal.Identificacao.Numero, infIde.nNF);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.Chave.Codigo, infIde.cNF);
             Assert.Equal(_fixture.NotaFiscal.Identificacao.NaturezaOperacao, infIde.natOp);
+            Assert.Equal((TMod)(int)_fixture.NotaFiscal.Identificacao.Modelo, infIde.mod);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.Serie.ToString(), infIde.serie);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.DataHoraEmissao.ToUtcFormatedString(), infIde.dhEmi);
+            Assert.Equal((TNFeInfNFeIdeTpNF)(int)_fixture.NotaFiscal.Identificacao.TipoOperacao, infIde.tpNF);
+            Assert.Equal(TNFeInfNFeIdeIdDest.Item1, infIde.idDest);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.CodigoMunicipio, infIde.cMunFG);
+            Assert.Equal(TNFeInfNFeIdeTpImp.Item4, infIde.tpImp);
+            Assert.Equal(TNFeInfNFeIdeTpEmis.Item1, infIde.tpEmis);
+            Assert.Equal(TAmb.Item2, infIde.tpAmb);
+            Assert.Equal(TFinNFe.Item1, infIde.finNFe); 
+            Assert.Equal((TNFeInfNFeIdeIndFinal)(int)_fixture.NotaFiscal.Identificacao.FinalidadeConsumidor, infIde.indFinal);
+            Assert.Equal(TNFeInfNFeIdeIndPres.Item1 , infIde.indPres); // better create another nota fiscal specific to this unit test to not depend on external changes to NotaFiscal object
+            Assert.Equal((TProcEmi)(int)_fixture.NotaFiscal.Identificacao.ProcessoEmissao, infIde.procEmi);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.VersaoAplicativo, infIde.verProc);
+            Assert.Equal(_fixture.NotaFiscal.Identificacao.Chave.DigitoVerificador.ToString(), infIde.cDV);
+
+            // Emitente
+            var emit = tNFe.NFe[0].infNFe.emit;
         }
     }
 }

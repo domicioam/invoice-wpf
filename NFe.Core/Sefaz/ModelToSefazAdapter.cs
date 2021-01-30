@@ -298,7 +298,7 @@ namespace NFe.Core.Sefaz
         {
             var ide = new TNFeInfNFeIde
             {
-                cUF = TCodUfIBGEConversor.ToTCodUfIBGE(notaFiscal.Identificacao.UF),
+                cUF = notaFiscal.Identificacao.UF.ToTCodUfIBGE(),
                 nNF = notaFiscal.Identificacao.Numero,
                 cNF = notaFiscal.Identificacao.Chave.Codigo,
                 natOp = notaFiscal.Identificacao.NaturezaOperacao,
