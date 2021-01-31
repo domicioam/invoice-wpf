@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml;
 using DgSystems.NFe.Extensions;
 using NFe.Core.Cadastro.Imposto;
@@ -147,22 +148,25 @@ namespace NFe.Core.NotasFiscais.Repositories
             }
         }
 
-        public IEnumerable<NotaFiscalEntity> Take(int pageSize, int page)
+        public Task<List<NotaFiscalEntity>> TakeAsync(int pageSize, int page)
         {
-            var skip = (page - 1) * pageSize;
-
-            using (var context = new NFeContext())
+            return Task.Run(async () =>
             {
-                var config = context.Configuracao.FirstOrDefault();
+                var skip = (page - 1) * pageSize;
 
-                return config == null
-                    ? null
-                    : context.NotaFiscal
-                        .OrderByDescending(n => n.Id)
-                        .Skip(skip)
-                        .Take(pageSize)
-                        .ToList();
-            }
+                using (var context = new NFeContext())
+                {
+                    var config = context.Configuracao.FirstOrDefaultAsync();
+
+                    return await config == null
+                        ? null
+                        : context.NotaFiscal
+                            .OrderByDescending(n => n.Id)
+                            .Skip(skip)
+                            .Take(pageSize)
+                            .ToList();
+                }
+            });
         }
 
         public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string xml)

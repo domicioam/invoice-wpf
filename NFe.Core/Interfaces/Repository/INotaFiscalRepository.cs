@@ -19,7 +19,7 @@ namespace NFe.Core.Interfaces
         List<NotaFiscalEntity> GetNotasContingencia();
         NotaFiscalEntity GetPrimeiraNotaEmitidaEmContingencia(DateTime dataHoraContingencia, DateTime now);
         NotaFiscalEntity GetNota(string numero, string serie, string modelo);
-        IEnumerable<NotaFiscalEntity> Take(int quantity, int page);
+        Task<List<NotaFiscalEntity>> TakeAsync(int quantity, int page);
         void ExcluirNota(string chave);
         int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string v);
         List<NotaFiscalEntity> GetNotasFiscaisPorMesAno(DateTime periodo, bool v);
