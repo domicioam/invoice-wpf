@@ -447,7 +447,7 @@ namespace DgSystems.NFe.ViewModels
                     var natModel = new NaturezaOperacaoModel() { Id = naturezaDB.Id, Descricao = naturezaDB.Descricao };
                     NaturezasOperacoes.Add(natModel);
 
-                    if (natModel.Descricao.Equals(DefaultNaturezaOperacao))
+                    if (natModel.Descricao.Equals(DEFAULT_NATUREZA_OPERACAO))
                     {
                         NaturezaOperacaoSelecionada = natModel;
                     }
@@ -455,7 +455,7 @@ namespace DgSystems.NFe.ViewModels
             }
             else
             {
-                NaturezaOperacaoSelecionada = NaturezasOperacoes.FirstOrDefault(n => n.Descricao.Equals(DefaultNaturezaOperacao));
+                NaturezaOperacaoSelecionada = NaturezasOperacoes.FirstOrDefault(n => n.Descricao.Equals(DEFAULT_NATUREZA_OPERACAO));
             }
         }
 
