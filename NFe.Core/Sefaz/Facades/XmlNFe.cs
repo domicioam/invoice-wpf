@@ -21,25 +21,31 @@ namespace NFe.Core.Sefaz.Facades
             var digVal = "";
 
             var xml = Regex.Replace(XmlUtil.GerarXmlLoteNFe(notaFiscal, nfeNamespace), "<motDesICMS>1</motDesICMS>", string.Empty);
-            XmlNode = AssinaturaDigital.AssinarLoteComUmaNota(xml, refUri, certificado, ref digVal);
+            var xmlNode = AssinaturaDigital.AssinarLoteComUmaNota(xml, refUri, certificado, ref digVal);
+            XmlDocument = new XmlDocument();
+            XmlDocument.LoadXml(xmlNode.InnerXml);
 
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
             {
                 QrCode = PreencherQrCode(notaFiscal, cscId, csc, digVal);
-                string newNodeXml = XmlNode.InnerXml.Replace("<qrCode />", "<qrCode>" + QrCode + "</qrCode>");
-                var document = new XmlDocument();
-                document.LoadXml(newNodeXml);
-                XmlNode = document.DocumentElement;
+                string newNodeXml = xmlNode.InnerXml.Replace("<qrCode />", "<qrCode>" + QrCode + "</qrCode>");
+                XmlDocument = new XmlDocument();
+                XmlDocument.LoadXml(newNodeXml);
             }
 
-            var lote = (TEnviNFe)XmlUtil.Deserialize<TEnviNFe>(XmlNode.OuterXml);
+            var lote = (TEnviNFe)XmlUtil.Deserialize<TEnviNFe>(xmlNode.OuterXml);
             TNFe = lote.NFe[0];
         }
 
-        public XmlNode XmlNode { get; private set; }
-        public TNFe TNFe { get; private set; }
-        public QrCode QrCode { get; private set; }
-        public string Xml { get { return XmlNode.OuterXml; } }
+        public XmlNode XmlNode
+        {
+            get { return XmlDocument.DocumentElement; }
+        }
+
+        public XmlDocument XmlDocument { get; }
+        public TNFe TNFe { get; }
+        public QrCode QrCode { get; }
+        public string Xml { get { return XmlDocument.OuterXml; } }
 
         private static QrCode PreencherQrCode(NotaFiscal notaFiscal, string cscId, string csc, string digVal)
         {

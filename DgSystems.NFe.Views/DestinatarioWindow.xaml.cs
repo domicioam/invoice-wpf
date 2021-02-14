@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.ViewModel;
 using NFe.WPF.ViewModel;
 

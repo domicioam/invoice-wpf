@@ -21,12 +21,13 @@ using NFe.Core.Utils.Acentuacao;
 using NFe.Core.Utils.PDF;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
+using NFe.WPF.NotaFiscal.ViewModel;
 using Destinatario = NFe.Core.NotasFiscais.Entities.Destinatario;
 using Emissor = NFe.Core.NotasFiscais.Emissor;
 using Pagamento = NFe.Core.NotasFiscais.Pagamento;
 using Produto = NFe.Core.NotasFiscais.Entities.Produto;
 
-namespace NFe.WPF.NotaFiscal.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class EnviarNotaAppService : IEnviarNotaAppService
     {
@@ -52,7 +53,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             _xmlUtil = xmlUtil;
         }
 
-        public async Task<Core.NotasFiscais.NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
+        public async Task<NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
         {
             notaFiscalModel.ValidateModel();
 
@@ -70,8 +71,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                 throw new ArgumentException("Valor total da nota não corresponde ao valor de pagamento.");
             }
 
-            var config = _configuracaoService.GetConfiguracao();
-            Core.NotasFiscais.NotaFiscal notaFiscal = null;
+            var config = await _configuracaoService.GetConfiguracaoAsync();
+            NotaFiscal notaFiscal = null;
 
             await Task.Run(() =>
             {
@@ -84,11 +85,11 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                     Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, _sefazSettings.Ambiente, documentoDanfe);
                 var produtos = GetProdutos(notaFiscalModel);
                 var pagamentos = GetPagamentos(notaFiscalModel);
-                var totalNFe = GetTotalNFe(notaFiscalModel);
+                var totalNFe = GetTotalNFe();
                 var infoAdicional = new InfoAdicional(produtos);
                 var transporte = GetTransporte(notaFiscalModel, modelo);
 
-                notaFiscal = new Core.NotasFiscais.NotaFiscal(emissor, destinatario, identificacao, transporte,
+                notaFiscal = new NotaFiscal(emissor, destinatario, identificacao, transporte,
                     totalNFe, infoAdicional, produtos, pagamentos);
 
                 var cscId = config.CscId;
@@ -136,7 +137,8 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
                     _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
                     notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
-                    _notaFiscalRepository.Salvar(notaFiscal, xmlNFe.XmlNode.OuterXml);
+                    var xmlProc = _xmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                    _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
                     throw;
                 }
             });
@@ -146,12 +148,12 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
 
 
-        public async Task ImprimirNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
+        public async Task ImprimirNotaFiscal(NotaFiscal notaFiscal)
         {
             await GeradorPDF.GerarPdfNotaFiscal(notaFiscal);
         }
 
-        private void PublishInvoiceSentInContigencyModeEvent(Core.NotasFiscais.NotaFiscal notaFiscal, string message)
+        private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)
         {
             var theEvent = new NotaFiscalEmitidaEmContingenciaEvent() { justificativa = message, horário = notaFiscal.Identificacao.DataHoraEmissao };
             MessagingCenter.Send(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), theEvent);
@@ -178,7 +180,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
                 if (notaFiscal.DestinatarioSelecionado.Endereco.Logradouro != null)
                 {
                     var enderecoModel = notaFiscal.DestinatarioSelecionado.Endereco;
-                    endereco = new Core.NotasFiscais.Endereco(enderecoModel.Logradouro, enderecoModel.Numero, enderecoModel.Bairro,
+                    endereco = new Endereco(enderecoModel.Logradouro, enderecoModel.Numero, enderecoModel.Bairro,
                         enderecoModel.Municipio, enderecoModel.CEP, enderecoModel.UF);
                 }
 
@@ -223,7 +225,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         }
 
         [Obsolete("The fields set in this method are ignored.")]
-        private static TotalNFe GetTotalNFe(NotaFiscalModel notaFiscal)
+        private static TotalNFe GetTotalNFe()
         {
             var totalNFe = new TotalNFe { IcmsTotal = new IcmsTotal() };
             return totalNFe;
@@ -274,7 +276,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             {
                 var produtoEntity = produtosTo.First(c => c.Id == produtoNota.ProdutoSelecionado.Id);
 
-                var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new Core.NotasFiscais.Entities.Imposto()
+                var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new global::NFe.Core.NotasFiscais.Entities.Imposto()
                 {
                     Aliquota = i.Aliquota,
                     BaseCalculo = i.BaseCalculo,

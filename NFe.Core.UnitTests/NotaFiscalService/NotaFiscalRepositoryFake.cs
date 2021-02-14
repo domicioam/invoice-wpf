@@ -153,7 +153,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             throw new NotImplementedException();
         }
 
-        public IEnumerable<NotaFiscalEntity> Take(int quantity, int page)
+        public Task<List<NotaFiscalEntity>> TakeAsync(int quantity, int page)
         {
             throw new NotImplementedException();
         }

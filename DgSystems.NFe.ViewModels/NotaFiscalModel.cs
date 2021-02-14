@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
 using EmissorNFe.Model.Base;
-using EmissorNFe.VO;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
 
@@ -28,8 +28,8 @@ namespace NFe.WPF.NotaFiscal.Model
         private string _modeloNota;
         private string _naturezaOperacao;
         private string _numero;
-        private ObservableCollection<PagamentoVO> _pagamentos;
-        private ObservableCollection<ProdutoVO> _produtos;
+        private ObservableCollection<PagamentoModel> _pagamentos;
+        private ObservableCollection<ProdutoModel> _produtos;
         private string _serie;
 
         public string Destinatario { get; set; }
@@ -43,7 +43,7 @@ namespace NFe.WPF.NotaFiscal.Model
         }
 
         [Required]
-        public ObservableCollection<ProdutoVO> Produtos
+        public ObservableCollection<ProdutoModel> Produtos
         {
             get { return _produtos; }
             set { SetProperty(ref _produtos, value); }
@@ -84,7 +84,7 @@ namespace NFe.WPF.NotaFiscal.Model
         }
 
         [Required]
-        public ObservableCollection<PagamentoVO> Pagamentos
+        public ObservableCollection<PagamentoModel> Pagamentos
         {
             get { return _pagamentos; }
             set { SetProperty(ref _pagamentos, value); }

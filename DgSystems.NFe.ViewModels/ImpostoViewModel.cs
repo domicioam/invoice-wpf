@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.Utils;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 
-namespace NFe.WPF.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class ImpostoViewModel : ViewModelBaseValidation
     {
@@ -58,7 +56,7 @@ namespace NFe.WPF.ViewModel
         }
 
         private ObservableCollection<Imposto> _impostos;
-        private IGrupoImpostosRepository _grupoImpostosRepository;
+        private readonly IGrupoImpostosRepository _grupoImpostosRepository;
 
         public ObservableCollection<Imposto> Impostos
         {
@@ -163,19 +161,19 @@ namespace NFe.WPF.ViewModel
                 switch (i.Nome.ToUpperInvariant())
                 {
                     case "ICMS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms, Id = i.Id  });
+                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms, Id = i.Id  });
                         break;
 
                     case "PIS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS, Id = i.Id });
                         break;
 
                     case "COFINS":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Cofins, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Cofins, Id = i.Id });
                         break;
 
                     case "IPI":
-                        grupoImpostos.Impostos.Add(new Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI, Id = i.Id });
                         break;
                 }
             }
@@ -191,50 +189,5 @@ namespace NFe.WPF.ViewModel
             
             window.Close();
         }
-    }
-
-    public class ICMS
-    {
-        public string CST { get; set; }
-        public double Aliquota { get; set; }
-        public List<string> CstList { get { return new List<string>() { "41", "60" }; } }
-    }
-
-    public class ICMSST
-    {
-        public double Margem { get; set; }
-        public double Aliquota { get; set; }
-        public double Reducao { get; set; }
-    }
-
-    public class IPI
-    {
-        public string CST { get; set; }
-        public double Aliquota { get; set; }
-        public List<string> CstList { get { return new List<string>() { "40", "50", "60" }; } }
-    }
-
-    public class PIS
-    {
-        public string CST { get; set; }
-        public double Aliquota { get; set; }
-        public List<string> CstList { get { return new List<string>() { "04", "05", "06", "07", "08", "09" }; } }
-    }
-
-    public class COFINS
-    {
-        public string CST { get; set; }
-        public double Aliquota { get; set; }
-        public List<string> CstList { get { return new List<string>() { "01", "40", "50", "60" }; } }
-    }
-
-    public class Imposto
-    {
-        public string Nome { get; set; }
-        public string CST { get; set; }
-        public string Regime { get; set; }
-        public double Aliquota { get; set; }
-        public double Reducao { get; set; }
-        public int Id { get; set; }
     }
 }

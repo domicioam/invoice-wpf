@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using EmissorNFe.VO;
+using DgSystems.NFe.ViewModels;
 using GalaSoft.MvvmLight.Views;
 using Moq;
 using NFe.Core.Cadastro;
@@ -64,7 +64,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("55");
-            var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
+            var pagamento = new PagamentoModel() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
             nfce.Pagamento = pagamento;
             nfce.GerarPagtoCmd.Execute(null);
             Assert.Contains(pagamento, nfce.NotaFiscal.Pagamentos);
@@ -97,7 +97,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             nfce.LoadedCmd.Execute("55");
-            var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
+            var pagamento = new PagamentoModel() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = 10, ValorTotal = "10" };
             nfce.Pagamento = pagamento;
             nfce.GerarPagtoCmd.Execute(null);
             nfce.ExcluirPagamentoCmd.Execute(pagamento);
@@ -133,7 +133,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() {Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0};
+            var produto = new ProdutoModel() {Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0};
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");
@@ -318,7 +318,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");
@@ -360,7 +360,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");
@@ -368,7 +368,7 @@ namespace NFe.WPF.UnitTests
 
             nfce.AdicionarProdutoCmd.Execute(null);
 
-            var pagamento = new PagamentoVO() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = totalLiquido, ValorTotal = totalLiquido.ToString() };
+            var pagamento = new PagamentoModel() { FormaPagamento = "Dinheiro", QtdeParcelas = 1, ValorParcela = totalLiquido, ValorTotal = totalLiquido.ToString() };
             nfce.Pagamento = pagamento;
             nfce.GerarPagtoCmd.Execute(null);
 
@@ -434,7 +434,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("65");
@@ -475,7 +475,7 @@ namespace NFe.WPF.UnitTests
                 destinatarioServiceMock.Object, certificadoRepositoryMock.Object, emissorServiceMock.Object);
 
             var totalLiquido = 65;
-            var produto = new ProdutoVO() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
+            var produto = new ProdutoModel() { Descontos = 0, Descricao = "Botijão P13", Frete = 0, Outros = 0, ProdutoSelecionado = _notaFiscalFixture.ProdutoEntity, QtdeProduto = 1, Seguro = 0, TotalBruto = 0, ValorUnitario = 0 };
             produto.TotalLiquido = totalLiquido;
 
             nfce.LoadedCmd.Execute("55");

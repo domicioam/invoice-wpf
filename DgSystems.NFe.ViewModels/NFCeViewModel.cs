@@ -5,9 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
-using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Configuracoes;
@@ -18,22 +16,21 @@ using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.WPF.Events;
-using NFe.WPF.Model;
 using NFe.WPF.NotaFiscal.Model;
-using NFe.WPF.ViewModel;
+using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
 
-namespace NFe.WPF.NotaFiscal.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class NFCeViewModel : ViewModelBaseValidation
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaController, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoRepository certificadoRepository, IEmissorService emissorService)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoRepository certificadoRepository, IEmissorService emissorService)
         {
-            Pagamento = new PagamentoVO();
-            Produto = new ProdutoVO();
+            Pagamento = new PagamentoModel();
+            Produto = new ProdutoModel();
             DestinatarioParaSalvar = new DestinatarioModel();
             TransportadoraParaSalvar = new TransportadoraModel();
             Destinatarios = new ObservableCollection<DestinatarioModel>();
@@ -45,11 +42,11 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_Execute);
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);
             ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
-            ExcluirProdutoNotaCmd = new RelayCommand<ProdutoVO>(ExcluirProdutoNotaCmd_Execute, null);
-            ExcluirPagamentoCmd = new RelayCommand<PagamentoVO>(ExcluirPagamentoCmd_Execute, null);
+            ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
+            ExcluirPagamentoCmd = new RelayCommand<PagamentoModel>(ExcluirPagamentoCmd_Execute, null);
 
             _dialogService = dialogService;
-            _enviarNotaController = enviarNotaController;
+            _enviarNotaAppService = enviarNotaAppService;
             _naturezaOperacaoRepository = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
             _produtoRepository = produtoRepository;
@@ -98,14 +95,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             set { SetProperty(ref _notaFiscal, value); }
         }
 
-        #region Fields
-        private PagamentoVO _pagamento;
-        private ProdutoVO _produto;
+        private PagamentoModel _pagamento;
+        private ProdutoModel _produto;
         private Modelo _modelo;
-
-        #endregion Fields
-
-        #region Properties
         private bool _isBusy;
 
         public bool IsBusy
@@ -127,7 +119,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         public ObservableCollection<DestinatarioModel> Destinatarios { get; set; }
         public ObservableCollection<TransportadoraModel> Transportadoras { get; set; }
         public List<string> Finalidades { get; set; }
-        public PagamentoVO Pagamento
+        public PagamentoModel Pagamento
         {
             get { return _pagamento; }
             set
@@ -140,7 +132,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         public Dictionary<string, string> FormasPagamento { get; set; }
         public List<int> Parcelas { get; set; }
 
-        public ProdutoVO Produto
+        public ProdutoModel Produto
         {
             get
             {
@@ -154,10 +146,6 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
         public ObservableCollection<ProdutoEntity> ProdutosCombo { get; set; }
 
-        #endregion Properties
-
-        #region Commands
-
         public ICommand SalvarTransportadoraCmd { get; set; }
         public ICommand AdicionarProdutoCmd { get; set; }
         public ICommand GerarPagtoCmd { get; set; }
@@ -166,10 +154,9 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         public ICommand ClosedCmd { get; set; }
         public ICommand ExcluirProdutoNotaCmd { get; set; }
         public ICommand ExcluirPagamentoCmd { get; set; }
-        #endregion Commands
 
         private readonly IDialogService _dialogService;
-        private readonly IEnviarNotaAppService _enviarNotaController;
+        private readonly IEnviarNotaAppService _enviarNotaAppService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IProdutoRepository _produtoRepository;
@@ -198,14 +185,14 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             {
                 X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
                 var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaController.EnviarNotaAsync(NotaFiscal, _modelo, emissor,certificado, _dialogService);
+                var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(NotaFiscal, _modelo, emissor,certificado, _dialogService);
                 IsBusy = false;
                 var result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
                 if (result)
                 {
                     BusyContent = "Gerando impressão...";
                     IsBusy = true;
-                    await _enviarNotaController.ImprimirNotaFiscal(notaFiscal);
+                    await _enviarNotaAppService.ImprimirNotaFiscal(notaFiscal);
                 }
             }
             catch (ArgumentException e)
@@ -229,14 +216,14 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
         private void GerarPagtoCmd_Execute(object obj)
         {
-            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoVO>();
+            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoModel>();
             Pagamento.ValidateModel();
 
             if (Pagamento.HasErrors)
                 return;
 
             NotaFiscal.Pagamentos.Add(Pagamento);
-            Pagamento = new PagamentoVO();
+            Pagamento = new PagamentoModel();
         }
 
         private void AdicionarProdutoCmd_Execute(object obj)
@@ -246,7 +233,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             if (Produto.HasErrors)
                 return;
 
-            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoVO>();
+            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoModel>();
 
             if (string.IsNullOrEmpty(NotaFiscal.NaturezaOperacao))
             {
@@ -260,10 +247,10 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 
             RaisePropertyChanged(nameof(ProdutosCombo));
             RaisePropertyChanged("ProdutosGrid");
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
         }
 
-        private void ExcluirProdutoNotaCmd_Execute(ProdutoVO produto)
+        private void ExcluirProdutoNotaCmd_Execute(ProdutoModel produto)
         {
             NotaFiscal.Produtos.Remove(produto);
             Pagamento.ValorParcela = NotaFiscal.Produtos.Sum(p => p.TotalLiquido);
@@ -275,17 +262,16 @@ namespace NFe.WPF.NotaFiscal.ViewModel
         private void ClosedCmd_Execute()
         {
             NotaFiscal = null;
-            Produto = new ProdutoVO();
+            Produto = new ProdutoModel();
             ProdutosCombo.Clear();
             Destinatarios.Clear();
         }
 
-        private void ExcluirPagamentoCmd_Execute(PagamentoVO pagamento)
+        private void ExcluirPagamentoCmd_Execute(PagamentoModel pagamento)
         {
             NotaFiscal.Pagamentos.Remove(pagamento);
             Pagamento.ValorParcela += pagamento.ValorParcela * pagamento.QtdeParcelas;
         }
-
 
         private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel destinatarioParaSalvar)
         {
@@ -311,7 +297,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
             }
 
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            Pagamento = new PagamentoVO { FormaPagamento = "Dinheiro" };
+            Pagamento = new PagamentoModel { FormaPagamento = "Dinheiro" };
 
             var config = _configuracaoService.GetConfiguracao();
 

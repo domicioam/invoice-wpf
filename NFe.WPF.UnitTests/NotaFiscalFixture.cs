@@ -4,8 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
-using EmissorNFe.VO;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
@@ -36,9 +36,9 @@ namespace NFe.WPF.UnitTests
                 notaFiscalModel.Finalidade = "Normal";
                 notaFiscalModel.NaturezaOperacao = "Venda";
                 notaFiscalModel.DestinatarioSelecionado = new DestinatarioModel();
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
             {
-                new ProdutoVO()
+                new ProdutoModel()
                 {
                     QtdeProduto = 1,
                     ValorUnitario = 65,
@@ -62,9 +62,9 @@ namespace NFe.WPF.UnitTests
                     }
                 }
             };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
             {
-                new PagamentoVO()
+                new PagamentoModel()
                 {
                     FormaPagamento = "Dinheiro",
                     QtdeParcelas = 1,
@@ -110,9 +110,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
                 {
-                    new ProdutoVO()
+                    new ProdutoModel()
                     {
                         QtdeProduto = 1,
                         ValorUnitario = 65,
@@ -136,9 +136,9 @@ namespace NFe.WPF.UnitTests
                         }
                     }
                 };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
                 {
-                    new PagamentoVO()
+                    new PagamentoModel()
                     {
                         FormaPagamento = "Dinheiro",
                         QtdeParcelas = 1,
@@ -201,9 +201,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
                 {
-                    new ProdutoVO()
+                    new ProdutoModel()
                     {
                         QtdeProduto = 1,
                         ValorUnitario = 65,
@@ -228,7 +228,7 @@ namespace NFe.WPF.UnitTests
                     }
                 };
 
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>() { new PagamentoVO() { FormaPagamento = "Sem Pagamento" } };
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>() { new PagamentoModel() { FormaPagamento = "Sem Pagamento" } };
 
                 notaFiscalModel.TransportadoraSelecionada = new TransportadoraModel()
                 {
@@ -286,9 +286,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
                 {
-                    new ProdutoVO()
+                    new ProdutoModel()
                     {
                         QtdeProduto = 1,
                         ValorUnitario = 65,
@@ -312,9 +312,9 @@ namespace NFe.WPF.UnitTests
                         }
                     }
                 };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
                 {
-                    new PagamentoVO()
+                    new PagamentoModel()
                     {
                         FormaPagamento = "Dinheiro",
                         QtdeParcelas = 1,
@@ -377,9 +377,9 @@ namespace NFe.WPF.UnitTests
                         UF = "DF"
                     }
                 };
-                notaFiscalModel.Produtos = new ObservableCollection<ProdutoVO>()
+                notaFiscalModel.Produtos = new ObservableCollection<ProdutoModel>()
             {
-                new ProdutoVO()
+                new ProdutoModel()
                 {
                     QtdeProduto = 1,
                     ValorUnitario = 65,
@@ -403,9 +403,9 @@ namespace NFe.WPF.UnitTests
                     }
                 }
             };
-                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoVO>()
+                notaFiscalModel.Pagamentos = new ObservableCollection<PagamentoModel>()
             {
-                new PagamentoVO()
+                new PagamentoModel()
                 {
                     FormaPagamento = "Dinheiro",
                     QtdeParcelas = 1,

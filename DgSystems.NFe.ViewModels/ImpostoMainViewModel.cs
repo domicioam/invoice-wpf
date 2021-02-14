@@ -8,15 +8,14 @@ using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.WPF.Events;
 
-namespace NFe.WPF.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class ImpostoMainViewModel
     {
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private IDialogService _dialogService;
-        private IGrupoImpostosRepository _grupoImpostosRepository;
-        private ImpostoViewModel _impostoViewModel;
+        private readonly IDialogService _dialogService;
+        private readonly IGrupoImpostosRepository _grupoImpostosRepository;
         public ObservableCollection<GrupoImpostos> Impostos { get; set; }
 
         public ICommand LoadedCmd { get; set; }
@@ -24,7 +23,7 @@ namespace NFe.WPF.ViewModel
         public ICommand RemoverImpostoCmd { get; set; }
 
 
-        public ImpostoMainViewModel(IGrupoImpostosRepository grupoImpostosRepository, ImpostoViewModel impostoViewModel, IDialogService dialogService)
+        public ImpostoMainViewModel(IGrupoImpostosRepository grupoImpostosRepository, IDialogService dialogService)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             Impostos = new ObservableCollection<GrupoImpostos>();
@@ -36,7 +35,6 @@ namespace NFe.WPF.ViewModel
                 ImpostoVM_ImpostoAdicionadoEvent();
             });
 
-            _impostoViewModel = impostoViewModel;
             _grupoImpostosRepository = grupoImpostosRepository;
             _dialogService = dialogService;
         }
@@ -58,7 +56,8 @@ namespace NFe.WPF.ViewModel
 
         private void AlterarImpostoCmd_Execute(GrupoImpostos obj)
         {
-            _impostoViewModel.AlterarImposto(obj);
+            var impostoViewModel = new ImpostoViewModel(new GrupoImpostosRepository());
+            impostoViewModel.AlterarImposto(obj);
         }
 
         private void ImpostoVM_ImpostoAdicionadoEvent()

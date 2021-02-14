@@ -1,20 +1,10 @@
-﻿using EmissorNFe.Model;
-using EmissorNFe.Model.Base;
-using GalaSoft.MvvmLight;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EmissorNFe.Model.Base;
 using NFe.Core.Entitities;
-using NFe.Repository;
+using System.ComponentModel.DataAnnotations;
 
-namespace EmissorNFe.VO
+namespace DgSystems.NFe.ViewModels
 {
-    public class ProdutoVO : ObservableObjectValidation
+    public class ProdutoModel : ObservableObjectValidation
     {
         private ProdutoEntity _produtoSelecionado;
 
@@ -39,7 +29,7 @@ namespace EmissorNFe.VO
         private int _qtdeProduto;
 
         [Required]
-        [Range(1, Int32.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int QtdeProduto
         {
             get { return _qtdeProduto; }

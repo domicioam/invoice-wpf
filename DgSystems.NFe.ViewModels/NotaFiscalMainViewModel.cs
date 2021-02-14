@@ -31,7 +31,6 @@ using NFe.Core.Utils.PDF;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
-using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Mementos;
@@ -145,7 +144,7 @@ namespace DgSystems.NFe.ViewModels
             NotasFiscais.Remove(notaMemento);
         }
 
-        private async void EnviarNotaController_NotaEnviadaEventHandler(global::NFe.Core.NotasFiscais.NotaFiscal notaEnviada)
+        private async void EnviarNotaController_NotaEnviadaEventHandler(NotaFiscal notaEnviada)
         {
             await PopularListaNotasFiscais();
 
@@ -366,8 +365,7 @@ namespace DgSystems.NFe.ViewModels
                 var document = new XmlDocument();
                 var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
 
-                var mensagemRetorno =
-                    _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
+                var mensagemRetorno = _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
 
                 if (!mensagemRetorno.IsEnviada)
                     return null;
@@ -434,26 +432,21 @@ namespace DgSystems.NFe.ViewModels
 
         private Task PopularListaNotasFiscais(int page = 1)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
-                var notasDb = _notaFiscalRepository.Take(100, page);
+                var notasDb = await _notaFiscalRepository.TakeAsync(100, page);
 
                 if (notasDb == null) return;
 
-                notasDb = notasDb.OrderByDescending(n => n.DataEmissao).AsEnumerable();
-                var notaFiscalMementos = new List<NotaFiscalMemento>();
-
-                foreach (var nota in notasDb)
-                {
-                    var notaMemento = new NotaFiscalMemento(nota.Numero,
+                var notaFiscalMementos = notasDb
+                    .AsParallel()
+                    .Select(nota => new NotaFiscalMemento(nota.Numero,
                         nota.Modelo == "65" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
                         nota.Destinatario, nota.UfDestinatario,
-                        nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
+                        nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave))
+                    .OrderByDescending(n => n.DataEmissão);
 
-                    notaFiscalMementos.Add(notaMemento);
-                }
-
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     NotasFiscais = new ObservableCollection<NotaFiscalMemento>(notaFiscalMementos);
                 }));

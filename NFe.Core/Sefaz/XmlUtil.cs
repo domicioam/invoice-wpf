@@ -57,19 +57,15 @@ namespace NFe.Core.Sefaz
         {
             var nfeProc = new TNfeProc();
             var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
-            var nfeSerializada = Serialize(nfe, nFeNamespaceName);
-            nfeProc.NFe =
-                (XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TNFe)
-                Deserialize<XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TNFe>(nfeSerializada);
+
+            nfeProc.NFe = nfe.ToTNFeRetorno(nFeNamespaceName);
 
             if (nfeProc.NFe.infNFeSupl != null) nfeProc.NFe.infNFeSupl.qrCode = "";
 
             if (protocolo != null)
             {
                 var protocoloSerializado = Serialize(protocolo, nFeNamespaceName);
-                nfeProc.protNFe =
-                    (XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe)
-                    Deserialize<XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe>(protocoloSerializado);
+                nfeProc.protNFe = (XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe) Deserialize<XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe>(protocoloSerializado);
             }
             else
             {
@@ -87,6 +83,8 @@ namespace NFe.Core.Sefaz
 
             return result;
         }
+
+
 
         internal static string GerarXmlLoteNFe(NotaFiscal notaFiscal, string nFeNamespaceName)
         {

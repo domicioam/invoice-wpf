@@ -4,8 +4,8 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
-using EmissorNFe.VO;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Configuracoes;
@@ -69,7 +69,7 @@ namespace NFe.WPF.ViewModel
         internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
             NotaFiscal = (NFCeModel)notaFiscal;
-            NotaFiscal.Pagamentos = new ObservableCollection<PagamentoVO>();
+            NotaFiscal.Pagamentos = new ObservableCollection<PagamentoModel>();
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
 
             _notaFiscalBO = notaFiscal;
@@ -80,7 +80,7 @@ namespace NFe.WPF.ViewModel
 
                 foreach (var pagamento in _notaFiscalBO.Pagamentos)
                 {
-                    var pagamentoVO = new PagamentoVO();
+                    var pagamentoVO = new PagamentoModel();
                     pagamentoVO.FormaPagamento = pagamento.FormaPagamentoTexto;
                     pagamentoVO.ValorTotal = pagamento.Valor.ToString("N2", new CultureInfo("pt-BR"));
 
@@ -89,7 +89,7 @@ namespace NFe.WPF.ViewModel
             }
             else
             {
-                NotaFiscal.Pagamentos.Add(new PagamentoVO() { FormaPagamento = "N/A" });
+                NotaFiscal.Pagamentos.Add(new PagamentoModel() { FormaPagamento = "N/A" });
             }
 
             //Preenche documento destinatário
@@ -104,15 +104,15 @@ namespace NFe.WPF.ViewModel
             NotaFiscal.Serie = _notaFiscalBO.Identificacao.Serie.ToString("D3");
 
             //Preenche produtos
-            NotaFiscal.Produtos = new ObservableCollection<ProdutoVO>();
+            NotaFiscal.Produtos = new ObservableCollection<ProdutoModel>();
 
             foreach (var produto in _notaFiscalBO.Produtos)
             {
-                var produtoVO = new ProdutoVO();
+                var produtoVO = new ProdutoModel();
                 produtoVO.QtdeProduto = produto.QtdeUnidadeComercial;
                 produtoVO.Descricao = produto.Descricao;
                 produtoVO.ValorUnitario = produto.ValorUnidadeComercial;
-                produtoVO.Descontos = produto.ValorDesconto;
+                produtoVO.Descontos = produto.Desconto;
                 produtoVO.TotalLiquido = produto.ValorTotal;
 
                 NotaFiscal.Produtos.Add(produtoVO);

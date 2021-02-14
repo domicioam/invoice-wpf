@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using NFe.Core.Cadastro.Certificado;
@@ -13,7 +12,7 @@ using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using NFe.WPF.ViewModel.Base;
 
-namespace NFe.WPF.ViewModel
+namespace DgSystems.NFe.ViewModels
 {
     public class CertificadoViewModel : ViewModelBaseValidation
     {
@@ -40,6 +39,12 @@ namespace NFe.WPF.ViewModel
             {
                 SetProperty(ref _textoAdicionarCertificado, value);
             }
+        }
+
+        private protected string CaminhoCertificado
+        {
+            get;
+            set;
         }
 
         public bool IsButtonAdicionarEnabled
@@ -96,8 +101,8 @@ namespace NFe.WPF.ViewModel
             internal set { SetProperty(ref _certificado, value); }
         }
 
-        private ICertificadoRepository _certificadoRepository;
-        private ICertificateManager _certificateManager;
+        private readonly ICertificadoRepository _certificadoRepository;
+        private readonly ICertificateManager _certificateManager;
 
         public ObservableCollection<Certificate> CertificadosInstalados { get; set; }
 
@@ -123,7 +128,7 @@ namespace NFe.WPF.ViewModel
 
             if (Certificado == null)
             {
-                Certificado = new CertificadoModel();
+                Certificado = CertificadoModel.CreateWithoutParameters();
             }
             else
             {
@@ -143,57 +148,44 @@ namespace NFe.WPF.ViewModel
 
         private void SelecionarCertificadoCmd_Execute()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Arquivos de certificado (*.pfx)|*.pfx";
+            var openFileDialog = new OpenFileDialog { Filter = "Arquivos de certificado (*.pfx)|*.pfx" };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() != true) 
+                return;
+            
+            foreach (var fileName in openFileDialog.FileNames)
             {
-                for (int i = 0; i < openFileDialog.FileNames.Length; i++)
-                {
-                    CertificadoModel newCertificado = new CertificadoModel
-                    {
-                        Caminho = new Uri(openFileDialog.FileNames[i]).LocalPath
-                    };
-
-                    Certificado = newCertificado;
-                    IsButtonAdicionarEnabled = true;
-                    TextoAdicionarCertificado = Certificado.Caminho;
-                }
+                CaminhoCertificado = new Uri(fileName).LocalPath;
+                IsButtonAdicionarEnabled = true;
+                TextoAdicionarCertificado = Certificado.Caminho;
             }
         }
 
         private void AdicionarSenhaCmd_Execute(PasswordBox pwBox)
         {
-            if (!string.IsNullOrWhiteSpace(pwBox.Password))
+            if (string.IsNullOrWhiteSpace(pwBox.Password)) 
+                return;
+            
+            var crypto = RijndaelManagedEncryption.EncryptRijndael(pwBox.Password);
+            var certificado = _certificateManager.GetFriendlyCertificate(CaminhoCertificado, pwBox.Password);
+
+            if (IsArquivoCertificado)
             {
-                var crypto = RijndaelManagedEncryption.EncryptRijndael(pwBox.Password);
-                Certificado.Senha = crypto;
-                var certificado = _certificateManager.GetFriendlyCertificate(Certificado.Caminho, pwBox.Password);
-                Certificado.Nome = certificado.FriendlySubjectName;
-                Certificado.NumeroSerial = certificado.SerialNumber;
-                IsButtonSaveEnabled = true;
+                Certificado = CertificadoModel.CreateCertificadoArquivoLocal(certificado.FriendlySubjectName,
+                    CaminhoCertificado, certificado.SerialNumber, crypto);
             }
+            else
+            {
+                Certificado = CertificadoModel.CreateCertificadoInstalado(certificado.FriendlySubjectName,
+                    certificado.SerialNumber, crypto);
+            }
+
+            IsButtonSaveEnabled = true;
         }
 
         private void SalvarCmd_Execute(Window window)
         {
-            if (!IsArquivoCertificado)
-            {
-                Certificado.Nome = CertificadoSelecionado.FriendlySubjectName;
-                Certificado.NumeroSerial = CertificadoSelecionado.SerialNumber;
-                Certificado.Caminho = null;
-            }
-
-            CertificadoEntity certificado;
-
-            if (Certificado.Id != 0)
-            {
-                certificado = _certificadoRepository.GetCertificado();
-            }
-            else
-            {
-                certificado = new CertificadoEntity();
-            }
+            var certificado = Certificado.Id != 0 ? _certificadoRepository.GetCertificado() : new CertificadoEntity();
 
             certificado.Nome = Certificado.Nome;
             certificado.NumeroSerial = Certificado.NumeroSerial;

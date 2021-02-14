@@ -23,14 +23,14 @@ namespace NFe.Core.NotasFiscais.ValueObjects
 
         private string _chave;
         private DateTime _dataHoraEmissao;
-        private int _serie;
-        private string _numero;
-        private TipoEmissao _tipoEmissao;
-        private string _cnpjEmissor;
-        private Modelo _modelo;
-        private CodigoUfIbge _uf;
+        private readonly int _serie;
+        private readonly string _numero;
+        private readonly TipoEmissao _tipoEmissao;
+        private readonly string _cnpjEmissor;
+        private readonly Modelo _modelo;
+        private readonly CodigoUfIbge _uf;
 
-        public int DigitoVerificador { get; set; }
+        public int DigitoVerificador { get; private set; }
         public string Codigo { get; private set; }
 
         public string ChaveMasked
@@ -52,7 +52,7 @@ namespace NFe.Core.NotasFiscais.ValueObjects
             }
         }
 
-        private string CalcularChaveSemDV()
+        private string CalcularChaveSemDv()
         {
             var anoMes = _dataHoraEmissao.ToString("yyMM");
             var numNfe = PreencherNumNFeComZeros(_numero, 9);
@@ -67,8 +67,8 @@ namespace NFe.Core.NotasFiscais.ValueObjects
 
         public void CalcularChave()
         {
-            _chave = CalcularChaveSemDV();
-            DigitoVerificador = CalcularDV(_chave);
+            _chave = CalcularChaveSemDv();
+            DigitoVerificador = CalcularDv(_chave);
             _chave += DigitoVerificador;
         }
 
@@ -83,7 +83,7 @@ namespace NFe.Core.NotasFiscais.ValueObjects
             return numeroComZeros.ToString();
         }
 
-        private int CalcularDV(string chave)
+        private int CalcularDv(string chave)
         {
             if (chave.Length != 43) throw new ArgumentException();
 
