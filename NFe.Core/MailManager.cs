@@ -9,6 +9,7 @@ using NFe.Core.Utils.Xml;
 using NFe.Core.Utils.Zip;
 using System.Configuration;
 using NFe.Core.Utils.PDF;
+using NFe.Core;
 
 namespace NFe.WPF.Utils
 {
@@ -50,15 +51,7 @@ namespace NFe.WPF.Utils
                     {
                         var emissor = _emitenteRepository.GetEmitente();
 
-                        string fromAccount = ConfigurationManager.AppSettings["fromMailAccount"];
-                        string fromMail = ConfigurationManager.AppSettings["fromMailName"];
-
-                        var fromAddress = new MailAddress(fromAccount, fromMail);
-                        var toAddress = new MailAddress(ConfigurationManager.AppSettings["toMailAccount"], ConfigurationManager.AppSettings["toMailName"]);
-                        string fromPassword = ConfigurationManager.AppSettings["fromMailPassword"];
-                        var subject = string.Concat("Notas Fiscais " + periodoStr, " - ", emissor.RazaoSocial, " - ",
-                            emissor.CNPJ);
-                        const string body = "Notas fiscais em anexo a esse e-mail. \n\nEsta é uma mensagem automática.";
+                        Email mail = Email.CreateDefaultContabilidadeEmail(periodoStr, emissor.RazaoSocial, emissor.CNPJ);
 
                         var smtp = new SmtpClient
                         {
@@ -67,15 +60,15 @@ namespace NFe.WPF.Utils
                             EnableSsl = true,
                             DeliveryMethod = SmtpDeliveryMethod.Network,
                             UseDefaultCredentials = false,
-                            Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                            Credentials = new NetworkCredential(mail.From.Address.Address, mail.Password)
                         };
 
                         var data = new Attachment(path, MediaTypeNames.Application.Octet);
 
-                        using (var message = new MailMessage(fromAddress, toAddress)
+                        using (var message = new MailMessage(mail.From.Address, mail.To.Address)
                         {
-                            Subject = subject,
-                            Body = body
+                            Subject = mail.Subject,
+                            Body = mail.Body
                         })
                         {
                             message.Attachments.Add(data);

@@ -198,11 +198,14 @@
     <Compile Include="Conversores\Enums\TUfEmiConversor.cs" />
     <Compile Include="Conversores\UfToCodigoUfConversor.cs" />
     <Compile Include="Conversores\UfToTCOrgaoIBGEConversor.cs" />
+    <Compile Include="Email.cs" />
     <Compile Include="Extensions\Enumeration.cs" />
     <Compile Include="GeradorPDF.cs" />
     <Compile Include="GeradorZip.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="MailFrom.cs" />
     <Compile Include="MailManager.cs" />
+    <Compile Include="MailTo.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Desoneracao.cs" />
