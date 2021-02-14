@@ -16,7 +16,6 @@ namespace NFe.WPF.Utils
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static bool _hasAlreadyTried;
         private static IHistoricoEnvioContabilidadeRepository _historicoEnvioContabilidadeRepository;
         private readonly IEmitenteRepository _emitenteRepository;
         private readonly GeradorZip _geradorZip;
@@ -93,22 +92,6 @@ namespace NFe.WPF.Utils
                             throw new Exception(
                                 "Não foi possível enviar o e-mail para a contabilidade, verifique sua conexão com a internet.",
                                 e);
-
-                        if (!_hasAlreadyTried)
-                        {
-                            await EnviarNotasParaContabilidade(diaParaEnvio);
-                        }
-                        else
-                        {
-                            historicoPeriodoCount =
-                                await _historicoEnvioContabilidadeRepository.GetHistoricoByPeriodoAsync(
-                                    DateTime.Now.AddMonths(-1));
-
-                            if (historicoPeriodoCount == 0)
-                                throw new Exception("Ocorreu um erro ao tentar enviar as notas para a contabilidade.");
-                        }
-
-                        _hasAlreadyTried = true;
                     }
                 }
             });
