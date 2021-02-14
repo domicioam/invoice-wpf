@@ -30,7 +30,7 @@ namespace NFe.WPF.NotaFiscal.ViewModel
 {
     public class NFeViewModel : ViewModelBaseValidation
     {
-        private const string DEFAULT_NATUREZA_OPERACAO = "Remessa de vasilhames";
+        private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoRepository certificadoRepository)
