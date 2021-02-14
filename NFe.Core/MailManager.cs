@@ -82,8 +82,8 @@ namespace NFe.WPF.Utils
                             smtp.Send(message);
                         }
 
-                        _historicoEnvioContabilidadeRepository.Salvar(new HistoricoEnvioContabilidade
-                        { DataEnvio = DateTime.Now, Periodo = periodoStr });
+                        _historicoEnvioContabilidadeRepository
+                            .Salvar(new HistoricoEnvioContabilidade { DataEnvio = DateTime.Now, Periodo = periodoStr });
                     }
                     catch (Exception e)
                     {
