@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Mail;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using NFe.Core.Entitities;
@@ -10,6 +9,10 @@ using NFe.Core.Utils.Zip;
 using System.Configuration;
 using NFe.Core.Utils.PDF;
 using NFe.Core;
+using MimeKit;
+using MailKit.Net.Smtp;
+using System.Net.Mail;
+using MailKit.Security;
 
 namespace NFe.WPF.Utils
 {
@@ -53,26 +56,23 @@ namespace NFe.WPF.Utils
 
                         Email mail = Email.CreateDefaultContabilidadeEmail(periodoStr, emissor.RazaoSocial, emissor.CNPJ);
 
-                        var smtp = new SmtpClient
-                        {
-                            Host = "smtp.outlook.com",
-                            Port = 587,
-                            EnableSsl = true,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false,
-                            Credentials = new NetworkCredential(mail.From.Address.Address, mail.Password)
-                        };
+                        var mailMessage = new MimeMessage();
+                        mailMessage.From.Add(new MailboxAddress(mail.From.Name, mail.From.Account));
+                        mailMessage.To.Add(new MailboxAddress(mail.To.Name, mail.To.Account));
+                        mailMessage.Subject = mail.Subject;
 
-                        var data = new Attachment(path, MediaTypeNames.Application.Octet);
+                        var builder = new BodyBuilder();
+                        builder.TextBody = mail.Body;
+                        builder.Attachments.Add(path);
 
-                        using (var message = new MailMessage(mail.From.Address, mail.To.Address)
+                        mailMessage.Body = builder.ToMessageBody();
+
+                        using (var smtpClient = new MailKit.Net.Smtp.SmtpClient())
                         {
-                            Subject = mail.Subject,
-                            Body = mail.Body
-                        })
-                        {
-                            message.Attachments.Add(data);
-                            smtp.Send(message);
+                            smtpClient.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
+                            smtpClient.Authenticate(mail.From.Account, mail.Password);
+                            smtpClient.Send(mailMessage);
+                            smtpClient.Disconnect(true);
                         }
 
                         _historicoEnvioContabilidadeRepository
@@ -81,10 +81,6 @@ namespace NFe.WPF.Utils
                     catch (Exception e)
                     {
                         log.Error(e);
-                        if (e.GetType() == typeof(SmtpException))
-                            throw new Exception(
-                                "Não foi possível enviar o e-mail para a contabilidade, verifique sua conexão com a internet.",
-                                e);
                     }
                 }
             });
@@ -117,7 +113,7 @@ namespace NFe.WPF.Utils
                     const string body =
                         "Conforme as regras de Distribuição da NFe descritas no Manual do Contribuinte, segue cópia do XML autorizado pela SEFAZ.\n\nEsta mensagem foi gerada automaticamente.";
 
-                    var smtp = new SmtpClient
+                    var smtp = new System.Net.Mail.SmtpClient
                     {
                         Host = "smtp.outlook.com",
                         Port = 587,

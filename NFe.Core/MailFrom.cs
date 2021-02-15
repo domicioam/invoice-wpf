@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Mail;
 
 namespace NFe.Core
 {
@@ -12,8 +7,12 @@ namespace NFe.Core
         public MailFrom(string account, string name)
         {
             Address = new MailAddress(account, name);
+            Name = name;
+            Account = account;
         }
 
         public MailAddress Address { get; }
+        public string Name { get; }
+        public string Account { get; }
     }
 }

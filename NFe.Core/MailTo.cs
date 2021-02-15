@@ -12,8 +12,12 @@ namespace NFe.Core
         public MailTo(string account, string name)
         {
             Address = new MailAddress(account, name);
+            Name = name;
+            Account = account;
         }
 
         public MailAddress Address { get; }
+        public string Name { get; }
+        public string Account { get; }
     }
 }
