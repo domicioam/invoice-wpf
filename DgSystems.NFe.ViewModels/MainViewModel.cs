@@ -20,8 +20,9 @@ namespace EmissorNFe.ViewModel
             Task.Run(() =>
             {
                 _modoOnlineService.StartTimer();
-                _mailManager.EnviarNotasParaContabilidade(diaParaEnvio);
             });
+
+            _mailManager.EnviarNotasParaContabilidade(diaParaEnvio);
         }
 
         public MainViewModel(ModoOnlineService modoOnlineService, MailManager mailManager)
