@@ -42,23 +42,31 @@ namespace NFe.Core.Utils.Zip
       {
          return Task.Run(() =>
          {
-            var config = _configuracaoService.GetConfiguracao();
-
             var notasNoPeriodo = _notaFiscalRepository.GetNotasFiscaisPorMesAno(periodo, true);
-            var nfeNoPeriodo = notasNoPeriodo.Where(n => n.Modelo.Equals("55")).ToList();
-            var nfceNoPeriodo = notasNoPeriodo.Where(n => n.Modelo.Equals("65")).ToList();
 
-            var eventosCancelamentoNFe = _eventoService.GetEventosPorNotasId(nfeNoPeriodo.Select(n => n.Id), true);
-            var eventosCancelamentoNFCe = _eventoService.GetEventosPorNotasId(nfceNoPeriodo.Select(n => n.Id), true);
+             var nfeNoPeriodo =
+                 notasNoPeriodo
+                    .Where(n => n.Modelo.Equals("55"));
 
-            var nfeXMLs = nfeNoPeriodo.Select(n => new NotaXml(n.Chave, n.LoadXml())).ToList();
-            var eventoNfeXMLs = eventosCancelamentoNFe.Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml)).ToList();
-            var nfceXMLs = nfceNoPeriodo.Select(n => new NotaXml(n.Chave, n.LoadXml())).ToList();
-            var eventoNfceXMLs = eventosCancelamentoNFCe.Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml)).ToList();
+             var nfeXMLs = nfeNoPeriodo.Select(n => new NotaXml(n.Chave, n.LoadXml()));
 
-            var notasZip = notasNoPeriodo.ToList();
+            var eventoNfeXMLs = 
+                _eventoService.GetEventosPorNotasId(nfeNoPeriodo.Select(n => n.Id), true)
+                    .Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml));
+            
+             var nfceNoPeriodo = 
+                notasNoPeriodo
+                    .Where(n => n.Modelo.Equals("65"));
 
-            var notasInutilizadas = _notaInutilizadaService.GetNotasFiscaisPorMesAno(periodo).ToList();
+             var nfceXMLs =
+                 nfceNoPeriodo
+                    .Select(n => new NotaXml(n.Chave, n.LoadXml()));
+
+             var eventoNfceXMLs =
+                 _eventoService.GetEventosPorNotasId(nfceNoPeriodo.Select(n => n.Id), true)
+                    .Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml));
+
+            var notasInutilizadas = _notaInutilizadaService.GetNotasFiscaisPorMesAno(periodo);
 
             string startPath = Path.Combine(Path.GetTempPath(), "EmissorNFe");
 
@@ -84,7 +92,7 @@ namespace NFe.Core.Utils.Zip
                   File.Delete(zipPath);
                }
 
-               _geradorPdf.GerarRelatorioGerencial(notasZip, notasInutilizadas, periodo, startPath);
+               _geradorPdf.GerarRelatorioGerencial(notasNoPeriodo, notasInutilizadas, periodo, startPath);
                //Gerar arquivos de notas inutilizadas e adicioná-las ao relatório
 
                if (GravarXmlsNfe(nfeXMLs, eventoNfeXMLs, nfeDir)
@@ -167,7 +175,7 @@ namespace NFe.Core.Utils.Zip
          }
       }
 
-      private bool GravarXmlsNfe(List<NotaXml> xmlNfeEnviadas, List<EventoCancelamentoXml> xmlNfeEventoCancelamento, string nfeDir)
+      private bool GravarXmlsNfe(IEnumerable<NotaXml> xmlNfeEnviadas, IEnumerable<EventoCancelamentoXml> xmlNfeEventoCancelamento, string nfeDir)
       {
          if (!Directory.Exists(nfeDir))
          {
@@ -199,7 +207,7 @@ namespace NFe.Core.Utils.Zip
          return true;
       }
 
-      private bool GravarXmlsNfce(List<NotaXml> xmlNfceEnviadas, List<EventoCancelamentoXml> xmlNfceEventoCancelamento, string nfceDir)
+      private bool GravarXmlsNfce(IEnumerable<NotaXml> xmlNfceEnviadas, IEnumerable<EventoCancelamentoXml> xmlNfceEventoCancelamento, string nfceDir)
       {
          if (!Directory.Exists(nfceDir))
          {
