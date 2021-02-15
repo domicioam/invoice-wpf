@@ -3,13 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace NFe.Core.NotasFiscais
 {
-    public enum Crt
-    {
-        SimplesNacional,
-        SimplesNacionalExcessoReceitaBruta,
-        RegimeNormal
-    }
-
     public class Emissor
     {
         private Emissor()
@@ -25,7 +18,7 @@ namespace NFe.Core.NotasFiscais
             InscricaoEstadual = inscricaoEstadual;
             InscricaoMunicipal = inscricaoMunicipal;
             CNAE = cnae;
-            CRT = (Crt) Enum.Parse(typeof(Crt), Regex.Replace(regimeTributario, @"\s+", ""));
+            CRT = Crt.Parse(Regex.Replace(regimeTributario, @"\s+", ""));
             Endereco = endereco;
             Telefone = telefone;
         }

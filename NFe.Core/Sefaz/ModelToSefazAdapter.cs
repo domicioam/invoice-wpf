@@ -343,7 +343,7 @@ namespace NFe.Core.Sefaz
                 IE = notaFiscal.Emitente.InscricaoEstadual,
                 IM = notaFiscal.Emitente.InscricaoMunicipal,
                 CNAE = notaFiscal.Emitente.CNAE,
-                CRT = (TNFeInfNFeEmitCRT) (int) notaFiscal.Emitente.CRT,
+                CRT = notaFiscal.Emitente.CRT,
                 enderEmit = new TEnderEmi
                 {
                     xLgr = notaFiscal.Emitente.Endereco.Logradouro,

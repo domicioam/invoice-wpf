@@ -206,6 +206,7 @@
     <Compile Include="MailFrom.cs" />
     <Compile Include="MailManager.cs" />
     <Compile Include="MailTo.cs" />
+    <Compile Include="NotasFiscais\Crt.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsAliquotaNormal.cs" />
     <Compile Include="NotasFiscais\Impostos\FundoCombatePobreza.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Desoneracao.cs" />

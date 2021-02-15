@@ -239,6 +239,14 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
 
             // Emitente
             var emit = tNFe.NFe[0].infNFe.emit;
+            Assert.Equal(_fixture.NotaFiscal.Emitente.CNAE, emit.CNAE);
+            Assert.Equal(_fixture.NotaFiscal.Emitente.CRT, emit.CRT);
+            Assert.Equal(_fixture.NotaFiscal.Emitente.InscricaoEstadual, emit.IE);
+            Assert.Equal(_fixture.NotaFiscal.Emitente.InscricaoMunicipal, emit.IM);
+            Assert.Equal(_fixture.NotaFiscal.Emitente.Nome, emit.xNome);
+            Assert.Equal(_fixture.NotaFiscal.Emitente.NomeFantasia, emit.xFant);
+            Assert.Equal(_fixture.NotaFiscal.Emitente.Telefone, emit.enderEmit.fone);
+            // Falta endereço
         }
     }
 }
