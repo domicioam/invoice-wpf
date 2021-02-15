@@ -88,11 +88,11 @@ namespace NFe.Core.Utils.Zip
                     }
 
                     _geradorPdf.GerarRelatorioGerencial(notasNoPeriodo, notasInutilizadas, periodo, startPath);
-                 //Gerar arquivos de notas inutilizadas e adicioná-las ao relatório
+                    //Gerar arquivos de notas inutilizadas e adicioná-las ao relatório
 
-                 if (GravarXmlsNfe(nfeXMLs, eventoNfeXMLs, nfeDir)
-                     && GravarXmlsNfce(nfceXMLs, eventoNfceXMLs, nfceDir)
-                     && GerarXmlsNotasInutilizadas(notasInutilizadas, startPath))
+                    if (GravarXmlsNfe(nfeXMLs, eventoNfeXMLs, nfeDir)
+                        && GravarXmlsNfce(nfceXMLs, eventoNfceXMLs, nfceDir)
+                        && GerarXmlsNotasInutilizadas(notasInutilizadas, startPath))
                     {
                         ZipFile.CreateFromDirectory(startPath, zipPath);
                     }
@@ -136,30 +136,33 @@ namespace NFe.Core.Utils.Zip
                     Directory.CreateDirectory(nfceDir);
                 }
 
-                var nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo == 55);
-                var nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo == 65);
-
-                foreach (var inutilizada in nfeInutilizadas)
-                {
-                    using (FileStream stream = File.Create(Path.Combine(nfeDir, inutilizada.IdInutilizacao + "-procInutNFe.xml")))
+                notasInutilizadas
+                    .AsParallel()
+                    .ForAll(n =>
                     {
-                        using (StreamWriter writer = new StreamWriter(stream))
-                        {
-                            writer.WriteLine(inutilizada.LoadXml());
-                        }
-                    }
-                }
+                        string path = string.Empty;
 
-                foreach (var inutilizada in nfceInutilizadas)
-                {
-                    using (FileStream stream = File.Create(Path.Combine(nfceDir, inutilizada.IdInutilizacao + "-procInutNFe.xml")))
-                    {
-                        using (StreamWriter writer = new StreamWriter(stream))
+                        switch (n.Modelo)
                         {
-                            writer.WriteLine(inutilizada.LoadXml());
+                            case 55:
+                                path = Path.Combine(nfeDir, n.IdInutilizacao + "-procInutNFe.xml");
+                                break;
+
+                            case 65:
+                                path = Path.Combine(nfceDir, n.IdInutilizacao + "-procInutNFe.xml");
+                                break;
+                            default:
+                                throw new NotSupportedException("Modelo não suportado.");
                         }
-                    }
-                }
+
+                        using (FileStream stream = File.Create(path))
+                        {
+                            using (StreamWriter writer = new StreamWriter(stream))
+                            {
+                                writer.WriteLine(n.LoadXml());
+                            }
+                        }
+                    });
 
                 return true;
             }
