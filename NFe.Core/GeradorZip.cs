@@ -22,16 +22,14 @@ namespace NFe.Core.Utils.Zip
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private IConfiguracaoService _configuracaoService;
         private INotaFiscalRepository _notaFiscalRepository;
         private IEventoService _eventoService;
         private INotaInutilizadaService _notaInutilizadaService;
         private GeradorPDF _geradorPdf;
 
-        public GeradorZip(IConfiguracaoService configuracaoService, IEventoService eventoService, INotaInutilizadaService notaInutilizadaService,
+        public GeradorZip(IEventoService eventoService, INotaInutilizadaService notaInutilizadaService,
             GeradorPDF geradorPdf, INotaFiscalRepository notaFiscalRepository)
         {
-            _configuracaoService = configuracaoService;
             _notaFiscalRepository = notaFiscalRepository;
             _eventoService = eventoService;
             _notaInutilizadaService = notaInutilizadaService;
