@@ -1,17 +1,14 @@
-﻿using NFe.Core.Utils.PDF;
+﻿using NFe.Core.Interfaces;
+using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Utils.PDF;
+using NFe.Core.Utils.Xml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Globalization;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Services;
-using NFe.Core.Utils.Xml;
-using NFe.Core.Interfaces;
 
 
 //TODO: Adicionar try catch para hd cheio ou para quando não é possível criar o diretório e etc
