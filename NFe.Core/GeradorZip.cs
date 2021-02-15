@@ -18,8 +18,8 @@ using NFe.Core.Interfaces;
 
 namespace NFe.Core.Utils.Zip
 {
-   public class GeradorZip
-   {
+    public class GeradorZip
+    {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private IConfiguracaoService _configuracaoService;
@@ -30,237 +30,237 @@ namespace NFe.Core.Utils.Zip
 
         public GeradorZip(IConfiguracaoService configuracaoService, IEventoService eventoService, INotaInutilizadaService notaInutilizadaService,
             GeradorPDF geradorPdf, INotaFiscalRepository notaFiscalRepository)
-       {
-           _configuracaoService = configuracaoService;
+        {
+            _configuracaoService = configuracaoService;
             _notaFiscalRepository = notaFiscalRepository;
-           _eventoService = eventoService;
-           _notaInutilizadaService = notaInutilizadaService;
-           _geradorPdf = geradorPdf;
-       }
+            _eventoService = eventoService;
+            _notaInutilizadaService = notaInutilizadaService;
+            _geradorPdf = geradorPdf;
+        }
 
-      public Task<string> GerarZipEnvioContabilidadeAsync(DateTime periodo)
-      {
-         return Task.Run(() =>
-         {
-            var notasNoPeriodo = _notaFiscalRepository.GetNotasFiscaisPorMesAno(periodo, true);
+        public Task<string> GerarZipEnvioContabilidadeAsync(DateTime periodo)
+        {
+            return Task.Run(() =>
+            {
+                var notasNoPeriodo = _notaFiscalRepository.GetNotasFiscaisPorMesAno(periodo, true);
 
-             var nfeNoPeriodo =
-                 notasNoPeriodo
-                    .Where(n => n.Modelo.Equals("55"));
+                var nfeNoPeriodo =
+                    notasNoPeriodo
+                       .Where(n => n.Modelo.Equals("55"));
 
-             var nfeXMLs = nfeNoPeriodo.Select(n => new NotaXml(n.Chave, n.LoadXml()));
+                var nfeXMLs = nfeNoPeriodo.Select(n => new NotaXml(n.Chave, n.LoadXml()));
 
-            var eventoNfeXMLs = 
-                _eventoService.GetEventosPorNotasId(nfeNoPeriodo.Select(n => n.Id), true)
-                    .Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml));
-            
-             var nfceNoPeriodo = 
-                notasNoPeriodo
-                    .Where(n => n.Modelo.Equals("65"));
+                var eventoNfeXMLs =
+                 _eventoService.GetEventosPorNotasId(nfeNoPeriodo.Select(n => n.Id), true)
+                     .Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml));
 
-             var nfceXMLs =
-                 nfceNoPeriodo
-                    .Select(n => new NotaXml(n.Chave, n.LoadXml()));
+                var nfceNoPeriodo =
+                   notasNoPeriodo
+                       .Where(n => n.Modelo.Equals("65"));
 
-             var eventoNfceXMLs =
-                 _eventoService.GetEventosPorNotasId(nfceNoPeriodo.Select(n => n.Id), true)
-                    .Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml));
+                var nfceXMLs =
+                    nfceNoPeriodo
+                       .Select(n => new NotaXml(n.Chave, n.LoadXml()));
 
-            var notasInutilizadas = _notaInutilizadaService.GetNotasFiscaisPorMesAno(periodo);
+                var eventoNfceXMLs =
+                    _eventoService.GetEventosPorNotasId(nfceNoPeriodo.Select(n => n.Id), true)
+                       .Select(e => new EventoCancelamentoXml(e.ChaveIdEvento, e.Xml));
 
-            string startPath = Path.Combine(Path.GetTempPath(), "EmissorNFe");
+                var notasInutilizadas = _notaInutilizadaService.GetNotasFiscaisPorMesAno(periodo);
 
+                string startPath = Path.Combine(Path.GetTempPath(), "EmissorNFe");
+
+                try
+                {
+                    if (!Directory.Exists(startPath))
+                    {
+                        Directory.CreateDirectory(startPath);
+                    }
+                    else
+                    {
+                        Directory.Delete(startPath, true);
+                        Directory.CreateDirectory(startPath);
+                    }
+
+                    string nfeDir = Path.Combine(startPath, "NFe");
+                    string nfceDir = Path.Combine(startPath, "NFCe");
+
+                    string zipPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), @"Notas Fiscais " + periodo.ToString("MM_yyyy") + ".zip");
+
+                    if (File.Exists(zipPath))
+                    {
+                        File.Delete(zipPath);
+                    }
+
+                    _geradorPdf.GerarRelatorioGerencial(notasNoPeriodo, notasInutilizadas, periodo, startPath);
+                 //Gerar arquivos de notas inutilizadas e adicioná-las ao relatório
+
+                 if (GravarXmlsNfe(nfeXMLs, eventoNfeXMLs, nfeDir)
+                     && GravarXmlsNfce(nfceXMLs, eventoNfceXMLs, nfceDir)
+                     && GerarXmlsNotasInutilizadas(notasInutilizadas, startPath))
+                    {
+                        ZipFile.CreateFromDirectory(startPath, zipPath);
+                    }
+
+                    return zipPath;
+                }
+                catch (Exception e)
+                {
+                    log.Error(e);
+                    throw;
+                }
+                finally
+                {
+                    Directory.Delete(startPath, true);
+                }
+            });
+        }
+
+        private bool GerarXmlsNotasInutilizadas(List<NotaInutilizadaTO> notasInutilizadas, string startPath)
+        {
             try
             {
-               if (!Directory.Exists(startPath))
-               {
-                  Directory.CreateDirectory(startPath);
-               }
-               else
-               {
-                  Directory.Delete(startPath, true);
-                  Directory.CreateDirectory(startPath);
-               }
+                string inutDir = Path.Combine(startPath, "Inutilizadas");
 
-               string nfeDir = Path.Combine(startPath, "NFe");
-               string nfceDir = Path.Combine(startPath, "NFCe");
+                if (!Directory.Exists(inutDir))
+                {
+                    Directory.CreateDirectory(inutDir);
+                }
 
-               string zipPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), @"Notas Fiscais " + periodo.ToString("MM_yyyy") + ".zip");
+                string nfeDir = Path.Combine(inutDir, "NFe");
 
-               if (File.Exists(zipPath))
-               {
-                  File.Delete(zipPath);
-               }
+                if (!Directory.Exists(nfeDir))
+                {
+                    Directory.CreateDirectory(nfeDir);
+                }
 
-               _geradorPdf.GerarRelatorioGerencial(notasNoPeriodo, notasInutilizadas, periodo, startPath);
-               //Gerar arquivos de notas inutilizadas e adicioná-las ao relatório
+                string nfceDir = Path.Combine(inutDir, "NFCe");
 
-               if (GravarXmlsNfe(nfeXMLs, eventoNfeXMLs, nfeDir)
-                   && GravarXmlsNfce(nfceXMLs, eventoNfceXMLs, nfceDir)
-                   && GerarXmlsNotasInutilizadas(notasInutilizadas, startPath))
-               {
-                  ZipFile.CreateFromDirectory(startPath, zipPath);
-               }
+                if (!Directory.Exists(nfceDir))
+                {
+                    Directory.CreateDirectory(nfceDir);
+                }
 
-               return zipPath;
+                var nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo == 55);
+                var nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo == 65);
+
+                foreach (var inutilizada in nfeInutilizadas)
+                {
+                    using (FileStream stream = File.Create(Path.Combine(nfeDir, inutilizada.IdInutilizacao + "-procInutNFe.xml")))
+                    {
+                        using (StreamWriter writer = new StreamWriter(stream))
+                        {
+                            writer.WriteLine(inutilizada.LoadXml());
+                        }
+                    }
+                }
+
+                foreach (var inutilizada in nfceInutilizadas)
+                {
+                    using (FileStream stream = File.Create(Path.Combine(nfceDir, inutilizada.IdInutilizacao + "-procInutNFe.xml")))
+                    {
+                        using (StreamWriter writer = new StreamWriter(stream))
+                        {
+                            writer.WriteLine(inutilizada.LoadXml());
+                        }
+                    }
+                }
+
+                return true;
             }
             catch (Exception e)
             {
                 log.Error(e);
-                throw;
+                return false;
             }
-             finally
-            {
-               Directory.Delete(startPath, true);
-            }
-         });
-      }
+        }
 
-      private bool GerarXmlsNotasInutilizadas(List<NotaInutilizadaTO> notasInutilizadas, string startPath)
-      {
-         try
-         {
-            string inutDir = Path.Combine(startPath, "Inutilizadas");
-
-            if (!Directory.Exists(inutDir))
-            {
-               Directory.CreateDirectory(inutDir);
-            }
-
-            string nfeDir = Path.Combine(inutDir, "NFe");
-
+        private bool GravarXmlsNfe(IEnumerable<NotaXml> xmlNfeEnviadas, IEnumerable<EventoCancelamentoXml> xmlNfeEventoCancelamento, string nfeDir)
+        {
             if (!Directory.Exists(nfeDir))
             {
-               Directory.CreateDirectory(nfeDir);
+                Directory.CreateDirectory(nfeDir);
             }
 
-            string nfceDir = Path.Combine(inutDir, "NFCe");
-
-            if (!Directory.Exists(nfceDir))
+            foreach (var nfe in xmlNfeEnviadas)
             {
-               Directory.CreateDirectory(nfceDir);
+                using (FileStream stream = File.Create(Path.Combine(nfeDir, nfe.Chave + "-nfe.xml")))
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        writer.WriteLine(nfe.Xml);
+                    }
+                }
             }
 
-            var nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo == 55);
-            var nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo == 65);
-
-            foreach (var inutilizada in nfeInutilizadas)
+            foreach (var evento in xmlNfeEventoCancelamento)
             {
-               using (FileStream stream = File.Create(Path.Combine(nfeDir, inutilizada.IdInutilizacao + "-procInutNFe.xml")))
-               {
-                  using (StreamWriter writer = new StreamWriter(stream))
-                  {
-                     writer.WriteLine(inutilizada.LoadXml());
-                  }
-               }
-            }
-
-            foreach (var inutilizada in nfceInutilizadas)
-            {
-               using (FileStream stream = File.Create(Path.Combine(nfceDir, inutilizada.IdInutilizacao + "-procInutNFe.xml")))
-               {
-                  using (StreamWriter writer = new StreamWriter(stream))
-                  {
-                     writer.WriteLine(inutilizada.LoadXml());
-                  }
-               }
+                using (FileStream stream = File.Create(Path.Combine(nfeDir, evento.Id + "-procEventoNFe.xml")))
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        writer.WriteLine(evento.Xml);
+                    }
+                }
             }
 
             return true;
-         }
-         catch (Exception e)
-         {
-            log.Error(e);
-            return false;
-         }
-      }
+        }
 
-      private bool GravarXmlsNfe(IEnumerable<NotaXml> xmlNfeEnviadas, IEnumerable<EventoCancelamentoXml> xmlNfeEventoCancelamento, string nfeDir)
-      {
-         if (!Directory.Exists(nfeDir))
-         {
-            Directory.CreateDirectory(nfeDir);
-         }
-
-         foreach (var nfe in xmlNfeEnviadas)
-         {
-            using (FileStream stream = File.Create(Path.Combine(nfeDir, nfe.Chave + "-nfe.xml")))
+        private bool GravarXmlsNfce(IEnumerable<NotaXml> xmlNfceEnviadas, IEnumerable<EventoCancelamentoXml> xmlNfceEventoCancelamento, string nfceDir)
+        {
+            if (!Directory.Exists(nfceDir))
             {
-               using (StreamWriter writer = new StreamWriter(stream))
-               {
-                  writer.WriteLine(nfe.Xml);
-               }
+                Directory.CreateDirectory(nfceDir);
             }
-         }
 
-         foreach (var evento in xmlNfeEventoCancelamento)
-         {
-            using (FileStream stream = File.Create(Path.Combine(nfeDir, evento.Id + "-procEventoNFe.xml")))
+            foreach (var p in xmlNfceEnviadas)
             {
-               using (StreamWriter writer = new StreamWriter(stream))
-               {
-                  writer.WriteLine(evento.Xml);
-               }
+                using (FileStream stream = File.Create(Path.Combine(nfceDir, p.Chave + "-nfce.xml")))
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        writer.WriteLine(p.Xml);
+                    }
+                }
             }
-         }
 
-         return true;
-      }
-
-      private bool GravarXmlsNfce(IEnumerable<NotaXml> xmlNfceEnviadas, IEnumerable<EventoCancelamentoXml> xmlNfceEventoCancelamento, string nfceDir)
-      {
-         if (!Directory.Exists(nfceDir))
-         {
-            Directory.CreateDirectory(nfceDir);
-         }
-
-         foreach (var p in xmlNfceEnviadas)
-         {
-            using (FileStream stream = File.Create(Path.Combine(nfceDir, p.Chave + "-nfce.xml")))
+            foreach (var evento in xmlNfceEventoCancelamento)
             {
-               using (StreamWriter writer = new StreamWriter(stream))
-               {
-                  writer.WriteLine(p.Xml);
-               }
+                using (FileStream stream = File.Create(Path.Combine(nfceDir, evento.Id + "-procEventoNFe.xml")))
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        writer.WriteLine(evento.Xml);
+                    }
+                }
             }
-         }
 
-         foreach (var evento in xmlNfceEventoCancelamento)
-         {
-            using (FileStream stream = File.Create(Path.Combine(nfceDir, evento.Id + "-procEventoNFe.xml")))
-            {
-               using (StreamWriter writer = new StreamWriter(stream))
-               {
-                  writer.WriteLine(evento.Xml);
-               }
-            }
-         }
+            return true;
+        }
+    }
 
-         return true;
-      }
-   }
+    public class NotaXml
+    {
+        public NotaXml(string chave, string xml)
+        {
+            Chave = chave;
+            Xml = xml;
+        }
 
-   public class NotaXml
-   {
-      public NotaXml(string chave, string xml)
-      {
-         Chave = chave;
-         Xml = xml;
-      }
+        public string Chave { get; set; }
+        public string Xml { get; set; }
+    }
 
-      public string Chave { get; set; }
-      public string Xml { get; set; }
-   }
+    public class EventoCancelamentoXml
+    {
+        public EventoCancelamentoXml(string id, string xml)
+        {
+            Id = id;
+            Xml = xml;
+        }
 
-   public class EventoCancelamentoXml
-   {
-      public EventoCancelamentoXml(string id, string xml)
-      {
-         Id = id;
-         Xml = xml;
-      }
-
-      public string Id { get; set; }
-      public string Xml { get; set; }
-   }
+        public string Id { get; set; }
+        public string Xml { get; set; }
+    }
 }
