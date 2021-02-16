@@ -81,6 +81,7 @@ namespace NFe.WPF.Utils
                     catch (Exception e)
                     {
                         log.Error(e);
+                        throw;
                     }
                 }
             });
@@ -103,47 +104,34 @@ namespace NFe.WPF.Utils
                 try
                 {
                     var emissor = _emitenteRepository.GetEmitente();
-
                     var fromAddress = new MailAddress(ConfigurationManager.AppSettings["fromMailAccount"], ConfigurationManager.AppSettings["fromMailName"]);
                     var toAddress = new MailAddress(emailDestinatario, string.Empty);
                     string fromPassword = ConfigurationManager.AppSettings["fromMailPassword"];
 
-                    var subject = string.Concat("Nota Fiscal Eletrônica", " - ", emissor.RazaoSocial, " - ",
-                        emissor.CNPJ);
-                    const string body =
-                        "Conforme as regras de Distribuição da NFe descritas no Manual do Contribuinte, segue cópia do XML autorizado pela SEFAZ.\n\nEsta mensagem foi gerada automaticamente.";
 
-                    var smtp = new System.Net.Mail.SmtpClient
-                    {
-                        Host = "smtp.outlook.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-                    };
+                    var mailMessage = new MimeMessage();
+                    mailMessage.From.Add(new MailboxAddress(ConfigurationManager.AppSettings["fromMailName"], ConfigurationManager.AppSettings["fromMailAccount"]));
+                    mailMessage.To.Add(new MailboxAddress(string.Empty, emailDestinatario));
+                    mailMessage.Subject = $"Nota Fiscal Eletrônica - {emissor.RazaoSocial} - {emissor.CNPJ}";
 
-                    var xml = new Attachment(xmlPath, MediaTypeNames.Application.Octet);
-                    var pdf = new Attachment(pdfPath, MediaTypeNames.Application.Pdf);
+                    var builder = new BodyBuilder();
+                    builder.TextBody = "Conforme as regras de Distribuição da NFe descritas no Manual do Contribuinte, segue cópia do XML autorizado pela SEFAZ.\n\nEsta mensagem foi gerada automaticamente.";
+                    builder.Attachments.Add(xmlPath);
+                    builder.Attachments.Add(pdfPath);
 
-                    using (var message = new MailMessage(fromAddress, toAddress)
+                    mailMessage.Body = builder.ToMessageBody();
+
+                    using (var smtpClient = new MailKit.Net.Smtp.SmtpClient())
                     {
-                        Subject = subject,
-                        Body = body
-                    })
-                    {
-                        message.Attachments.Add(xml);
-                        message.Attachments.Add(pdf);
-                        smtp.Send(message);
+                        smtpClient.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
+                        smtpClient.Authenticate(ConfigurationManager.AppSettings["fromMailAccount"], ConfigurationManager.AppSettings["fromMailPassword"]);
+                        smtpClient.Send(mailMessage);
+                        smtpClient.Disconnect(true);
                     }
                 }
                 catch (Exception e)
                 {
                     log.Error(e);
-                    if (e.GetType() == typeof(SmtpException))
-                        throw new Exception("Não foi possível enviar o e-mail, verifique sua conexão com a internet.",
-                            e);
-
                     throw;
                 }
             });
