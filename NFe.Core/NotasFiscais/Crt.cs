@@ -14,7 +14,9 @@ namespace NFe.Core.NotasFiscais
         public static readonly Crt SimplesNacionalExcessoReceitaBruta = new Crt(1, "SimplesNacionalExcessoReceitaBruta");
         public static readonly Crt RegimeNormal = new Crt(2, "RegimeNormal");
 
-        public Crt(int id, string name) : base(id, name)
+        public Crt() { }
+
+        private Crt(int value, string displayName) : base(value, displayName)
         {
         }
 
@@ -39,22 +41,7 @@ namespace NFe.Core.NotasFiscais
 
         public static Crt Parse(string name)
         {
-            if (name == SimplesNacional.Name)
-            {
-                return SimplesNacional;
-            }
-            else if (name == SimplesNacionalExcessoReceitaBruta.Name)
-            {
-                return SimplesNacionalExcessoReceitaBruta;
-            }
-            else if (name == RegimeNormal.Name)
-            {
-                return RegimeNormal;
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+            return FromDisplayName<Crt>(name);
         }
     }
 }
