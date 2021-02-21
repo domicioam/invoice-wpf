@@ -156,6 +156,7 @@ namespace DgSystems.NFe.ViewModels
             return Task.Run(async () =>
             {
                 var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalById(idNotaFiscalDb, true);
+                var loadXmlTask = notaFiscalDb.LoadXmlAsync();
                 var document = new XmlDocument();
                 var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
 
@@ -181,7 +182,7 @@ namespace DgSystems.NFe.ViewModels
                 notaFiscalDb.DataAutorizacao = mensagemRetorno.Protocolo.infProt.dhRecbto;
                 notaFiscalDb.Protocolo = mensagemRetorno.Protocolo.infProt.nProt;
 
-                var xml = await notaFiscalDb.LoadXmlAsync();
+                var xml = await loadXmlTask;
                 xml = xml.Replace("<protNFe />", document.OuterXml.Replace("TProtNFe", "protNFe"));
 
                 notaFiscalDb.Status = (int)Status.ENVIADA;
