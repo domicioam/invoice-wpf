@@ -110,7 +110,7 @@ namespace NFe.WPF.UnitTests
 
             // Act
 
-            enviarNotaAppService.EnviarNotaAsync(_notaFiscalFixture.NFCeModel, Modelo.Modelo65, emissor, cert, new Mock<IDialogService>().Object).Wait();
+            enviarNotaAppService.EnviarNotaAsync(_notaFiscalFixture.NFCeModel, Modelo.Modelo65, emissor, cert, new Mock<IDialogService>().Object).GetAwaiter().GetResult();
 
             // Assert
             notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
@@ -190,7 +190,7 @@ namespace NFe.WPF.UnitTests
 
             // Act
 
-            enviarNotaAppService.EnviarNotaAsync(_notaFiscalFixture.NFCeModel, Modelo.Modelo65, emissor, cert, new Mock<IDialogService>().Object).Wait();
+            enviarNotaAppService.EnviarNotaAsync(_notaFiscalFixture.NFCeModel, Modelo.Modelo65, emissor, cert, new Mock<IDialogService>().Object).GetAwaiter().GetResult();
 
             // Assert
             notaFiscalServiceMock.Verify(m => m.EnviarNotaFiscal(It.IsAny<Core.NotasFiscais.NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<X509Certificate2>(), It.IsAny<XmlNFe>()), Times.Once);
@@ -338,7 +338,7 @@ namespace NFe.WPF.UnitTests
 
             // Act
 
-            enviarNotaController.EnviarNotaAsync(_notaFiscalFixture.NFeModelWithPagamento, Modelo.Modelo55, emissor, cert, dialogService).Wait();
+            enviarNotaController.EnviarNotaAsync(_notaFiscalFixture.NFeModelWithPagamento, Modelo.Modelo55, emissor, cert, dialogService).GetAwaiter().GetResult();
         }
 
         [Fact]
