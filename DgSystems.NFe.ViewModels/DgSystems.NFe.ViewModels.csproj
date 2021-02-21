@@ -127,9 +127,7 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Mementos\NotaFiscalMemento.cs" />
     <Compile Include="NaturezaOperacaoModel.cs" />
-    <Compile Include="NFCeModel.cs" />
     <Compile Include="NFCeViewModel.cs" />
-    <Compile Include="NFeModel.cs" />
     <Compile Include="NFeViewModel.cs" />
     <Compile Include="NotaCancelada.cs" />
     <Compile Include="NotaFiscalMainViewModel.cs" />

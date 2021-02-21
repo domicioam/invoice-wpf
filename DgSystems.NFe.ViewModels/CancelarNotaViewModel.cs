@@ -20,6 +20,7 @@ using NFe.Core.Messaging;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.Core.Utils;
 using DgSystems.NFe.ViewModels.Commands;
+using DgSystems.NFe.ViewModels;
 
 namespace NFe.WPF.ViewModel
 {
@@ -89,7 +90,7 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        internal void CancelarNotaFiscal(NFCeModel notaFiscal)
+        internal void CancelarNotaFiscal(NFCeViewModel notaFiscal)
         {
             if (notaFiscal.Status.Equals("Enviada"))
             {
@@ -101,7 +102,7 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void InutilizarNotaFiscal(NFCeModel notaFiscal)
+        private void InutilizarNotaFiscal(NFCeViewModel notaFiscal)
         {
             var config = _configuracaoService.GetConfiguracao();
 
@@ -186,7 +187,7 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void EnviarCancelamentoNotaFiscal(NFCeModel notaFiscalModel)
+        private void EnviarCancelamentoNotaFiscal(NFCeViewModel notaFiscalModel)
         {
             X509Certificate2 certificado;
 

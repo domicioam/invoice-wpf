@@ -29,7 +29,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private NFCeModel _notaFiscal;
+        private NotaFiscalModel _notaFiscal;
         private string _documentoDestinatario;
         private Core.NotasFiscais.NotaFiscal _notaFiscalBO;
 
@@ -38,7 +38,7 @@ namespace NFe.WPF.ViewModel
 
         private IDialogService _dialogService;
 
-        public NFCeModel NotaFiscal
+        public NotaFiscalModel NotaFiscal
         {
             get
             {
@@ -68,7 +68,45 @@ namespace NFe.WPF.ViewModel
 
         internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
-            NotaFiscal = (NFCeModel)notaFiscal;
+
+        //            public static explicit operator NotaFiscalModel(NotaFiscal nota)
+        //{
+        //    var notaModel = new NotaFiscalModel
+        //    {
+        //        DataAutorizacao = nota.DhAutorizacao,
+        //        DataEmissao = nota.Identificacao.DataHoraEmissao,
+        //        Modelo = nota.Identificacao.Modelo.ToString().Replace("Modelo", string.Empty),
+        //        Numero = nota.Identificacao.Numero,
+        //        Serie = nota.Identificacao.Serie.ToString(),
+        //        Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
+        //        Chave = nota.Identificacao.Chave.ToString(),
+        //        Protocolo = nota.ProtocoloAutorizacao,
+        //        IsCancelada = nota.Identificacao.Status.IsCancelada(),
+        //        Destinatario = nota.Destinatario == null
+        //            ? "CONSUMIDOR NÃO IDENTIFICADO"
+        //            : nota.Destinatario.NomeRazao
+        //    };
+
+
+        //    if (nota.Destinatario != null && nota.Destinatario.Endereco != null)
+        //    {
+        //        notaModel.UfDestinatario = nota.Destinatario.Endereco.UF;
+        //    }
+        //    else
+        //    {
+        //        notaModel.UfDestinatario = nota.Emitente.Endereco.UF;
+        //    }
+
+        //    notaModel.Status = nota.Identificacao.Status.ToString();
+
+        //    return notaModel;
+        //}
+
+
+
+
+
+        NotaFiscal = (NFCeViewModel)notaFiscal;
             NotaFiscal.Pagamentos = new ObservableCollection<PagamentoModel>();
             NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
 

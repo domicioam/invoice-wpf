@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -20,10 +21,11 @@ using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
+using NFeCoreModelo = NFe.Core.NotasFiscais.Modelo;
 
 namespace DgSystems.NFe.ViewModels
 {
-    public class NFCeViewModel : ViewModelBaseValidation
+    public class NFCeViewModel : NotaFiscalModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -85,14 +87,6 @@ namespace DgSystems.NFe.ViewModels
             {
                 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
             };
-        }
-
-        private NFCeModel _notaFiscal;
-
-        public NFCeModel NotaFiscal
-        {
-            get { return _notaFiscal; }
-            set { SetProperty(ref _notaFiscal, value); }
         }
 
         private PagamentoModel _pagamento;
@@ -167,7 +161,7 @@ namespace DgSystems.NFe.ViewModels
 
         private async void EnviarNotaCmd_Execute(IClosable closable)
         {
-            await EnviarNota(NotaFiscal, _modelo, closable);
+            await EnviarNota(this, _modelo, closable);
         }
 
         public async Task EnviarNota(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
@@ -216,13 +210,13 @@ namespace DgSystems.NFe.ViewModels
 
         private void GerarPagtoCmd_Execute(object obj)
         {
-            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoModel>();
+            Pagamentos = Pagamentos ?? new ObservableCollection<PagamentoModel>();
             Pagamento.ValidateModel();
 
             if (Pagamento.HasErrors)
                 return;
 
-            NotaFiscal.Pagamentos.Add(Pagamento);
+            Pagamentos.Add(Pagamento);
             Pagamento = new PagamentoModel();
         }
 
@@ -233,15 +227,15 @@ namespace DgSystems.NFe.ViewModels
             if (Produto.HasErrors)
                 return;
 
-            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoModel>();
+            Produtos = Produtos ?? new ObservableCollection<ProdutoModel>();
 
-            if (string.IsNullOrEmpty(NotaFiscal.NaturezaOperacao))
+            if (string.IsNullOrEmpty(NaturezaOperacao))
             {
                 NaturezaOperacaoEntity naturezaOperacaoEntity = _naturezaOperacaoRepository.GetNaturezaOperacaoPorCfop(Produto.ProdutoSelecionado.GrupoImpostos.CFOP);
-                NotaFiscal.NaturezaOperacao = naturezaOperacaoEntity?.Descricao;
+                NaturezaOperacao = naturezaOperacaoEntity?.Descricao;
             }
 
-            NotaFiscal.Produtos.Add(Produto);
+            Produtos.Add(Produto);
             Pagamento.ValorParcela += Produto.TotalLiquido;
             ProdutosCombo.Remove(Produto.ProdutoSelecionado);
 
@@ -252,16 +246,15 @@ namespace DgSystems.NFe.ViewModels
 
         private void ExcluirProdutoNotaCmd_Execute(ProdutoModel produto)
         {
-            NotaFiscal.Produtos.Remove(produto);
-            Pagamento.ValorParcela = NotaFiscal.Produtos.Sum(p => p.TotalLiquido);
+            Produtos.Remove(produto);
+            Pagamento.ValorParcela = Produtos.Sum(p => p.TotalLiquido);
             Pagamento.FormaPagamento = "Dinheiro";
-            NotaFiscal.Pagamentos?.Clear();
+            Pagamentos?.Clear();
             ProdutosCombo.Add(produto.ProdutoSelecionado);
         }
 
         private void ClosedCmd_Execute()
         {
-            NotaFiscal = null;
             Produto = new ProdutoModel();
             ProdutosCombo.Clear();
             Destinatarios.Clear();
@@ -269,48 +262,43 @@ namespace DgSystems.NFe.ViewModels
 
         private void ExcluirPagamentoCmd_Execute(PagamentoModel pagamento)
         {
-            NotaFiscal.Pagamentos.Remove(pagamento);
+            Pagamentos.Remove(pagamento);
             Pagamento.ValorParcela += pagamento.ValorParcela * pagamento.QtdeParcelas;
         }
 
         private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel destinatarioParaSalvar)
         {
-            if (NotaFiscal == null)
-                return;
-
             Destinatarios.Add(destinatarioParaSalvar);
-            NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
+            DestinatarioSelecionado = destinatarioParaSalvar;
         }
 
         private void LoadedCmd_Execute(string modelo)
         {
-            NotaFiscal = new NFCeModel();
-
             if (modelo != null && modelo.Equals("55"))
             {
-                _modelo = Modelo.Modelo55;
-                NotaFiscal.IsImpressaoBobina = false;
+                _modelo = NFeCoreModelo.Modelo55;
+                IsImpressaoBobina = false;
             }
             else
             {
-                _modelo = Modelo.Modelo65;
+                _modelo = NFeCoreModelo.Modelo65;
             }
 
-            NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
+            DestinatarioSelecionado = new DestinatarioModel();
             Pagamento = new PagamentoModel { FormaPagamento = "Dinheiro" };
 
             var config = _configuracaoService.GetConfiguracao();
 
-            NotaFiscal.Serie = config.SerieNFCe;
-            NotaFiscal.Numero = config.ProximoNumNFCe;
-            NotaFiscal.ModeloNota = "NFC-e";
+            Serie = config.SerieNFCe;
+            Numero = config.ProximoNumNFCe;
+            ModeloNota = "NFC-e";
 
-            NotaFiscal.DataEmissao = DateTime.Now;
-            NotaFiscal.HoraEmissao = DateTime.Now;
-            NotaFiscal.DataSaida = DateTime.Now;
-            NotaFiscal.HoraSaida = DateTime.Now;
-            NotaFiscal.IndicadorPresenca = PresencaComprador.Presencial;
-            NotaFiscal.Finalidade = "Normal";
+            DataEmissao = DateTime.Now;
+            HoraEmissao = DateTime.Now;
+            DataSaida = DateTime.Now;
+            HoraSaida = DateTime.Now;
+            IndicadorPresenca = PresencaComprador.Presencial;
+            Finalidade = "Normal";
 
             var produtos = _produtoRepository.GetProdutosByNaturezaOperacao("Venda");
             foreach (var produto in produtos)
@@ -325,5 +313,23 @@ namespace DgSystems.NFe.ViewModels
                 Destinatarios.Add((DestinatarioModel)destDb);
             }
         }
+
+        private string _chave;
+        private string _protocolo;
+
+        public string Chave
+        {
+            get { return _chave; }
+            set { SetProperty(ref _chave, value); }
+        }
+
+        public string Protocolo
+        {
+            get { return _protocolo; }
+            set { SetProperty(ref _protocolo, value); }
+        }
+
+        public string Status { get; set; }
+        public bool IsCancelada { get; internal set; }
     }
 }

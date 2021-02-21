@@ -307,7 +307,7 @@ namespace DgSystems.NFe.ViewModels
                 return new Transporte(modeloNota, null, null);
             }
 
-            if (!(notaFiscal is NFeModel nfeModel))
+            if (!(notaFiscal is NFeViewModel nfeModel))
                 throw new ArgumentException("Parâmetro NotaFiscal não é do mesmo modelo que modeloNota");
 
             var transportadora = new Transportadora(nfeModel.TransportadoraSelecionada.CpfCnpj,

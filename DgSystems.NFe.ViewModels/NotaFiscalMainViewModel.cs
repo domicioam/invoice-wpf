@@ -375,7 +375,7 @@ namespace DgSystems.NFe.ViewModels
             }));
         }
 
-        private void NotaCanceladaVM_NotaInutilizadaEventHandler(NFCeModel notaInutilizada)
+        private void NotaCanceladaVM_NotaInutilizadaEventHandler(NFCeViewModel notaInutilizada)
         {
             var notaMemento = NotasFiscais.First(n => n.Chave == notaInutilizada.Chave);
             NotasFiscais.Remove(notaMemento);
@@ -443,8 +443,7 @@ namespace DgSystems.NFe.ViewModels
 
         private async void VisualizarNotaCmd_ExecuteAsync(NotaFiscalMemento notaFiscalMemento)
         {
-            var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(notaFiscalMemento.Chave);
-            string xml = await GetNotaXmlAsync(notaFiscal.Chave);
+            string xml = await GetNotaXmlAsync(notaFiscalMemento.Chave);
             var notaFiscalDto = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
 
             notaFiscalDto.QrCodeUrl = xml;

@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.WPF.NotaFiscal.Model;
+using DgSystems.NFe.ViewModels;
 
 namespace NFe.WPF.Events
 {
     public class NotaFiscalInutilizadaEvent 
     {
-        public NFCeModel NotaFiscal { get; internal set; }
+        public NFCeViewModel NotaFiscal { get; internal set; }
     }
 }
