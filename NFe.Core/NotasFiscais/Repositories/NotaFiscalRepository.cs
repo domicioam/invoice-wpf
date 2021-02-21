@@ -308,6 +308,12 @@ namespace NFe.Core.NotasFiscais.Repositories
             return notasPendentes;
         }
 
+        public Task<List<NotaFiscalEntity>> GetNotasPendentesAsync(bool isLoadXmlData)
+        {
+            return Task.Run(() => GetNotasPendentes(isLoadXmlData));
+        }
+
+
         public NotaFiscal GetNotaFiscalFromNfeProcXml(string xml)
         {
             var nfeProc = (Retorno.TNfeProc)XmlUtil.Deserialize<Retorno.TNfeProc>(xml);

@@ -27,6 +27,7 @@ namespace NFe.Core.Interfaces
         NotaFiscal GetNotaFiscalFromNfeProcXml(string xml);
         List<NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial, DateTime dateTime, bool v);
         List<NotaFiscalEntity> GetNotasPendentes(bool isLoadXmlData);
+        Task<List<NotaFiscalEntity>> GetNotasPendentesAsync(bool isLoadXmlData);
         void SalvarXmlNFeComErro(NotaFiscal notaFiscal, XmlNode node);
     }
 }

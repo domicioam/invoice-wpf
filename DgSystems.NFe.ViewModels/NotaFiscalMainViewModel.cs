@@ -192,14 +192,16 @@ namespace DgSystems.NFe.ViewModels
             });
         }
 
-        private async void EnviarNotaController_NotaEnviadaEventHandler(NotaFiscal notaEnviada)
+        private async void EnviarNotaController_NotaEnviadaEventHandler()
         {
-            await PopularListaNotasFiscais();
-
+            Task popularListaNfTask = PopularListaNotasFiscaisAsync();
+            Task<List<NotaFiscalEntity>> notasFiscaisPendentesTask = _notaFiscalRepository.GetNotasPendentesAsync(false);
+            
             var certificado = _certificadoService.GetX509Certificate2();
-            var config = await _configuracaoService.GetConfiguracaoAsync();
-            var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
             var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
+            
+            await popularListaNfTask;
+            var notasFiscaisPendentes = await notasFiscaisPendentesTask;
             await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
         }
 
@@ -319,7 +321,7 @@ namespace DgSystems.NFe.ViewModels
 
             try
             {
-                await PopularListaNotasFiscais();
+                await PopularListaNotasFiscaisAsync();
 
                 var certificado = _certificadoService.GetX509Certificate2();
                 var config = _configuracaoService.GetConfiguracao();
@@ -338,14 +340,14 @@ namespace DgSystems.NFe.ViewModels
 
         private void MudarPaginaCmd_Execute(int page)
         {
-            PopularListaNotasFiscais(page);
+            PopularListaNotasFiscaisAsync(page);
         }
 
         private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
         {
             if (_isLoaded)
             {
-                await PopularListaNotasFiscais();
+                await PopularListaNotasFiscaisAsync();
                 await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
                 {
                     var certificado = _certificadoService.GetX509Certificate2();
@@ -397,10 +399,10 @@ namespace DgSystems.NFe.ViewModels
 
         private void OpcoesVM_ConfiguracaoAlteradaEventHandler()
         {
-            PopularListaNotasFiscais();
+            PopularListaNotasFiscaisAsync();
         }
 
-        private Task PopularListaNotasFiscais(int page = 1)
+        private Task PopularListaNotasFiscaisAsync(int page = 1)
         {
             return Task.Run(async () =>
             {
@@ -426,7 +428,7 @@ namespace DgSystems.NFe.ViewModels
         private void SubscribeToEvents()
         {
             MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent),
-                (s, e) => { EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal); });
+                (s, e) => { EnviarNotaController_NotaEnviadaEventHandler(); });
 
             MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this,
                 nameof(NotasFiscaisTransmitidasEvent),
