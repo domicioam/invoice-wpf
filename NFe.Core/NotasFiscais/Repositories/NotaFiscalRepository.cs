@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using DgSystems.NFe.Extensions;
+using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
@@ -156,7 +157,7 @@ namespace NFe.Core.NotasFiscais.Repositories
 
                 using (var context = new NFeContext())
                 {
-                    var config = await context.Configuracao.FirstOrDefaultAsync();
+                    ConfiguracaoEntity config = await context.Configuracao.FirstOrDefaultAsync();
 
                     return config == null
                         ? null
