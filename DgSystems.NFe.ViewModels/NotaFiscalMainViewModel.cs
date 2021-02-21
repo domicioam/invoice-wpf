@@ -39,30 +39,6 @@ namespace DgSystems.NFe.ViewModels
 {
     public class NotaFiscalMainViewModel : ViewModelBaseValidation
     {
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private string _busyContent;
-        private readonly ICertificadoService _certificadoService;
-        private readonly IConfiguracaoService _configuracaoService;
-        private readonly IConsultaStatusServicoFacade _consultaStatusServicoService;
-        private readonly IEmissorService _emissorService;
-        private readonly EnviarEmailViewModel _enviarEmailViewModel;
-
-        private bool _isBusy;
-        private bool _isLoaded;
-
-        private bool _isNotasPendentesVerificadas;
-        private string _mensagensErroContingencia;
-        private readonly INFeConsulta _nfeConsulta;
-        private readonly ICertificadoRepository _certificadoRepository;
-        private readonly INotaFiscalRepository _notaFiscalRepository;
-
-        private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
-        private readonly IProdutoRepository _produtoRepository;
-        private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
-        private ObservableCollection<NotaFiscalMemento> _notasFiscais;
-
-
         public NotaFiscalMainViewModel(IEnviaNotaFiscalFacade enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, ICertificadoService certificadoService,
             IProdutoRepository produtoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
@@ -94,24 +70,28 @@ namespace DgSystems.NFe.ViewModels
             SubscribeToEvents();
         }
 
-        private void SubscribeToEvents()
-        {
-            MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent),
-                (s, e) => { EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal); });
+        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-            MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this,
-                nameof(NotasFiscaisTransmitidasEvent),
-                (s, e) => { ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro); });
+        private string _busyContent;
+        private readonly ICertificadoService _certificadoService;
+        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IConsultaStatusServicoFacade _consultaStatusServicoService;
+        private readonly IEmissorService _emissorService;
+        private readonly EnviarEmailViewModel _enviarEmailViewModel;
 
-            MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent),
-                (s, e) => { OpcoesVM_ConfiguracaoAlteradaEventHandler(); });
+        private bool _isBusy;
+        private bool _isLoaded;
 
-            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent),
-                (s, e) => { NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal); });
+        private bool _isNotasPendentesVerificadas;
+        private string _mensagensErroContingencia;
+        private readonly INFeConsulta _nfeConsulta;
+        private readonly ICertificadoRepository _certificadoRepository;
+        private readonly INotaFiscalRepository _notaFiscalRepository;
 
-            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this,
-                nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal); });
-        }
+        private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
+        private readonly IProdutoRepository _produtoRepository;
+        private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
+        private ObservableCollection<NotaFiscalMemento> _notasFiscais;
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
         {
@@ -179,16 +159,18 @@ namespace DgSystems.NFe.ViewModels
                 var mainWindow = app.MainWindow;
                 var sb = new StringBuilder();
 
-                foreach (var msg in mensagensErro) 
+                foreach (var msg in mensagensErro)
                     sb.Append("\n" + msg);
 
                 if (_isLoaded)
-                    MessageBox.Show(mainWindow,  "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
+                    MessageBox.Show(mainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
                         sb, "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                     _mensagensErroContingencia = sb.ToString();
             }));
         }
+
+
 
         private async void EnviarNotaNovamenteCmd_ExecuteAsync(NotaFiscalMemento notaPendenteMemento)
         {
@@ -451,6 +433,25 @@ namespace DgSystems.NFe.ViewModels
                     NotasFiscais = new ObservableCollection<NotaFiscalMemento>(notaFiscalMementos);
                 }));
             });
+        }
+
+        private void SubscribeToEvents()
+        {
+            MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent),
+                (s, e) => { EnviarNotaController_NotaEnviadaEventHandler(e.NotaFiscal); });
+
+            MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this,
+                nameof(NotasFiscaisTransmitidasEvent),
+                (s, e) => { ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro); });
+
+            MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent),
+                (s, e) => { OpcoesVM_ConfiguracaoAlteradaEventHandler(); });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent),
+                (s, e) => { NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal); });
+
+            MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this,
+                nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal); });
         }
     }
 }
