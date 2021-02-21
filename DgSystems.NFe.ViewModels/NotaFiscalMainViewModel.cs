@@ -224,9 +224,7 @@ namespace DgSystems.NFe.ViewModels
             }
 
             var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalByChave(notaPendenteMemento.Chave);
-            var xml = await notaFiscalDb.LoadXmlAsync();
-
-            var notaFiscalBo = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
+            var notaFiscalBo = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(await notaFiscalDb.LoadXmlAsync());
             notaFiscalBo.Identificacao.DataHoraEmissao = DateTime.Now;
 
             foreach (var prod in notaFiscalBo.Produtos)
@@ -238,15 +236,14 @@ namespace DgSystems.NFe.ViewModels
             try
             {
                 var certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
-                const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
-                var xmlNFe = new XmlNFe(notaFiscalBo, nFeNamespaceName, certificado, config.CscId, config.Csc);
+                var xmlNFe = new XmlNFe(notaFiscalBo, "http://www.portalfiscal.inf.br/nfe", certificado, config.CscId, config.Csc);
 
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
                 _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe);
 
                 IsBusy = false;
 
-                var mbResult = MessageBox.Show(app.MainWindow, "Nota enviada com sucesso! Deseja imprimi-la?",
+                var mbResult = MessageBox.Show(app.MainWindow, "Nota enviada com sucesso! Deseja imprimí-la?",
                     "Emissão NFe", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
 
                 if (mbResult == MessageBoxResult.Yes)
@@ -274,12 +271,10 @@ namespace DgSystems.NFe.ViewModels
 
                 var valorTotalProdutos = notaFiscalBo.ValorTotalProdutos.ToString("N2", new CultureInfo("pt-BR"));
 
-                var notaMemento = new NotaFiscalMemento(notaFiscalBo.Identificacao.Numero,
+                NotasFiscais[notaIndex] = new NotaFiscalMemento(notaFiscalBo.Identificacao.Numero,
                     notaFiscalBo.Identificacao.Modelo, notaFiscalBo.Identificacao.DataHoraEmissao,
                     notaFiscalBo.DataHoraAutorização, destinatario.NomeRazao, destinatarioUf, valorTotalProdutos,
                     notaFiscalBo.Identificacao.Status.ToString(), notaFiscalBo.Identificacao.Chave.ToString());
-
-                NotasFiscais[notaIndex] = notaMemento;
 
                 var theEvent = new NotaFiscalPendenteReenviadaEvent() { NotaFiscal = notaFiscalBo };
                 MessagingCenter.Send(this, nameof(NotaFiscalPendenteReenviadaEvent), theEvent);
@@ -298,11 +293,10 @@ namespace DgSystems.NFe.ViewModels
             _enviarEmailViewModel.EnviarEmail(notaFiscal.Chave);
         }
 
-        private async Task<string> GetNotaXmlAsync(string chave)
+        private Task<string> GetNotaXmlAsync(string chave)
         {
             var notaDb = _notaFiscalRepository.GetNotaFiscalByChave(chave);
-            string xml = await notaDb.LoadXmlAsync();
-            return xml;
+            return notaDb.LoadXmlAsync();
         }
 
         private async void LoadedCmd_Execute()
@@ -321,12 +315,15 @@ namespace DgSystems.NFe.ViewModels
 
             try
             {
-                await PopularListaNotasFiscaisAsync();
+                Task popularListaNfTask = PopularListaNotasFiscaisAsync();
+                Task<List<NotaFiscalEntity>> notasFiscaisPendentesTask = _notaFiscalRepository.GetNotasPendentesAsync(false);
 
                 var certificado = _certificadoService.GetX509Certificate2();
                 var config = _configuracaoService.GetConfiguracao();
-                var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                 var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
+
+                await popularListaNfTask;
+                var notasFiscaisPendentes = await notasFiscaisPendentesTask;
                 await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
             }
             catch (Exception e)
