@@ -150,13 +150,13 @@ namespace NFe.Core.NotasFiscais.Repositories
 
         public Task<List<NotaFiscalEntity>> TakeAsync(int pageSize, int page)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 var skip = (page - 1) * pageSize;
 
                 using (var context = new NFeContext())
                 {
-                    var config = context.Configuracao.FirstOrDefaultAsync();
+                    var config = await context.Configuracao.FirstOrDefaultAsync();
 
                     return config == null
                         ? null
