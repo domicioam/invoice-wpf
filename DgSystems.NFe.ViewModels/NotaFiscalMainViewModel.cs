@@ -152,7 +152,7 @@ namespace DgSystems.NFe.ViewModels
             var config = await _configuracaoService.GetConfiguracaoAsync();
             var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
             var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-            await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
+            await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
         }
 
         private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
@@ -166,7 +166,7 @@ namespace DgSystems.NFe.ViewModels
                    var config = await _configuracaoService.GetConfiguracaoAsync();
                    var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                    var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-                   await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
+                   await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
                }));
             }
 
@@ -345,7 +345,7 @@ namespace DgSystems.NFe.ViewModels
                 var config = _configuracaoService.GetConfiguracao();
                 var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                 var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-                await AtualizarNotasPendentes(certificado, config, notasFiscaisPendentes, codigoUf);
+                await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
             }
             catch (Exception e)
             {
@@ -357,7 +357,7 @@ namespace DgSystems.NFe.ViewModels
         }
 
         private Task<NotaFiscalEntity> ConsultarNotasAsync(int idNotaFiscalDb, string codigoUf,
-            X509Certificate2 certificado, ConfiguracaoEntity config)
+            X509Certificate2 certificado)
         {
             return Task.Run(async () =>
             {
@@ -397,7 +397,7 @@ namespace DgSystems.NFe.ViewModels
             });
         }
 
-        private async Task AtualizarNotasPendentes(X509Certificate2 certificado, ConfiguracaoEntity config, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
+        private async Task AtualizarNotasPendentes(X509Certificate2 certificado, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
         {
             if (_isNotasPendentesVerificadas || NotasFiscais.Count == 0)
                 return;
@@ -413,7 +413,7 @@ namespace DgSystems.NFe.ViewModels
 
             foreach (var idNotaPendente in idsNotasPendentes)
             {
-                var nota = await ConsultarNotasAsync(idNotaPendente, codigoUf, certificado, config);
+                var nota = await ConsultarNotasAsync(idNotaPendente, codigoUf, certificado);
 
                 if (nota == null)
                     continue;
