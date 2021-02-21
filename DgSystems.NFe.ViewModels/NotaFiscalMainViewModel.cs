@@ -118,7 +118,7 @@ namespace DgSystems.NFe.ViewModels
             set { SetProperty(ref _busyContent, value); }
         }
 
-        private async Task AtualizarNotasPendentes(X509Certificate2 certificado, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
+        private async Task AtualizarNotasPendentesAsync(X509Certificate2 certificado, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
         {
             if (_isNotasPendentesVerificadas || NotasFiscais.Count == 0)
                 return;
@@ -199,7 +199,7 @@ namespace DgSystems.NFe.ViewModels
             var config = await _configuracaoService.GetConfiguracaoAsync();
             var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
             var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-            await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
+            await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
         }
 
         private async void EnviarNotaNovamenteCmd_ExecuteAsync(NotaFiscalMemento notaPendenteMemento)
@@ -324,7 +324,7 @@ namespace DgSystems.NFe.ViewModels
                 var config = _configuracaoService.GetConfiguracao();
                 var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                 var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-                await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
+                await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
             }
             catch (Exception e)
             {
@@ -351,7 +351,7 @@ namespace DgSystems.NFe.ViewModels
                     var config = await _configuracaoService.GetConfiguracaoAsync();
                     var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                     var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-                    await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
+                    await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
                 }));
             }
 
