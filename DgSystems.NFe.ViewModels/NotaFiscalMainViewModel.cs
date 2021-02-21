@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
-using System.Xml;
-using System.Xml.Linq;
-using GalaSoft.MvvmLight.CommandWpf;
+﻿using GalaSoft.MvvmLight.CommandWpf;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
@@ -34,6 +21,19 @@ using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Mementos;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace DgSystems.NFe.ViewModels
 {
@@ -118,10 +118,77 @@ namespace DgSystems.NFe.ViewModels
             set { SetProperty(ref _busyContent, value); }
         }
 
-        private void NotaCanceladaVM_NotaInutilizadaEventHandler(NFCeModel notaInutilizada)
+        private async Task AtualizarNotasPendentes(X509Certificate2 certificado, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
         {
-            var notaMemento = NotasFiscais.First(n => n.Chave == notaInutilizada.Chave);
-            NotasFiscais.Remove(notaMemento);
+            if (_isNotasPendentesVerificadas || NotasFiscais.Count == 0)
+                return;
+
+            _isNotasPendentesVerificadas = true;
+
+            if (notasFiscaisPendentes.Count == 0) return;
+
+            if (certificado == null)
+                throw new ArgumentNullException(nameof(certificado));
+
+            var idsNotasPendentes = notasFiscaisPendentes.Select(n => n.Id);
+
+            foreach (var idNotaPendente in idsNotasPendentes)
+            {
+                var nota = await ConsultarNotasAsync(idNotaPendente, codigoUf, certificado);
+
+                if (nota == null)
+                    continue;
+
+                var notaPendente = NotasFiscais.FirstOrDefault(n => n.Status == "Pendente" && n.Chave == nota.Chave);
+                var index = NotasFiscais.IndexOf(notaPendente);
+
+                var notaMemento = new NotaFiscalMemento(nota.Numero,
+                    nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao,
+                    nota.DataAutorizacao, nota.Destinatario, nota.UfDestinatario,
+                    nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
+
+                NotasFiscais[index] = notaMemento;
+            }
+        }
+
+        private Task<NotaFiscalEntity> ConsultarNotasAsync(int idNotaFiscalDb, string codigoUf, X509Certificate2 certificado)
+        {
+            return Task.Run(async () =>
+            {
+                var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalById(idNotaFiscalDb, true);
+                var document = new XmlDocument();
+                var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
+
+                var mensagemRetorno = _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
+
+                if (!mensagemRetorno.IsEnviada)
+                    return null;
+
+                mensagemRetorno.Protocolo.infProt.Id = null;
+                var protSerialized = XmlUtil.Serialize(mensagemRetorno.Protocolo, "");
+
+                var doc = XDocument.Parse(protSerialized);
+                doc.Descendants().Attributes().Where(a => a.IsNamespaceDeclaration).Remove();
+
+                foreach (var element in doc.Descendants())
+                    element.Name = element.Name.LocalName;
+
+                using (var xmlReader = doc.CreateReader())
+                {
+                    document.Load(xmlReader);
+                }
+
+                notaFiscalDb.DataAutorizacao = mensagemRetorno.Protocolo.infProt.dhRecbto;
+                notaFiscalDb.Protocolo = mensagemRetorno.Protocolo.infProt.nProt;
+
+                var xml = await notaFiscalDb.LoadXmlAsync();
+                xml = xml.Replace("<protNFe />", document.OuterXml.Replace("TProtNFe", "protNFe"));
+
+                notaFiscalDb.Status = (int)Status.ENVIADA;
+                _notaFiscalRepository.Salvar(notaFiscalDb, xml);
+
+                return notaFiscalDb;
+            });
         }
 
         private async void EnviarNotaController_NotaEnviadaEventHandler(NotaFiscal notaEnviada)
@@ -134,43 +201,6 @@ namespace DgSystems.NFe.ViewModels
             var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
             await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
         }
-
-        private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
-        {
-            if (_isLoaded)
-            {
-                await PopularListaNotasFiscais();
-                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
-               {
-                   var certificado = _certificadoService.GetX509Certificate2();
-                   var config = await _configuracaoService.GetConfiguracaoAsync();
-                   var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
-                   var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-                   await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
-               }));
-            }
-
-            if (mensagensErro.Count == 0)
-                return;
-
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                var sb = new StringBuilder();
-
-                foreach (var msg in mensagensErro)
-                    sb.Append("\n" + msg);
-
-                if (_isLoaded)
-                    MessageBox.Show(mainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
-                        sb, "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
-                else
-                    _mensagensErroContingencia = sb.ToString();
-            }));
-        }
-
-
 
         private async void EnviarNotaNovamenteCmd_ExecuteAsync(NotaFiscalMemento notaPendenteMemento)
         {
@@ -260,14 +290,9 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        private async void VisualizarNotaCmd_ExecuteAsync(NotaFiscalMemento notaFiscalMemento)
+        private void EnviarEmailCmd_Execute(NotaFiscalMemento notaFiscal)
         {
-            var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(notaFiscalMemento.Chave);
-            string xml = await GetNotaXmlAsync(notaFiscal.Chave);
-            var notaFiscalDto = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
-
-            notaFiscalDto.QrCodeUrl = xml;
-            _visualizarNotaEnviadaViewModel.VisualizarNotaFiscal(notaFiscalDto);
+            _enviarEmailViewModel.EnviarEmail(notaFiscal.Chave);
         }
 
         private async Task<string> GetNotaXmlAsync(string chave)
@@ -275,34 +300,6 @@ namespace DgSystems.NFe.ViewModels
             var notaDb = _notaFiscalRepository.GetNotaFiscalByChave(chave);
             string xml = await notaDb.LoadXmlAsync();
             return xml;
-        }
-
-        private void OpcoesVM_ConfiguracaoAlteradaEventHandler()
-        {
-            PopularListaNotasFiscais();
-        }
-
-        private void MudarPaginaCmd_Execute(int page)
-        {
-            PopularListaNotasFiscais(page);
-        }
-
-        private void EnviarEmailCmd_Execute(NotaFiscalMemento notaFiscal)
-        {
-            _enviarEmailViewModel.EnviarEmail(notaFiscal.Chave);
-        }
-
-        private void NotaFiscalVM_NotaCanceladaEventHandler(NotaFiscalEntity nota)
-        {
-            var notaCancelada = NotasFiscais.FirstOrDefault(n => n.Chave == nota.Chave);
-            var index = NotasFiscais.IndexOf(notaCancelada);
-
-            var notaMemento = new NotaFiscalMemento(nota.Numero,
-                nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
-                nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
-                new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
-
-            NotasFiscais[index] = notaMemento;
         }
 
         private async void LoadedCmd_Execute()
@@ -338,78 +335,68 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        private Task<NotaFiscalEntity> ConsultarNotasAsync(int idNotaFiscalDb, string codigoUf,
-            X509Certificate2 certificado)
+        private void MudarPaginaCmd_Execute(int page)
         {
-            return Task.Run(async () =>
-            {
-                var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalById(idNotaFiscalDb, true);
-                var document = new XmlDocument();
-                var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
-
-                var mensagemRetorno = _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
-
-                if (!mensagemRetorno.IsEnviada)
-                    return null;
-
-                mensagemRetorno.Protocolo.infProt.Id = null;
-                var protSerialized = XmlUtil.Serialize(mensagemRetorno.Protocolo, "");
-
-                var doc = XDocument.Parse(protSerialized);
-                doc.Descendants().Attributes().Where(a => a.IsNamespaceDeclaration).Remove();
-
-                foreach (var element in doc.Descendants())
-                    element.Name = element.Name.LocalName;
-
-                using (var xmlReader = doc.CreateReader())
-                {
-                    document.Load(xmlReader);
-                }
-
-                notaFiscalDb.DataAutorizacao = mensagemRetorno.Protocolo.infProt.dhRecbto;
-                notaFiscalDb.Protocolo = mensagemRetorno.Protocolo.infProt.nProt;
-
-                var xml = await notaFiscalDb.LoadXmlAsync();
-                xml = xml.Replace("<protNFe />", document.OuterXml.Replace("TProtNFe", "protNFe"));
-
-                notaFiscalDb.Status = (int)Status.ENVIADA;
-                _notaFiscalRepository.Salvar(notaFiscalDb, xml);
-
-                return notaFiscalDb;
-            });
+            PopularListaNotasFiscais(page);
         }
 
-        private async Task AtualizarNotasPendentes(X509Certificate2 certificado, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
+        private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
         {
-            if (_isNotasPendentesVerificadas || NotasFiscais.Count == 0)
+            if (_isLoaded)
+            {
+                await PopularListaNotasFiscais();
+                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
+                {
+                    var certificado = _certificadoService.GetX509Certificate2();
+                    var config = await _configuracaoService.GetConfiguracaoAsync();
+                    var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
+                    var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
+                    await AtualizarNotasPendentes(certificado, notasFiscaisPendentes, codigoUf);
+                }));
+            }
+
+            if (mensagensErro.Count == 0)
                 return;
 
-            _isNotasPendentesVerificadas = true;
-
-            if (notasFiscaisPendentes.Count == 0) return;
-
-            if (certificado == null)
-                throw new ArgumentNullException(nameof(certificado));
-
-            var idsNotasPendentes = notasFiscaisPendentes.Select(n => n.Id);
-
-            foreach (var idNotaPendente in idsNotasPendentes)
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                var nota = await ConsultarNotasAsync(idNotaPendente, codigoUf, certificado);
+                var app = Application.Current;
+                var mainWindow = app.MainWindow;
+                var sb = new StringBuilder();
 
-                if (nota == null)
-                    continue;
+                foreach (var msg in mensagensErro)
+                    sb.Append("\n" + msg);
 
-                var notaPendente = NotasFiscais.FirstOrDefault(n => n.Status == "Pendente" && n.Chave == nota.Chave);
-                var index = NotasFiscais.IndexOf(notaPendente);
+                if (_isLoaded)
+                    MessageBox.Show(mainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
+                        sb, "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    _mensagensErroContingencia = sb.ToString();
+            }));
+        }
 
-                var notaMemento = new NotaFiscalMemento(nota.Numero,
-                    nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao,
-                    nota.DataAutorizacao, nota.Destinatario, nota.UfDestinatario,
-                    nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
+        private void NotaCanceladaVM_NotaInutilizadaEventHandler(NFCeModel notaInutilizada)
+        {
+            var notaMemento = NotasFiscais.First(n => n.Chave == notaInutilizada.Chave);
+            NotasFiscais.Remove(notaMemento);
+        }
 
-                NotasFiscais[index] = notaMemento;
-            }
+        private void NotaFiscalVM_NotaCanceladaEventHandler(NotaFiscalEntity nota)
+        {
+            var notaCancelada = NotasFiscais.FirstOrDefault(n => n.Chave == nota.Chave);
+            var index = NotasFiscais.IndexOf(notaCancelada);
+
+            var notaMemento = new NotaFiscalMemento(nota.Numero,
+                nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
+                nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
+                new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
+
+            NotasFiscais[index] = notaMemento;
+        }
+
+        private void OpcoesVM_ConfiguracaoAlteradaEventHandler()
+        {
+            PopularListaNotasFiscais();
         }
 
         private Task PopularListaNotasFiscais(int page = 1)
@@ -452,6 +439,16 @@ namespace DgSystems.NFe.ViewModels
 
             MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this,
                 nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal); });
+        }
+
+        private async void VisualizarNotaCmd_ExecuteAsync(NotaFiscalMemento notaFiscalMemento)
+        {
+            var notaFiscal = (NFCeModel)_notaFiscalRepository.GetNotaFiscalByChave(notaFiscalMemento.Chave);
+            string xml = await GetNotaXmlAsync(notaFiscal.Chave);
+            var notaFiscalDto = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
+
+            notaFiscalDto.QrCodeUrl = xml;
+            _visualizarNotaEnviadaViewModel.VisualizarNotaFiscal(notaFiscalDto);
         }
     }
 }
