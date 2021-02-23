@@ -29,7 +29,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private NotaFiscalModel _notaFiscal;
+        private Core.NotasFiscais.NotaFiscal _notaFiscal;
         private string _documentoDestinatario;
         private Core.NotasFiscais.NotaFiscal _notaFiscalBO;
 
@@ -38,7 +38,7 @@ namespace NFe.WPF.ViewModel
 
         private IDialogService _dialogService;
 
-        public NotaFiscalModel NotaFiscal
+        public Core.NotasFiscais.NotaFiscal NotaFiscal
         {
             get
             {
@@ -49,6 +49,9 @@ namespace NFe.WPF.ViewModel
                 SetProperty(ref _notaFiscal, value);
             }
         }
+
+        public ObservableCollection<PagamentoModel> Pagamentos { get; private set; }
+        public DestinatarioModel DestinatarioSelecionado { get; private set; }
 
         public string DocumentoDestinatario
         {
@@ -65,6 +68,10 @@ namespace NFe.WPF.ViewModel
         private CancelarNotaViewModel _cancelarNotaViewModel;
 
         public bool IsDestinatarioEstrangeiro { get; set; }
+        public ObservableCollection<ProdutoModel> Produtos { get; private set; }
+        public string Finalidade { get; private set; }
+        public string NaturezaOperacao { get; private set; }
+        public string Serie { get; private set; }
 
         internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
@@ -106,9 +113,9 @@ namespace NFe.WPF.ViewModel
 
 
 
-        NotaFiscal = (NFCeViewModel)notaFiscal;
-            NotaFiscal.Pagamentos = new ObservableCollection<PagamentoModel>();
-            NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
+        NotaFiscal = notaFiscal;
+            Pagamentos = new ObservableCollection<PagamentoModel>();
+            DestinatarioSelecionado = new DestinatarioModel();
 
             _notaFiscalBO = notaFiscal;
 
@@ -122,12 +129,12 @@ namespace NFe.WPF.ViewModel
                     pagamentoVO.FormaPagamento = pagamento.FormaPagamentoTexto;
                     pagamentoVO.ValorTotal = pagamento.Valor.ToString("N2", new CultureInfo("pt-BR"));
 
-                    NotaFiscal.Pagamentos.Add(pagamentoVO);
+                    Pagamentos.Add(pagamentoVO);
                 }
             }
             else
             {
-                NotaFiscal.Pagamentos.Add(new PagamentoModel() { FormaPagamento = "N/A" });
+                Pagamentos.Add(new PagamentoModel() { FormaPagamento = "N/A" });
             }
 
             //Preenche documento destinatário
@@ -137,12 +144,12 @@ namespace NFe.WPF.ViewModel
                 IsDestinatarioEstrangeiro = _notaFiscalBO.Destinatario.TipoDestinatario == TipoDestinatario.Estrangeiro;
             }
 
-            NotaFiscal.Finalidade = _notaFiscalBO.Identificacao.FinalidadeConsumidor == FinalidadeConsumidor.ConsumidorFinal ? "Consumidor Final" : "Normal";
-            NotaFiscal.NaturezaOperacao = _notaFiscalBO.Identificacao.NaturezaOperacao;
-            NotaFiscal.Serie = _notaFiscalBO.Identificacao.Serie.ToString("D3");
+            Finalidade = _notaFiscalBO.Identificacao.FinalidadeConsumidor == FinalidadeConsumidor.ConsumidorFinal ? "Consumidor Final" : "Normal";
+            NaturezaOperacao = _notaFiscalBO.Identificacao.NaturezaOperacao;
+            Serie = _notaFiscalBO.Identificacao.Serie.ToString("D3");
 
             //Preenche produtos
-            NotaFiscal.Produtos = new ObservableCollection<ProdutoModel>();
+            Produtos = new ObservableCollection<ProdutoModel>();
 
             foreach (var produto in _notaFiscalBO.Produtos)
             {
@@ -153,7 +160,7 @@ namespace NFe.WPF.ViewModel
                 produtoVO.Descontos = produto.Desconto;
                 produtoVO.TotalLiquido = produto.ValorTotal;
 
-                NotaFiscal.Produtos.Add(produtoVO);
+                Produtos.Add(produtoVO);
             }
 
             var command = new OpenVisualizarNotaEnviadaWindowCommand(this);
@@ -171,14 +178,14 @@ namespace NFe.WPF.ViewModel
 
         private void CancelarNotaCmd_Execute()
         {
-            _cancelarNotaViewModel.CancelarNotaFiscal(_notaFiscal);
+            _cancelarNotaViewModel.CancelarNotaFiscal(_notaFiscal.Identificacao.Modelo, _notaFiscal.Identificacao.Chave, _notaFiscal.ProtocoloAutorizacao, _notaFiscal.Identificacao.Status, _notaFiscal.Identificacao.Numero, _notaFiscal.Identificacao.Serie.ToString());
         }
 
         private async void EmitirSegundaViaCmd_Execute()
         {
             var complemento = new RetornoNotaFiscal();
-            _notaFiscalBO.DhAutorizacao = NotaFiscal.DataAutorizacao;
-            _notaFiscalBO.ProtocoloAutorizacao = NotaFiscal.Protocolo;
+            _notaFiscalBO.DhAutorizacao = NotaFiscal.DhAutorizacao;
+            _notaFiscalBO.ProtocoloAutorizacao = NotaFiscal.ProtocoloAutorizacao;
 
             try
             {

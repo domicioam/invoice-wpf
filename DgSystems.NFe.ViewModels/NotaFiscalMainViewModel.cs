@@ -375,9 +375,9 @@ namespace DgSystems.NFe.ViewModels
             }));
         }
 
-        private void NotaCanceladaVM_NotaInutilizadaEventHandler(NFCeViewModel notaInutilizada)
+        private void NotaCanceladaVM_NotaInutilizadaEventHandler(Chave chave)
         {
-            var notaMemento = NotasFiscais.First(n => n.Chave == notaInutilizada.Chave);
+            var notaMemento = NotasFiscais.First(n => n.Chave == chave.ToString());
             NotasFiscais.Remove(notaMemento);
         }
 
@@ -438,7 +438,7 @@ namespace DgSystems.NFe.ViewModels
                 (s, e) => { NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal); });
 
             MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this,
-                nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.NotaFiscal); });
+                nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.Chave); });
         }
 
         private async void VisualizarNotaCmd_ExecuteAsync(NotaFiscalMemento notaFiscalMemento)
