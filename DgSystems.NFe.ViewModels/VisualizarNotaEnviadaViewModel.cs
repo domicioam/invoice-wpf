@@ -83,44 +83,6 @@ namespace NFe.WPF.ViewModel
 
         internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
-
-            //            public static explicit operator NotaFiscalModel(NotaFiscal nota)
-            //{
-            //    var notaModel = new NotaFiscalModel
-            //    {
-            //        DataAutorizacao = nota.DhAutorizacao,
-            //        DataEmissao = nota.Identificacao.DataHoraEmissao,
-            //        Modelo = nota.Identificacao.Modelo.ToString().Replace("Modelo", string.Empty),
-            //        Numero = nota.Identificacao.Numero,
-            //        Serie = nota.Identificacao.Serie.ToString(),
-            //        Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
-            //        Chave = nota.Identificacao.Chave.ToString(),
-            //        Protocolo = nota.ProtocoloAutorizacao,
-            //        IsCancelada = nota.Identificacao.Status.IsCancelada(),
-            //        Destinatario = nota.Destinatario == null
-            //            ? "CONSUMIDOR NÃO IDENTIFICADO"
-            //            : nota.Destinatario.NomeRazao
-            //    };
-
-
-            //    if (nota.Destinatario != null && nota.Destinatario.Endereco != null)
-            //    {
-            //        notaModel.UfDestinatario = nota.Destinatario.Endereco.UF;
-            //    }
-            //    else
-            //    {
-            //        notaModel.UfDestinatario = nota.Emitente.Endereco.UF;
-            //    }
-
-            //    notaModel.Status = nota.Identificacao.Status.ToString();
-
-            //    return notaModel;
-            //}
-
-
-
-
-
             NotaFiscal = notaFiscal;
 
             Destinatario = notaFiscal.Destinatario == null
