@@ -191,44 +191,5 @@ namespace NFe.WPF.NotaFiscal.Model
             }
             set { SetProperty(ref _dataAutorizacao, value); }
         }
-
-
-
-        //public static explicit operator NFCeViewModel(NotaFiscalEntity nota)
-        //{
-        //    //criar um conversor pra casting
-        //    var notaModel = new NFCeViewModel()
-        //    {
-        //        DataAutorizacao = nota.DataAutorizacao.ToString("yyyy-MM-ddTHH:mm:sszzz"),
-        //        DataEmissao = nota.DataEmissao,
-        //        Destinatario = nota.Destinatario,
-        //        Modelo = nota.Modelo,
-        //        Numero = nota.Numero,
-        //        Serie = nota.Serie,
-        //        UfDestinatario = nota.UfDestinatario,
-        //        Valor = nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
-        //        Chave = nota.Chave,
-        //        Protocolo = nota.Protocolo,
-        //        IsCancelada = nota.Status == 2
-        //    };
-
-        //    switch (nota.Status)
-        //    {
-        //        case 0:
-        //            notaModel.Status = "Enviada";
-        //            break;
-        //        case 3:
-        //            notaModel.Status = "Contingência";
-        //            break;
-        //        case 1:
-        //            notaModel.Status = "Pendente";
-        //            break;
-        //        case 2:
-        //            notaModel.Status = "Cancelada";
-        //            break;
-        //    }
-
-        //    return notaModel;
-        //}
     }
 }
