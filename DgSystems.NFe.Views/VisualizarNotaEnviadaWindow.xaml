@@ -84,16 +84,16 @@
                    Grid.Column="2"
                    Margin="6,6,6,0" />
             <Label x:Name="label6"
-                   Content="{Binding NotaFiscal.Modelo}"
+                   Content="{Binding Modelo}"
                    Grid.Row="1"
                    Margin="6,0,6,6" />
             <Label x:Name="label7"
-                   Content="{Binding NotaFiscal.Serie}"
+                   Content="{Binding Serie}"
                    Grid.Column="1"
                    Grid.Row="1"
                    Margin="6,0,6,6" />
             <Label x:Name="label8"
-                   Content="{Binding NotaFiscal.Numero}"
+                   Content="{Binding Numero}"
                    Grid.Column="2"
                    Grid.Row="1"
                    Margin="6,0,6,6" />
@@ -113,7 +113,7 @@
             </Grid.ColumnDefinitions>
             <Label  Content="Chave"
                     Margin="2,0,6,0" />
-            <TextBox Text="{Binding NotaFiscal.Chave}"
+            <TextBox Text="{Binding Chave, Mode=OneTime}"
                      IsReadOnly="True"
                      Grid.Row="1"
                      Height="23"
@@ -122,7 +122,7 @@
                    Content="Destinatário"
                    Grid.Row="2"
                    Margin="2,0,6,0" />
-            <TextBox Text="{Binding NotaFiscal.Destinatario}"
+            <TextBox Text="{Binding Destinatario, Mode=OneTime}"
                      IsReadOnly="True"
                      Grid.Row="3"
                      Height="23"
@@ -133,7 +133,7 @@
                    Margin="2,0,6,0"
                    Grid.Column="1" />
             <TextBox x:Name="comboBox2"
-                     Text="{Binding NotaFiscal.Finalidade}"
+                     Text="{Binding Finalidade, Mode=OneTime}"
                      IsReadOnly="True"
                      Grid.Row="5"
                      Grid.Column="1"
@@ -143,7 +143,7 @@
                    Grid.Row="4"
                    Margin="2,0,6,0" />
             <TextBox x:Name="natOperacaoTxt"
-                     Text="{Binding NotaFiscal.NaturezaOperacao}"
+                     Text="{Binding NaturezaOperacao, Mode=OneTime}"
                      IsReadOnly="True"
                      Height="23"
                      TextWrapping="Wrap"
@@ -162,7 +162,7 @@
                      Height="23"
                      HorizontalAlignment="Stretch"
                      IsReadOnly="True"
-                     Text="{Binding NotaFiscal.DataEmissao, StringFormat=dd/MM/yyyy - HH:mm:ss}" />
+                     Text="{Binding DataEmissao, Mode=OneTime, StringFormat=dd/MM/yyyy - HH:mm:ss}" />
             <Label x:Name="label10"
                    Content="CPF / CNPJ"
                    Grid.Column="1"
@@ -200,7 +200,7 @@
                Background="{x:Null}" />
 
         <ListView x:Name="listProdutosNota"
-                  ItemsSource="{Binding NotaFiscal.Produtos}"
+                  ItemsSource="{Binding Produtos}"
                   Grid.Row="4"
                   Margin="6"
                   MinHeight="93"
@@ -249,7 +249,7 @@
             </Grid.RowDefinitions>
 
             <ListView x:Name="listPagamentos"
-                      ItemsSource="{Binding NotaFiscal.Pagamentos}"
+                      ItemsSource="{Binding Pagamentos}"
                       Grid.Row="1"
                       Margin="6"
                       Height="93"

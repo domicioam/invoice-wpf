@@ -22,6 +22,7 @@ using NFe.WPF.NotaFiscal.Model;
 using NFe.Core.Utils.PDF;
 using NFe.Core.Messaging;
 using DgSystems.NFe.ViewModels.Commands;
+using NFe.Core.NotasFiscais.ValueObjects;
 
 namespace NFe.WPF.ViewModel
 {
@@ -37,6 +38,13 @@ namespace NFe.WPF.ViewModel
         public ICommand CancelarNotaCmd { get; set; }
 
         private IDialogService _dialogService;
+
+        public object Destinatario { get; private set; }
+        public string DataAutorizacao { get; private set; }
+        public DateTime DataEmissao { get; private set; }
+        public string Chave { get; private set; }
+        public string Modelo { get; private set; }
+        public string Numero { get; private set; }
 
         public Core.NotasFiscais.NotaFiscal NotaFiscal
         {
@@ -76,44 +84,55 @@ namespace NFe.WPF.ViewModel
         internal void VisualizarNotaFiscal(Core.NotasFiscais.NotaFiscal notaFiscal)
         {
 
-        //            public static explicit operator NotaFiscalModel(NotaFiscal nota)
-        //{
-        //    var notaModel = new NotaFiscalModel
-        //    {
-        //        DataAutorizacao = nota.DhAutorizacao,
-        //        DataEmissao = nota.Identificacao.DataHoraEmissao,
-        //        Modelo = nota.Identificacao.Modelo.ToString().Replace("Modelo", string.Empty),
-        //        Numero = nota.Identificacao.Numero,
-        //        Serie = nota.Identificacao.Serie.ToString(),
-        //        Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
-        //        Chave = nota.Identificacao.Chave.ToString(),
-        //        Protocolo = nota.ProtocoloAutorizacao,
-        //        IsCancelada = nota.Identificacao.Status.IsCancelada(),
-        //        Destinatario = nota.Destinatario == null
-        //            ? "CONSUMIDOR NÃO IDENTIFICADO"
-        //            : nota.Destinatario.NomeRazao
-        //    };
+            //            public static explicit operator NotaFiscalModel(NotaFiscal nota)
+            //{
+            //    var notaModel = new NotaFiscalModel
+            //    {
+            //        DataAutorizacao = nota.DhAutorizacao,
+            //        DataEmissao = nota.Identificacao.DataHoraEmissao,
+            //        Modelo = nota.Identificacao.Modelo.ToString().Replace("Modelo", string.Empty),
+            //        Numero = nota.Identificacao.Numero,
+            //        Serie = nota.Identificacao.Serie.ToString(),
+            //        Valor = nota.TotalNFe.IcmsTotal.ValorTotalNFe.ToString("N2", new CultureInfo("pt-BR")),
+            //        Chave = nota.Identificacao.Chave.ToString(),
+            //        Protocolo = nota.ProtocoloAutorizacao,
+            //        IsCancelada = nota.Identificacao.Status.IsCancelada(),
+            //        Destinatario = nota.Destinatario == null
+            //            ? "CONSUMIDOR NÃO IDENTIFICADO"
+            //            : nota.Destinatario.NomeRazao
+            //    };
 
 
-        //    if (nota.Destinatario != null && nota.Destinatario.Endereco != null)
-        //    {
-        //        notaModel.UfDestinatario = nota.Destinatario.Endereco.UF;
-        //    }
-        //    else
-        //    {
-        //        notaModel.UfDestinatario = nota.Emitente.Endereco.UF;
-        //    }
+            //    if (nota.Destinatario != null && nota.Destinatario.Endereco != null)
+            //    {
+            //        notaModel.UfDestinatario = nota.Destinatario.Endereco.UF;
+            //    }
+            //    else
+            //    {
+            //        notaModel.UfDestinatario = nota.Emitente.Endereco.UF;
+            //    }
 
-        //    notaModel.Status = nota.Identificacao.Status.ToString();
+            //    notaModel.Status = nota.Identificacao.Status.ToString();
 
-        //    return notaModel;
-        //}
-
-
+            //    return notaModel;
+            //}
 
 
 
-        NotaFiscal = notaFiscal;
+
+
+            NotaFiscal = notaFiscal;
+
+            Destinatario = notaFiscal.Destinatario == null
+                ? "CONSUMIDOR NÃO IDENTIFICADO"
+                : notaFiscal.Destinatario.NomeRazao;
+
+            DataAutorizacao = notaFiscal.DhAutorizacao;
+            DataEmissao = notaFiscal.Identificacao.DataHoraEmissao;
+            Chave = notaFiscal.Identificacao.Chave.ToString();
+            Modelo = notaFiscal.Identificacao.Modelo == Core.NotasFiscais.Modelo.Modelo55 ? "NF-e" : "NFC-e";
+            Numero = notaFiscal.Identificacao.Numero;
+
             Pagamentos = new ObservableCollection<PagamentoModel>();
             DestinatarioSelecionado = new DestinatarioModel();
 
