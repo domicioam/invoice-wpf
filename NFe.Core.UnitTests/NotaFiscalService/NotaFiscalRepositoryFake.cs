@@ -83,6 +83,10 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             throw new NotImplementedException();
         }
 
+        public Task<List<NotaFiscalEntity>> GetNotasPendentesAsync(bool isLoadXmlData)
+        {
+            throw new NotImplementedException();
+        }
 
         public NotaFiscalEntity GetPrimeiraNotaEmitidaEmContingencia(DateTime dataHoraContingencia, DateTime now)
         {

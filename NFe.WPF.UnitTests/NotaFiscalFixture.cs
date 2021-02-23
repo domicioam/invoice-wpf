@@ -18,11 +18,11 @@ namespace NFe.WPF.UnitTests
 {
     public class NotaFiscalFixture
     {
-        public NFCeModel NFCeModel
+        public NFCeViewModel NFCeModel
         {
             get
             {
-                NFCeModel notaFiscalModel = new NFCeModel();
+                NFCeViewModel notaFiscalModel = new NFCeViewModel();
 
                 notaFiscalModel.Serie = "001";
                 notaFiscalModel.Numero = "1";
@@ -76,11 +76,11 @@ namespace NFe.WPF.UnitTests
             }
         }
 
-        public NFeModel NFeModelWithPagamento
+        public NFeViewModel NFeModelWithPagamento
         {
             get
             {
-                NFeModel notaFiscalModel = new NFeModel();
+                NFeViewModel notaFiscalModel = new NFeViewModel();
 
                 notaFiscalModel.Serie = "001";
                 notaFiscalModel.Numero = "1";
@@ -167,11 +167,11 @@ namespace NFe.WPF.UnitTests
             }
         }
 
-        public NFeModel NFeRemessa
+        public NFeViewModel NFeRemessa
         {
             get
             {
-                NFeModel notaFiscalModel = new NFeModel();
+                NFeViewModel notaFiscalModel = new NFeViewModel();
 
                 notaFiscalModel.Serie = "001";
                 notaFiscalModel.Numero = "1";
@@ -252,11 +252,11 @@ namespace NFe.WPF.UnitTests
             }
         }
 
-        public NFeModel NFeModelWithErrors
+        public NFeViewModel NFeModelWithErrors
         {
             get
             {
-                NFeModel notaFiscalModel = new NFeModel();
+                NFeViewModel notaFiscalModel = new NFeViewModel();
 
                 notaFiscalModel.Serie = "001";
                 notaFiscalModel.Numero = "1";
@@ -343,11 +343,11 @@ namespace NFe.WPF.UnitTests
             }
         }
 
-        public NFeModel NFeTotalInvalido
+        public NFeViewModel NFeTotalInvalido
         {
             get
             {
-                NFeModel notaFiscalModel = new NFeModel();
+                NFeViewModel notaFiscalModel = new NFeViewModel();
 
                 notaFiscalModel.Serie = "001";
                 notaFiscalModel.Numero = "1";

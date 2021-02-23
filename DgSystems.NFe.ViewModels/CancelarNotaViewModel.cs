@@ -20,6 +20,8 @@ using NFe.Core.Messaging;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.Core.Utils;
 using DgSystems.NFe.ViewModels.Commands;
+using DgSystems.NFe.ViewModels;
+using NFe.Core.NotasFiscais.ValueObjects;
 
 namespace NFe.WPF.ViewModel
 {
@@ -89,25 +91,25 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        internal void CancelarNotaFiscal(NFCeModel notaFiscal)
+        internal void CancelarNotaFiscal(Modelo modelo, Chave chave, string protocolo, StatusEnvio status, string numero, string serie)
         {
-            if (notaFiscal.Status.Equals("Enviada"))
+            if (status.Equals("Enviada"))
             {
-                EnviarCancelamentoNotaFiscal(notaFiscal);
+                EnviarCancelamentoNotaFiscal(modelo, chave.ToString(), protocolo);
             }
             else
             {
-                InutilizarNotaFiscal(notaFiscal);
+                InutilizarNotaFiscal(modelo, numero, serie, chave);
             }
         }
 
-        private void InutilizarNotaFiscal(NFCeModel notaFiscal)
+        private void InutilizarNotaFiscal(Modelo modelo, string numero, string serie, Chave chave)
         {
             var config = _configuracaoService.GetConfiguracao();
 
             var emitente = _emissorService.GetEmissor();
             var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
-            var modeloNota = notaFiscal.Modelo.Contains("NFC-e") ? Modelo.Modelo65 : Modelo.Modelo55;
+            var modeloNota = modelo;
 
             if (modeloNota == Modelo.Modelo55) //NF-e
             {
@@ -115,14 +117,13 @@ namespace NFe.WPF.ViewModel
                 var numAtual = (int.Parse(proximoNumNFe) - 1).ToString();
 
                 //Se o número atual não tiver mudado, significa que ela não foi enviada e pode ser excluída sem inutilizar.
-                if (notaFiscal.Numero == numAtual)
+                if (numero == numAtual)
                 {
                     config.ProximoNumNFe = numAtual;
 
-                    var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
-                    _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
+                    _notaFiscalRepository.ExcluirNota(chave.ToString());
 
-                    var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                    var theEvent = new NotaFiscalInutilizadaEvent() { Chave = chave };
                     MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
 
                     _configuracaoService.Salvar(config);
@@ -130,13 +131,13 @@ namespace NFe.WPF.ViewModel
                 else //caso o número atual seja diferente, é necessário inutilizar
                 {
                     var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, emitente.CNPJ, modeloNota,
-                        notaFiscal.Serie, notaFiscal.Numero, notaFiscal.Numero);
+                        serie, numero, numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
-                        _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
+                        _notaFiscalRepository.ExcluirNota(chave.ToString());
 
-                        var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                        var theEvent = new NotaFiscalInutilizadaEvent() { Chave = chave };
                         MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
 
                         _configuracaoService.Salvar(config);
@@ -152,14 +153,13 @@ namespace NFe.WPF.ViewModel
                 string proximoNumNFCe = config.ProximoNumNFe;
                 var numAtual = (int.Parse(proximoNumNFCe) - 1).ToString();
 
-                if (notaFiscal.Numero == numAtual)
+                if (numero == numAtual)
                 {
                     config.ProximoNumNFCe = numAtual;
 
-                    var modelo = notaFiscal.Modelo == "NFC-e" ? "65" : "55";
-                    _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
+                    _notaFiscalRepository.ExcluirNota(chave.ToString());
 
-                    var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                    var theEvent = new NotaFiscalInutilizadaEvent() { Chave = chave };
                     MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
 
                     _configuracaoService.Salvar(config);
@@ -167,13 +167,13 @@ namespace NFe.WPF.ViewModel
                 else
                 {
                     var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, emitente.CNPJ, modeloNota,
-                         notaFiscal.Serie, notaFiscal.Numero, notaFiscal.Numero);
+                         serie, numero, numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
-                        _notaFiscalRepository.ExcluirNota(notaFiscal.Chave);
+                        _notaFiscalRepository.ExcluirNota(chave.ToString());
 
-                        var theEvent = new NotaFiscalInutilizadaEvent() { NotaFiscal = notaFiscal };
+                        var theEvent = new NotaFiscalInutilizadaEvent() { Chave = chave };
                         MessagingCenter.Send(this, nameof(NotaFiscalInutilizadaEvent), theEvent);
 
                         _configuracaoService.Salvar(config);
@@ -186,11 +186,11 @@ namespace NFe.WPF.ViewModel
             }
         }
 
-        private void EnviarCancelamentoNotaFiscal(NFCeModel notaFiscalModel)
+        private void EnviarCancelamentoNotaFiscal(Modelo modelo, string chave, string protocolo)
         {
             X509Certificate2 certificado;
 
-            var modeloNota = notaFiscalModel.Modelo.Contains("NFC-e") ? Modelo.Modelo65 : Modelo.Modelo55;
+            var modeloNota = modelo;
             var config = _configuracaoService.GetConfiguracao();
 
             var emitente = _emissorService.GetEmissor();
@@ -211,8 +211,8 @@ namespace NFe.WPF.ViewModel
             UF = emitente.Endereco.UF;
             CodigoUF = codigoUF;
             Cnpj = emitente.CNPJ;
-            Chave = notaFiscalModel.Chave;
-            Protocolo = notaFiscalModel.Protocolo;
+            Chave = chave;
+            Protocolo = protocolo;
             ModeloNota = modeloNota;
             Certificado = certificado;
 

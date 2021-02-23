@@ -7,10 +7,11 @@ using EmissorNFe.Model;
 using EmissorNFe.Model.Base;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Entities;
+using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.NotaFiscal.Model
 {
-    public abstract class NotaFiscalModel : ObservableObjectValidation
+    public abstract class NotaFiscalModel : ViewModelBaseValidation
     {
         private string _dataAutorizacao;
         private DateTime _dataEmissao;

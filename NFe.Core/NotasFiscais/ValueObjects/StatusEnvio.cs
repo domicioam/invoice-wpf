@@ -21,6 +21,14 @@ namespace NFe.Core.NotasFiscais.ValueObjects
             return (int) _status;
         }
 
+        public Status Status
+        {
+            get
+            {
+                return _status;
+            }
+        }
+
         public override string ToString()
         {
             switch (_status)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -24,10 +25,11 @@ using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
+using NFeCoreModelo = NFe.Core.NotasFiscais.Modelo;
 
 namespace DgSystems.NFe.ViewModels
 {
-    public class NFeViewModel : ViewModelBaseValidation
+    public class NFeViewModel : NotaFiscalModel
     {
         private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
         static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -132,19 +134,11 @@ namespace DgSystems.NFe.ViewModels
                 Transportadoras.Remove(transportadora);
                 _dialogService.ShowMessageBox("Transportadora removida com sucesso!", "Sucesso!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error(e);
                 _dialogService.ShowError("Não foi possível remover a transportadora.", "Erro!", null, null);
             }
-        }
-
-        private NFeModel _notaFiscal;
-
-        public NFeModel NotaFiscal
-        {
-            get { return _notaFiscal; }
-            set { SetProperty(ref _notaFiscal, value); }
         }
 
         private PagamentoModel _pagamento;
@@ -180,7 +174,7 @@ namespace DgSystems.NFe.ViewModels
             set
             {
                 SetProperty(ref _naturezaOperacaoParaSalvar, value);
-                NotaFiscal.NaturezaOperacao = value.Descricao;
+                NaturezaOperacao = value.Descricao;
                 FiltrarProdutosCombo();
             }
         }
@@ -262,7 +256,7 @@ namespace DgSystems.NFe.ViewModels
         {
             TransportadoraParaSalvar.ValidateModel();
 
-            if (TransportadoraParaSalvar.HasErrors) 
+            if (TransportadoraParaSalvar.HasErrors)
                 return;
 
             var transportadoraEntity = (TransportadoraEntity)TransportadoraParaSalvar;
@@ -272,39 +266,39 @@ namespace DgSystems.NFe.ViewModels
             TransportadoraParaSalvar.Id = id;
 
             Transportadoras.Add(TransportadoraParaSalvar);
-            NotaFiscal.TransportadoraSelecionada = TransportadoraParaSalvar;
+            TransportadoraSelecionada = TransportadoraParaSalvar;
             TransportadoraParaSalvar = new TransportadoraModel();
             closable.Close();
         }
 
         private void GerarPagtoCmd_Execute(object obj)
         {
-            NotaFiscal.Pagamentos = NotaFiscal.Pagamentos ?? new ObservableCollection<PagamentoModel>();
+            Pagamentos = Pagamentos ?? new ObservableCollection<PagamentoModel>();
 
             Pagamento.ValidateModel();
 
-            if (Pagamento.HasErrors) 
+            if (Pagamento.HasErrors)
                 return;
 
-            NotaFiscal.Pagamentos.Add(Pagamento);
+            Pagamentos.Add(Pagamento);
             Pagamento = new PagamentoModel();
         }
 
         private async void EnviarNotaCmd_Execute(IClosable closable)
         {
-            await EnviarNota(NotaFiscal, _modelo, closable);
+            await EnviarNota(this, _modelo, closable);
         }
 
         private void AdicionarProdutoCmd_Execute(object obj)
         {
             Produto.ValidateModel();
 
-            if (Produto.HasErrors) 
+            if (Produto.HasErrors)
                 return;
 
-            NotaFiscal.Produtos = NotaFiscal.Produtos ?? new ObservableCollection<ProdutoModel>();
+            Produtos = Produtos ?? new ObservableCollection<ProdutoModel>();
 
-            NotaFiscal.Produtos.Add(Produto);
+            Produtos.Add(Produto);
             Pagamento.ValorParcela += Produto.TotalLiquido;
             ProdutosCombo.Remove(Produto.ProdutoSelecionado);
 
@@ -325,7 +319,7 @@ namespace DgSystems.NFe.ViewModels
             if (destIndex == -1)
                 return;
 
-            if (!destSelecionado.HasErrors) 
+            if (!destSelecionado.HasErrors)
                 return;
 
             _destinatarioViewModel.DestinatarioParaSalvar = destSelecionado;
@@ -334,7 +328,7 @@ namespace DgSystems.NFe.ViewModels
             MessagingCenter.Send(this, nameof(AlterarDestinatarioCommand), command);
 
             destSelecionado.ValidateModel();
-            if (!destSelecionado.HasErrors) 
+            if (!destSelecionado.HasErrors)
                 return;
 
             Destinatarios.RemoveAt(destIndex);
@@ -369,54 +363,48 @@ namespace DgSystems.NFe.ViewModels
 
         private void ExcluirProdutoNotaCmd_Execute(ProdutoModel produto)
         {
-            NotaFiscal.Produtos.Remove(produto);
+            Produtos.Remove(produto);
             ProdutosCombo.Add(produto.ProdutoSelecionado);
         }
 
         private void DestinatarioVM_DestinatarioSalvoEvent(DestinatarioModel destinatarioParaSalvar)
         {
-            if (NotaFiscal == null) 
-                return;
-
             Destinatarios.Add(destinatarioParaSalvar);
-            NotaFiscal.DestinatarioSelecionado = destinatarioParaSalvar;
+            DestinatarioSelecionado = destinatarioParaSalvar;
         }
 
         private void ClosedCmd_Execute()
         {
-            NotaFiscal = null;
             Produto = new ProdutoModel();
         }
 
         private void LoadedCmd_Execute(string modelo)
         {
-            NotaFiscal = new NFeModel();
-
             if (modelo != null && modelo.Equals("55"))
             {
-                _modelo = Modelo.Modelo55;
-                NotaFiscal.IsImpressaoBobina = false;
+                _modelo = NFeCoreModelo.Modelo55;
+                IsImpressaoBobina = false;
             }
             else
             {
-                _modelo = Modelo.Modelo65;
+                _modelo = NFeCoreModelo.Modelo65;
             }
 
-            NotaFiscal.DestinatarioSelecionado = new DestinatarioModel();
-            Pagamento = new PagamentoModel {FormaPagamento = "Dinheiro"};
+            DestinatarioSelecionado = new DestinatarioModel();
+            Pagamento = new PagamentoModel { FormaPagamento = "Dinheiro" };
 
             var config = _configuracaoService.GetConfiguracao();
 
-            NotaFiscal.Serie = config.SerieNFe;
-            NotaFiscal.Numero = config.ProximoNumNFe;
-            NotaFiscal.ModeloNota = "NF-e";
+           Serie = config.SerieNFe;
+           Numero = config.ProximoNumNFe;
+           ModeloNota = "NF-e";
 
-            NotaFiscal.DataEmissao = DateTime.Now;
-            NotaFiscal.HoraEmissao = DateTime.Now;
-            NotaFiscal.DataSaida = DateTime.Now;
-            NotaFiscal.HoraSaida = DateTime.Now;
-            NotaFiscal.IndicadorPresenca = PresencaComprador.Presencial;
-            NotaFiscal.Finalidade = "Normal";
+           DataEmissao = DateTime.Now;
+           HoraEmissao = DateTime.Now;
+           DataSaida = DateTime.Now;
+           HoraSaida = DateTime.Now;
+           IndicadorPresenca = PresencaComprador.Presencial;
+           Finalidade = "Normal";
 
             if (Destinatarios.Count <= 0)
             {
@@ -505,6 +493,34 @@ namespace DgSystems.NFe.ViewModels
                 IsBusy = false;
                 closable.Close();
             }
+        }
+
+        private TransportadoraModel _transportadoraSelecionada;
+        private string _placaVeiculo;
+        private string _ufVeiculo;
+
+        [Required]
+        public TransportadoraModel TransportadoraSelecionada
+        {
+            get { return _transportadoraSelecionada; }
+            set
+            {
+                SetProperty(ref _transportadoraSelecionada, value);
+            }
+        }
+
+        [Required]
+        public string PlacaVeiculo
+        {
+            get { return _placaVeiculo; }
+            set { SetProperty(ref _placaVeiculo, value); }
+        }
+
+        [Required]
+        public string UfVeiculo
+        {
+            get { return _ufVeiculo; }
+            set { SetProperty(ref _ufVeiculo, value); }
         }
     }
 }
