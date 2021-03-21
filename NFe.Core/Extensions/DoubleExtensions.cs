@@ -18,7 +18,7 @@ namespace NFe.Core.Extensions
         {
             if (value > 0)
             {
-                return value.ToString();
+                return value.ToString("F", CultureInfo.InvariantCulture);
             }
 
             return null;
