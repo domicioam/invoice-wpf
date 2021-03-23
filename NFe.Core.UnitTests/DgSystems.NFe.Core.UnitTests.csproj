@@ -130,10 +130,6 @@
       <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
       <Name>DgSystems.NFe.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DgSystems.NFe.Sefaz\DgSystems.NFe.Sefaz.csproj">
-      <Project>{51d7996b-3e99-433e-9f63-44a2e31c0b48}</Project>
-      <Name>DgSystems.NFe.Sefaz</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NFe.Core\DgSystems.NFe.Core.csproj">
       <Project>{b844a95a-b767-4c52-9e5a-80081421cec4}</Project>
       <Name>DgSystems.NFe.Core</Name>
