@@ -1,0 +1,2262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="NFe.Core.Utils.Assinatura.AssinaturaDigital" Collapsed="true">
+    <Position X="54.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAGAAAIAAAAAAAAAAICAA=</HashCode>
+      <FileName>AssinaturaDigital.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Certificado.CertificadoEntity" Collapsed="true">
+    <Position X="56.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAEAAAAAAACAAQAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cadastro\Certificado\CertificadoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Certificado.CertificadoRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAAAABAAIABAAGAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Certificado\CertificadoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Certificado.CertificadoService" BaseTypeListCollapsed="true">
+    <Position X="59.5" Y="36.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAIAAAAAAgAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Cadastro\Certificado\CertificadoService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_certificadoRepository" />
+      <Field Name="_certificateManager" />
+      <Field Name="_encryptor" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Configuracoes.ConfiguracaoEntity" Collapsed="true">
+    <Position X="65.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAgAAAEAIAAAAQIAAAgAAAIAEgAAAAAAgAAAAAA=</HashCode>
+      <FileName>Cadastro\Configuracoes\ConfiguracaoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Configuracoes.ConfiguracaoRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="67" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAGAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Configuracoes\ConfiguracaoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Configuracoes.ConfiguracaoService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="68.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAACAAAABAAAgAAAAAAAAIAAAAQAAAA=</HashCode>
+      <FileName>Cadastro\Configuracoes\ConfiguracaoService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Destinatario.DestinatarioEntity" Collapsed="true">
+    <Position X="54.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAABgCAAAAAAAAAAAAAAAAAAAAACAAAAAACAEAA=</HashCode>
+      <FileName>Cadastro\Destinatario\DestinatarioEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Destinatario.DestinatarioRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="56.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAACAAAAEAAAAgAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Destinatario\DestinatarioRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Destinatario.DestinatarioService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAQAAAAACAAAAEAAAAgAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Destinatario\DestinatarioService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Destinatario.EnderecoDestinatarioEntity" Collapsed="true">
+    <Position X="74" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCACAAAAAABAAAIAAAAAgAAAAAAAAAAAAAAAAAABQAA=</HashCode>
+      <FileName>Cadastro\Destinatario\EnderecoDestinatarioEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Emissor.EmissorService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="65.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQBAAAAACAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Emissor\EmissorService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Emissor.EmitenteRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="72.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAGAAAAAAAAAAAAAAABAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Emissor\EmitenteRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Entitities.EmitenteEntity" Collapsed="true">
+    <Position X="70.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCECAAAAgABAEAIAAAEAgAAAEAQIAAAAAAAAAAQBAAA=</HashCode>
+      <FileName>Cadastro\Emissor\EmitenteEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.EnderecoEntity" Collapsed="true">
+    <Position X="54.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCACAAAAAAAAAAIAAAAAgAAAAAAAAAAAAAAAAAABQAA=</HashCode>
+      <FileName>Cadastro\EnderecoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.EstadoEntity" Collapsed="true">
+    <Position X="58.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAgAAAAAAAAAAAAAAAAAAAAAgAAAAAAEAAAA=</HashCode>
+      <FileName>Cadastro\EstadoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.MunicipioEntity" Collapsed="true">
+    <Position X="58.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cadastro\MunicipioEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.NaturezaOperacaoEntity">
+    <Position X="51.75" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAABAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\NaturezaOperacao\NaturezaOperacaoEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cfops" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="NFe.Core.Entitities.ProdutoEntity" Collapsed="true">
+    <Position X="54.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIAQABAIAAABAAAAAAAAAAAQAAAAAAIAAAAAA=</HashCode>
+      <FileName>Cadastro\Produto\ProdutoEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.EventoEntity" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="65.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACCABCAAAAAAAAAAAAAAAAAAIAAAQAACAAAABAIAA=</HashCode>
+      <FileName>Cadastro\Repositories\EventoEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Entitities.NotaFiscalEntity" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="74" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgFCAgoEAQAAAIAAAAAAAEBAAAAIAIwCQAgAAADBwAE=</HashCode>
+      <FileName>Cadastro\Repositories\NotaFiscalEntity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Entitities.NotaInutilizadaEntity" Collapsed="true">
+    <Position X="58.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAAACAAAABAAAAEAAQAAAgAAAABAAE=</HashCode>
+      <FileName>Cadastro\Repositories\NotaInutilizadaEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.ProdutoNotaFiscal" Collapsed="true">
+    <Position X="56.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQABAIAAABAAAAAAAAAAAAAAAAAQIAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\ProdutoNotaFiscal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.EnderecoTransportadoraEntity" Collapsed="true">
+    <Position X="56.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCACAAAAAAAAAAJAAAAAgAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Cadastro\Transportadora\EnderecoTransportadoraEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.TransportadoraEntity" Collapsed="true">
+    <Position X="67" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAIAAAAAAAAAQAAAAAAAAAAAAACAEAA=</HashCode>
+      <FileName>Cadastro\Transportadora\TransportadoraEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.HistoricoEnvioContabilidade" Collapsed="true">
+    <Position X="56.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contabilidade\HistoricoEnvioContabilidade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.Enums.TabelaCofinsCst" Collapsed="true">
+    <Position X="56.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCAAAAAECAAAAAAACQAAAAAAAAAIAAAABAAAAAAAAAg=</HashCode>
+      <FileName>Cadastro\Enums\TabelaCofinsCst.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.Enums.TabelaIcmsCst" Collapsed="true">
+    <Position X="58.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEkAAQAAAAAAgAAAgAAIAAAAACACAAQAAAgAAA=</HashCode>
+      <FileName>Cadastro\Enums\TabelaIcmsCst.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Entitities.Enums.TabelaPisCst" Collapsed="true">
+    <Position X="60" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCAAAAAECAAAAAAACQAAAAAAAAAIAAAABAAAAAAAAAg=</HashCode>
+      <FileName>Cadastro\Enums\TabelaPisCst.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Ibpt.IbptEntity" Collapsed="true">
+    <Position X="61.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAABAIAAAAAAAAQAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Cadastro\Ibpt\IbptEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Ibpt.IbptManager" Collapsed="true">
+    <Position X="63.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Ibpt\IbptManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Repository.Repositories.IbptRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="65.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Cadastro\Ibpt\IbptRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.NaturezaOperacaoRepository" BaseTypeListCollapsed="true">
+    <Position X="50" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\NaturezaOperacao\NaturezaOperacaoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.ProdutoRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAGAAAAAAAAAAAQAABAAgAgAAAAAAA=</HashCode>
+      <FileName>Cadastro\Produto\ProdutoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.EstadoRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="60" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\EstadoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.EventoRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="67" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAMEAAAAABAAGAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\EventoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.MunicipioRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="60" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\MunicipioRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.NotaInutilizadaRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="60" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAMAAAAAIBAACAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\NotaInutilizadaRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.TransportadoraRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="68.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAGAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Transportadora\TransportadoraRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Repository.Repositories.HistoricoEnvioContabilidadeRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAABAACAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Contabilidade\HistoricoEnvioContabilidadeRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Imposto.CfopEntity">
+    <Position X="47.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgBAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Cadastro\Imposto\CfopEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Imposto.GrupoImpostosRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="54.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Cadastro\Imposto\ImpostoRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DgSystems.NFe.Core.Cadastro.GrupoImpostos">
+    <Position X="22.5" Y="36.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAASAAAAAAABAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Imposto\GrupoImposto.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Impostos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DgSystems.NFe.Core.Cadastro.Imposto">
+    <Position X="25.5" Y="36.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGABAIAAAAAAgCAAAAAAAAAAAAAQAAAAAAAgAAEAA=</HashCode>
+      <FileName>Cadastro\Imposto\Imposto.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Origem" />
+      <Property Name="TipoImposto" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DgSystems.NFe.Core.Cadastro.ImpostoIdComparer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="56.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Imposto\Imposto.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Repositories.ImpostoExtensions" Collapsed="true">
+    <Position X="74" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\ImpostoExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Repositories.NotaFiscalRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="54.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AESIBAAAAARIAAQSAAAACAAAAgEEIAIBAoECICEAAAE=</HashCode>
+      <FileName>Cadastro\Repositories\NotaFiscalRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Repositories.TorigExtensions" Collapsed="true">
+    <Position X="65.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\TorigExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cadastro.Transportadora.TransportadoraService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="70.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Transportadora\TransportadoraService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.CancelaNotaFiscalFacade" BaseTypeListCollapsed="true">
+    <Position X="69.25" Y="33" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAACAACAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CancelaNotaFiscalFacade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_eventoService" />
+      <Field Name="_nfeCancelamento" />
+      <Field Name="_notaFiscalRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.ConsultaStatusServicoFacade" BaseTypeListCollapsed="true">
+    <Position X="53.25" Y="32" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAQABAAAAAACA=</HashCode>
+      <FileName>ConsultaStatusServicoFacade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_certificadoRepository" />
+      <Field Name="_certificateManager" />
+      <Field Name="_emissorService" />
+      <Field Name="_encryptor" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.EnviarNotaFiscalService" BaseTypeListCollapsed="true">
+    <Position X="48" Y="24.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAMABAAAAAAAAAAAAAAECAAAIBAAAAAEAIAAAIgAAAA=</HashCode>
+      <FileName>EnviarNotaService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_configuracaoService" />
+      <Field Name="_nfeConsulta" />
+      <Field Name="_serviceFactory" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.EventoService" BaseTypeListCollapsed="true">
+    <Position X="29.5" Y="33" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAEAAgAAAAACAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventoService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_eventoRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.ImportadorXmlService">
+    <Position X="66" Y="33" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAAAAIACAAAABACAAAAAKAAAgAAAAAIAAAAAA=</HashCode>
+      <FileName>ImportadorXmlService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_eventoService" />
+      <Field Name="_notaFiscalRepository" />
+      <Field Name="_notaInutilizadaService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.ModoOnlineService">
+    <Position X="66" Y="38.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAEAghAGBAAAAAAAAAAAAAACAAAAEAAgAAAAA=</HashCode>
+      <FileName>ModoOnlineService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_configuracaoRepository" />
+      <Field Name="_consultaStatusServicoService" />
+      <Field Name="_emiteNotaFiscalContingenciaService" />
+      <Field Name="_notaFiscalRepository" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Services.NotaInutilizadaService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAIAAACAAAACAAAAAAAAAAIAAABAAAAAAA=</HashCode>
+      <FileName>NotaInutilizadaService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NFeAutorizacao4.nfeAutorizacaoLoteRequest" Collapsed="true">
+    <Position X="67" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeAutorizacao4.nfeAutorizacaoLoteResponse" Collapsed="true">
+    <Position X="68.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeAutorizacao4.nfeAutorizacaoLoteZipRequest" Collapsed="true">
+    <Position X="70.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeAutorizacao4.nfeAutorizacaoLoteZipResponse" Collapsed="true">
+    <Position X="72.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeAutorizacao4.NFeAutorizacao4SoapClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="65.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAgAAAACAAAAIEAAAAABAAQAAAABA=</HashCode>
+      <FileName>Connected Services\NFeAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NFeConsultaProtocolo4.nfeConsultaNFRequest" Collapsed="true">
+    <Position X="56.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeConsultaProtocolo4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeConsultaProtocolo4.nfeConsultaNFResponse" Collapsed="true">
+    <Position X="58.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeConsultaProtocolo4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeConsultaProtocolo4.NFeConsultaProtocolo4SoapClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="60" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAIAACAACAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeConsultaProtocolo4\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NFeInutilizacao4.nfeInutilizacaoNFRequest" Collapsed="true">
+    <Position X="68.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeInutilizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeInutilizacao4.nfeInutilizacaoNFResponse" Collapsed="true">
+    <Position X="70.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeInutilizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeInutilizacao4.NFeInutilizacao4SoapClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="67" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAgAAAAgAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Connected Services\NFeInutilizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NFeRecepcaoEvento4.nfeRecepcaoEventoRequest" Collapsed="true">
+    <Position X="74" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeRecepcaoEvento4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeRecepcaoEvento4.nfeRecepcaoEventoResponse" Collapsed="true">
+    <Position X="54.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeRecepcaoEvento4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeRecepcaoEvento4.NFeRecepcaoEvento4SoapClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="72.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEACQAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeRecepcaoEvento4\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NFeRetAutorizacao4.nfeRetAutorizacaoLoteRequest" Collapsed="true">
+    <Position X="58.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeRetAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeRetAutorizacao4.nfeRetAutorizacaoLoteResponse" Collapsed="true">
+    <Position X="60" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NFeRetAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeRetAutorizacao4.NFeRetAutorizacao4SoapClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="56.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAgACA=</HashCode>
+      <FileName>Connected Services\NFeRetAutorizacao4\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NfeStatusServico4.nfeStatusServicoNFRequest" Collapsed="true">
+    <Position X="65.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NfeStatusServico4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NfeStatusServico4.nfeStatusServicoNFResponse" Collapsed="true">
+    <Position X="67" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NfeStatusServico4\Reference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NfeStatusServico4.NfeStatusServico4SoapClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAEAAAACAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connected Services\NfeStatusServico4\Reference.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.Enums.Autorizacao.TCodUfIBGEConversor" Collapsed="true">
+    <Position X="63.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.Enums.StatusServico.TCodUfIBGEConversor" Collapsed="true">
+    <Position X="61.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.Enums.TUfConversor" Collapsed="true">
+    <Position X="72.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAA=</HashCode>
+      <FileName>Conversores\Enums\TUfConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.Enums.TUfDestConversor" Collapsed="true">
+    <Position X="74" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Conversores\Enums\TUfDestConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.Enums.TUfEmiConversor" Collapsed="true">
+    <Position X="54.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Conversores\Enums\TUfEmiConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.UfToCodigoUfConversor" Collapsed="true">
+    <Position X="56.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Conversores\UfToCodigoUfConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Conversores.UfToTCOrgaoIBGEConversor" Collapsed="true">
+    <Position X="58.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Conversores\UfToTCOrgaoIBGEConversor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.Facades.DadosNotaParaCancelar" Collapsed="true">
+    <Position X="72.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAgAIAAAAAAAAAAAAAAIAAAAASAAAAAAA=</HashCode>
+      <FileName>DadosNotaParaCancelar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.Facades.EmiteEmiteNotaFiscalContingenciaFacade" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="67" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAMAAAEAADIEAGAACEAQCAAJAAAAgAAEAEAEAAAAACA=</HashCode>
+      <FileName>EmiteNotaFiscalContingenciaService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.Facades.InutilizarNotaFiscalFacade" BaseTypeListCollapsed="true">
+    <Position X="65.5" Y="25.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAABAIAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InutilizarNotaFiscalFacade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_nfeInutilizacao" />
+      <Field Name="_notaInutilizadaService" />
+      <Field Name="_sefazSettings" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.Facades.QrCode" Collapsed="true">
+    <Position X="60" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAEAIAAAAAAAAEAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>QrCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.Facades.ResultadoEnvio" Collapsed="true">
+    <Position X="65.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAEAAAAAABAAAABAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ResultadoEnvio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.Facades.XmlNFe" Collapsed="true">
+    <Position X="63.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAIAAIAAAAEAAAAAAABAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>XmlNFe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.Cartao">
+    <Position X="4.5" Y="24" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAABACAAAA=</HashCode>
+      <FileName>Domain\Cartao.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Bandeira" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Chave">
+    <Position X="3.5" Y="30" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIgAQAAACQAAYAAEAgAAAAAQAAQAAABgAgAAAAgAQBA=</HashCode>
+      <FileName>Domain\Chave.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.Crt" Collapsed="true">
+    <Position X="81.25" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAwAAAAAAAAAAAAAABAAAAQAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Crt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.Destinatario">
+    <Position X="13.75" Y="23" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEEAAABgCAIAAAAAAAAAAAAAAAAAAACAAAAAACAEAA=</HashCode>
+      <FileName>Domain\Destinatario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Endereco" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Documento" Collapsed="true">
+    <Position X="60" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAI=</HashCode>
+      <FileName>Domain\Documento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.Emissor">
+    <Position X="20.25" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAgAAAAAAAAAEAAAAAAASIAAAAAAAAAAEAEAA=</HashCode>
+      <FileName>Domain\Emitente.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Endereco" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Endereco" Collapsed="true">
+    <Position X="17.25" Y="24" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCAAAAAAAAwAAAIEAAAAgAAAAgAAAAAAAAAAAAABYAI=</HashCode>
+      <FileName>Domain\Endereco.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.IcmsTotal">
+    <Position X="25.25" Y="27.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgAAGAAAQAAAIAACAABgAACCWAAAAEAAAAAIAEAABgA=</HashCode>
+      <FileName>Domain\IcmsTotal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.IdentificacaoNFe">
+    <Position X="9.5" Y="29.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgEAQgAMAAAAAAKAUAEMgAAEAJwCAEAQAAgQAAABIAE=</HashCode>
+      <FileName>Domain\IdentificacaoNFe.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Ambiente" />
+      <Property Name="Chave" />
+      <Property Name="FinalidadeConsumidor" />
+      <Property Name="FinalidadeEmissao" />
+      <Property Name="FormatoImpressao" />
+      <Property Name="Modelo" />
+      <Property Name="OperacaoDestino" />
+      <Property Name="PresencaComprador" />
+      <Property Name="ProcessoEmissao" />
+      <Property Name="Status" />
+      <Property Name="TipoEmissao" />
+      <Property Name="TipoOperacao" />
+      <Property Name="UF" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Imposto" Collapsed="true">
+    <Position X="90" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAGABAAAAAAAAgCAAAAAAAECAAAAUABAAAAAgAAEAQ=</HashCode>
+      <FileName>Domain\Imposto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.Impostos" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAABgAAAAAAAAAAAAAAAAEAAAAAEAAAAA=</HashCode>
+      <FileName>Domain\Impostos.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Domain.InfoAdicional" Collapsed="true">
+    <Position X="9.5" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Domain\InfoAdicional.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.IssqnTotal">
+    <Position X="15.5" Y="29.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAIAAACBAATgAAAAAADAAgAAAIAAAAAAAA=</HashCode>
+      <FileName>Domain\IssqnTotal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.NotaFiscal">
+    <Position X="12.5" Y="26.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BhAIBAAgiAQAgAAAAAAQAMAAAAgoAAAAAAAEAQAQQAA=</HashCode>
+      <FileName>Domain\NotaFiscal.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Identificacao" />
+      <Property Name="InfoAdicional" />
+      <Property Name="Destinatario" />
+      <Property Name="TotalNFe" />
+      <Property Name="Emitente" />
+      <Property Name="Transporte" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Pagamentos" />
+      <Property Name="Produtos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Pagamento">
+    <Position X="1.75" Y="24" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAEAQAAAEEAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Domain\Pagamento.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FormaPagamento" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Cartoes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Produto">
+    <Position X="15.5" Y="35.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAASAAAAAQgJAIAAAFAAgAAAAAAAAAgAAAQAAACAhCA=</HashCode>
+      <FileName>Domain\Produto.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cfop" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Impostos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.RetencaoTributosFederais">
+    <Position X="21.5" Y="33.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAgAAAAAAAAEQAAAAAKAE=</HashCode>
+      <FileName>Domain\RetencaoTributosFederais.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.StatusEnvio">
+    <Position X="6.5" Y="28.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAMAABAAAAEAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\StatusEnvio.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.TotalNFe">
+    <Position X="15.5" Y="28" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAABAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Domain\TotalNFe.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="IcmsTotal" />
+      <Property Name="IssqnTotal" />
+      <Property Name="RetencaoTributosFederais" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Transportadora">
+    <Position X="18.5" Y="31.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACEAIAAAAAAAAAAAAAAAAAAAQAABAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Domain\Transportadora.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Domain.Transporte">
+    <Position X="18.5" Y="28.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Domain\Transporte.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ModalidadeFrete" />
+      <Property Name="Transportadora" />
+      <Property Name="Veiculo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.Domain.Veiculo">
+    <Position X="21.5" Y="28.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Veiculo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Cofins" Collapsed="true">
+    <Position X="83.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAgAAAAAAAAIAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\Cofins.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsAliq" Collapsed="true">
+    <Position X="89.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsAliq.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsAliquotaDiferenciada" Collapsed="true">
+    <Position X="88.5" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsAliquotaDiferenciada.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsBase" Collapsed="true">
+    <Position X="88.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.CofinsCumulativoNaoCumulativo" Collapsed="true">
+    <Position X="91.5" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsCumulativoNaoCumulativo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsNt" Collapsed="true">
+    <Position X="94.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsNt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsOutr" Collapsed="true">
+    <Position X="97" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsOutr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsQtde" Collapsed="true">
+    <Position X="79.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsQtde.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.CofinsSt" Collapsed="true">
+    <Position X="81.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsSt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Desoneracao" Collapsed="true">
+    <Position X="74" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Desoneracao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Icms" Collapsed="true">
+    <Position X="24.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAACAAAAAAAEAAAAEAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms00" Collapsed="true">
+    <Position X="7.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms00.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms10" Collapsed="true">
+    <Position X="20.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAgEAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms10.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms101" Collapsed="true">
+    <Position X="25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms101.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Icms102" Collapsed="true">
+    <Position X="29.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms102.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Icms20" Collapsed="true">
+    <Position X="31.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms20.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms201" Collapsed="true">
+    <Position X="34" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms201.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms202" Collapsed="true">
+    <Position X="36.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms202.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms30" Collapsed="true">
+    <Position X="38.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms30.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms50" Collapsed="true">
+    <Position X="40.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms50.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Icms500" Collapsed="true">
+    <Position X="17.25" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms500.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms51" Collapsed="true">
+    <Position X="43" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms51.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms70" Collapsed="true">
+    <Position X="45.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAECAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms70.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms90" Collapsed="true">
+    <Position X="47.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAECAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms90.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Icms900" Collapsed="true">
+    <Position X="1" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\Icms900.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.IcmsCobradoAnteriormentePorSubstituicaoTributaria" Collapsed="true">
+    <Position X="12.75" Y="4" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAEAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsCobradoAnteriormentePorSubstituicaoTributaria.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.IcmsNaoTributado" Collapsed="true">
+    <Position X="3.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsNaoTributado.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.IcmsPartilha" Collapsed="true">
+    <Position X="5.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsPart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.IcmsSn90" Collapsed="true">
+    <Position X="10" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsSn90.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.IcmsSubstituicaoTributariaRetidoAnteiormente" Collapsed="true">
+    <Position X="14.25" Y="2" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsSubstituicaoTributariaRetidoAnteiormente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.IcmsTributacaoIsenta" Collapsed="true">
+    <Position X="22.5" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsTributacaoIsenta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.IcmsUfDestino" Collapsed="true">
+    <Position X="27.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsUfDestino.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.II" Collapsed="true">
+    <Position X="91.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\II.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Ipi" Collapsed="true">
+    <Position X="87.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Ipi\Ipi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.IpiNt" Collapsed="true">
+    <Position X="86.75" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Ipi\IpiNt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.IpiTrib" Collapsed="true">
+    <Position X="89" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Ipi\IpiTrib.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Issqn" Collapsed="true">
+    <Position X="93.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Issqn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.OrigemMercadoria" Collapsed="true">
+    <Position X="83.5" Y="12" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAFACAAAA=</HashCode>
+      <FileName>Domain\Impostos\OrigemMercadoria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Pis" Collapsed="true">
+    <Position X="87.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\Pis.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.PisAliq" Collapsed="true">
+    <Position X="86" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisAliq.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisNt" Collapsed="true">
+    <Position X="92" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisNt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisOperacaoIsentaContribuicao" Collapsed="true">
+    <Position X="95" Y="10.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisOperacaoIsentaContribuicao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisOperacaoTributavelAliquotaZero" Collapsed="true">
+    <Position X="88.25" Y="10.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisOperacaoTributavelAliquotaZero.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisOperacaoTributavelMonofasica" Collapsed="true">
+    <Position X="91.75" Y="10.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisOperacaoTributavelMonofasica.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisOutr" Collapsed="true">
+    <Position X="79.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisOutr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisQtde" Collapsed="true">
+    <Position X="81.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisQtde.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.PisSt" Collapsed="true">
+    <Position X="83.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Pis\PisSt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Email" Collapsed="true">
+    <Position X="63.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAIABAAAAAAAIAgACAAAAAAAAAAA=</HashCode>
+      <FileName>Email.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Globals" Collapsed="true">
+    <Position X="74" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Globals.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.MailFrom" Collapsed="true">
+    <Position X="65.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAACAAAAAAAAAEA=</HashCode>
+      <FileName>MailFrom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.MailTo" Collapsed="true">
+    <Position X="68.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAACAAAAAAAAAEA=</HashCode>
+      <FileName>MailTo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.MensagemRetornoEnvioNFe" Collapsed="true">
+    <Position X="70.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAAAAAAAAAEAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MensagemRetornoEnvioNFe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.MotivoDesoneracao">
+    <Position X="78.75" Y="12" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAIAAEAAAAAAAAQAAAAAAAABgQABAAEAABAAU=</HashCode>
+      <FileName>MotivoDesoneracao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NFeContext" Collapsed="true">
+    <Position X="61.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAIAAkAAAJEAAAAEAAAEwgBAAAAABAAgQAAQAk=</HashCode>
+      <FileName>NFeContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.CofinsAliquotaNormal" Collapsed="true">
+    <Position X="86" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Cofins\CofinsAliquotaNormal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.FundoCombatePobreza" Collapsed="true">
+    <Position X="68.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\FundoCombatePobreza.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.EnderecoDestinatario" Collapsed="true">
+    <Position X="17" Y="22.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Endereco.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Ibpt" Collapsed="true">
+    <Position X="60" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAIAAAAAAAAQAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Ibpt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.NotaInutilizadaTO" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAAAAACAAAABAAAAEAAQAAAgAAABBAAE=</HashCode>
+      <FileName>NotaInutilizadaTO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.ServiceFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="70.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgEAAAAAAAAABAAAAAAAAAAAAAACAAAAAAAEA=</HashCode>
+      <FileName>ServiceFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Service" Collapsed="true">
+    <Position X="68.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ServiceFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.CofinsCreator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\CofinsCreator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.CofinsStCreator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\CofinsStCreator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.IcmsCreator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="67" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\IcmsCreator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.IcmsUfDestinoDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="68.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\IcmsUfDestinoDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.IiDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="70.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\IiDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.ImpostoCreatorFactory" Collapsed="true">
+    <Position X="72.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\ImpostoDirectorFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.IpiDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\IpiDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.IssqnDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\IssqnDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.PisAliqDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="68.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\PisAliqDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.PisCreator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="70.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\PisCreator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.PisNtDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="72.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\PisNtDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.PisStDirector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="74" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\PisStDirector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Sefaz.ModelToSefazAdapter" Collapsed="true">
+    <Position X="56.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAhAAACACAIAAAAABAAABAAAAAgAIBAgCCAAAIEAA=</HashCode>
+      <FileName>ModelToSefazAdapter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.NFeClassesExtensions" Collapsed="true">
+    <Position X="74" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NFeClassesExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.NfeDetImpostoFactory" Collapsed="true">
+    <Position X="63.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAgAAAAAAABBAAQAQAAQAAAAAAAABAAAAA=</HashCode>
+      <FileName>NfeDetImpostoFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.SefazSettings" Collapsed="true">
+    <Position X="60.5" Y="25.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SefazSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Sefaz.XmlUtil" Collapsed="true">
+    <Position X="65.25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAQAAAAAAAAAAAACBACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>XmlUtil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Impostos.Icms.SubstituicaoTributaria" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="54.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAACAAAAAAAEAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\SubstituicaoTributaria.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscal.Impostos.ImpostoFactory" Collapsed="true">
+    <Position X="54.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\ImpostoFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeConsulta2.NFeConsulta" BaseTypeListCollapsed="true">
+    <Position X="60.5" Y="27.25" Width="1.75" />
+    <NestedTypes>
+      <Struct Name="NFe.Core.NotasFiscais.Sefaz.NfeConsulta2.NFeConsulta.MensagemRetornoConsulta" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NFeConsulta.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NFeConsulta.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_sefazSettings" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.Events.NotaFiscalEmitidaEmContingenciaEvent" Collapsed="true">
+    <Position X="72.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\NotaFiscalEmitidaEmContingenciaEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Events.NotasFiscaisTransmitidasEvent" Collapsed="true">
+    <Position X="65.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\NotasFiscaisTransmitidasEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Events.ServicoOfflineEvent" Collapsed="true">
+    <Position X="72.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\ServicoOfflineEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Extensions.DoubleExtensions" Collapsed="true">
+    <Position X="61.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Extensions\DoubleExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Extensions.Enumeration" Collapsed="true">
+    <Position X="81.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABABEAAAAAAAAAQEgAAAAEQAAAAAAIAEAgAgAAAAIAA=</HashCode>
+      <FileName>Extensions\Enumeration.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NFe.Core.Utils.PDF.GeradorPDF" Collapsed="true">
+    <Position X="70.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AlAAAAAAQgAAAAAACQAAAAAAYAAAAAAAAACACCIAAIA=</HashCode>
+      <FileName>GeradorPDF.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.PDF.NotaCancelada" Collapsed="true">
+    <Position X="68.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAgBAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAABAAE=</HashCode>
+      <FileName>PDF\NotaCancelada.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Zip.GeradorZip" Collapsed="true">
+    <Position X="72.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAIACAAAAQACAgAAAIAABAAAAAAAAAEAAA=</HashCode>
+      <FileName>GeradorZip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Zip.NotaXml" Collapsed="true">
+    <Position X="67" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeradorZip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Zip.EventoCancelamentoXml" Collapsed="true">
+    <Position X="63.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeradorZip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento.NFeCancelamento" BaseTypeListCollapsed="true">
+    <Position X="55" Y="25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAABCAAAAAAAAACAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>NFeCancelamento.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_certificadoService" />
+      <Field Name="_sefazSettings" />
+      <Field Name="_serviceFactory" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento.MensagemRetornoEventoCancelamento" Collapsed="true">
+    <Position X="72.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAACABGAAAAAAAAIAAABAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>NFeCancelamento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.WPF.Utils.MailManager" Collapsed="true">
+    <Position X="67" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAQAAAACAAAAAACAAAAAAgAAAAAgAAAAAAEAA=</HashCode>
+      <FileName>MailManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao.MensagemRetornoTransmissaoNotasContingencia" Collapsed="true">
+    <Position X="54.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAABAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MensagemRetornoTransmissaoNotasContingencia.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao.RetornoNotaFiscal" Collapsed="true">
+    <Position X="67" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEACBAAAAAAAAAAACAAAABAAAAAAAgAAAAAAAAgAAA=</HashCode>
+      <FileName>RetornoNotaFiscal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.NFeInutilizacao">
+    <Position X="65.75" Y="21.5" Width="1.5" />
+    <AssociationLine Name="_certificadoService" Type="NFe.Core.Cadastro.Certificado.ICertificadoService" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="65.75" Y="22.812" />
+        <Point X="61.75" Y="22.812" />
+        <Point X="61.75" Y="23.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="_serviceFactory" Type="NFe.Core.NotasFiscais.IServiceFactory" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="65.75" Y="22" />
+        <Point X="52.75" Y="22" />
+        <Point X="52.75" Y="25.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>NFeInutilizacao.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_certificadoService" />
+      <Field Name="_serviceFactory" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.MensagemRetornoInutilizacao" Collapsed="true">
+    <Position X="74" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAIEAAAAAAAAAAAABAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NFeInutilizacao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2.NFeStatusServico" Collapsed="true">
+    <Position X="61.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>NFeStatusServico.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.PDF.RelatorioGerencial.Emitente" Collapsed="true">
+    <Position X="68.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PDF\RelatorioGerencial\Emitente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.PDF.RelatorioGerencial.Evento" Collapsed="true">
+    <Position X="61.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAABCAAAAAAAAAAAAAAAAAAIAAAQAACAAAAAAIAA=</HashCode>
+      <FileName>PDF\RelatorioGerencial\Evento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.PDF.RelatorioGerencial.NotaFiscal" Collapsed="true">
+    <Position X="70.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgFCAgIAAQAAAIAAAAAAAEBAAAAIAIgCQAgAAAABgAE=</HashCode>
+      <FileName>PDF\RelatorioGerencial\NotaFiscal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.PDF.RelatorioGerencial.NotaInutilizada" Collapsed="true">
+    <Position X="56.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAACAAAABAAAAAAAAAAAAAAAABAAE=</HashCode>
+      <FileName>PDF\RelatorioGerencial\NotaInutilizada.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.WPF.Model.ReportNFCeReadModel" Collapsed="true">
+    <Position X="61.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgEIBAAAAAQAAAAAAAAEAABAABgACAABAAAAAAABQAE=</HashCode>
+      <FileName>PDF\ReportNFCeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.WPF.Model.ReportNFe.ReportNFeReadModel" Collapsed="true">
+    <Position X="63.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhEIBEAAAAQAAAJAAAEEAAAEAAgACAABAAAAAgABQAE=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Properties.Settings" Collapsed="true">
+    <Position X="74" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SqlServerTypes.Utilities" Collapsed="true">
+    <Position X="60" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>SqlServerTypes\Loader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.Xml.ValidadorXml" Collapsed="true">
+    <Position X="61.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAABAAAAAAAAAAAAACAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>ValidadorXml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NFe.Core.Utils.RijndaelManagedEncryption">
+    <Position X="55.75" Y="36" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Struct Name="NFe.WPF.Model.Emissor" Collapsed="true">
+    <Position X="60" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCAAAAAAAABAAAIAAAAAgAAAAAAIAAAAAAAAAAEBAAA=</HashCode>
+      <FileName>PDF\ReportNFCeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.Produto" Collapsed="true">
+    <Position X="67" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQABAIAAAAAAAAAAAAAAAAAAAAAQIAAAAAA=</HashCode>
+      <FileName>PDF\ReportNFCeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.Pagamento" Collapsed="true">
+    <Position X="63.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>PDF\ReportNFCeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.Destinatario" Collapsed="true">
+    <Position X="56.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCAAAAAAAABAAAIAAAAAgAAAAAAAAAACAAAAAAEBAAA=</HashCode>
+      <FileName>PDF\ReportNFCeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.ReportNFe.Emissor" Collapsed="true">
+    <Position X="61.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCEAAAAAgABAAAIAAAEAgAAAAAAIAAAAAAAAAACBAAA=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.ReportNFe.Produto" Collapsed="true">
+    <Position X="68.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQgBAAAAABAAAAAAAAAAECAAAAAQIAAAgAA=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.ReportNFe.Pagamento" Collapsed="true">
+    <Position X="65.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.ReportNFe.Destinatario" Collapsed="true">
+    <Position X="58.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCEAAAAAgABAAAIAAAAAgAAAAAAAAAACAAAAAAEBAAA=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.ReportNFe.Transportadora" Collapsed="true">
+    <Position X="70.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACFAAAAAAAAAAACgAAAAgBAAQAABAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="NFe.WPF.Model.ReportNFe.CalculoImposto" Collapsed="true">
+    <Position X="54.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAQABAAAACAABgAAACWAAAAEAgAAAIAEAABgA=</HashCode>
+      <FileName>PDF\ReportNFeReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="NFe.Core.Cadastro.Certificado.ICertificadoService" Collapsed="true">
+    <Position X="61" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Certificado\ICertificadoService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Cadastro.Configuracoes.IConfiguracaoService" Collapsed="true">
+    <Position X="44.75" Y="26" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAABAAAgAAAAAAAAIAAAAQAAAA=</HashCode>
+      <FileName>Cadastro\Configuracoes\IConfiguracaoService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Cadastro.Destinatario.IDestinatarioService" Collapsed="true">
+    <Position X="63.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAACAAAAEAAAAgAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Destinatario\IDestinatarioService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Cadastro.Emissor.IEmissorService" Collapsed="true">
+    <Position X="53.5" Y="30.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAACAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Emissor\IEmissorService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.ICertificadoRepository" Collapsed="true">
+    <Position X="57" Y="39" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAABAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\ICertificadoRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IConfiguracaoRepository" Collapsed="true">
+    <Position X="69" Y="41.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAGAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IConfiguracaoRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IDestinatarioRepository" Collapsed="true">
+    <Position X="61.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAACAAAAEAAAAgAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IDestinatarioRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IEmitenteRepository" Collapsed="true">
+    <Position X="67" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAAAAAAAAAAAABAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IEmitenteRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IEstadoRepository" Collapsed="true">
+    <Position X="70.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IEstadoRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IEventoRepository" Collapsed="true">
+    <Position X="29.5" Y="31.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAMEAAAAAAAAGAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IEventoRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IGrupoImpostosRepository" Collapsed="true">
+    <Position X="72.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Cadastro\Repository\IGrupoImpostosRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IHistoricoEnvioContabilidadeRepository" Collapsed="true">
+    <Position X="74" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IHistoricoEnvioContabilidadeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IIbptRepository" Collapsed="true">
+    <Position X="54.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Cadastro\Repository\IIbptRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IMunicipioRepository" Collapsed="true">
+    <Position X="60" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IMunicipioRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.INaturezaOperacaoRepository" Collapsed="true">
+    <Position X="61.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\INaturezaOperacaoRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.INotaInutilizadaRepository" Collapsed="true">
+    <Position X="63.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAMAAAAAIAAACAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\INotaInutilizadaRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IProdutoRepository" Collapsed="true">
+    <Position X="65.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAAAAAAAAQAABAAgAgAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IProdutoRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.IRepository&lt;T&gt;" Collapsed="true">
+    <Position X="67" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\IRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.ITransportadoraRepository" Collapsed="true">
+    <Position X="68.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repository\ITransportadoraRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Interfaces.INotaFiscalRepository" Collapsed="true">
+    <Position X="66" Y="37.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AECIBAAAAAQIAAQSAAAAAAAAAAEEIAAAAoAAACEAAAA=</HashCode>
+      <FileName>Domain\Repository\INotaFiscalRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Cadastro.Transportadora.ITransportadoraService" Collapsed="true">
+    <Position X="70.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Transportadora\ITransportadoraService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Services.ICancelaNotaFiscalService" Collapsed="true">
+    <Position X="58.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Services\ICancelarNotaFiscalService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Services.IEnviaNotaFiscalService" Collapsed="true">
+    <Position X="68.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Domain\Services\IEnviarNotaFiscalService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Services.IConsultaStatusServicoFacade" Collapsed="true">
+    <Position X="69" Y="39.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>IConsultaStatusServicoService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Services.IEventoService" Collapsed="true">
+    <Position X="69.5" Y="31.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAEAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IEventoService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Services.INotaInutilizadaService" Collapsed="true">
+    <Position X="65.75" Y="30.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAACAAAAAAAAAAAAAAAIAAABAAAAAAA=</HashCode>
+      <FileName>INotaInutilizadaService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Sefaz.Facades.IInutilizarNotaFiscalService" Collapsed="true">
+    <Position X="58.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Services\IInutilizarNotaFiscalService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Sefaz.Facades.IEmiteNotaFiscalContingenciaFacade" Collapsed="true">
+    <Position X="66" Y="42.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAACAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EmiteNotaFiscalContingenciaService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Domain.IImposto" Collapsed="true">
+    <Position X="15.5" Y="40" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\IImposto.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.HasFundoCombatePobreza" Collapsed="true">
+    <Position X="54.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\HasFundoCombatePobreza.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.IServiceFactory" Collapsed="true">
+    <Position X="52" Y="25.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>IServiceFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Sefaz.IImpostoCreator" Collapsed="true">
+    <Position X="56.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\IImpostoCreator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Impostos.Icms.HasSubstituicaoTributaria" Collapsed="true">
+    <Position X="56.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\HasSubstituicaoTributaria.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Impostos.Icms.IcmsDesonerado" Collapsed="true">
+    <Position X="60" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Impostos\Icms\IcmsDesonerado.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Sefaz.NfeConsulta2.IConsultarNotaFiscalService" Collapsed="true">
+    <Position X="48.75" Y="22" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Services\IConsultarNotaFiscalService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento.INFeCancelamento" Collapsed="true">
+    <Position X="72" Y="33.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>INFeCancelamento.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NFe.Core.Utils.Assinatura.ICertificateManager">
+    <Position X="59.75" Y="33.75" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="NFe.Core.Entitities.Status" Collapsed="true">
+    <Position X="0.5" Y="29.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAKAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cadastro\Repositories\NotaFiscalEntity.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DgSystems.NFe.Core.Cadastro.Origem" Collapsed="true">
+    <Position X="25.5" Y="40" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Cadastro\Imposto\Imposto.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DgSystems.NFe.Core.Cadastro.TipoImposto" Collapsed="true">
+    <Position X="25.5" Y="35" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAIAAAAAAAAAAAAIAAAAAAACAAAAACAAAA=</HashCode>
+      <FileName>Cadastro\Imposto\Imposto.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.Ambiente" Collapsed="true">
+    <Position X="15.5" Y="34" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Ambiente.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.Bandeira" Collapsed="true">
+    <Position X="6.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAABAAAAAAAQAgAAAAACAAAAAA=</HashCode>
+      <FileName>Domain\Cartao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.CodigoUfIbge" Collapsed="true">
+    <Position X="9.5" Y="36" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\CodigoUfIbge.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.CodMunicipioIBGE" Collapsed="true">
+    <Position X="54.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\CodMunicipioIBGE.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.TipoDestinatario" Collapsed="true">
+    <Position X="65.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAIBAAA=</HashCode>
+      <FileName>Domain\Destinatario.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.FinalidadeConsumidor" Collapsed="true">
+    <Position X="12.5" Y="38" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\FinalidadeConsumidor.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.FinalidadeEmissao" Collapsed="true">
+    <Position X="6.5" Y="38" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAIQAACAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\FinalidadeEmissao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.FormatoImpressao" Collapsed="true">
+    <Position X="9.5" Y="38" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAABAAAAAAJAAAAAAAAQAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Domain\FormatoImpressao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.RegimeEspecialTributacao" Collapsed="true">
+    <Position X="58.25" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBAAAAAAAAIAAAAAAAAAAAAAAAAAAAAgAABEAAAAAAA=</HashCode>
+      <FileName>Domain\IssqnTotal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.Modelo" Collapsed="true">
+    <Position X="12.5" Y="36" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Modelo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.OperacaoDestino" Collapsed="true">
+    <Position X="6.5" Y="36" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Domain\OperacaoDestino.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.FormaPagamento" Collapsed="true">
+    <Position X="3.5" Y="22.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAABAAgAAAAAAAAAAAAAgAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Pagamento.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.PresencaComprador" Collapsed="true">
+    <Position X="12.5" Y="34" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAhAAAAAAABAAAAAAAAAAQAQAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Domain\PresencaComprador.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.ProcessoEmissao" Collapsed="true">
+    <Position X="6.5" Y="34" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAACAIAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Domain\ProcessoEmissao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.TCfop" Collapsed="true">
+    <Position X="18.5" Y="37" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>++z/wf7/O9L+Y/79989+Mjp/g/b5f5f+/xOQftORf7U=</HashCode>
+      <FileName>Domain\TCfop.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.TipoEmissao" Collapsed="true">
+    <Position X="12.5" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAgBAAAAAAAIAQAgAAAAEAAAAAA=</HashCode>
+      <FileName>Domain\TipoEmissao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.TipoOperacao" Collapsed="true">
+    <Position X="6.5" Y="32" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\TipoOperacao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.Domain.ModalidadeFrete" Collapsed="true">
+    <Position X="21.5" Y="31" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAEAAAQAAAAAAABQAAQAA=</HashCode>
+      <FileName>Domain\Transporte.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.TipoMensagem" Collapsed="true">
+    <Position X="67" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAQAABAAAEAACAAAACAAAAAAAAABAAAA=</HashCode>
+      <FileName>MensagemRetornoEnvioNFe.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.NotasFiscais.Estado" Collapsed="true">
+    <Position X="56.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KACEADCAEABIkmBAABABAAAgQIkAQABAAAAAAADBQAA=</HashCode>
+      <FileName>Estado.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.NotasFiscais.Servico" Collapsed="true">
+    <Position X="60" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAkEBACAAAAACAAAA=</HashCode>
+      <FileName>ServiceFactory.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento.StatusEvento" Collapsed="true">
+    <Position X="63.5" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>NFeCancelamento.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status" Collapsed="true">
+    <Position X="61.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>NFeInutilizacao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
