@@ -31,7 +31,7 @@ namespace NFe.Core.Utils.Xml
 
          try
          {
-            string path = Path.Combine(Environment.CurrentDirectory, @"Sefaz\WS\XmlSchemas\XSD\Nota 4.0\" + nomeXsd);
+            string path = Path.Combine(Environment.CurrentDirectory, @"XmlSchemas\XSD\Nota 4.0\" + nomeXsd);
             var cfg = new XmlReaderSettings { ValidationType = ValidationType.Schema };
 
             var schemas = new XmlSchemaSet();

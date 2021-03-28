@@ -8,7 +8,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:EmissorNFe.NotaFiscal"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:ideNFe="clr-namespace:NFe.Core.NotasFiscais;assembly=NFe.Core"
+        xmlns:ideNFe="clr-namespace:NFe.Core.Domain;assembly=NFe.Core"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         WindowStartupLocation="CenterOwner"
         mc:Ignorable="d"
