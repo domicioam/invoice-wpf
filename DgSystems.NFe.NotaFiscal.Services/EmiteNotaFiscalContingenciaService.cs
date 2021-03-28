@@ -32,7 +32,7 @@ using NFe.Core.XmlSchemas.NfeRetAutorizacao.Retorno;
 namespace NFe.Core.Sefaz.Facades
 {
 
-    public class EmiteEmiteNotaFiscalContingenciaFacade : IEmiteNotaFiscalContingenciaFacade
+    public class EmiteNotaFiscalContingenciaFacade : IEmiteNotaFiscalContingenciaFacade
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -55,7 +55,7 @@ namespace NFe.Core.Sefaz.Facades
         private readonly SefazSettings _sefazSettings;
         private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
+        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;

@@ -61,7 +61,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService,
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService,
                 nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
@@ -161,7 +161,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
-            var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
 

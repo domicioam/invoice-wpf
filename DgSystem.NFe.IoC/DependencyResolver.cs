@@ -90,7 +90,7 @@ namespace DgSystem.NFe.IoC
             container.Register<IMunicipioRepository, MunicipioRepository>(Lifestyle.Transient);
             container.Register<INaturezaOperacaoRepository, NaturezaOperacaoRepository>(Lifestyle.Transient);
             container.Register<IHistoricoEnvioContabilidadeRepository, HistoricoEnvioContabilidadeRepository>(Lifestyle.Transient);
-            container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteEmiteNotaFiscalContingenciaFacade>(Lifestyle.Transient);
+            container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteNotaFiscalContingenciaFacade>(Lifestyle.Transient);
             container.Register<ICancelaNotaFiscalService, CancelaNotaFiscalFacade>(Lifestyle.Transient);
             container.Register<NFeInutilizacao>(Lifestyle.Transient);
             container.Register<INFeCancelamento, NFeCancelamento>(Lifestyle.Transient);
