@@ -1,4 +1,22 @@
-﻿using System;
+﻿using EmissorNFe.Model;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
+using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.Cadastro.Destinatario;
+using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Cadastro.Transportadora;
+using NFe.Core.Domain;
+using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
+using NFe.Repository.Repositories;
+using NFe.WPF.Commands;
+using NFe.WPF.Events;
+using NFe.WPF.NotaFiscal.Model;
+using NFe.WPF.NotaFiscal.ViewModel;
+using NFe.WPF.ViewModel;
+using NFe.WPF.ViewModel.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -6,25 +24,6 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using EmissorNFe.Model;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Views;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Destinatario;
-using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Transportadora;
-using NFe.Core.Entitities;
-using NFe.Core.Interfaces;
-using NFe.Core.Messaging;
-using NFe.Core.Domain;
-using NFe.Repository.Repositories;
-using NFe.WPF.Commands;
-using NFe.WPF.Events;
-using NFe.WPF.NotaFiscal.Model;
-using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.WPF.ViewModel;
-using NFe.WPF.ViewModel.Base;
-using NFe.WPF.ViewModel.Services;
 using NFeCoreModelo = NFe.Core.Domain.Modelo;
 
 namespace DgSystems.NFe.ViewModels
@@ -32,7 +31,7 @@ namespace DgSystems.NFe.ViewModels
     public class NFeViewModel : NotaFiscalModel
     {
         private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
-        static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoRepository certificadoRepository)
         {
@@ -61,7 +60,7 @@ namespace DgSystems.NFe.ViewModels
             GerarPagtoCmd = new RelayCommand<object>(GerarPagtoCmd_Execute, null);
             SalvarTransportadoraCmd = new RelayCommand<IClosable>(SalvarTransportadoraCmd_Execute, null);
             ExcluirTransportadoraCmd = new RelayCommand<TransportadoraModel>(ExcluirTransportadoraCmd_Execute, null);
-            EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_Execute);
+            EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_ExecuteAsync);
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);
             ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
             ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
@@ -182,8 +181,7 @@ namespace DgSystems.NFe.ViewModels
         private void FiltrarProdutosCombo()
         {
             ProdutosCombo.Clear();
-            var produtosDb = _produtoRepository.GetProdutosByNaturezaOperacao(NaturezaOperacaoSelecionada.Descricao);
-            foreach (var produtoDB in produtosDb)
+            foreach (var produtoDB in _produtoRepository.GetProdutosByNaturezaOperacao(NaturezaOperacaoSelecionada.Descricao))
             {
                 ProdutosCombo.Add(produtoDB);
             }
@@ -262,8 +260,7 @@ namespace DgSystems.NFe.ViewModels
             var transportadoraEntity = (TransportadoraEntity)TransportadoraParaSalvar;
 
             var transportadoraDal = new TransportadoraRepository();
-            var id = transportadoraDal.Salvar(transportadoraEntity);
-            TransportadoraParaSalvar.Id = id;
+            TransportadoraParaSalvar.Id = transportadoraDal.Salvar(transportadoraEntity);
 
             Transportadoras.Add(TransportadoraParaSalvar);
             TransportadoraSelecionada = TransportadoraParaSalvar;
@@ -284,9 +281,9 @@ namespace DgSystems.NFe.ViewModels
             Pagamento = new PagamentoModel();
         }
 
-        private async void EnviarNotaCmd_Execute(IClosable closable)
+        private async void EnviarNotaCmd_ExecuteAsync(IClosable closable)
         {
-            await EnviarNota(this, _modelo, closable);
+            await EnviarNotaAsync(this, _modelo, closable);
         }
 
         private void AdicionarProdutoCmd_Execute(object obj)
@@ -337,15 +334,12 @@ namespace DgSystems.NFe.ViewModels
 
         private void TransportadoraWindowLoadedCmd_Execute()
         {
-            var estados = _estadoRepository.GetEstados();
-
-            foreach (var estado in estados)
+            foreach (var estado in _estadoRepository.GetEstados())
             {
                 Estados.Add(estado);
             }
 
-            var emitenteUf = _emissorService.GetEmissor().Endereco.UF;
-            TransportadoraParaSalvar.Endereco.UF = emitenteUf;
+            TransportadoraParaSalvar.Endereco.UF = _emissorService.GetEmissor().Endereco.UF;
             UfSelecionadoCmd_Execute();
         }
 
@@ -380,7 +374,7 @@ namespace DgSystems.NFe.ViewModels
 
         private void LoadedCmd_Execute(string modelo)
         {
-            if (modelo != null && modelo.Equals("55"))
+            if (modelo?.Equals("55") == true)
             {
                 _modelo = NFeCoreModelo.Modelo55;
                 IsImpressaoBobina = false;
@@ -406,21 +400,17 @@ namespace DgSystems.NFe.ViewModels
            IndicadorPresenca = PresencaComprador.Presencial;
            Finalidade = "Normal";
 
-            if (Destinatarios.Count <= 0)
+            if (Destinatarios.Count == 0)
             {
-                var destinatarios = _destinatarioService.GetAll();
-
-                foreach (var destDB in destinatarios)
+                foreach (var destDB in _destinatarioService.GetAll())
                 {
                     Destinatarios.Add((DestinatarioModel)destDB);
                 }
             }
 
-            if (Transportadoras.Count <= 0)
+            if (Transportadoras.Count == 0)
             {
-                var transportadoras = _transportadoraService.GetAll();
-
-                foreach (var transpDB in transportadoras)
+                foreach (var transpDB in _transportadoraService.GetAll())
                 {
                     Transportadoras.Add((TransportadoraModel)transpDB);
                 }
@@ -428,9 +418,7 @@ namespace DgSystems.NFe.ViewModels
 
             if (NaturezasOperacoes.Count <= 0)
             {
-                var naturezasDB = _naturezaOperacaoRepository.GetAll();
-
-                foreach (var naturezaDB in naturezasDB)
+                foreach (var naturezaDB in _naturezaOperacaoRepository.GetAll())
                 {
                     var natModel = new NaturezaOperacaoModel() { Id = naturezaDB.Id, Descricao = naturezaDB.Descricao };
                     NaturezasOperacoes.Add(natModel);
@@ -447,7 +435,7 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        public async Task EnviarNota(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
+        public async Task EnviarNotaAsync(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
         {
             if (!NotaFiscal.NaturezaOperacao.Equals("Venda"))
             {

@@ -2,11 +2,11 @@
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
@@ -15,7 +15,6 @@ using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.PDF;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;
-using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Mementos;
@@ -128,9 +127,7 @@ namespace DgSystems.NFe.ViewModels
             if (certificado == null)
                 throw new ArgumentNullException(nameof(certificado));
 
-            var idsNotasPendentes = notasFiscaisPendentes.Select(n => n.Id);
-
-            foreach (var idNotaPendente in idsNotasPendentes)
+            foreach (var idNotaPendente in notasFiscaisPendentes.Select(n => n.Id))
             {
                 var nota = await ConsultarNotasAsync(idNotaPendente, codigoUf, certificado);
 
@@ -140,12 +137,10 @@ namespace DgSystems.NFe.ViewModels
                 var notaPendente = NotasFiscais.FirstOrDefault(n => n.Status == "Pendente" && n.Chave == nota.Chave);
                 var index = NotasFiscais.IndexOf(notaPendente);
 
-                var notaMemento = new NotaFiscalMemento(nota.Numero,
+                NotasFiscais[index] = new NotaFiscalMemento(nota.Numero,
                     nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao,
                     nota.DataAutorizacao, nota.Destinatario, nota.UfDestinatario,
                     nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
-
-                NotasFiscais[index] = notaMemento;
             }
         }
 
@@ -215,8 +210,8 @@ namespace DgSystems.NFe.ViewModels
 
             if (!_consultaStatusServicoService.ExecutarConsultaStatus(config, modelo))
             {
-                var mensagem = "Serviço continua indisponível. Aguarde o reestabelecimento da conexão e tente novamente.";
-                var caption = "Erro de conexão ou serviço indisponível";
+                const string mensagem = "Serviço continua indisponível. Aguarde o reestabelecimento da conexão e tente novamente.";
+                const string caption = "Erro de conexão ou serviço indisponível";
                 MessageBox.Show(app.MainWindow, mensagem, caption, MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
@@ -384,12 +379,10 @@ namespace DgSystems.NFe.ViewModels
             var notaCancelada = NotasFiscais.FirstOrDefault(n => n.Chave == nota.Chave);
             var index = NotasFiscais.IndexOf(notaCancelada);
 
-            var notaMemento = new NotaFiscalMemento(nota.Numero,
+            NotasFiscais[index] = new NotaFiscalMemento(nota.Numero,
                 nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
                 nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
                 new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
-
-            NotasFiscais[index] = notaMemento;
         }
 
         private void OpcoesVM_ConfiguracaoAlteradaEventHandler()
@@ -423,20 +416,20 @@ namespace DgSystems.NFe.ViewModels
         private void SubscribeToEvents()
         {
             MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent),
-                (s, e) => { EnviarNotaController_NotaEnviadaEventHandler(); });
+                (s, e) => EnviarNotaController_NotaEnviadaEventHandler());
 
             MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this,
                 nameof(NotasFiscaisTransmitidasEvent),
-                (s, e) => { ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro); });
+                (s, e) => ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro));
 
             MessagingCenter.Subscribe<OpcoesViewModel, ConfiguracaoAlteradaEvent>(this, nameof(ConfiguracaoAlteradaEvent),
-                (s, e) => { OpcoesVM_ConfiguracaoAlteradaEventHandler(); });
+                (s, e) => OpcoesVM_ConfiguracaoAlteradaEventHandler());
 
             MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalCanceladaEvent>(this, nameof(NotaFiscalCanceladaEvent),
-                (s, e) => { NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal); });
+                (s, e) => NotaFiscalVM_NotaCanceladaEventHandler(e.NotaFiscal));
 
             MessagingCenter.Subscribe<CancelarNotaViewModel, NotaFiscalInutilizadaEvent>(this,
-                nameof(NotaFiscalInutilizadaEvent), (s, e) => { NotaCanceladaVM_NotaInutilizadaEventHandler(e.Chave); });
+                nameof(NotaFiscalInutilizadaEvent), (s, e) => NotaCanceladaVM_NotaInutilizadaEventHandler(e.Chave));
         }
 
         private async void VisualizarNotaCmd_ExecuteAsync(NotaFiscalMemento notaFiscalMemento)

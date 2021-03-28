@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using EmissorNFe.Model;
+﻿using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.Domain;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using NFeCoreModelo = NFe.Core.Domain.Modelo;
 
 namespace DgSystems.NFe.ViewModels
@@ -41,7 +39,7 @@ namespace DgSystems.NFe.ViewModels
 
             AdicionarProdutoCmd = new RelayCommand<object>(AdicionarProdutoCmd_Execute, null);
             GerarPagtoCmd = new RelayCommand<object>(GerarPagtoCmd_Execute, null);
-            EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_Execute);
+            EnviarNotaCmd = new RelayCommand<IClosable>(EnviarNotaCmd_ExecuteAsync);
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);
             ClosedCmd = new RelayCommand(ClosedCmd_Execute, null);
             ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
@@ -56,10 +54,7 @@ namespace DgSystems.NFe.ViewModels
             _certificadoRepository = certificadoRepository;
             _emissorService = emissorService;
 
-            MessagingCenter.Subscribe<NotaFiscalMainViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (s, e) =>
-            {
-                DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario);
-            });
+            MessagingCenter.Subscribe<NotaFiscalMainViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (_, e) => DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario));
 
             Finalidades = new List<string>()
             {
@@ -159,12 +154,12 @@ namespace DgSystems.NFe.ViewModels
         private readonly IEmissorService _emissorService;
 
 
-        private async void EnviarNotaCmd_Execute(IClosable closable)
+        private async void EnviarNotaCmd_ExecuteAsync(IClosable closable)
         {
-            await EnviarNota(this, _modelo, closable);
+            await EnviarNotaAsync(this, _modelo, closable);
         }
 
-        public async Task EnviarNota(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
+        public async Task EnviarNotaAsync(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
         {
             NotaFiscal.ValidateModel();
 
@@ -179,7 +174,7 @@ namespace DgSystems.NFe.ViewModels
             {
                 X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
                 var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(NotaFiscal, _modelo, emissor,certificado, _dialogService);
+                var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(NotaFiscal, _modelo, emissor, certificado, _dialogService);
                 IsBusy = false;
                 var result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
                 if (result)
@@ -274,7 +269,7 @@ namespace DgSystems.NFe.ViewModels
 
         private void LoadedCmd_Execute(string modelo)
         {
-            if (modelo != null && modelo.Equals("55"))
+            if (modelo?.Equals("55") == true)
             {
                 _modelo = NFeCoreModelo.Modelo55;
                 IsImpressaoBobina = false;
@@ -306,9 +301,7 @@ namespace DgSystems.NFe.ViewModels
                 ProdutosCombo.Add(produto);
             }
 
-            var destinatarios = _destinatarioService.GetAll();
-
-            foreach (var destDb in destinatarios)
+            foreach (var destDb in _destinatarioService.GetAll())
             {
                 Destinatarios.Add((DestinatarioModel)destDb);
             }
