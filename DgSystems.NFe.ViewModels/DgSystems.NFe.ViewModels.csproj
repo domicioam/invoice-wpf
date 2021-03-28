@@ -125,7 +125,7 @@
     <Compile Include="ImpostoViewModel.cs" />
     <Compile Include="IPI.cs" />
     <Compile Include="MainViewModel.cs" />
-    <Compile Include="Mementos\NotaFiscalMemento.cs" />
+    <Compile Include="NotaFiscalMemento.cs" />
     <Compile Include="NaturezaOperacaoModel.cs" />
     <Compile Include="NFCeViewModel.cs" />
     <Compile Include="NFeViewModel.cs" />
@@ -143,7 +143,7 @@
     <Compile Include="ProdutoViewModel.cs" />
     <Compile Include="ProdutoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IClosable.cs" />
+    <Compile Include="IClosable.cs" />
     <Compile Include="TransportadoraModel.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="VisualizarNotaEnviadaViewModel.cs" />
