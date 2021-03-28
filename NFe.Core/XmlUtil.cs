@@ -86,14 +86,12 @@ namespace NFe.Core.Sefaz
 
 
 
-        public static string GerarXmlLoteNFe(Domain.NotaFiscal notaFiscal, string nFeNamespaceName)
+        public static string GerarXmlLoteNFe(NotaFiscal notaFiscal, string nFeNamespaceName)
         {
             TEnviNFe lote = ModelToSefazAdapter.GetLoteNFe(notaFiscal);
 
             var parametroXml = Serialize(lote, nFeNamespaceName);
-            parametroXml = parametroXml.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
-
-            return parametroXml;
+            return parametroXml.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
         }
 
         public static string GerarXmlListaNFe(List<string> notasFiscais)
