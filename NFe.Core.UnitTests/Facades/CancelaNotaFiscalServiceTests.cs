@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using NFe.Core.NotasFiscais.Services;
+﻿using AutoFixture;
 using Moq;
-using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
-using NFe.Core.Interfaces;
-using AutoFixture;
-using NFe.Core.Sefaz.Facades;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
-using ExpectedObjects;
+using NFe.Core.Interfaces;
+using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
+using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Sefaz.Facades;
+using System;
 using System.Globalization;
-using NFe.Core.Domain;
+using Xunit;
 
 namespace NFe.Core.UnitTests.Facades
 {
@@ -23,7 +17,7 @@ namespace NFe.Core.UnitTests.Facades
         private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
 
         [Fact]
-        void Should_Cancel_Nota_Fiscal_And_Save_Event_Correctly_When_Data_Is_Valid()
+        public void Should_Cancel_Nota_Fiscal_And_Save_Event_Correctly_When_Data_Is_Valid()
         {
             var nfeCancelamento = new Mock<INFeCancelamento>();
 
@@ -67,7 +61,7 @@ namespace NFe.Core.UnitTests.Facades
         }
 
         [Fact]
-        void Should_Not_Update_Entity_When_Cancellation_Fails()
+        public void Should_Not_Update_Entity_When_Cancellation_Fails()
         {
             var nfeCancelamento = new Mock<INFeCancelamento>();
 

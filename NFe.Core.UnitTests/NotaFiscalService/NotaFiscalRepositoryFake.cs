@@ -1,14 +1,11 @@
-﻿using NFe.Core.Interfaces;
+﻿using NFe.Core.Domain;
+using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using NFe.Core.Entitities;
-using NFe.Core.Domain;
-using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using System.Xml;
-using NFe.Core.Domain;
 
 namespace NFe.Core.UnitTests.NotaFiscalService
 {

@@ -1,19 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
-using EmissorNFe.Model;
+﻿using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
-using NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.Domain;
-using NFe.WPF.Commands;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
-using NFe.Core.Domain;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace NFe.WPF.ViewModel
 {
