@@ -8,7 +8,7 @@ using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public class CancelaNotaFiscalFacade : ICancelaNotaFiscalFacade
+    public class CancelaNotaFiscalFacade : ICancelaNotaFiscalService
     {
         private readonly IEventoService _eventoService;
         private readonly INFeCancelamento _nfeCancelamento;

@@ -53,15 +53,15 @@ namespace NFe.Core.Sefaz.Facades
         private bool _isFirstTimeRecheckingRecipts;
         private bool _isFirstTimeResending;
         private readonly IEmissorService _emissorService;
-        private readonly INFeConsulta _nfeConsulta;
+        private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly ICertificadoService _certificadoService;
         private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
-        private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
+        private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
         private readonly SefazSettings _sefazSettings;
         private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, INFeConsulta nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalFacade cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
+        public EmiteEmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;

@@ -13,7 +13,7 @@ using Status = NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status;
 
 namespace NFe.Core.Sefaz.Facades
 {
-    public class InutilizarNotaFiscalFacade
+    public class InutilizarNotaFiscalFacade : IInutilizarNotaFiscalService
     {
         private NFeInutilizacao _nfeInutilizacao;
         private INotaInutilizadaService _notaInutilizadaService;

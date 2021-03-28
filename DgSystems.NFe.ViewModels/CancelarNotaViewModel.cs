@@ -36,7 +36,7 @@ namespace NFe.WPF.ViewModel
         private readonly InutilizarNotaFiscalFacade _notaInutilizadaFacade;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificateManager _certificateManager;
-        private readonly ICancelaNotaFiscalFacade _cancelaNotaFiscalService;
+        private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
 
         [Required]
         [MinLength(15)]
@@ -220,7 +220,7 @@ namespace NFe.WPF.ViewModel
             MessagingCenter.Send(this, nameof(CancelarNotaFiscalCommand), command);
         }
 
-        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoRepository certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalFacade cancelaNotaFiscalService)
+        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoRepository certificadoService, InutilizarNotaFiscalFacade notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalService cancelaNotaFiscalService)
         {
             EnviarCancelamentoCmd = new RelayCommand<Window>(EnviarCancelamentoCmd_Execute, null);
             _configuracaoService = configuracaoService;

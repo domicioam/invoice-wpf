@@ -4,7 +4,7 @@ using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Services
 {
-    public interface ICancelaNotaFiscalFacade
+    public interface ICancelaNotaFiscalService
     {
         MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa);
     }

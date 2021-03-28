@@ -63,11 +63,11 @@ namespace DgSystem.NFe.IoC
 
             container.Register<IDialogService, MessageService>(Lifestyle.Transient);
 
-            container.Register<INFeConsulta, NFeConsulta>(Lifestyle.Transient);
+            container.Register<IConsultarNotaFiscalService, NFeConsulta>(Lifestyle.Transient);
             container.Register<RijndaelManagedEncryption>(Lifestyle.Transient);
             container.Register<ICertificateManager, CertificateManager>(Lifestyle.Transient);
             container.Register<IEnviarNotaAppService, EnviarNotaAppService>(Lifestyle.Transient);
-            container.Register<IEnviaNotaFiscalFacade, EnviarNotaFiscalService>(Lifestyle.Transient);
+            container.Register<IEnviaNotaFiscalService, EnviarNotaFiscalService>(Lifestyle.Transient);
             container.Register<IServiceFactory, ServiceFactory>(Lifestyle.Transient);
             container.Register<INotaInutilizadaService, NotaInutilizadaService>(Lifestyle.Transient);
             container.Register<IEventoService, EventoService>(Lifestyle.Transient);
@@ -91,7 +91,7 @@ namespace DgSystem.NFe.IoC
             container.Register<INaturezaOperacaoRepository, NaturezaOperacaoRepository>(Lifestyle.Transient);
             container.Register<IHistoricoEnvioContabilidadeRepository, HistoricoEnvioContabilidadeRepository>(Lifestyle.Transient);
             container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteEmiteNotaFiscalContingenciaFacade>(Lifestyle.Transient);
-            container.Register<ICancelaNotaFiscalFacade, CancelaNotaFiscalFacade>(Lifestyle.Transient);
+            container.Register<ICancelaNotaFiscalService, CancelaNotaFiscalFacade>(Lifestyle.Transient);
             container.Register<NFeInutilizacao>(Lifestyle.Transient);
             container.Register<INFeCancelamento, NFeCancelamento>(Lifestyle.Transient);
             container.Register<MailManager>(Lifestyle.Transient);

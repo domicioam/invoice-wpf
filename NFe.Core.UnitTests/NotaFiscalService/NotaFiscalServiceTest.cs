@@ -50,7 +50,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
 
             var certificadoRepository = certificadoRepositoryMock.Object;
             var serviceFactory = serviceFactoryMock.Object;
-            var nfeConsulta = new Mock<INFeConsulta>().Object;
+            var nfeConsulta = new Mock<IConsultarNotaFiscalService>().Object;
             var certificateManager = certificadoManagerMock.Object;
 
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
@@ -58,7 +58,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var emissorService = new Mock<IEmissorService>().Object;
             var certificadoService = new Mock<ICertificadoService>().Object;
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
-            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
+            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
             var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService,
@@ -109,7 +109,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
 
             var notaFiscalRepository = notaFiscalRepositoryMock.Object;
             var serviceFactory = serviceFactoryMock.Object;
-            var nfeConsulta = new Mock<INFeConsulta>().Object;
+            var nfeConsulta = new Mock<IConsultarNotaFiscalService>().Object;
             var notaFiscalContingenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
 
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
@@ -152,14 +152,14 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
             var certificadoRepository = certificadoRepositoryMock.Object;
             var serviceFactory = serviceFactoryMock.Object;
-            var nfeConsulta = new Mock<INFeConsulta>().Object;
+            var nfeConsulta = new Mock<IConsultarNotaFiscalService>().Object;
             var certificateManager = certificadoManagerMock.Object;
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
 
             var emissorService = new Mock<IEmissorService>().Object;
             var certificadoService = new Mock<ICertificadoService>().Object;
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalFacade>().Object;
-            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalFacade>().Object;
+            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
             var notaFiscalContingenciaService = new EmiteEmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 

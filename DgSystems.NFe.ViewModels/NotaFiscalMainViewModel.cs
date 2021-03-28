@@ -37,13 +37,13 @@ namespace DgSystems.NFe.ViewModels
 {
     public class NotaFiscalMainViewModel : ViewModelBaseValidation
     {
-        public NotaFiscalMainViewModel(IEnviaNotaFiscalFacade enviaNotaFiscalService,
+        public NotaFiscalMainViewModel(IEnviaNotaFiscalService enviaNotaFiscalService,
             IConfiguracaoService configuracaoService, ICertificadoService certificadoService,
             IProdutoRepository produtoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
             IEmissorService emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, INFeConsulta nfeConsulta, ICertificadoRepository certificadoRepository)
+            INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta, ICertificadoRepository certificadoRepository)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -82,11 +82,11 @@ namespace DgSystems.NFe.ViewModels
 
         private bool _isNotasPendentesVerificadas;
         private string _mensagensErroContingencia;
-        private readonly INFeConsulta _nfeConsulta;
+        private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        private readonly IEnviaNotaFiscalFacade _enviaNotaFiscalService;
+        private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;

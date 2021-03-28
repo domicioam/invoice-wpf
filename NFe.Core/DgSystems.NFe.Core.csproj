@@ -276,8 +276,8 @@
     <Compile Include="Domain\Impostos.cs" />
     <Compile Include="Domain\TCfop.cs" />
     <Compile Include="Domain\Impostos\OrigemMercadoria.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\ImpostoExtensions.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\TorigExtensions.cs" />
+    <Compile Include="Cadastro\Repositories\ImpostoExtensions.cs" />
+    <Compile Include="Cadastro\Repositories\TorigExtensions.cs" />
     <Compile Include="Domain\Ambiente.cs" />
     <Compile Include="Domain\Chave.cs" />
     <Compile Include="Domain\CodigoUfIbge.cs" />
@@ -309,27 +309,28 @@
     <Compile Include="PDF\RelatorioGerencial\NotaInutilizada.cs" />
     <Compile Include="PDF\ReportNFCeReadModel.cs" />
     <Compile Include="PDF\ReportNFeReadModel.cs" />
-    <Compile Include="Sefaz\CofinsCreator.cs" />
-    <Compile Include="Sefaz\CofinsStCreator.cs" />
-    <Compile Include="Sefaz\Facades\DadosNotaParaCancelar.cs" />
-    <Compile Include="Sefaz\Facades\QrCode.cs" />
-    <Compile Include="Sefaz\Facades\ResultadoEnvio.cs" />
-    <Compile Include="Sefaz\Facades\XmlNFe.cs" />
-    <Compile Include="Sefaz\IcmsCreator.cs" />
-    <Compile Include="Sefaz\IcmsUfDestinoDirector.cs" />
-    <Compile Include="Sefaz\IImpostoCreator.cs" />
-    <Compile Include="Sefaz\IiDirector.cs" />
-    <Compile Include="Sefaz\ImpostoDirectorFactory.cs" />
-    <Compile Include="Sefaz\IpiDirector.cs" />
-    <Compile Include="Sefaz\IssqnDirector.cs" />
-    <Compile Include="Sefaz\ModelToSefazAdapter.cs" />
-    <Compile Include="Sefaz\NFeClassesExtensions.cs" />
-    <Compile Include="Sefaz\NfeDetImpostoFactory.cs" />
-    <Compile Include="Sefaz\PisAliqDirector.cs" />
-    <Compile Include="Sefaz\PisNtDirector.cs" />
-    <Compile Include="Sefaz\PisCreator.cs" />
-    <Compile Include="Sefaz\PisStDirector.cs" />
-    <Compile Include="Sefaz\SefazSettings.cs" />
+    <Compile Include="Domain\Impostos\CofinsCreator.cs" />
+    <Compile Include="Domain\Impostos\CofinsStCreator.cs" />
+    <Compile Include="DadosNotaParaCancelar.cs" />
+    <Compile Include="Domain\Services\IInutilizarNotaFiscalService.cs" />
+    <Compile Include="QrCode.cs" />
+    <Compile Include="ResultadoEnvio.cs" />
+    <Compile Include="XmlNFe.cs" />
+    <Compile Include="Domain\Impostos\IcmsCreator.cs" />
+    <Compile Include="Domain\Impostos\IcmsUfDestinoDirector.cs" />
+    <Compile Include="Domain\Impostos\IImpostoCreator.cs" />
+    <Compile Include="Domain\Impostos\IiDirector.cs" />
+    <Compile Include="Domain\Impostos\ImpostoDirectorFactory.cs" />
+    <Compile Include="Domain\Impostos\IpiDirector.cs" />
+    <Compile Include="Domain\Impostos\IssqnDirector.cs" />
+    <Compile Include="ModelToSefazAdapter.cs" />
+    <Compile Include="NFeClassesExtensions.cs" />
+    <Compile Include="NfeDetImpostoFactory.cs" />
+    <Compile Include="Domain\Impostos\PisAliqDirector.cs" />
+    <Compile Include="Domain\Impostos\PisNtDirector.cs" />
+    <Compile Include="Domain\Impostos\PisCreator.cs" />
+    <Compile Include="Domain\Impostos\PisStDirector.cs" />
+    <Compile Include="SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
     <Compile Include="Cadastro\Configuracoes\ConfiguracaoRepository.cs" />
@@ -356,7 +357,7 @@
     <Compile Include="Cadastro\Enums\TabelaPisCst.cs" />
     <Compile Include="Cadastro\EstadoEntity.cs" />
     <Compile Include="NFeContext.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\EventoEntity.cs" />
+    <Compile Include="Cadastro\Repositories\EventoEntity.cs" />
     <Compile Include="Cadastro\Imposto\GrupoImposto.cs" />
     <Compile Include="Contabilidade\HistoricoEnvioContabilidade.cs" />
     <Compile Include="Cadastro\Ibpt\IbptEntity.cs" />
@@ -364,46 +365,46 @@
     <Compile Include="Cadastro\MunicipioEntity.cs" />
     <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoEntity.cs" />
     <Compile Include="Contabilidade\HistoricoEnvioContabilidadeRepository.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\EventoRepository.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\NotaFiscalRepository.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\NotaInutilizadaRepository.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\NotaFiscalEntity.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\NotaInutilizadaEntity.cs" />
+    <Compile Include="Cadastro\Repositories\EventoRepository.cs" />
+    <Compile Include="Cadastro\Repositories\NotaFiscalRepository.cs" />
+    <Compile Include="Cadastro\Repositories\NotaInutilizadaRepository.cs" />
+    <Compile Include="Cadastro\Repositories\NotaFiscalEntity.cs" />
+    <Compile Include="Cadastro\Repositories\NotaInutilizadaEntity.cs" />
     <Compile Include="Cadastro\Produto\ProdutoEntity.cs" />
-    <Compile Include="NotasFiscaisOld\Repositories\ProdutoNotaFiscal.cs" />
+    <Compile Include="Cadastro\Repositories\ProdutoNotaFiscal.cs" />
     <Compile Include="Cadastro\Transportadora\TransportadoraEntity.cs" />
-    <Compile Include="Interfaces\Repository\ICertificadoRepository.cs" />
-    <Compile Include="Interfaces\Repository\IConfiguracaoRepository.cs" />
-    <Compile Include="Interfaces\Repository\IDestinatarioRepository.cs" />
-    <Compile Include="Interfaces\Repository\IEmitenteRepository.cs" />
-    <Compile Include="Interfaces\Repository\IEstadoRepository.cs" />
-    <Compile Include="Interfaces\Repository\IEventoRepository.cs" />
-    <Compile Include="Interfaces\Repository\IGrupoImpostosRepository.cs" />
-    <Compile Include="Interfaces\Repository\IHistoricoEnvioContabilidadeRepository.cs" />
-    <Compile Include="Interfaces\Repository\IIbptRepository.cs" />
-    <Compile Include="Interfaces\Repository\IMunicipioRepository.cs" />
-    <Compile Include="Interfaces\Repository\INaturezaOperacaoRepository.cs" />
-    <Compile Include="Interfaces\Repository\INotaFiscalRepository.cs" />
-    <Compile Include="Interfaces\Repository\INotaInutilizadaRepository.cs" />
-    <Compile Include="Interfaces\Repository\IProdutoRepository.cs" />
-    <Compile Include="Interfaces\Repository\IRepository.cs" />
-    <Compile Include="Interfaces\Repository\ITransportadoraRepository.cs" />
-    <Compile Include="Sefaz\Clients\IServiceFactory.cs" />
-    <Compile Include="Sefaz\Clients\NfeConsulta2\INFeConsulta.cs" />
-    <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\INFeCancelamento.cs" />
-    <Compile Include="Sefaz\Facades\CancelaNotaFiscalFacade.cs" />
-    <Compile Include="NotasFiscaisOld\Services\EventoService.cs" />
-    <Compile Include="Sefaz\Facades\ICancelaNotaFiscalFacade.cs" />
-    <Compile Include="Sefaz\Facades\IConsultaStatusServicoFacade.cs" />
-    <Compile Include="Interfaces\Services\IEventoService.cs" />
-    <Compile Include="NotasFiscaisOld\Services\ImportadorXmlService.cs" />
-    <Compile Include="Sefaz\Facades\IEnviaNotaFiscalFacade.cs" />
-    <Compile Include="Interfaces\Services\INotaInutilizadaService.cs" />
-    <Compile Include="NotasFiscaisOld\Services\ModoOnlineService.cs" />
-    <Compile Include="Sefaz\Facades\EmiteNotaFiscalContingenciaService.cs" />
-    <Compile Include="NotasFiscaisOld\Services\NotaInutilizadaService.cs" />
-    <Compile Include="NotasFiscaisOld\Entities\NotaInutilizadaTO.cs" />
-    <Compile Include="Sefaz\Facades\ConsultaStatusServicoFacade.cs" />
+    <Compile Include="Cadastro\Repository\ICertificadoRepository.cs" />
+    <Compile Include="Cadastro\Repository\IConfiguracaoRepository.cs" />
+    <Compile Include="Cadastro\Repository\IDestinatarioRepository.cs" />
+    <Compile Include="Cadastro\Repository\IEmitenteRepository.cs" />
+    <Compile Include="Cadastro\Repository\IEstadoRepository.cs" />
+    <Compile Include="Cadastro\Repository\IEventoRepository.cs" />
+    <Compile Include="Cadastro\Repository\IGrupoImpostosRepository.cs" />
+    <Compile Include="Cadastro\Repository\IHistoricoEnvioContabilidadeRepository.cs" />
+    <Compile Include="Cadastro\Repository\IIbptRepository.cs" />
+    <Compile Include="Cadastro\Repository\IMunicipioRepository.cs" />
+    <Compile Include="Cadastro\Repository\INaturezaOperacaoRepository.cs" />
+    <Compile Include="Domain\Repository\INotaFiscalRepository.cs" />
+    <Compile Include="Cadastro\Repository\INotaInutilizadaRepository.cs" />
+    <Compile Include="Cadastro\Repository\IProdutoRepository.cs" />
+    <Compile Include="Cadastro\Repository\IRepository.cs" />
+    <Compile Include="Cadastro\Repository\ITransportadoraRepository.cs" />
+    <Compile Include="IServiceFactory.cs" />
+    <Compile Include="Domain\Services\IConsultarNotaFiscalService.cs" />
+    <Compile Include="INFeCancelamento.cs" />
+    <Compile Include="CancelaNotaFiscalFacade.cs" />
+    <Compile Include="EventoService.cs" />
+    <Compile Include="Domain\Services\ICancelarNotaFiscalService.cs" />
+    <Compile Include="IConsultaStatusServicoService.cs" />
+    <Compile Include="IEventoService.cs" />
+    <Compile Include="ImportadorXmlService.cs" />
+    <Compile Include="Domain\Services\IEnviarNotaFiscalService.cs" />
+    <Compile Include="INotaInutilizadaService.cs" />
+    <Compile Include="ModoOnlineService.cs" />
+    <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
+    <Compile Include="NotaInutilizadaService.cs" />
+    <Compile Include="NotaInutilizadaTO.cs" />
+    <Compile Include="ConsultaStatusServicoFacade.cs" />
     <Compile Include="Cadastro\Transportadora\TransportadoraService.cs" />
     <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -435,8 +436,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Sefaz\Facades\InutilizarNotaFiscalFacade.cs" />
-    <Compile Include="Sefaz\Clients\NfeAutorizacao\MensagemRetornoTransmissaoNotasContingencia.cs" />
+    <Compile Include="InutilizarNotaFiscalFacade.cs" />
+    <Compile Include="MensagemRetornoTransmissaoNotasContingencia.cs" />
     <Compile Include="Domain\Destinatario.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
     <Compile Include="Endereco.cs" />
@@ -444,14 +445,14 @@
     <Compile Include="Domain\Emitente.cs" />
     <Compile Include="Cadastro\Emissor\EmissorService.cs" />
     <Compile Include="Domain\Endereco.cs" />
-    <Compile Include="NotasFiscaisOld\ValueObjects\Estado.cs" />
-    <Compile Include="NotasFiscaisOld\Entities\Ibpt.cs" />
+    <Compile Include="Estado.cs" />
+    <Compile Include="Ibpt.cs" />
     <Compile Include="Cadastro\Ibpt\IbptManager.cs" />
     <Compile Include="Domain\IcmsTotal.cs" />
     <Compile Include="Domain\IdentificacaoNFe.cs" />
     <Compile Include="Domain\InfoAdicional.cs" />
     <Compile Include="Domain\NotaFiscal.cs" />
-    <Compile Include="Sefaz\Facades\EnviarNotaService.cs" />
+    <Compile Include="EnviarNotaService.cs" />
     <Compile Include="Domain\Cartao.cs" />
     <Compile Include="Domain\Pagamento.cs" />
     <Compile Include="Domain\Produto.cs" />
@@ -459,35 +460,35 @@
     <Compile Include="Domain\Transportadora.cs" />
     <Compile Include="Domain\Transporte.cs" />
     <Compile Include="Domain\Veiculo.cs" />
-    <Compile Include="Sefaz\Clients\ServiceFactory.cs" />
-    <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\NFeCancelamento.cs" />
+    <Compile Include="ServiceFactory.cs" />
+    <Compile Include="NFeCancelamento.cs" />
     <Compile Include="MensagemRetornoEnvioNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeConsulta2\NFeConsulta.cs" />
-    <Compile Include="Sefaz\Clients\NfeInutilizacao2\NFeInutilizacao.cs" />
-    <Compile Include="Sefaz\Clients\NfeAutorizacao\RetornoNotaFiscal.cs" />
-    <Compile Include="Sefaz\Clients\NfeStatusServico2\NFeStatusServico.cs" />
+    <Compile Include="NFeConsulta.cs" />
+    <Compile Include="NFeInutilizacao.cs" />
+    <Compile Include="RetornoNotaFiscal.cs" />
+    <Compile Include="NFeStatusServico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Sefaz\XmlUtil.cs" />
-    <Compile Include="Sefaz\Clients\NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
-    <Compile Include="Sefaz\Clients\NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />
-    <Compile Include="Sefaz\Clients\NfeAutorizacao\Retorno\TNfeProc.cs" />
-    <Compile Include="Sefaz\Clients\NfeConsulta2\Retorno\TRetConsSitNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeConsulta2\Envio\TConsSitNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeInutilizacao2\Envio\TInutNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeInutilizacao2\Retorno\TProcInutNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeInutilizacao2\Retorno\TRetInutNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\Cancelamento\Envio\EnvEventoCancNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\Cancelamento\Retorno\ProcEventoNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeRecepcaoEvento\Cancelamento\Retorno\RetEnvEventoCancNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeRetAutorizacao\Envio\TConsReciNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeRetAutorizacao\Retorno\TRetConsReciNFe.cs" />
-    <Compile Include="Sefaz\Clients\NfeStatusServico2\Envio\TConsStatServ.cs" />
-    <Compile Include="Sefaz\Clients\NfeStatusServico2\Retorno\TRetConsStatServ.cs" />
+    <Compile Include="XmlUtil.cs" />
+    <Compile Include="Sefaz\NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
+    <Compile Include="Sefaz\NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />
+    <Compile Include="Sefaz\NfeAutorizacao\Retorno\TNfeProc.cs" />
+    <Compile Include="Sefaz\NfeConsulta2\Retorno\TRetConsSitNFe.cs" />
+    <Compile Include="Sefaz\NfeConsulta2\Envio\TConsSitNFe.cs" />
+    <Compile Include="Sefaz\NfeInutilizacao2\Envio\TInutNFe.cs" />
+    <Compile Include="Sefaz\NfeInutilizacao2\Retorno\TProcInutNFe.cs" />
+    <Compile Include="Sefaz\NfeInutilizacao2\Retorno\TRetInutNFe.cs" />
+    <Compile Include="Sefaz\NfeRecepcaoEvento\Cancelamento\Envio\EnvEventoCancNFe.cs" />
+    <Compile Include="Sefaz\NfeRecepcaoEvento\Cancelamento\Retorno\ProcEventoNFe.cs" />
+    <Compile Include="Sefaz\NfeRecepcaoEvento\Cancelamento\Retorno\RetEnvEventoCancNFe.cs" />
+    <Compile Include="Sefaz\NfeRetAutorizacao\Envio\TConsReciNFe.cs" />
+    <Compile Include="Sefaz\NfeRetAutorizacao\Retorno\TRetConsReciNFe.cs" />
+    <Compile Include="Sefaz\NfeStatusServico2\Envio\TConsStatServ.cs" />
+    <Compile Include="Sefaz\NfeStatusServico2\Retorno\TRetConsStatServ.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="ValidadorXml.cs" />
   </ItemGroup>
@@ -535,7 +536,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\NfeStatusServico4\NfeStatusServico4.wsdl" />
-    <None Include="ClassDiagrams\Imposto.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
     <None Include="Properties\Settings.settings">
@@ -578,104 +578,102 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Sefaz\README.txt" />
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\consReciNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\consReciNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\consSitNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\consSitNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\consStatServ_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\consStatServ_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\envEventoCancNFe_v1.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\envEventoCancNFe_v1.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\enviNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\enviNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\inutNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\inutNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\leiauteConsSitNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteConsSitNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\leiauteConsStatServ_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteConsStatServ_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\leiauteEventoCancNFe_v1.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteEventoCancNFe_v1.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\leiauteInutNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteInutNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\leiauteNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\nfe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\nfe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\procInutNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\procInutNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\procNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\procNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\retConsReciNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retConsReciNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\retConsSitNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retConsSitNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\retConsStatServ_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retConsStatServ_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\retEnviNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retEnviNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\retInutNFe_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retInutNFe_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\tiposBasico_v1.03.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\tiposBasico_v1.03.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\tiposBasico_v4.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\tiposBasico_v4.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\xmldsig-core-schema_v1.01.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\xmldsig-core-schema_v1.01.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\procEventoCancNFe_v1.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\procEventoCancNFe_v1.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sefaz\WS\XmlSchemas\XSD\Nota 4.0\retEnvEventoCancNFe_v1.00.xsd">
+    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retEnvEventoCancNFe_v1.00.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="ClassDiagrams\Sefaz.cd" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -701,9 +699,7 @@
     <Content Include="Dlls\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
     <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sefaz\Utility\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

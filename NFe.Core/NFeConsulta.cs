@@ -11,7 +11,7 @@ using Envio = NFe.Core.XmlSchemas.NfeConsulta2.Envio;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 {
-    public class NFeConsulta : INFeConsulta
+    public class NFeConsulta : IConsultarNotaFiscalService
     {
         private SefazSettings _sefazSettings;
 
