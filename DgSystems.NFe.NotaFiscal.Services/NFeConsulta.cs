@@ -73,11 +73,6 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
             _sefazSettings = sefazSettings;
         }
 
-      public struct MensagemRetornoConsulta
-      {
-         public bool IsEnviada { get; set; }
-         public DateTime DhAutorizacao { get; set; }
-         public TProtNFe Protocolo { get; set; }
-      }
+
    }
 }

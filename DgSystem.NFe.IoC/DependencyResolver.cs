@@ -8,7 +8,6 @@ using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Interfaces;
 using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
@@ -32,6 +31,7 @@ using DgSystems.NFe.ViewModels;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.NotasFiscais.Repositories;
 using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 
 namespace DgSystem.NFe.IoC
 {

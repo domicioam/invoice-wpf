@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 
 namespace NFe.Core.NotasFiscais.Services
 {

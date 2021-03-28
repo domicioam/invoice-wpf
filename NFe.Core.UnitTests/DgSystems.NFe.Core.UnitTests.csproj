@@ -130,6 +130,10 @@
       <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
       <Name>DgSystems.NFe.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DgSystems.NFe.NotaFiscal.Services\DgSystems.NFe.NotaFiscal.Services.csproj">
+      <Project>{ecdf9d2b-0867-4dc3-a82f-00fa86d0ed10}</Project>
+      <Name>DgSystems.NFe.NotaFiscal.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DgSystems.NFe.Sefaz\DgSystems.NFe.Sefaz.csproj">
       <Project>{bd2a822e-9504-47db-b071-64743c1e412e}</Project>
       <Name>DgSystems.NFe.Sefaz</Name>

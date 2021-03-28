@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.Sefaz", "DgSy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgSystems.NFe.NotaFiscal.Services", "DgSystems.NFe.NotaFiscal.Services\DgSystems.NFe.NotaFiscal.Services.csproj", "{ECDF9D2B-0867-4DC3-A82F-00FA86D0ED10}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{AF460506-3529-41C0-BEB8-DB634CA06EFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotaFiscal", "NotaFiscal", "{B719E063-388E-4EA1-A214-4DD0B529B8EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		64Bits|Any CPU = 64Bits|Any CPU
@@ -484,6 +488,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B719E063-388E-4EA1-A214-4DD0B529B8EF} = {AF460506-3529-41C0-BEB8-DB634CA06EFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33443777-69C5-4FC5-A3CC-899C0DE33A2B}

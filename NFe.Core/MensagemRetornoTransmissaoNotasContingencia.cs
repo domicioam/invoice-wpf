@@ -2,7 +2,7 @@
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao
 {
-    internal class MensagemRetornoTransmissaoNotasContingencia
+    public class MensagemRetornoTransmissaoNotasContingencia
     {
         public TipoMensagem TipoMensagem { get; set; }
         public string Mensagem { get; set; }

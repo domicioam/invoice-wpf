@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using AutoMapper;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.NFeRecepcaoEvento4;
 using NFe.Core.Domain;
@@ -159,23 +158,5 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
                 };
             }
         }
-    }
-
-    public enum StatusEvento
-    {
-        SUCESSO,
-        ERRO
-    }
-
-    public class MensagemRetornoEventoCancelamento
-    {
-        public StatusEvento Status { get; set; }
-        public string Mensagem { get; set; }
-        public string Xml { get; set; }
-        public string DataEvento { get; set; }
-        public string TipoEvento { get; set; }
-        public string IdEvento { get; set; }
-        public string ProtocoloCancelamento { get; internal set; }
-        public string MotivoCancelamento { get; internal set; }
     }
 }

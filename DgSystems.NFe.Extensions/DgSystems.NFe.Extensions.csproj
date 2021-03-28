@@ -88,8 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acentuacao\Acentuacao.cs" />
-    <Compile Include="Assinatura\CertificateManager.cs" />
-    <Compile Include="Assinatura\ICertificateManager.cs" />
     <Compile Include="CstListManager.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DecimalExtensions.cs" />
@@ -107,6 +105,8 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assinatura\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

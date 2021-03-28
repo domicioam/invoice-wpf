@@ -86,7 +86,7 @@ namespace NFe.Core.Sefaz
 
 
 
-        internal static string GerarXmlLoteNFe(Domain.NotaFiscal notaFiscal, string nFeNamespaceName)
+        public static string GerarXmlLoteNFe(Domain.NotaFiscal notaFiscal, string nFeNamespaceName)
         {
             TEnviNFe lote = ModelToSefazAdapter.GetLoteNFe(notaFiscal);
 
@@ -96,7 +96,7 @@ namespace NFe.Core.Sefaz
             return parametroXml;
         }
 
-        internal static string GerarXmlListaNFe(List<string> notasFiscais)
+        public static string GerarXmlListaNFe(List<string> notasFiscais)
         {
             var notasConcatenadas = new StringBuilder();
 

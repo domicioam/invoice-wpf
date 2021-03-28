@@ -212,11 +212,17 @@
     <Compile Include="Conversores\Enums\TUfEmiConversor.cs" />
     <Compile Include="Conversores\UfToCodigoUfConversor.cs" />
     <Compile Include="Conversores\UfToTCOrgaoIBGEConversor.cs" />
+    <Compile Include="Domain\Certificate.cs" />
+    <Compile Include="Domain\MensagemRetornoEventoCancelamento.cs" />
+    <Compile Include="Domain\Services\ICertificateManager.cs" />
+    <Compile Include="Domain\Status.cs" />
+    <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Extensions\Enumeration.cs" />
     <Compile Include="GeradorPDF.cs" />
     <Compile Include="GeradorZip.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="IEmiteNotaFiscalContingenciaFacade.cs" />
     <Compile Include="MailFrom.cs" />
     <Compile Include="MailManager.cs" />
     <Compile Include="MailTo.cs" />
@@ -392,19 +398,14 @@
     <Compile Include="IServiceFactory.cs" />
     <Compile Include="Domain\Services\IConsultarNotaFiscalService.cs" />
     <Compile Include="INFeCancelamento.cs" />
-    <Compile Include="CancelaNotaFiscalFacade.cs" />
     <Compile Include="EventoService.cs" />
     <Compile Include="Domain\Services\ICancelarNotaFiscalService.cs" />
     <Compile Include="IConsultaStatusServicoService.cs" />
     <Compile Include="IEventoService.cs" />
-    <Compile Include="ImportadorXmlService.cs" />
     <Compile Include="Domain\Services\IEnviarNotaFiscalService.cs" />
     <Compile Include="INotaInutilizadaService.cs" />
-    <Compile Include="ModoOnlineService.cs" />
-    <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="NotaInutilizadaService.cs" />
     <Compile Include="NotaInutilizadaTO.cs" />
-    <Compile Include="ConsultaStatusServicoFacade.cs" />
     <Compile Include="Cadastro\Transportadora\TransportadoraService.cs" />
     <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -436,7 +437,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="InutilizarNotaFiscalFacade.cs" />
     <Compile Include="MensagemRetornoTransmissaoNotasContingencia.cs" />
     <Compile Include="Domain\Destinatario.cs" />
     <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
@@ -452,7 +452,6 @@
     <Compile Include="Domain\IdentificacaoNFe.cs" />
     <Compile Include="Domain\InfoAdicional.cs" />
     <Compile Include="Domain\NotaFiscal.cs" />
-    <Compile Include="EnviarNotaService.cs" />
     <Compile Include="Domain\Cartao.cs" />
     <Compile Include="Domain\Pagamento.cs" />
     <Compile Include="Domain\Produto.cs" />
@@ -461,10 +460,7 @@
     <Compile Include="Domain\Transporte.cs" />
     <Compile Include="Domain\Veiculo.cs" />
     <Compile Include="ServiceFactory.cs" />
-    <Compile Include="NFeCancelamento.cs" />
     <Compile Include="MensagemRetornoEnvioNFe.cs" />
-    <Compile Include="NFeConsulta.cs" />
-    <Compile Include="NFeInutilizacao.cs" />
     <Compile Include="RetornoNotaFiscal.cs" />
     <Compile Include="NFeStatusServico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

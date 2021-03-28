@@ -1,5 +1,4 @@
 ﻿using System;
-using AutoMapper;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.NFeInutilizacao4;
 using NFe.Core.Domain;
@@ -8,6 +7,7 @@ using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
 using Envio = NFe.Core.XmlSchemas.NfeInutilizacao2.Envio;
 using Retorno = NFe.Core.XmlSchemas.NfeInutilizacao2.Retorno;
+using NFe.Core.Sefaz.Facades;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2
 {
@@ -89,20 +89,5 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2
         }
     }
 
-    public enum Status
-    {
-        SUCESSO,
-        ERRO
-    }
 
-    public class MensagemRetornoInutilizacao
-    {
-        public Status Status { get; set; }
-        public string Mensagem { get; set; }
-        public string Xml { get; set; }
-        public string DataInutilizacao { get; set; }
-        public string IdInutilizacao { get; set; }
-        public string ProtocoloInutilizacao { get; internal set; }
-        public string MotivoInutilizacao { get; internal set; }
-    }
 }
