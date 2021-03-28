@@ -474,21 +474,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="XmlUtil.cs" />
-    <Compile Include="Sefaz\NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
-    <Compile Include="Sefaz\NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />
-    <Compile Include="Sefaz\NfeAutorizacao\Retorno\TNfeProc.cs" />
-    <Compile Include="Sefaz\NfeConsulta2\Retorno\TRetConsSitNFe.cs" />
-    <Compile Include="Sefaz\NfeConsulta2\Envio\TConsSitNFe.cs" />
-    <Compile Include="Sefaz\NfeInutilizacao2\Envio\TInutNFe.cs" />
-    <Compile Include="Sefaz\NfeInutilizacao2\Retorno\TProcInutNFe.cs" />
-    <Compile Include="Sefaz\NfeInutilizacao2\Retorno\TRetInutNFe.cs" />
-    <Compile Include="Sefaz\NfeRecepcaoEvento\Cancelamento\Envio\EnvEventoCancNFe.cs" />
-    <Compile Include="Sefaz\NfeRecepcaoEvento\Cancelamento\Retorno\ProcEventoNFe.cs" />
-    <Compile Include="Sefaz\NfeRecepcaoEvento\Cancelamento\Retorno\RetEnvEventoCancNFe.cs" />
-    <Compile Include="Sefaz\NfeRetAutorizacao\Envio\TConsReciNFe.cs" />
-    <Compile Include="Sefaz\NfeRetAutorizacao\Retorno\TRetConsReciNFe.cs" />
-    <Compile Include="Sefaz\NfeStatusServico2\Envio\TConsStatServ.cs" />
-    <Compile Include="Sefaz\NfeStatusServico2\Retorno\TRetConsStatServ.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="ValidadorXml.cs" />
   </ItemGroup>
@@ -578,102 +563,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\consReciNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\consSitNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\consStatServ_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\envEventoCancNFe_v1.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\enviNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\inutNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteConsSitNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteConsStatServ_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteEventoCancNFe_v1.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteInutNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\leiauteNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\nfe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\procInutNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\procNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retConsReciNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retConsSitNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retConsStatServ_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retEnviNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retInutNFe_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\tiposBasico_v1.03.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\tiposBasico_v4.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\xmldsig-core-schema_v1.01.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\procEventoCancNFe_v1.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sefaz\XmlSchemas\XSD\Nota 4.0\retEnvEventoCancNFe_v1.00.xsd">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -690,6 +579,10 @@
     <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
       <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
       <Name>DgSystems.NFe.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DgSystems.NFe.Sefaz\DgSystems.NFe.Sefaz.csproj">
+      <Project>{bd2a822e-9504-47db-b071-64743c1e412e}</Project>
+      <Name>DgSystems.NFe.Sefaz</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
