@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{AF4605
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotaFiscal", "NotaFiscal", "{B719E063-388E-4EA1-A214-4DD0B529B8EF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{B0DEF458-B033-43E9-9BC1-4BCF9A13D311}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cadastro", "Cadastro", "{B0DEF458-B033-43E9-9BC1-4BCF9A13D311}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
