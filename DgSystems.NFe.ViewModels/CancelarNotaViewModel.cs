@@ -8,7 +8,7 @@ using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Assinatura;
@@ -21,7 +21,7 @@ using NFe.WPF.NotaFiscal.Model;
 using NFe.Core.Utils;
 using DgSystems.NFe.ViewModels.Commands;
 using DgSystems.NFe.ViewModels;
-using NFe.Core.NotasFiscais.ValueObjects;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.WPF.ViewModel
 {

@@ -1,11 +1,11 @@
 ﻿using System;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.Sefaz
 {
     public class ImpostoCreatorFactory
     {
-        internal IImpostoCreator Create(Imposto impostoItem)
+        internal IImpostoCreator Create(NotaFiscal.Interface.Imposto impostoItem)
         {
             switch (impostoItem)
             {

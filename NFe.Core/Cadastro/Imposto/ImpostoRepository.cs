@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using DgSystems.NFe.Core.Cadastro;
 using NFe.Core.Interfaces;
 
 namespace NFe.Core.Cadastro.Imposto

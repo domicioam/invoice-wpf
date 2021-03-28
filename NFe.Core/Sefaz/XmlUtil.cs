@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Collections.Generic;
 
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
@@ -86,7 +86,7 @@ namespace NFe.Core.Sefaz
 
 
 
-        internal static string GerarXmlLoteNFe(NotaFiscal notaFiscal, string nFeNamespaceName)
+        internal static string GerarXmlLoteNFe(NotaFiscal.NotaFiscal notaFiscal, string nFeNamespaceName)
         {
             TEnviNFe lote = ModelToSefazAdapter.GetLoteNFe(notaFiscal);
 

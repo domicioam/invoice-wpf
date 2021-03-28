@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Entitities;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using System.Xml;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.UnitTests.NotaFiscalService
 {
@@ -52,7 +53,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             return _notasFiscais.FirstOrDefault(n => n.Id == idNotaFiscalDb);
         }
 
-        public NotaFiscal GetNotaFiscalFromNfeProcXml(string xml)
+        public NotaFiscal.NotaFiscal GetNotaFiscalFromNfeProcXml(string xml)
         {
             throw new NotImplementedException();
         }
@@ -68,12 +69,12 @@ namespace NFe.Core.UnitTests.NotaFiscalService
         }
 
 
-        public List<NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial, DateTime dateTime, bool v)
+        public List<NotaFiscal.NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial, DateTime dateTime, bool v)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<NotaFiscal>> GetNotasFiscaisPorPeriodoAsync(DateTime periodoInicial, DateTime dateTime, bool v)
+        public Task<List<NotaFiscal.NotaFiscal>> GetNotasFiscaisPorPeriodoAsync(DateTime periodoInicial, DateTime dateTime, bool v)
         {
             throw new NotImplementedException();
         }
@@ -116,12 +117,12 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             return Salvar(notaFiscalEntity);
         }
 
-        public int Salvar(NotaFiscal notaFiscal, string xml)
+        public int Salvar(NotaFiscal.NotaFiscal notaFiscal, string xml)
         {
             throw new NotImplementedException();
         }
 
-        public int SalvarNotaFiscalPendente(NotaFiscal notaFiscal, string v)
+        public int SalvarNotaFiscalPendente(NotaFiscal.NotaFiscal notaFiscal, string v)
         {
             var NotaFiscalEntity = new NotaFiscalEntity();
 
@@ -152,7 +153,7 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             return Salvar(NotaFiscalEntity);
         }
 
-        public void SalvarXmlNFeComErro(NotaFiscal notaFiscal, XmlNode node)
+        public void SalvarXmlNFeComErro(NotaFiscal.NotaFiscal notaFiscal, XmlNode node)
         {
             throw new NotImplementedException();
         }

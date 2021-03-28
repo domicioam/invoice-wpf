@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.Utils.Conversores.Enums.StatusServico
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NFe.Core.NotaFiscal;
+using System;
 using System.Security.Cryptography.X509Certificates;
 using Evento = NFe.Core.NFeRecepcaoEvento4;
 

@@ -4,6 +4,6 @@ namespace NFe.Core.NotasFiscais.Services
 {
     public interface IConsultaStatusServicoFacade
     {
-        bool ExecutarConsultaStatus(ConfiguracaoEntity config, Modelo modelo);
+        bool ExecutarConsultaStatus(ConfiguracaoEntity config, NFe.Core.NotaFiscal.Modelo modelo);
     }
 }

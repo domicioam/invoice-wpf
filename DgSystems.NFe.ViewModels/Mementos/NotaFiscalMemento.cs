@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Entitities;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.WPF.ViewModel.Mementos
 {

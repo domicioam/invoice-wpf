@@ -11,16 +11,15 @@ using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotaFiscal;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
-using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.UnitTests.NotaFiscalService;
 using NFe.Core.Utils.Assinatura;
 using Xunit;
-using Endereco = NFe.Core.Endereco;
+using NFe.Core.NotasFiscais;
+using DgSystems.NFe.Core.Cadastro;
 
 namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
 {
@@ -251,10 +250,10 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var totalIcms = new IcmsTotal(0, 0, 0, 0, 0, valorTotalProdutos, 0, 0, 0, 0, 0, 0, 0, 0, valorTotalProdutos,
                 0);
             var totalNFe = new TotalNFe { IcmsTotal = totalIcms };
-            var impostosList = new List<global::NFe.Core.NotasFiscais.Entities.Imposto>
+            var impostosList = new List<global::NFe.Core.Domain.Imposto>
             {
-                new global::NFe.Core.NotasFiscais.Entities.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
-                new global::NFe.Core.NotasFiscais.Entities.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
+                new global::NFe.Core.Domain.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
+                new global::NFe.Core.Domain.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
             };
 
             var impostos = new Impostos(impostosList);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 
@@ -12,7 +12,7 @@ namespace NFe.Core.Sefaz.Facades
 {
     public class ResultadoEnvio
     {
-        public ResultadoEnvio(NotaFiscal notaFiscal, TProtNFe protocolo, QrCode qrCode, TNFe nfe, XmlNode node)
+        public ResultadoEnvio(NotaFiscal.NotaFiscal notaFiscal, TProtNFe protocolo, QrCode qrCode, TNFe nfe, XmlNode node)
         {
             NotaFiscal = notaFiscal;
             Protocolo = protocolo;
@@ -21,7 +21,7 @@ namespace NFe.Core.Sefaz.Facades
             Node = node;
         }
 
-        public NotaFiscal NotaFiscal { get; }
+        public NotaFiscal.NotaFiscal NotaFiscal { get; }
         public TProtNFe Protocolo { get; }
         public QrCode QrCode { get; }
         public TNFe Nfe { get; }

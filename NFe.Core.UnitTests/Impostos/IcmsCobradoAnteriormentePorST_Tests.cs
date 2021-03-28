@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotasFiscais;
+﻿using NFe.Core.NotaFiscal;
 using System;
 using System.Collections.Generic;
 using System.Linq;

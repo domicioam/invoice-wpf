@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 {

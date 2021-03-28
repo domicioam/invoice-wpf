@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using DgSystems.NFe.Core.Cadastro;
 using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Imposto;
@@ -161,19 +162,19 @@ namespace DgSystems.NFe.ViewModels
                 switch (i.Nome.ToUpperInvariant())
                 {
                     case "ICMS":
-                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms, Id = i.Id  });
+                        grupoImpostos.Impostos.Add(new DgSystems.NFe.Core.Cadastro.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Icms, Id = i.Id  });
                         break;
 
                     case "PIS":
-                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new DgSystems.NFe.Core.Cadastro.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.PIS, Id = i.Id });
                         break;
 
                     case "COFINS":
-                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Cofins, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new DgSystems.NFe.Core.Cadastro.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.Cofins, Id = i.Id });
                         break;
 
                     case "IPI":
-                        grupoImpostos.Impostos.Add(new global::NFe.Core.Cadastro.Imposto.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI, Id = i.Id });
+                        grupoImpostos.Impostos.Add(new DgSystems.NFe.Core.Cadastro.Imposto() { CST = i.CST, Aliquota = i.Aliquota, TipoImposto = TipoImposto.IPI, Id = i.Id });
                         break;
                 }
             }

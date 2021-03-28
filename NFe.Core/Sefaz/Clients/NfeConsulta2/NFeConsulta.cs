@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using NFe.Core.NFeConsultaProtocolo4;
+using NFe.Core.NotaFiscal;
 using NFe.Core.Sefaz;
 using NFe.Core.XmlSchemas.NfeConsulta2.Envio;
 using NFe.Core.XmlSchemas.NfeConsulta2.Retorno;

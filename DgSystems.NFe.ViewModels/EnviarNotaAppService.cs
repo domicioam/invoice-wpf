@@ -11,10 +11,8 @@ using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotaFiscal;
 using NFe.Core.NotasFiscais.Services;
-using NFe.Core.NotasFiscais.ValueObjects;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Acentuacao;
@@ -22,10 +20,7 @@ using NFe.Core.Utils.PDF;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
-using Destinatario = NFe.Core.NotasFiscais.Entities.Destinatario;
-using Emissor = NFe.Core.NotasFiscais.Emissor;
-using Pagamento = NFe.Core.NotasFiscais.Pagamento;
-using Produto = NFe.Core.NotasFiscais.Entities.Produto;
+
 
 namespace DgSystems.NFe.ViewModels
 {
@@ -276,7 +271,7 @@ namespace DgSystems.NFe.ViewModels
             {
                 var produtoEntity = produtosTo.First(c => c.Id == produtoNota.ProdutoSelecionado.Id);
 
-                var impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new global::NFe.Core.NotasFiscais.Entities.Imposto()
+                IEnumerable<global::NFe.Core.Domain.Imposto> impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new global::NFe.Core.Domain.Imposto() 
                 {
                     Aliquota = i.Aliquota,
                     BaseCalculo = i.BaseCalculo,

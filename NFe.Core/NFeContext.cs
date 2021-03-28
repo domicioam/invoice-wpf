@@ -11,6 +11,7 @@ namespace NFe.Core
     using NFe.Core.Cadastro.Destinatario;
     using NFe.Core.Cadastro.Ibpt;
     using NFe.Core.Cadastro.Imposto;
+    using DgSystems.NFe.Core.Cadastro;
 
     public partial class NFeContext : DbContext
     {

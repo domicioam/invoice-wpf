@@ -1,3 +1,4 @@
+using DgSystems.NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Imposto;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -2,15 +2,12 @@
 using DgSystems.NFe.Extensions;
 using NFe.Core;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
-using NFe.Core.NotasFiscais.ValueObjects;
+using NFe.Core.NotaFiscal;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using Xunit;
-using Endereco = NFe.Core.Endereco;
-using Imposto = NFe.Core.NotasFiscais.Entities.Imposto;
+using DgSystems.NFe.Core.Cadastro;
 
 namespace DgSystems.NFe.Core.UnitTests.Sefaz
 {
@@ -26,11 +23,11 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal()
         {
-            var imposto = new Imposto
+            var imposto = new global::NFe.Core.Domain.Imposto
             {
                 Aliquota = 10, BaseCalculo = 125, CST = "60", Origem = Origem.Nacional, TipoImposto = TipoImposto.Icms
             };
-            var impostos_list = new List<Imposto> {imposto};
+            var impostos_list = new List<global::NFe.Core.Domain.Imposto> {imposto};
             var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
@@ -54,12 +51,12 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         {
             // IcmsNaoTributado
 
-            var imposto = new Imposto
+            var imposto = new global::NFe.Core.Domain.Imposto
             {
                 Aliquota = 10, BaseCalculo = 125, CST = "41", Origem = Origem.Nacional, TipoImposto = TipoImposto.Icms,
                 MotivoDesoneracao = MotivoDesoneracao.Outros, ValorDesonerado = 50
             };
-            var impostos_list = new List<Imposto> {imposto};
+            var impostos_list = new List<global::NFe.Core.Domain.Imposto> {imposto};
             var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
@@ -81,12 +78,12 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Retido_Anteriormente()
         {
-            var imposto = new Imposto
+            var imposto = new global::NFe.Core.Domain.Imposto
             {
                 Aliquota = 10, BaseCalculo = 125, CST = "60", Origem = Origem.Nacional, TipoImposto = TipoImposto.Icms,
                 AliquotaFCP = 5, BaseCalculoFCP = 60
             };
-            var impostos_list = new List<Imposto> {imposto};
+            var impostos_list = new List<global::NFe.Core.Domain.Imposto> {imposto};
             var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
@@ -108,7 +105,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Por_ST()
         {
-            var imposto = new Imposto
+            var imposto = new global::NFe.Core.Domain.Imposto
             {
                 Aliquota = 0,
                 BaseCalculo = 0,
@@ -120,7 +117,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
                 AliquotaFCP = 5,
                 BaseCalculoFCP = 60
             };
-            var impostos_list = new List<Imposto> {imposto};
+            var impostos_list = new List<global::NFe.Core.Domain.Imposto> {imposto};
             var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
@@ -145,7 +142,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         [Fact]
         public void test_ConvertIcmsTotal_Fundo_Combate_Pobreza_Com_E_Sem_ST()
         {
-            var imposto = new Imposto
+            var imposto = new global::NFe.Core.Domain.Imposto
             {
                 Aliquota = 10,
                 BaseCalculo = 125,
@@ -158,7 +155,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
                 BaseCalculoFCP = 60
             };
 
-            var impostos_list = new List<Imposto> {imposto};
+            var impostos_list = new List<global::NFe.Core.Domain.Imposto> {imposto};
             var impostos = new Impostos(impostos_list);
 
             var produto1 = new Produto(impostos, 0, "1101", "1234", "Produto", "1234", 1, "UN", 125, 0, false, 0, 0, 0);
@@ -185,14 +182,14 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         [Fact]
         public void Should_Calculate_Total_Correctly_When_Imposto_not_in_total_calculation()
         {
-            var impostos_list = new List<Imposto>();
-            impostos_list.Add(new Imposto
+            var impostos_list = new List<global::NFe.Core.Domain.Imposto>();
+            impostos_list.Add(new global::NFe.Core.Domain.Imposto
             {
                 Aliquota = 1, BaseCalculo = 10, TipoImposto = TipoImposto.Cofins, CST = "01", Origem = Origem.Nacional
             });
-            impostos_list.Add(new Imposto
-                {CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = TipoImposto.Icms, Origem = Origem.Nacional});
-            impostos_list.Add(new Imposto {CST = "04", Origem = Origem.Nacional, TipoImposto = TipoImposto.PIS});
+            impostos_list.Add(new global::NFe.Core.Domain.Imposto
+            { CST = "60", Aliquota = 2, BaseCalculo = 20, TipoImposto = TipoImposto.Icms, Origem = Origem.Nacional});
+            impostos_list.Add(new global::NFe.Core.Domain.Imposto { CST = "04", Origem = Origem.Nacional, TipoImposto = TipoImposto.PIS});
 
             var produto = new Produto(new Impostos(impostos_list), 0, "1101", "1234", "Produto", "1234", 1, "UN", 125,
                 0, false, 5, 10, 15);

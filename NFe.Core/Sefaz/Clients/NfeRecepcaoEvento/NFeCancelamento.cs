@@ -5,6 +5,7 @@ using System.Xml;
 using AutoMapper;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.NFeRecepcaoEvento4;
+using NFe.Core.NotaFiscal;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;

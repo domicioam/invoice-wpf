@@ -4,9 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
-using NFe.Core.NotasFiscais.ValueObjects;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.Sefaz.Facades
 {

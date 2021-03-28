@@ -1,5 +1,5 @@
 ﻿
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,6 @@ namespace NFe.WPF.Events
 {
     public class NotaFiscalPendenteReenviadaEvent 
     {
-        public Core.NotasFiscais.NotaFiscal NotaFiscal { get; internal set; }
+        public NFe.Core.NotaFiscal.NotaFiscal NotaFiscal { get; internal set; }
     }
 }

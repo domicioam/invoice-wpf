@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotasFiscais;
+﻿using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.Sefaz
 {
@@ -8,7 +8,7 @@ namespace NFe.Core.Sefaz
         {
         }
 
-        public object Create(Imposto impostoItem)
+        public object Create(NotaFiscal.Interface.Imposto impostoItem)
         {
             throw new System.NotImplementedException();
         }

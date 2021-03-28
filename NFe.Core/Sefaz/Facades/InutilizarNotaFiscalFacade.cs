@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.NotaFiscal;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 using NFe.Core.NotasFiscais.Services;

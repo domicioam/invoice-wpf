@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NFe.Core.NotasFiscais;
+using NFe.Core.NotaFiscal;
 using NFe.Core.Cadastro.Destinatario;
-using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotaFiscal;
 
 namespace EmissorNFe.Model
 {

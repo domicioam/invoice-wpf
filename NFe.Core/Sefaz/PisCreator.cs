@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotasFiscais;
+﻿using NFe.Core.NotaFiscal;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
 
@@ -6,7 +6,7 @@ namespace NFe.Core.Sefaz
 {
     internal class PisCreator : IImpostoCreator
     {
-        public object Create(Imposto impostoItem)
+        public object Create(NotaFiscal.Interface.Imposto impostoItem)
         {
             if (!(impostoItem is Pis pis))
             {

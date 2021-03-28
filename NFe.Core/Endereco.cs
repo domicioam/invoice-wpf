@@ -1,64 +1,25 @@
-﻿using System;
-using NFe.Core.NotasFiscais;
-using NFe.Core.Utils.Acentuacao;
-using NFe.Core.Utils.Conversores;
+﻿using NFe.Core.NotaFiscal;
 
-namespace NFe.Core
+namespace NFe.Core.NotasFiscais
 {
-    public class Endereco
+    public class EnderecoDestinatario : Endereco
     {
-        private string _municipio;
-        private string _uf;
-
-        public Endereco(string logradouro, string numero, string bairro, string municipio, string cep, string uf)
+        public EnderecoDestinatario(string logradouro, string numero, string bairro, string municipio, string cep, string uf)
+            : base(logradouro, numero, bairro, municipio, cep, uf)
         {
-            Bairro = bairro;
-            Cep = cep;
-            Logradouro = logradouro;
-            Municipio = municipio;
+            Logradouro = Logradouro;
             Numero = numero;
+            Bairro = bairro;
+            Municipio = municipio;
+            Cep = cep;
             UF = uf;
         }
 
-        public string Logradouro { get; set; }
-        public string Numero { get; set; }
-        public string Bairro { get; set; }
-        public string CodigoMunicipio { get; private set; }
+        public string Complemento { get; set; }
 
-        public string UF
+        public override string ToString()
         {
-            get { return _uf; }
-            set
-            {
-                _uf = value;
-                CodigoUF = UfToCodigoUfConversor.GetCodigoUf(_uf);
-            }
-        }
-
-        public string Cep { get; set; }
-
-        public string Pais
-        {
-            get { return "Brasil"; }
-        }
-
-        public string Municipio
-        {
-            get { return _municipio; }
-            set
-            {
-                _municipio = value;
-                SetCodigoMunicipio(_municipio);
-            }
-        }
-
-        public string CodigoUF { get; private set; }
-
-        private void SetCodigoMunicipio(string municipio)
-        {
-            var municipioSemAcentos = Acentuacao.RemoverAcentuacao(municipio).ToUpper();
-
-            CodigoMunicipio = ((int) Enum.Parse(typeof(CodMunicipioIBGE), municipioSemAcentos)).ToString();
+            return Logradouro + " " + Numero + " " + Bairro + " - " + Municipio + " / " + UF;
         }
     }
 }

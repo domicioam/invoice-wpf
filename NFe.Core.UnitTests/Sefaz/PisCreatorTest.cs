@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotasFiscais;
+﻿using NFe.Core.NotaFiscal;
 using NFe.Core.Sefaz;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-
+using NFe.Core.NotaFiscal;
 namespace NFe.Core.UnitTests.Sefaz
 {
     public class PisCreatorTest
@@ -17,7 +17,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var pisCreator = new PisCreator();
 
-            Imposto imposto = new PisOperacaoTributavelMonofasica();
+            NotaFiscal.Interface.Imposto imposto = new PisOperacaoTributavelMonofasica();
             var detImposto = (TNFeInfNFeDetImpostoPIS)pisCreator.Create(imposto);
             var detPis04 = (TNFeInfNFeDetImpostoPISPISNT)detImposto.Item;
 
@@ -29,7 +29,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var pisCreator = new PisCreator();
 
-            Imposto imposto = new PisOperacaoIsentaContribuicao();
+            NotaFiscal.Interface.Imposto imposto = new PisOperacaoIsentaContribuicao();
             var detImposto = (TNFeInfNFeDetImpostoPIS)pisCreator.Create(imposto);
             var detPis07 = (TNFeInfNFeDetImpostoPISPISNT)detImposto.Item;
 

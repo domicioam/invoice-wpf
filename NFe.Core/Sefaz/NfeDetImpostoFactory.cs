@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotaFiscal;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core.Sefaz

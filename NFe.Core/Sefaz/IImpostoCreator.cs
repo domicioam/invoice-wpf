@@ -1,9 +1,9 @@
-﻿using NFe.Core.NotasFiscais;
+﻿using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.Sefaz
 {
     internal interface IImpostoCreator
     {
-        object Create(Imposto impostoItem);
+        object Create(NotaFiscal.Interface.Imposto impostoItem);
     }
 }

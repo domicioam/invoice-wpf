@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using DgSystems.NFe.Core.Cadastro;
 using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;

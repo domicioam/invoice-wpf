@@ -4,12 +4,10 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using DgSystems.NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
-using NFe.Core.NotasFiscais.ValueObjects;
-using Endereco = NFe.Core.Endereco;
+using NFe.Core.NotaFiscal;
 
 namespace DgSystems.NFe.Core.UnitTests
 {
@@ -32,10 +30,10 @@ namespace DgSystems.NFe.Core.UnitTests
             var totalIcms = new IcmsTotal(0, 0, 0, 0, 0, valorTotalProdutos, 0, 0, 0, 0, 0, 0, 0, 0, valorTotalProdutos,
                 0);
             var totalNFe = new TotalNFe { IcmsTotal = totalIcms };
-            var impostosList = new List<global::NFe.Core.NotasFiscais.Entities.Imposto>
+            var impostosList = new List<global::NFe.Core.Domain.Imposto>
                 {
-                    new global::NFe.Core.NotasFiscais.Entities.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
-                    new global::NFe.Core.NotasFiscais.Entities.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
+                    new global::NFe.Core.Domain.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
+                    new global::NFe.Core.Domain.Imposto {CST = "04", TipoImposto = TipoImposto.PIS}
                 };
 
             var impostos = new Impostos(impostosList);

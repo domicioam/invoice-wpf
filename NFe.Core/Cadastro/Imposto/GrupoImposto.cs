@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NFe.Core.Cadastro.Imposto
+namespace DgSystems.NFe.Core.Cadastro
 {
     [Table("GrupoImpostos")]
     public class GrupoImpostos

@@ -5,8 +5,7 @@ using System.Globalization;
 using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
 using EmissorNFe.Model.Base;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Entities;
+using NFe.Core.NotaFiscal;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.NotaFiscal.Model

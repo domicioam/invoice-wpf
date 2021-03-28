@@ -1,6 +1,7 @@
 ﻿using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.NotaFiscal;
 
 namespace NFe.Core.Cadastro.Emissor
 {
@@ -13,14 +14,14 @@ namespace NFe.Core.Cadastro.Emissor
             _emitenteRepository = emitenteRepository;
         }
 
-        public NotasFiscais.Emissor GetEmissor()
+        public NotaFiscal.Emissor GetEmissor()
         {
             var emitenteDb = _emitenteRepository.GetEmitente();
 
             var enderecoEmitente = new Endereco(emitenteDb.Logradouro, emitenteDb.Numero, emitenteDb.Bairro,
                 emitenteDb.Municipio, emitenteDb.CEP, emitenteDb.UF);
 
-            return new NotasFiscais.Emissor(emitenteDb.RazaoSocial, emitenteDb.NomeFantasia, emitenteDb.CNPJ,
+            return new NotaFiscal.Emissor(emitenteDb.RazaoSocial, emitenteDb.NomeFantasia, emitenteDb.CNPJ,
                 emitenteDb.InscricaoEstadual, emitenteDb.InscricaoMunicipal, emitenteDb.CNAE,
                 emitenteDb.RegimeTributario, enderecoEmitente, emitenteDb.Telefone);
         }

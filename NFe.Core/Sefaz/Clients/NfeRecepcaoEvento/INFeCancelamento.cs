@@ -1,4 +1,6 @@
-﻿namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
+﻿using NFe.Core.NotaFiscal;
+
+namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
 {
     public interface INFeCancelamento
     {
