@@ -8,7 +8,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core
 {
-    public abstract class CofinsBase : NFe.Core.Domain.Interface.Imposto
+    public abstract class CofinsBase : IImposto
     {
         protected CofinsBase(CstEnum cst)
         {

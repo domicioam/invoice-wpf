@@ -17,7 +17,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new CofinsCreator();
 
-            NFe.Core.Domain.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
+            IImposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)icmsCreator.Create(imposto);
             var detCofins01 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -33,7 +33,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var cofinsCreator = new CofinsCreator();
 
-            Domain.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(baseCalculo, aliquota);
+            IImposto imposto = new CofinsCumulativoNaoCumulativo(baseCalculo, aliquota);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)cofinsCreator.Create(imposto);
             var detCofins01 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -47,7 +47,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new CofinsCreator();
 
-            Domain.Interface.Imposto imposto = new CofinsAliquotaDiferenciada(0, 0);
+            IImposto imposto = new CofinsAliquotaDiferenciada(0, 0);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)icmsCreator.Create(imposto);
             var detCofins02 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -63,7 +63,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var cofinsCreator = new CofinsCreator();
 
-            Domain.Interface.Imposto imposto = new CofinsAliquotaDiferenciada(baseCalculo, aliquota);
+            IImposto imposto = new CofinsAliquotaDiferenciada(baseCalculo, aliquota);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)cofinsCreator.Create(imposto);
             var detCofins02 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -76,7 +76,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_throw_exception_when_cofins_type_is_wrong()
         {
             var cofinsCreator = new CofinsCreator();
-            Domain.Interface.Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0,0,new NotasFiscais.FundoCombatePobreza(0,0), OrigemMercadoria.Nacional);
+            IImposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0,0,new NotasFiscais.FundoCombatePobreza(0,0), OrigemMercadoria.Nacional);
 
             Assert.Throws<ArgumentException>(() => cofinsCreator.Create(imposto));
         }

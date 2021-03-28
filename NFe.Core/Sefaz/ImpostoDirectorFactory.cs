@@ -5,7 +5,7 @@ namespace NFe.Core.Sefaz
 {
     public class ImpostoCreatorFactory
     {
-        internal IImpostoCreator Create(Domain.Interface.Imposto impostoItem)
+        internal IImpostoCreator Create(IImposto impostoItem)
         {
             switch (impostoItem)
             {

@@ -7,7 +7,7 @@ namespace NFe.Core.Sefaz
 {
     internal class IcmsCreator : IImpostoCreator
     {
-        public object Create(Domain.Interface.Imposto impostoItem)
+        public object Create(IImposto impostoItem)
         {
             if (!(impostoItem is Icms icms))
             {

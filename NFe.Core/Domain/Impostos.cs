@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Domain;
 using NFe.Core.NotasFiscais;
 using static NFe.Core.Icms;
 
@@ -14,13 +13,13 @@ namespace NFe.Core.Domain
     /*
      * Domain model
      */
-    public class Impostos : IEnumerable<Interface.Imposto>
+    public class Impostos : IEnumerable<IImposto>
     {
-        private readonly IList<Interface.Imposto> _impostos;
+        private readonly IList<IImposto> _impostos;
 
         public Impostos()
         {
-            _impostos = new List<Interface.Imposto>();
+            _impostos = new List<IImposto>();
         }
 
         public Impostos(IEnumerable<Imposto> impostos) : this()
@@ -46,7 +45,7 @@ namespace NFe.Core.Domain
             return ((Pis)pis).Cst.Value.ToString();
         }
 
-        public IEnumerator<Interface.Imposto> GetEnumerator()
+        public IEnumerator<IImposto> GetEnumerator()
         {
             return _impostos.GetEnumerator();
         }

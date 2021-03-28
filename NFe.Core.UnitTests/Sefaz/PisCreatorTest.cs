@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using NFe.Core.Domain;
 namespace NFe.Core.UnitTests.Sefaz
 {
     public class PisCreatorTest
@@ -17,7 +16,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var pisCreator = new PisCreator();
 
-            Domain.Interface.Imposto imposto = new PisOperacaoTributavelMonofasica();
+            IImposto imposto = new PisOperacaoTributavelMonofasica();
             var detImposto = (TNFeInfNFeDetImpostoPIS)pisCreator.Create(imposto);
             var detPis04 = (TNFeInfNFeDetImpostoPISPISNT)detImposto.Item;
 
@@ -29,7 +28,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var pisCreator = new PisCreator();
 
-            Domain.Interface.Imposto imposto = new PisOperacaoIsentaContribuicao();
+            IImposto imposto = new PisOperacaoIsentaContribuicao();
             var detImposto = (TNFeInfNFeDetImpostoPIS)pisCreator.Create(imposto);
             var detPis07 = (TNFeInfNFeDetImpostoPISPISNT)detImposto.Item;
 

@@ -265,7 +265,7 @@
     <Compile Include="Domain\Impostos\Icms\IcmsUfDestino.cs" />
     <Compile Include="Domain\Impostos\Icms\SubstituicaoTributaria.cs" />
     <Compile Include="Domain\Impostos\II.cs" />
-    <Compile Include="NotasFiscaisOld\Imposto.cs" />
+    <Compile Include="Domain\IImposto.cs" />
     <Compile Include="Domain\Impostos\ImpostoFactory.cs" />
     <Compile Include="Domain\Impostos\Ipi\Ipi.cs" />
     <Compile Include="Domain\Impostos\Ipi\IpiNt.cs" />
@@ -536,7 +536,6 @@
     </None>
     <None Include="Connected Services\NfeStatusServico4\NfeStatusServico4.wsdl" />
     <None Include="ClassDiagrams\Imposto.cd" />
-    <None Include="NFeDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.XmlNode.datasource" />
     <None Include="Properties\Settings.settings">

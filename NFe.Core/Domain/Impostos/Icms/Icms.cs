@@ -8,7 +8,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core
 {
-    public abstract class Icms : Domain.Interface.Imposto
+    public abstract class Icms : IImposto
     {
         protected Icms(CstEnum cst, OrigemMercadoria origem, decimal aliquota)
         {

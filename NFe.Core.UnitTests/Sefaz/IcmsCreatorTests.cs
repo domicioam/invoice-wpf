@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using NFe.Core.Domain;
 
 namespace NFe.Core.UnitTests.Sefaz
 {
@@ -19,7 +18,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new IcmsCreator();
 
-            Domain.Interface.Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, 0, new NotasFiscais.FundoCombatePobreza(0, 0), OrigemMercadoria.Nacional);
+            IImposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0, 0, new NotasFiscais.FundoCombatePobreza(0, 0), OrigemMercadoria.Nacional);
             var detImposto = (TNFeInfNFeDetImpostoICMS) icmsCreator.Create(imposto);
             var detImpostoIcms60 = (TNFeInfNFeDetImpostoICMSICMS60) detImposto.Item;
 
@@ -59,7 +58,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_create_icms_41_with_empty_fields()
         {
             var icmsCreator = new IcmsCreator();
-            Domain.Interface.Imposto imposto = new IcmsNaoTributado(null, OrigemMercadoria.Nacional,0);
+            IImposto imposto = new IcmsNaoTributado(null, OrigemMercadoria.Nacional,0);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;
 
@@ -75,7 +74,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new IcmsCreator();
             var desoneracaoIcms = new Desoneracao(valorDesoneracao, MotivoDesoneracao.Outros);
-            Domain.Interface.Imposto imposto = new IcmsNaoTributado(desoneracaoIcms, OrigemMercadoria.Nacional,0);
+            IImposto imposto = new IcmsNaoTributado(desoneracaoIcms, OrigemMercadoria.Nacional,0);
             var detImposto = (TNFeInfNFeDetImpostoICMS)icmsCreator.Create(imposto);
             var detImpostoIcms40 = (TNFeInfNFeDetImpostoICMSICMS40)detImposto.Item;
 
@@ -89,7 +88,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_throw_exception_when_icms_type_is_wrong()
         {
             var icmsCreator = new IcmsCreator();
-            Domain.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
+            IImposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
 
             Assert.Throws<ArgumentException>(() => icmsCreator.Create(imposto));
         }

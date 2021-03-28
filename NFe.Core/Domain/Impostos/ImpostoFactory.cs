@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DgSystems.NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Imposto;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Impostos.Icms;
 using static NFe.Core.Icms;
@@ -13,7 +14,7 @@ namespace NFe.Core.NotasFiscal.Impostos
 {
     class ImpostoFactory
     {
-        internal NFe.Core.Domain.Interface.Imposto CreateImposto(Domain.Imposto imposto)
+        internal IImposto CreateImposto(Domain.Imposto imposto)
         {
             OrigemMercadoria origem;
 

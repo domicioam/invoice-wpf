@@ -6,7 +6,7 @@ namespace NFe.Core.Sefaz
 {
     internal class PisCreator : IImpostoCreator
     {
-        public object Create(Domain.Interface.Imposto impostoItem)
+        public object Create(IImposto impostoItem)
         {
             if (!(impostoItem is Pis pis))
             {

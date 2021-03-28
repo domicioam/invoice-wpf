@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using static NFe.Core.Icms;
-using NFe.Core.Domain;
 using NFe.Core.NotasFiscal.Impostos;
 using DgSystems.NFe.Core.Cadastro;
 
@@ -28,7 +27,7 @@ namespace NFe.Core.UnitTests.Impostos
                 CST = "01"
             };
 
-            NFe.Core.Domain.Interface.Imposto result = factory.CreateImposto(input);
+            IImposto result = factory.CreateImposto(input);
 
             Assert.True(result is CofinsCumulativoNaoCumulativo);
             var cofins = result as CofinsCumulativoNaoCumulativo;
@@ -64,7 +63,7 @@ namespace NFe.Core.UnitTests.Impostos
                 CST = "41"
             };
 
-            NFe.Core.Domain.Interface.Imposto result = factory.CreateImposto(input);
+            IImposto result = factory.CreateImposto(input);
 
             Assert.True(result is IcmsNaoTributado);
             var icms = result as IcmsNaoTributado;
@@ -85,7 +84,7 @@ namespace NFe.Core.UnitTests.Impostos
                 MotivoDesoneracao = MotivoDesoneracao.Outros
             };
 
-            NFe.Core.Domain.Interface.Imposto result = factory.CreateImposto(input);
+            IImposto result = factory.CreateImposto(input);
 
             Assert.True(result is IcmsNaoTributado);
             var icms = result as IcmsNaoTributado;

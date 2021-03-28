@@ -8,7 +8,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core
 {
-    public abstract class Pis : NFe.Core.Domain.Interface.Imposto
+    public abstract class Pis : IImposto
     {
         protected Pis(CstEnum cst)
         {

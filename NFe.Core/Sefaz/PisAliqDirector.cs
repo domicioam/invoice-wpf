@@ -4,7 +4,7 @@ namespace NFe.Core.Sefaz
 {
     internal class PisAliqDirector : IImpostoCreator
     {
-        public object Create(Domain.Interface.Imposto impostoItem)
+        public object Create(IImposto impostoItem)
         {
             throw new System.NotImplementedException();
         }
