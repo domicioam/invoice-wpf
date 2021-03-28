@@ -56,7 +56,7 @@ namespace NFe.Core.Sefaz
         public virtual string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
         {
             var nfeProc = new TNfeProc();
-            var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
+            const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
             nfeProc.NFe = nfe.ToTNFeRetorno(nFeNamespaceName);
 
