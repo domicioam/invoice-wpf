@@ -1,8 +1,8 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using System;
 using System.Text.RegularExpressions;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class Emissor
     {

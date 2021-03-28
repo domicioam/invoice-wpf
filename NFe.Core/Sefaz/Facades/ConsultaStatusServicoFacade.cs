@@ -5,7 +5,7 @@ using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Interfaces;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2;
 using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;

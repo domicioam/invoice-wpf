@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.Core.Cadastro.Ibpt
 {

@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
@@ -15,7 +15,7 @@ namespace NFe.Core.Sefaz.Facades
 {
     public class XmlNFe
     {
-        public XmlNFe(NotaFiscal.NotaFiscal notaFiscal, string nfeNamespace, X509Certificate2 certificado, string cscId, string csc)
+        public XmlNFe(Domain.NotaFiscal notaFiscal, string nfeNamespace, X509Certificate2 certificado, string cscId, string csc)
         {
             var refUri = "#NFe" + notaFiscal.Identificacao.Chave;
             var digVal = "";
@@ -47,7 +47,7 @@ namespace NFe.Core.Sefaz.Facades
         public QrCode QrCode { get; }
         public string Xml { get { return XmlDocument.OuterXml; } }
 
-        private static QrCode PreencherQrCode(NotaFiscal.NotaFiscal notaFiscal, string cscId, string csc, string digVal)
+        private static QrCode PreencherQrCode(Domain.NotaFiscal notaFiscal, string cscId, string csc, string digVal)
         {
             QrCode qrCode = new QrCode();
 

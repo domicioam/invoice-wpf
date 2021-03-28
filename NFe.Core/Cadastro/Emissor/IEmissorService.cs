@@ -1,11 +1,11 @@
 ﻿using NFe.Core.Entitities;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.Core.Cadastro.Emissor
 {
     public interface IEmissorService
     {
-        NotaFiscal.Emissor GetEmissor();
+        Domain.Emissor GetEmissor();
         EmitenteEntity GetEmitenteEntity();
         void Salvar(EmitenteEntity emitente);
     }

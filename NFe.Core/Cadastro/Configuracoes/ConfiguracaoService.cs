@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NFe.Core.Interfaces;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.Core.Cadastro.Configuracoes
 {

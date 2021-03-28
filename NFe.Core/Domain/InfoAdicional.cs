@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using NFe.Core.Cadastro.Ibpt;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class InfoAdicional
     {

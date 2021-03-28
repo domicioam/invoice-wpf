@@ -14,7 +14,7 @@ using System.Xml;
 
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.Utils.PDF.RelatorioGerencial;
 
 using NFe.Repository;
@@ -287,7 +287,7 @@ namespace NFe.Core.Utils.PDF
         static private int _PrintingIndex;
         static private List<Stream> _PrintingStreams = new List<Stream>();
 
-        public static Task GerarPdfNotaFiscal(NotaFiscal.NotaFiscal notaFiscal)
+        public static Task GerarPdfNotaFiscal(Domain.NotaFiscal notaFiscal)
         {
             return Task.Run(() =>
             {
@@ -307,7 +307,7 @@ namespace NFe.Core.Utils.PDF
             });
         }
 
-        private static void GerarPDFNfce(NotaFiscal.NotaFiscal notaFiscal)
+        private static void GerarPDFNfce(Domain.NotaFiscal notaFiscal)
         {
             Warning[] warnings;
             string[] streamIds;
@@ -343,7 +343,7 @@ namespace NFe.Core.Utils.PDF
                 reportViewer.LocalReport.ReleaseSandboxAppDomain();
 
                 var emitente = notaFiscal.Emitente;
-                var destinatario = notaFiscal.Destinatario ?? new NotaFiscal.Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
+                var destinatario = notaFiscal.Destinatario ?? new Domain.Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
 
                 var produtos = notaFiscal.Produtos.Select(produto => new Produto()
                 {
@@ -464,7 +464,7 @@ namespace NFe.Core.Utils.PDF
 
         }
 
-        public static string ObterPdfEnvioNotaFiscalEmail(NotaFiscal.NotaFiscal notaFiscal)
+        public static string ObterPdfEnvioNotaFiscalEmail(Domain.NotaFiscal notaFiscal)
         {
             Warning[] warnings;
 
@@ -495,7 +495,7 @@ namespace NFe.Core.Utils.PDF
                 reportViewer.LocalReport.ReleaseSandboxAppDomain();
 
                 var emitente = notaFiscal.Emitente;
-                var destinatario = notaFiscal.Destinatario ?? new NotaFiscal.Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
+                var destinatario = notaFiscal.Destinatario ?? new Domain.Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
 
                 var produtos = notaFiscal.Produtos.Select(produto => new Produto()
                 {
@@ -587,7 +587,7 @@ namespace NFe.Core.Utils.PDF
 
         }
 
-        private static void GerarPDFNfe(NotaFiscal.NotaFiscal notaFiscal)
+        private static void GerarPDFNfe(Domain.NotaFiscal notaFiscal)
         {
             if (notaFiscal.Identificacao.Ambiente == Ambiente.Homologacao)
             {

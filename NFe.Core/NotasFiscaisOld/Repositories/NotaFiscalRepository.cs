@@ -13,7 +13,7 @@ using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Entitities.Enums;
 using NFe.Core.Interfaces;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Xml;
@@ -170,7 +170,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             });
         }
 
-        public int SalvarNotaFiscalPendente(NotaFiscal.NotaFiscal notaFiscal, string xml)
+        public int SalvarNotaFiscalPendente(Domain.NotaFiscal notaFiscal, string xml)
         {
             var notaFiscalEntity = new NotaFiscalEntity
             {
@@ -224,7 +224,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             }
         }
 
-        public virtual int Salvar(NotaFiscal.NotaFiscal notaFiscal, string xml)
+        public virtual int Salvar(Domain.NotaFiscal notaFiscal, string xml)
         {
             var notaFiscalEntity = new NotaFiscalEntity
             {
@@ -273,7 +273,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             return notas;
         }
 
-        public List<NotaFiscal.NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial,
+        public List<Domain.NotaFiscal> GetNotasFiscaisPorPeriodo(DateTime periodoInicial,
             DateTime periodoFinal, bool isLoadXmlData)
         {
             var notasDb = GetNotasFiscaisPorPeriodo(periodoInicial, periodoFinal);
@@ -314,7 +314,7 @@ namespace NFe.Core.NotasFiscais.Repositories
         }
 
 
-        public NotaFiscal.NotaFiscal GetNotaFiscalFromNfeProcXml(string xml)
+        public Domain.NotaFiscal GetNotaFiscalFromNfeProcXml(string xml)
         {
             var nfeProc = (Retorno.TNfeProc)XmlUtil.Deserialize<Retorno.TNfeProc>(xml);
             var nfe = nfeProc.NFe;
@@ -329,7 +329,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             var infoAdicional = GetInfoAdicional(produtos);
             var qrCode = nfe.infNFeSupl?.qrCode;
 
-            var notaFiscal = new NotaFiscal.NotaFiscal(emitente, destinatario, identificacao, transporte, totalNFe, infoAdicional,
+            var notaFiscal = new Domain.NotaFiscal(emitente, destinatario, identificacao, transporte, totalNFe, infoAdicional,
                 produtos, pagamentos);
 
             if (nfeProc.protNFe.infProt != null)
@@ -346,7 +346,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             return notaFiscal;
         }
 
-        public void SalvarXmlNFeComErro(NotaFiscal.NotaFiscal notaFiscal, XmlNode node)
+        public void SalvarXmlNFeComErro(Domain.NotaFiscal notaFiscal, XmlNode node)
         {
             var appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "Notas Fiscais");
@@ -552,7 +552,7 @@ namespace NFe.Core.NotasFiscais.Repositories
                     CST = pisNt.CST.ToString().Replace("Item", string.Empty)
                 };
 
-                var impostos = new NotaFiscal.Impostos(new List<Domain.Imposto> { icms, pis});
+                var impostos = new Domain.Impostos(new List<Domain.Imposto> { icms, pis});
 
                 var seguro = det.prod.vSeg.ToDouble(CultureInfo.InvariantCulture);
                 var outros = det.prod.vOutro.ToDouble(CultureInfo.InvariantCulture);

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class Documento
     {

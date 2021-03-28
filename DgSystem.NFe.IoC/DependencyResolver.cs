@@ -6,7 +6,7 @@ using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Interfaces;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;

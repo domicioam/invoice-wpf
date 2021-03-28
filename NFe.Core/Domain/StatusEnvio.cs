@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Entitities;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class StatusEnvio
     {

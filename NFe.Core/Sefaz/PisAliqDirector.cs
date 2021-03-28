@@ -1,10 +1,10 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 
 namespace NFe.Core.Sefaz
 {
     internal class PisAliqDirector : IImpostoCreator
     {
-        public object Create(NotaFiscal.Interface.Imposto impostoItem)
+        public object Create(Domain.Interface.Imposto impostoItem)
         {
             throw new System.NotImplementedException();
         }

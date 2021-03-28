@@ -2,7 +2,7 @@
 using DgSystems.NFe.Extensions;
 using NFe.Core;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public enum PresencaComprador
     {

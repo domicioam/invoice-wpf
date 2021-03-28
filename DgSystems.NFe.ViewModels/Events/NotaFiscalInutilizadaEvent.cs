@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NFe.WPF.NotaFiscal.Model;
 using DgSystems.NFe.ViewModels;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.WPF.Events
 {

@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using NFe.Core.Sefaz.Utility;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
@@ -7,7 +7,7 @@ namespace NFe.Core.Sefaz
 {
     internal class CofinsCreator : IImpostoCreator
     {
-        public object Create(NotaFiscal.Interface.Imposto impostoItem)
+        public object Create(Domain.Interface.Imposto impostoItem)
         {
             if (!(impostoItem is CofinsAliq cofinsAliq))
             {

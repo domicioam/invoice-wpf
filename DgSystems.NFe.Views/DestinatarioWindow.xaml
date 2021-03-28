@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        xmlns:entities="clr-namespace:NFe.Core.NotaFiscal;assembly=NFe.Core"
+        xmlns:entities="clr-namespace:NFe.Core.Domain;assembly=NFe.Core"
         WindowStartupLocation="CenterOwner"
         Name="destinatarioWindow" Background="#FFEEEEF2"
         Title="Cadastro de Destinatário" Height="Auto" SizeToContent="Height" Width="800">

@@ -15,7 +15,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NFeRetAutorizacao4;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
@@ -33,7 +33,7 @@ namespace NFe.Core.Sefaz.Facades
 {
     public interface IEmiteNotaFiscalContingenciaFacade
     {
-        NotaFiscal.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal.NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName);
+        Domain.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, Domain.NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName);
         Task<List<string>> TransmitirNotasFiscalEmContingencia();
         void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar, INotaFiscalRepository notaFiscalRepository);
     }
@@ -77,7 +77,7 @@ namespace NFe.Core.Sefaz.Facades
             _encryptor = encryptor;
         }
 
-        public NotaFiscal.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal.NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
+        public Domain.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, Domain.NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
         {
             notaFiscal = SetContingenciaFields(config, notaFiscal);
             var xmlNFeContingencia = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
@@ -87,7 +87,7 @@ namespace NFe.Core.Sefaz.Facades
             return notaFiscal;
         }
 
-        private NotaFiscal.NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, NotaFiscal.NotaFiscal notaFiscal)
+        private Domain.NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, Domain.NotaFiscal notaFiscal)
         {
             notaFiscal.Identificacao.Numero = _configuracaoService.ObterProximoNumeroNotaFiscal(notaFiscal.Identificacao.Modelo);
             notaFiscal.Identificacao.DataHoraEntradaContigencia = config.DataHoraEntradaContingencia;

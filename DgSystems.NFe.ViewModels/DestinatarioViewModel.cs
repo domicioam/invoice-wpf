@@ -9,11 +9,11 @@ using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.WPF.Commands;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.WPF.ViewModel
 {

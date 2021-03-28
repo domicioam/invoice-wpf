@@ -1,4 +1,4 @@
-﻿namespace NFe.Core.NotaFiscal.Interface
+﻿namespace NFe.Core.Domain.Interface
 {
     public interface Imposto
     {

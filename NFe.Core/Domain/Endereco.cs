@@ -1,9 +1,9 @@
 ﻿using System;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.Utils.Acentuacao;
 using NFe.Core.Utils.Conversores;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class Endereco
     {

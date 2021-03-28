@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using System.Security.Cryptography.X509Certificates;
 
 namespace NFe.Core.NotasFiscais

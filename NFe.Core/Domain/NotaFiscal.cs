@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class NotaFiscal
     {

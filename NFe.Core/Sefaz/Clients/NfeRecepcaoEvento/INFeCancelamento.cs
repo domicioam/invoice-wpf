@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
 {

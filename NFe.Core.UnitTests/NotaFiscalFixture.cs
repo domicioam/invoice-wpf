@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using DgSystems.NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace DgSystems.NFe.Core.UnitTests
 {

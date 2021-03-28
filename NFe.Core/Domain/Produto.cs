@@ -3,7 +3,7 @@ using System.Linq;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public class Produto
     {

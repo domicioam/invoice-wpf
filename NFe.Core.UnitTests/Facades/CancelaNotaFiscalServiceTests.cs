@@ -10,11 +10,11 @@ using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.Interfaces;
 using AutoFixture;
 using NFe.Core.Sefaz.Facades;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using ExpectedObjects;
 using System.Globalization;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.Core.UnitTests.Facades
 {

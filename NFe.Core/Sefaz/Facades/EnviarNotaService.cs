@@ -15,7 +15,7 @@ using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.Core.NotasFiscais.Services
 {
@@ -34,7 +34,7 @@ namespace NFe.Core.NotasFiscais.Services
             _nfeConsulta = nfeConsulta;
         }
 
-        public ResultadoEnvio EnviarNotaFiscal(NotaFiscal.NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado, XmlNFe xmlNFe)
+        public ResultadoEnvio EnviarNotaFiscal(Domain.NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado, XmlNFe xmlNFe)
         {
             if (!IsNotaFiscalValida(notaFiscal, cscId, csc, certificado))
             {
@@ -127,14 +127,14 @@ namespace NFe.Core.NotasFiscais.Services
             return protocolo;
         }
 
-        private NFeAutorizacao4Soap CriarClientWS(NotaFiscal.NotaFiscal notaFiscal, X509Certificate2 certificado, CodigoUfIbge codigoUf)
+        private NFeAutorizacao4Soap CriarClientWS(Domain.NotaFiscal notaFiscal, X509Certificate2 certificado, CodigoUfIbge codigoUf)
         {
             var servico = _serviceFactory.GetService(notaFiscal.Identificacao.Modelo, Servico.AUTORIZACAO, codigoUf, certificado);
             var client = (NFeAutorizacao4Soap)servico.SoapClient;
             return client;
         }
 
-        private static NotaFiscal.NotaFiscal AtribuirValoresApósEnvioComSucesso(NotaFiscal.NotaFiscal notaFiscal, QrCode qrCode, TProtNFe protocolo)
+        private static Domain.NotaFiscal AtribuirValoresApósEnvioComSucesso(Domain.NotaFiscal notaFiscal, QrCode qrCode, TProtNFe protocolo)
         {
             var dataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto, DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
@@ -146,7 +146,7 @@ namespace NFe.Core.NotasFiscais.Services
             return notaFiscal;
         }
 
-        public bool IsNotaFiscalValida(NotaFiscal.NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado)
+        public bool IsNotaFiscalValida(Domain.NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado)
         {
             var refUri = "#NFe" + notaFiscal.Identificacao.Chave;
             var digVal = "";

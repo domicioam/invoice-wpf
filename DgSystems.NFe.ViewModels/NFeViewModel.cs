@@ -16,7 +16,7 @@ using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Repository.Repositories;
 using NFe.WPF.Commands;
 using NFe.WPF.Events;
@@ -25,7 +25,7 @@ using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
-using NFeCoreModelo = NFe.Core.NotaFiscal.Modelo;
+using NFeCoreModelo = NFe.Core.Domain.Modelo;
 
 namespace DgSystems.NFe.ViewModels
 {

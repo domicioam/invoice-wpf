@@ -1,9 +1,9 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public enum FormaPagamento
     {

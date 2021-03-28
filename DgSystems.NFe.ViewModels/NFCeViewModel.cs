@@ -15,13 +15,13 @@ using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
-using NFeCoreModelo = NFe.Core.NotaFiscal.Modelo;
+using NFeCoreModelo = NFe.Core.Domain.Modelo;
 
 namespace DgSystems.NFe.ViewModels
 {

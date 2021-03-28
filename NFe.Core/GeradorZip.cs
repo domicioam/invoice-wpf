@@ -1,5 +1,5 @@
 ﻿using NFe.Core.Interfaces;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.PDF;

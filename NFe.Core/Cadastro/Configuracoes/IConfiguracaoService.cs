@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 
 namespace NFe.Core.Cadastro.Configuracoes
 {

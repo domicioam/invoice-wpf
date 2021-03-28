@@ -1,7 +1,7 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using System;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     public enum TipoDestinatario
     {

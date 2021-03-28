@@ -9,7 +9,7 @@ using NFe.Core.Domain;
 using NFe.Core.NotasFiscais;
 using static NFe.Core.Icms;
 
-namespace NFe.Core.NotaFiscal
+namespace NFe.Core.Domain
 {
     /*
      * Domain model

@@ -1,4 +1,4 @@
-﻿using NFe.Core.NotaFiscal;
+﻿using NFe.Core.Domain;
 using NFe.Core.Sefaz;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 using System;
@@ -17,7 +17,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new CofinsCreator();
 
-            NFe.Core.NotaFiscal.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
+            NFe.Core.Domain.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(0, 0);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)icmsCreator.Create(imposto);
             var detCofins01 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -33,7 +33,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var cofinsCreator = new CofinsCreator();
 
-            NotaFiscal.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(baseCalculo, aliquota);
+            Domain.Interface.Imposto imposto = new CofinsCumulativoNaoCumulativo(baseCalculo, aliquota);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)cofinsCreator.Create(imposto);
             var detCofins01 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -47,7 +47,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var icmsCreator = new CofinsCreator();
 
-            NotaFiscal.Interface.Imposto imposto = new CofinsAliquotaDiferenciada(0, 0);
+            Domain.Interface.Imposto imposto = new CofinsAliquotaDiferenciada(0, 0);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)icmsCreator.Create(imposto);
             var detCofins02 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -63,7 +63,7 @@ namespace NFe.Core.UnitTests.Sefaz
         {
             var cofinsCreator = new CofinsCreator();
 
-            NotaFiscal.Interface.Imposto imposto = new CofinsAliquotaDiferenciada(baseCalculo, aliquota);
+            Domain.Interface.Imposto imposto = new CofinsAliquotaDiferenciada(baseCalculo, aliquota);
             var detImposto = (TNFeInfNFeDetImpostoCOFINS)cofinsCreator.Create(imposto);
             var detCofins02 = (TNFeInfNFeDetImpostoCOFINSCOFINSAliq)detImposto.Item;
 
@@ -76,7 +76,7 @@ namespace NFe.Core.UnitTests.Sefaz
         public void Should_throw_exception_when_cofins_type_is_wrong()
         {
             var cofinsCreator = new CofinsCreator();
-            NotaFiscal.Interface.Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0,0,new NotasFiscais.FundoCombatePobreza(0,0), OrigemMercadoria.Nacional);
+            Domain.Interface.Imposto imposto = new IcmsCobradoAnteriormentePorSubstituicaoTributaria(0,0,new NotasFiscais.FundoCombatePobreza(0,0), OrigemMercadoria.Nacional);
 
             Assert.Throws<ArgumentException>(() => cofinsCreator.Create(imposto));
         }

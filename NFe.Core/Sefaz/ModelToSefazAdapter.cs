@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using NFe.Core.Extensions;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Impostos.Icms;
 using NFe.Core.Utils.Conversores.Enums;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
@@ -13,7 +13,7 @@ namespace NFe.Core.Sefaz
 {
     internal class ModelToSefazAdapter
     {
-        public static TEnviNFe GetLoteNFe(NotaFiscal.NotaFiscal notaFiscal)
+        public static TEnviNFe GetLoteNFe(Domain.NotaFiscal notaFiscal)
         {
             var ide = GetIdentificacao(notaFiscal);
             var emit = GetEmitente(notaFiscal);
@@ -65,12 +65,12 @@ namespace NFe.Core.Sefaz
             return lote;
         }
 
-        private static bool IsNfce(NotaFiscal.NotaFiscal notaFiscal)
+        private static bool IsNfce(Domain.NotaFiscal notaFiscal)
         {
             return notaFiscal.Identificacao.Modelo == Modelo.Modelo65;
         }
 
-        private static TNFeInfNFeTotal GetTotal(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeTotal GetTotal(Domain.NotaFiscal notaFiscal)
         {
             var total = new TNFeInfNFeTotal
             {
@@ -82,7 +82,7 @@ namespace NFe.Core.Sefaz
             return total;
         }
 
-        private static TNFeInfNFeTotalRetTrib ConvertTributosFederais(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeTotalRetTrib ConvertTributosFederais(Domain.NotaFiscal notaFiscal)
         {
             var retencaoTributosFederais = notaFiscal.TotalNFe.RetencaoTributosFederais;
             if (retencaoTributosFederais == null) return null;
@@ -99,7 +99,7 @@ namespace NFe.Core.Sefaz
             };
         }
 
-        private static TNFeInfNFeTotalISSQNtot ConvertIssqn(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeTotalISSQNtot ConvertIssqn(Domain.NotaFiscal notaFiscal)
         {
             var issqnTotal = notaFiscal.TotalNFe.IssqnTotal;
             if (issqnTotal == null) return null;
@@ -121,7 +121,7 @@ namespace NFe.Core.Sefaz
             };
         }
 
-        public static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(NotaFiscal.NotaFiscal notaFiscal)
+        public static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(Domain.NotaFiscal notaFiscal)
         {
             notaFiscal.TotalNFe.IcmsTotal = CalculateIcmsTotal(notaFiscal.Produtos);
 
@@ -228,7 +228,7 @@ namespace NFe.Core.Sefaz
             return icmsTotal;
         }
 
-        private static TNFeInfNFeInfAdic GetInformacaoAdicional(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeInfAdic GetInformacaoAdicional(Domain.NotaFiscal notaFiscal)
         {
             var infAdic = new TNFeInfNFeInfAdic
             {
@@ -239,7 +239,7 @@ namespace NFe.Core.Sefaz
             return infAdic;
         }
 
-        private static TNFeInfNFeTransp GetTransporte(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeTransp GetTransporte(Domain.NotaFiscal notaFiscal)
         {
             var transp = new TNFeInfNFeTransp
             {
@@ -278,7 +278,7 @@ namespace NFe.Core.Sefaz
             return transp;
         }
 
-        private static TNFeInfNFePag GetPagamento(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFePag GetPagamento(Domain.NotaFiscal notaFiscal)
         {
             return notaFiscal.Pagamentos == null
                 ? null
@@ -292,7 +292,7 @@ namespace NFe.Core.Sefaz
                 };
         }
 
-        private static TNFeInfNFeIde GetIdentificacao(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeIde GetIdentificacao(Domain.NotaFiscal notaFiscal)
         {
             var ide = new TNFeInfNFeIde
             {
@@ -325,13 +325,13 @@ namespace NFe.Core.Sefaz
             return ide;
         }
 
-        private static bool IsContingency(NotaFiscal.NotaFiscal notaFiscal)
+        private static bool IsContingency(Domain.NotaFiscal notaFiscal)
         {
             return notaFiscal.Identificacao.TipoEmissao == TipoEmissao.ContigenciaNfce ||
                    notaFiscal.Identificacao.TipoEmissao == TipoEmissao.FsDa;
         }
 
-        private static TNFeInfNFeEmit GetEmitente(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeEmit GetEmitente(Domain.NotaFiscal notaFiscal)
         {
             var emit = new TNFeInfNFeEmit
             {
@@ -360,7 +360,7 @@ namespace NFe.Core.Sefaz
             return emit;
         }
 
-        private static TNFeInfNFeDest GetDestinatario(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeDest GetDestinatario(Domain.NotaFiscal notaFiscal)
         {
             var dest = new TNFeInfNFeDest {Item = notaFiscal.Destinatario.Documento.Numero};
 
@@ -410,7 +410,7 @@ namespace NFe.Core.Sefaz
         }
 
         // Volatilidade no preechimento do produto, usar polimorfismo + factory ou strategy
-        private static TNFeInfNFeDet[] GetDetalhamentoProdutos(NotaFiscal.NotaFiscal notaFiscal)
+        private static TNFeInfNFeDet[] GetDetalhamentoProdutos(Domain.NotaFiscal notaFiscal)
         {
             var detList = new List<TNFeInfNFeDet>();
 
@@ -468,7 +468,7 @@ namespace NFe.Core.Sefaz
             return detList.ToArray();
         }
 
-        private static bool ProdutoÉCombustível(NotaFiscal.NotaFiscal notaFiscal, int i)
+        private static bool ProdutoÉCombustível(Domain.NotaFiscal notaFiscal, int i)
         {
             return notaFiscal.Identificacao.Modelo != Modelo.Modelo65 && notaFiscal.Produtos[i].Ncm.Equals("27111910");
         }

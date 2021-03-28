@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NFe.Core.Extensions;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core
 {
-    public abstract class CofinsBase : NFe.Core.NotaFiscal.Interface.Imposto
+    public abstract class CofinsBase : NFe.Core.Domain.Interface.Imposto
     {
         protected CofinsBase(CstEnum cst)
         {

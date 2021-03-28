@@ -4,7 +4,7 @@ using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Messaging;
-using NFe.Core.NotaFiscal;
+using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.Utils.PDF;
 using NFe.WPF.ViewModel.Base;
@@ -19,9 +19,9 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private NFe.Core.NotaFiscal.NotaFiscal _notaFiscal;
+        private NFe.Core.Domain.NotaFiscal _notaFiscal;
         private string _documentoDestinatario;
-        private NFe.Core.NotaFiscal.NotaFiscal _notaFiscalBO;
+        private NFe.Core.Domain.NotaFiscal _notaFiscalBO;
 
         public ICommand EmitirSegundaViaCmd { get; set; }
         public ICommand CancelarNotaCmd { get; set; }
@@ -35,7 +35,7 @@ namespace NFe.WPF.ViewModel
         public string Modelo { get; private set; }
         public string Numero { get; private set; }
 
-        public NFe.Core.NotaFiscal.NotaFiscal NotaFiscal
+        public NFe.Core.Domain.NotaFiscal NotaFiscal
         {
             get
             {
@@ -70,7 +70,7 @@ namespace NFe.WPF.ViewModel
         public string NaturezaOperacao { get; private set; }
         public string Serie { get; private set; }
 
-        internal void VisualizarNotaFiscal(NFe.Core.NotaFiscal.NotaFiscal notaFiscal)
+        internal void VisualizarNotaFiscal(NFe.Core.Domain.NotaFiscal notaFiscal)
         {
             NotaFiscal = notaFiscal;
 
@@ -81,7 +81,7 @@ namespace NFe.WPF.ViewModel
             DataAutorizacao = notaFiscal.DhAutorizacao;
             DataEmissao = notaFiscal.Identificacao.DataHoraEmissao;
             Chave = notaFiscal.Identificacao.Chave.ToString();
-            Modelo = notaFiscal.Identificacao.Modelo == NFe.Core.NotaFiscal.Modelo.Modelo55 ? "NF-e" : "NFC-e";
+            Modelo = notaFiscal.Identificacao.Modelo == NFe.Core.Domain.Modelo.Modelo55 ? "NF-e" : "NFC-e";
             Numero = notaFiscal.Identificacao.Numero;
 
             Pagamentos = new ObservableCollection<PagamentoModel>();

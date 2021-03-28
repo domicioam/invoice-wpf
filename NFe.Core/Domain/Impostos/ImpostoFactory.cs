@@ -13,7 +13,7 @@ namespace NFe.Core.NotasFiscal.Impostos
 {
     class ImpostoFactory
     {
-        internal NFe.Core.NotaFiscal.Interface.Imposto CreateImposto(Domain.Imposto imposto)
+        internal NFe.Core.Domain.Interface.Imposto CreateImposto(Domain.Imposto imposto)
         {
             OrigemMercadoria origem;
 

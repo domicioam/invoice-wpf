@@ -1,4 +1,4 @@
-﻿namespace NFe.Core.NotaFiscal
+﻿namespace NFe.Core.Domain
 {
     internal enum CodMunicipioIBGE
     {
