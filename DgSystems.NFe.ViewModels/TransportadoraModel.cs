@@ -78,28 +78,28 @@ namespace EmissorNFe.Model
 
         public static explicit operator TransportadoraEntity(TransportadoraModel transportadoraModel)
         {
-            var transportadoraEntity = new TransportadoraEntity();
-            transportadoraEntity.CpfCnpj = transportadoraModel.CpfCnpj;
-            transportadoraEntity.Endereco = (EnderecoTransportadoraEntity)transportadoraModel.Endereco;
-            transportadoraEntity.IsPessoaJuridica = transportadoraModel.IsPessoaJuridica;
-            transportadoraEntity.NomeRazao = transportadoraModel.NomeRazao;
-            transportadoraEntity.InscricaoEstadual = transportadoraModel.InscricaoEstadual;
-            transportadoraEntity.Id = transportadoraModel.Id;
-
-            return transportadoraEntity;
+            return new TransportadoraEntity
+            {
+                CpfCnpj = transportadoraModel.CpfCnpj,
+                Endereco = (EnderecoTransportadoraEntity)transportadoraModel.Endereco,
+                IsPessoaJuridica = transportadoraModel.IsPessoaJuridica,
+                NomeRazao = transportadoraModel.NomeRazao,
+                InscricaoEstadual = transportadoraModel.InscricaoEstadual,
+                Id = transportadoraModel.Id
+            };
         }
 
         public static explicit operator TransportadoraModel(TransportadoraEntity transportadoraEntity)
         {
-            var transportadoraModel = new TransportadoraModel();
-            transportadoraModel.CpfCnpj = transportadoraEntity.CpfCnpj;
-            transportadoraModel.Endereco = (EnderecoTransportadoraModel)transportadoraEntity.Endereco;
-            transportadoraModel.IsPessoaJuridica = transportadoraEntity.IsPessoaJuridica;
-            transportadoraModel.NomeRazao = transportadoraEntity.NomeRazao;
-            transportadoraModel.InscricaoEstadual = transportadoraEntity.InscricaoEstadual;
-            transportadoraModel.Id = transportadoraEntity.Id;
-
-            return transportadoraModel;
+            return new TransportadoraModel
+            {
+                CpfCnpj = transportadoraEntity.CpfCnpj,
+                Endereco = (EnderecoTransportadoraModel)transportadoraEntity.Endereco,
+                IsPessoaJuridica = transportadoraEntity.IsPessoaJuridica,
+                NomeRazao = transportadoraEntity.NomeRazao,
+                InscricaoEstadual = transportadoraEntity.InscricaoEstadual,
+                Id = transportadoraEntity.Id
+            };
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using EmissorNFe.Model.Base;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NFe.Core.Entitities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmissorNFe.Model
 {
@@ -66,26 +61,26 @@ namespace EmissorNFe.Model
 
         public static explicit operator EnderecoTransportadoraEntity(EnderecoTransportadoraModel enderecoModel)
         {
-            var enderecoEntity = new EnderecoTransportadoraEntity();
-            enderecoEntity.Bairro = enderecoModel.Bairro;
-            enderecoEntity.Logradouro = enderecoModel.Logradouro;
-            enderecoEntity.Municipio = enderecoModel.Municipio;
-            enderecoEntity.Numero = enderecoModel.Numero;
-            enderecoEntity.UF = enderecoModel.UF;
-
-            return enderecoEntity;
+            return new EnderecoTransportadoraEntity
+            {
+                Bairro = enderecoModel.Bairro,
+                Logradouro = enderecoModel.Logradouro,
+                Municipio = enderecoModel.Municipio,
+                Numero = enderecoModel.Numero,
+                UF = enderecoModel.UF
+            };
         }
 
         public static explicit operator EnderecoTransportadoraModel(EnderecoTransportadoraEntity endEntity)
         {
-            var enderecoModel = new EnderecoTransportadoraModel();
-            enderecoModel.Bairro = endEntity.Bairro;
-            enderecoModel.Logradouro = endEntity.Logradouro;
-            enderecoModel.Municipio = endEntity.Municipio;
-            enderecoModel.Numero = endEntity.Numero;
-            enderecoModel.UF = endEntity.UF;
-
-            return enderecoModel;
+            return new EnderecoTransportadoraModel
+            {
+                Bairro = endEntity.Bairro,
+                Logradouro = endEntity.Logradouro,
+                Municipio = endEntity.Municipio,
+                Numero = endEntity.Numero,
+                UF = endEntity.UF
+            };
         }
     }
 }

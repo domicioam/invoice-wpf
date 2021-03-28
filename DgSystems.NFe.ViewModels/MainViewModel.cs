@@ -17,10 +17,7 @@ namespace EmissorNFe.ViewModel
 
         private void LoadedCmd_Execute()
         {
-            Task.Run(() =>
-            {
-                _modoOnlineService.StartTimer();
-            });
+            Task.Run(() => _modoOnlineService.StartTimer());
 
             _mailManager.EnviarNotasParaContabilidade(diaParaEnvio);
         }

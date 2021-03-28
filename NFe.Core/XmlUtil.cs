@@ -76,15 +76,15 @@ namespace NFe.Core.Sefaz
             var result = Serialize(nfeProc, nFeNamespaceName).Replace("<motDesICMS>1</motDesICMS>", string.Empty);
 
             if (nfeProc.NFe.infNFeSupl != null)
-                result = result.Replace("<qrCode />", "<qrCode>" + urlQrCode + "</qrCode>")
-                    .Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
+            {
+                return result.Replace("<qrCode />", "<qrCode>" + urlQrCode + "</qrCode>")
+                   .Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
+            }
             else
-                result = result.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
-
-            return result;
+            {
+                return result.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
+            }
         }
-
-
 
         public static string GerarXmlLoteNFe(NotaFiscal notaFiscal, string nFeNamespaceName)
         {

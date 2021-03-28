@@ -103,8 +103,7 @@ namespace NFe.WPF.ViewModel
             if (DestinatarioParaSalvar == null)
             {
                 DestinatarioParaSalvar = new DestinatarioModel() { IsNFe = isNFe };
-                var emitenteUf = _emissorService.GetEmissor().Endereco.UF;
-                DestinatarioParaSalvar.Endereco.UF = emitenteUf;
+                DestinatarioParaSalvar.Endereco.UF = _emissorService.GetEmissor().Endereco.UF;
                 UfSelecionadoCmd_Execute();
             }
             else

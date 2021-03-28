@@ -65,30 +65,30 @@ namespace EmissorNFe.Model
 
         public static explicit operator EnderecoDestinatarioModel(EnderecoDestinatarioEntity endTO)
         {
-            var enderecoModel = new EnderecoDestinatarioModel();
-            enderecoModel.Id = endTO.Id;
-            enderecoModel.Bairro = endTO.Bairro;
-            enderecoModel.Logradouro = endTO.Logradouro;
-            enderecoModel.Municipio = endTO.Municipio;
-            enderecoModel.Numero = endTO.Numero;
-            enderecoModel.UF = endTO.UF;
-            enderecoModel.CEP = endTO.CEP;
-
-            return enderecoModel;
+            return new EnderecoDestinatarioModel
+            {
+                Id = endTO.Id,
+                Bairro = endTO.Bairro,
+                Logradouro = endTO.Logradouro,
+                Municipio = endTO.Municipio,
+                Numero = endTO.Numero,
+                UF = endTO.UF,
+                CEP = endTO.CEP
+            };
         }
 
         public static explicit operator EnderecoDestinatarioEntity(EnderecoDestinatarioModel endModel)
         {
-            var endTO = new EnderecoDestinatarioEntity();
-            endTO.Id = endModel.Id;
-            endTO.Bairro = endModel.Bairro;
-            endTO.Logradouro = endModel.Logradouro;
-            endTO.Municipio = endModel.Municipio;
-            endTO.Numero = endModel.Numero;
-            endTO.UF = endModel.UF;
-            endTO.CEP = endModel.CEP;
-
-            return endTO;
+            return new EnderecoDestinatarioEntity
+            {
+                Id = endModel.Id,
+                Bairro = endModel.Bairro,
+                Logradouro = endModel.Logradouro,
+                Municipio = endModel.Municipio,
+                Numero = endModel.Numero,
+                UF = endModel.UF,
+                CEP = endModel.CEP
+            };
         }
     }
 }

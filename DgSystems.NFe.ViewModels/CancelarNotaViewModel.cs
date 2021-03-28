@@ -74,7 +74,7 @@ namespace NFe.WPF.ViewModel
 
                     var theEvent = new NotaFiscalCanceladaEvent() { NotaFiscal = notaCancelada };
                     MessagingCenter.Send(this, nameof(NotaFiscalCanceladaEvent), theEvent);
-                    
+
                     MessageBox.Show("Nota cancelada com sucesso!", "Sucesso!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -139,7 +139,7 @@ namespace NFe.WPF.ViewModel
                     }
                     else
                     {
-                        System.Windows.MessageBox.Show("Houve um erro ao tentar cancelar a nota. Tente novamente e, se o erro persistir, contate o suporte." + "\n\n" + mensagemRetorno.Mensagem, "Erro!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Houve um erro ao tentar cancelar a nota. Tente novamente e, se o erro persistir, contate o suporte.\n\n" + mensagemRetorno.Mensagem, "Erro!", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }
@@ -175,7 +175,7 @@ namespace NFe.WPF.ViewModel
                     }
                     else
                     {
-                        MessageBox.Show("Houve um erro ao tentar cancelar a nota. Tente novamente e, se o erro persistir, contate o suporte." + "\n\n" + mensagemRetorno.Mensagem, "Erro!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Houve um erro ao tentar cancelar a nota. Tente novamente e, se o erro persistir, contate o suporte.\n\n" + mensagemRetorno.Mensagem, "Erro!", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
             }

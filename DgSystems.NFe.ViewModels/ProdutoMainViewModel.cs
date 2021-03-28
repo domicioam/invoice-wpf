@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using DgSystems.NFe.ViewModels.Commands;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.WPF.Events;
+using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows.Input;
 
 namespace NFe.WPF.ViewModel
 {
@@ -17,7 +14,7 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private IDialogService _dialogService;
+        private readonly IDialogService _dialogService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly ProdutoViewModel _produtoViewModel;
         public ObservableCollection<ProdutoListItem> Produtos { get; set; }
@@ -37,10 +34,7 @@ namespace NFe.WPF.ViewModel
 
             _produtoRepository = produtoRepository;
 
-            MessagingCenter.Subscribe<ProdutoViewModel, ProdutoAdicionadoEvent>(this, nameof(ProdutoAdicionadoEvent), (s, e) =>
-            {
-                ProdutoVM_ProdutoAdicionadoEvent();
-            });
+            MessagingCenter.Subscribe<ProdutoViewModel, ProdutoAdicionadoEvent>(this, nameof(ProdutoAdicionadoEvent), (s, e) => ProdutoVM_ProdutoAdicionadoEvent());
 
             _produtoViewModel = produtoViewModel;
         }
@@ -79,9 +73,7 @@ namespace NFe.WPF.ViewModel
         {
             Produtos.Clear();
 
-            var produtos = _produtoRepository.GetAll();
-
-            foreach (var produtoDb in produtos)
+            foreach (var produtoDb in _produtoRepository.GetAll())
             {
                 var listItem = new ProdutoListItem()
                 {
