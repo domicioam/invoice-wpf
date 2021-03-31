@@ -63,7 +63,7 @@ namespace DgSystem.NFe.IoC
 
             container.Register<IDialogService, MessageService>(Lifestyle.Transient);
 
-            container.Register<IConsultarNotaFiscalService, NFeConsulta>(Lifestyle.Transient);
+            container.Register<IConsultarNotaFiscalService, ConsultarNotaFiscalService>(Lifestyle.Transient);
             container.Register<RijndaelManagedEncryption>(Lifestyle.Transient);
             container.Register<ICertificateManager, CertificateManager>(Lifestyle.Transient);
             container.Register<IEnviarNotaAppService, EnviarNotaAppService>(Lifestyle.Transient);
