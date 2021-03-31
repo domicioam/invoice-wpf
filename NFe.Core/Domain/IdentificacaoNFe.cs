@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using NFe.Core.Entitities;
-using NFe.Core.Domain;
 
 namespace NFe.Core.Domain
 {

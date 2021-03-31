@@ -85,6 +85,8 @@
     <Compile Include="NFeCancelamento.cs" />
     <Compile Include="NFeConsulta.cs" />
     <Compile Include="NFeInutilizacao.cs" />
+    <Compile Include="NFeStatusServico.cs" />
+    <Compile Include="NotaInutilizadaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

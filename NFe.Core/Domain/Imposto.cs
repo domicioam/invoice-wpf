@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DgSystems.NFe.Core.Cadastro;
-using NFe.Core.Cadastro.Imposto;
+﻿using DgSystems.NFe.Core.Cadastro;
 
 namespace NFe.Core.Domain
 {
