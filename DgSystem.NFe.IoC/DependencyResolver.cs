@@ -99,7 +99,7 @@ namespace DgSystem.NFe.IoC
             container.Register<GeradorPDF>(Lifestyle.Transient);
             container.Register<ITransportadoraService, TransportadoraService>(Lifestyle.Transient);
             container.Register<SefazSettings>(Lifestyle.Transient);
-            container.Register<InutilizarNotaFiscalFacade>(Lifestyle.Transient);
+            container.Register<InutilizarNotaFiscalService>(Lifestyle.Transient);
             container.Register<XmlUtil>(Lifestyle.Transient);
 
             container.Verify();

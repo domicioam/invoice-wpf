@@ -80,7 +80,7 @@
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="EnviarNotaService.cs" />
     <Compile Include="ImportadorXmlService.cs" />
-    <Compile Include="InutilizarNotaFiscalFacade.cs" />
+    <Compile Include="InutilizarNotaFiscalService.cs" />
     <Compile Include="ModoOnlineService.cs" />
     <Compile Include="ConsultarNotaFiscalService.cs" />
     <Compile Include="NotaInutilizadaService.cs" />

@@ -12,20 +12,30 @@ using Status = NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status;
 
 namespace NFe.Core.Sefaz.Facades
 {
-    public class InutilizarNotaFiscalFacade : IInutilizarNotaFiscalService
+    public class InutilizarNotaFiscalService : IInutilizarNotaFiscalService
     {
-        private INotaInutilizadaService _notaInutilizadaService;
-        private SefazSettings _sefazSettings;
-        private ICertificadoService _certificadoService;
-        private IServiceFactory _serviceFactory;
+        private readonly INotaInutilizadaService _notaInutilizadaService;
+        private readonly SefazSettings _sefazSettings;
+        private readonly ICertificadoService _certificadoService;
+        private readonly IServiceFactory _serviceFactory;
+
+        public InutilizarNotaFiscalService(INotaInutilizadaService notaInutilizadaService, SefazSettings sefazSettings, ICertificadoService certificadoService, IServiceFactory serviceFactory)
+        {
+            _notaInutilizadaService = notaInutilizadaService;
+            _sefazSettings = sefazSettings;
+            _certificadoService = certificadoService;
+            _serviceFactory = serviceFactory;
+        }
+
+        protected InutilizarNotaFiscalService()
+        {
+
+        }
 
         public virtual MensagemRetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota,
             string serie, string numeroInicial, string numeroFinal)
         {
-            // Pegar ambiente no App.Config
-            var mensagemRetorno = InutilizarNotaFiscal(ufEmitente, codigoUf, _sefazSettings.Ambiente, cnpjEmitente,
-                modeloNota,
-                serie, numeroInicial, numeroFinal);
+            var mensagemRetorno = InutilizarNotaFiscal(ufEmitente, codigoUf, _sefazSettings.Ambiente, cnpjEmitente, modeloNota, serie, numeroInicial, numeroFinal);
 
             if (mensagemRetorno.Status != Status.ERRO)
             {
@@ -46,36 +56,27 @@ namespace NFe.Core.Sefaz.Facades
             return mensagemRetorno;
         }
 
-        public InutilizarNotaFiscalFacade(INotaInutilizadaService notaInutilizadaService, SefazSettings sefazSettings, ICertificadoService certificadoService, IServiceFactory serviceFactory)
-        {
-            _notaInutilizadaService = notaInutilizadaService;
-            _sefazSettings = sefazSettings;
-            _certificadoService = certificadoService;
-            _serviceFactory = serviceFactory;
-        }
-
-        protected InutilizarNotaFiscalFacade()
-        {
-
-        }
-
         private MensagemRetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, Ambiente ambiente, string cnpjEmitente, Modelo modeloNota,
             string serie, string numeroInicial, string numeroFinal)
         {
-            var inutNFe = new Envio.TInutNFe();
-            inutNFe.versao = "4.00";
+            var inutNFe = new Envio.TInutNFe
+            {
+                versao = "4.00"
+            };
 
-            var infInut = new Envio.TInutNFeInfInut();
-            infInut.tpAmb = (Envio.TAmb)(int)ambiente;
-            infInut.xServ = Envio.TInutNFeInfInutXServ.INUTILIZAR;
-            infInut.cUF = (Envio.TCodUfIBGE)(int)UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(ufEmitente);
-            infInut.ano = DateTime.Now.ToString("yy");
-            infInut.CNPJ = cnpjEmitente;
-            infInut.mod = (Envio.TMod)(int)modeloNota;
-            infInut.serie = serie;
-            infInut.nNFIni = numeroInicial;
-            infInut.nNFFin = numeroFinal;
-            infInut.xJust = "Não usada, quebra de sequência.";
+            var infInut = new Envio.TInutNFeInfInut
+            {
+                tpAmb = (Envio.TAmb)(int)ambiente,
+                xServ = Envio.TInutNFeInfInutXServ.INUTILIZAR,
+                cUF = (Envio.TCodUfIBGE)(int)UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(ufEmitente),
+                ano = DateTime.Now.ToString("yy"),
+                CNPJ = cnpjEmitente,
+                mod = (Envio.TMod)(int)modeloNota,
+                serie = serie,
+                nNFIni = numeroInicial,
+                nNFFin = numeroFinal,
+                xJust = "Não usada, quebra de sequência."
+            };
 
             var cUF = infInut.cUF.ToString().Replace("Item", string.Empty);
             var modelo = modeloNota.ToString().Replace("Modelo", string.Empty);
@@ -97,8 +98,6 @@ namespace NFe.Core.Sefaz.Facades
 
             if (retorno.infInut.cStat.Equals("102"))
             {
-                var procInut = new Retorno.ProcInut.TProcInutNFe();
-
                 var procSerialized = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ProcInutNFe versao=\"4.00\" xmlns=\"http://www.portalfiscal.inf.br/nfe\">"
                     + node.OuterXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
                     + result.OuterXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
