@@ -53,7 +53,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var nfeConsulta = new Mock<IConsultarNotaFiscalService>().Object;
             var certificateManager = certificadoManagerMock.Object;
 
-            var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
+            var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
             var emissorService = new Mock<IEmissorService>().Object;
             var certificadoService = new Mock<ICertificadoService>().Object;
@@ -112,7 +112,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var nfeConsulta = new Mock<IConsultarNotaFiscalService>().Object;
             var notaFiscalContingenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>().Object;
 
-            var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
+            var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
             var modoOnlineService = new ModoOnlineService(
@@ -154,7 +154,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var serviceFactory = serviceFactoryMock.Object;
             var nfeConsulta = new Mock<IConsultarNotaFiscalService>().Object;
             var certificateManager = certificadoManagerMock.Object;
-            var consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
+            var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
             var emissorService = new Mock<IEmissorService>().Object;
             var certificadoService = new Mock<ICertificadoService>().Object;

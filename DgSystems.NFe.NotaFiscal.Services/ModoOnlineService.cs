@@ -14,12 +14,12 @@ namespace NFe.Core.NotasFiscais.Services
     {
         private static Timer _timer;
         private readonly IConfiguracaoRepository _configuracaoRepository;
-        private readonly IConsultaStatusServicoFacade _consultaStatusServicoService;
+        private readonly IConsultaStatusServicoSefazService _consultaStatusServicoService;
         private bool _isOnline;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        public ModoOnlineService(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoFacade consultaStatusServicoService,
+        public ModoOnlineService(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             _notaFiscalRepository = notaFiscalRepository;

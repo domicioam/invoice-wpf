@@ -16,7 +16,7 @@ namespace NFe.Core.UnitTests.ModoOnlineService
             var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
             IConfiguracaoRepository configuracaoRepository = new ConfiguracaoRepositoryFake();
-            IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
+            IConsultaStatusServicoSefazService consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService(
@@ -38,7 +38,7 @@ namespace NFe.Core.UnitTests.ModoOnlineService
             var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;
             IConfiguracaoRepository configuracaoRepository = new ConfiguracaoRepositoryFake();
-            IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
+            IConsultaStatusServicoSefazService consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
 
             var modoOnlineService = new NotasFiscais.Services.ModoOnlineService( configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, emiteNotaFiscalContingenciaService);
@@ -67,7 +67,7 @@ namespace NFe.Core.UnitTests.ModoOnlineService
             var notaFiscalServiceMock = new Mock<IEnviaNotaFiscalService>();
             IEnviaNotaFiscalService enviaNotaFiscalService = notaFiscalServiceMock.Object;
             IConfiguracaoRepository configuracaoRepository = new ConfiguracaoRepositoryFake();
-            IConsultaStatusServicoFacade consultaStatusServicoService = new Mock<IConsultaStatusServicoFacade>().Object;
+            IConsultaStatusServicoSefazService consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
             INotaFiscalRepository notaFiscalRepository = new Mock<INotaFiscalRepository>().Object;
             var notaFiscalContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService = notaFiscalContingenciaServiceMock.Object;

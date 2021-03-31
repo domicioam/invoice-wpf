@@ -10,31 +10,30 @@ using NFe.Core.XMLSchemas.NfeStatusServico2.Envio;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeStatusServico2
 {
-    public static class NFeStatusServico
+    public class NFeStatusServicoService
     {
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static bool ExecutarConsultaStatus(CodigoUfIbge codigoUF, Ambiente ambiente, X509Certificate2 certificado, Modelo modelo)
+        public bool ConsultarStatus(CodigoUfIbge codigoUF, Ambiente ambiente, X509Certificate2 certificado, Modelo modelo)
         {
-            XmlNode node = null;
-
             try
             {
-                var parametro = new TConsStatServ();
-                parametro.cUF = TCodUfIBGEConversor.ToTCodUfIBGE(codigoUF);
-                parametro.tpAmb = ambiente == Ambiente.Homologacao ? TAmb.Item2 : TAmb.Item1;
-                parametro.versao = "4.00";
-                parametro.xServ = TConsStatServXServ.STATUS;
+                var parametro = new TConsStatServ
+                {
+                    cUF = TCodUfIBGEConversor.ToTCodUfIBGE(codigoUF),
+                    tpAmb = ambiente == Ambiente.Homologacao ? TAmb.Item2 : TAmb.Item1,
+                    versao = "4.00",
+                    xServ = TConsStatServXServ.STATUS
+                };
 
-                string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
+                const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
                 string parametroXML = XmlUtil.Serialize(parametro, nFeNamespaceName);
 
                 XmlDocument doc = new XmlDocument();
                 XmlReader reader = XmlReader.Create(new StringReader(parametroXML));
                 reader.MoveToContent();
 
-                node = doc.ReadNode(reader);
-
+                XmlNode node = doc.ReadNode(reader);
                 string endpoint = "";
 
                 if (modelo == Modelo.Modelo55)
