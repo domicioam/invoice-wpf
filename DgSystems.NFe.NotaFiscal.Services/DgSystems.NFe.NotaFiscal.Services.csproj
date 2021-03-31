@@ -74,7 +74,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CancelaNotaFiscalFacade.cs" />
+    <Compile Include="CancelaNotaFiscalService.cs" />
     <Compile Include="CertificateManager.cs" />
     <Compile Include="ConsultaStatusServicoSefazService.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
@@ -82,7 +82,6 @@
     <Compile Include="ImportadorXmlService.cs" />
     <Compile Include="InutilizarNotaFiscalFacade.cs" />
     <Compile Include="ModoOnlineService.cs" />
-    <Compile Include="NFeCancelamento.cs" />
     <Compile Include="NFeConsulta.cs" />
     <Compile Include="NFeInutilizacao.cs" />
     <Compile Include="NotaInutilizadaService.cs" />

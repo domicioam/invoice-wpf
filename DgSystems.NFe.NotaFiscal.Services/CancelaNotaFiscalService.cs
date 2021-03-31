@@ -1,8 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Xml;
-using NFe.Core.Cadastro.Certificado;
+using System.Globalization;
+using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
+using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
+using NFe.Core.Sefaz.Facades;
 using NFe.Core.NFeRecepcaoEvento4;
 using NFe.Core.Domain;
 using NFe.Core.Sefaz;
@@ -14,24 +15,62 @@ using Proc = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;
 using TEvento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TEvento;
 using TEventoInfEvento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TEventoInfEvento;
 using TEventoInfEventoDetEvento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TEventoInfEventoDetEvento;
+using NFe.Core.Cadastro.Certificado;
+using System.Xml;
+using System.Linq;
+using System.IO;
 
-namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
+namespace NFe.Core.NotasFiscais.Services
 {
-    public class NFeCancelamento : INFeCancelamento
+    public class CancelaNotaFiscalService : ICancelaNotaFiscalService
     {
+        private readonly IEventoService _eventoService;
+        private readonly INFeCancelamento _nfeCancelamento;
+        private readonly INotaFiscalRepository _notaFiscalRepository;
         private ICertificadoService _certificadoService;
         private IServiceFactory _serviceFactory;
         private SefazSettings _sefazSettings;
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeCancelamento(ICertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
+        public CancelaNotaFiscalService(INFeCancelamento nfeCancelamento, INotaFiscalRepository notaFiscalRepository,
+            IEventoService eventoService)
         {
-            _certificadoService = certificadoService;
-            _serviceFactory = serviceFactory;
-            _sefazSettings = sefazSettings;
+            _nfeCancelamento = nfeCancelamento;
+            _notaFiscalRepository = notaFiscalRepository;
+            _eventoService = eventoService;
         }
 
-        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
+        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
+        {
+            var resultadoCancelamento = _nfeCancelamento.CancelarNotaFiscal(dadosNotaParaCancelar.ufEmitente, dadosNotaParaCancelar.codigoUf,
+                dadosNotaParaCancelar.cnpjEmitente,
+                dadosNotaParaCancelar.chaveNFe,
+                dadosNotaParaCancelar.protocoloAutorizacao, dadosNotaParaCancelar.modeloNota, justificativa);
+
+            if (resultadoCancelamento.Status != StatusEvento.SUCESSO)
+                return resultadoCancelamento;
+
+            var notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalByChave(dadosNotaParaCancelar.chaveNFe);
+
+            _eventoService.Salvar(new EventoEntity
+            {
+                DataEvento = DateTime.ParseExact(resultadoCancelamento.DataEvento, "yyyy-MM-ddTHH:mm:sszzz",
+                    CultureInfo.InvariantCulture),
+                TipoEvento = resultadoCancelamento.TipoEvento,
+                Xml = resultadoCancelamento.Xml,
+                NotaId = notaFiscalEntity.Id,
+                ChaveIdEvento = resultadoCancelamento.IdEvento.Replace("ID", string.Empty),
+                MotivoCancelamento = resultadoCancelamento.MotivoCancelamento,
+                ProtocoloCancelamento = resultadoCancelamento.ProtocoloCancelamento
+            });
+
+            notaFiscalEntity.Status = (int)Status.CANCELADA;
+            _notaFiscalRepository.Salvar(notaFiscalEntity, null);
+
+            return resultadoCancelamento;
+        }
+
+        private MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
             string protocoloAutorizacao, Modelo modeloNota, string justificativa)
         {
             try

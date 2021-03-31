@@ -39,7 +39,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var eventoService = new Mock<IEventoService>();
 
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalFacade(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object);
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object);
 
             var fixture = new Fixture();
 
@@ -79,7 +79,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var notaFiscalRepository = new Mock<INotaFiscalRepository>();
             var eventoService = new Mock<IEventoService>();
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalFacade(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object);
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object);
 
             var fixture = new Fixture();
             var dadosNotaParaCancelar = fixture.Build<DadosNotaParaCancelar>().Create();
