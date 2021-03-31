@@ -1,8 +1,10 @@
 ﻿using AutoFixture;
 using Moq;
+using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz.Facades;
@@ -39,7 +41,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var eventoService = new Mock<IEventoService>();
 
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object);
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
 
             var fixture = new Fixture();
 
@@ -79,7 +81,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var notaFiscalRepository = new Mock<INotaFiscalRepository>();
             var eventoService = new Mock<IEventoService>();
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object);
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
 
             var fixture = new Fixture();
             var dadosNotaParaCancelar = fixture.Build<DadosNotaParaCancelar>().Create();

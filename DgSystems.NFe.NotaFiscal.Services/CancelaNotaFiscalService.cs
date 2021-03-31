@@ -27,17 +27,20 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly IEventoService _eventoService;
         private readonly INFeCancelamento _nfeCancelamento;
         private readonly INotaFiscalRepository _notaFiscalRepository;
-        private ICertificadoService _certificadoService;
+        private readonly ICertificadoService _certificadoService;
         private IServiceFactory _serviceFactory;
         private SefazSettings _sefazSettings;
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CancelaNotaFiscalService(INFeCancelamento nfeCancelamento, INotaFiscalRepository notaFiscalRepository,
-            IEventoService eventoService)
+            IEventoService eventoService, ICertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
         {
             _nfeCancelamento = nfeCancelamento;
             _notaFiscalRepository = notaFiscalRepository;
             _eventoService = eventoService;
+            _certificadoService = certificadoService;
+            _serviceFactory = serviceFactory;
+            _sefazSettings = sefazSettings;
         }
 
         public MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)

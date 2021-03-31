@@ -92,7 +92,6 @@ namespace DgSystem.NFe.IoC
             container.Register<IHistoricoEnvioContabilidadeRepository, HistoricoEnvioContabilidadeRepository>(Lifestyle.Transient);
             container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteNotaFiscalContingenciaFacade>(Lifestyle.Transient);
             container.Register<ICancelaNotaFiscalService, CancelaNotaFiscalService>(Lifestyle.Transient);
-            container.Register<NFeInutilizacao>(Lifestyle.Transient);
             container.Register<MailManager>(Lifestyle.Transient);
             container.Register<ModoOnlineService>(Lifestyle.Transient);
             container.Register<IDestinatarioService, DestinatarioService>(Lifestyle.Transient);

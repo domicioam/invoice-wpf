@@ -83,7 +83,6 @@
     <Compile Include="InutilizarNotaFiscalFacade.cs" />
     <Compile Include="ModoOnlineService.cs" />
     <Compile Include="ConsultarNotaFiscalService.cs" />
-    <Compile Include="NFeInutilizacao.cs" />
     <Compile Include="NotaInutilizadaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
