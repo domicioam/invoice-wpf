@@ -76,7 +76,7 @@
   <ItemGroup>
     <Compile Include="CancelaNotaFiscalFacade.cs" />
     <Compile Include="CertificateManager.cs" />
-    <Compile Include="ConsultaStatusServicoFacade.cs" />
+    <Compile Include="ConsultaStatusServicoSefazService.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="EnviarNotaService.cs" />
     <Compile Include="ImportadorXmlService.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="NFeCancelamento.cs" />
     <Compile Include="NFeConsulta.cs" />
     <Compile Include="NFeInutilizacao.cs" />
-    <Compile Include="NFeStatusServico.cs" />
+    <Compile Include="NFeStatusServicoService.cs" />
     <Compile Include="NotaInutilizadaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
