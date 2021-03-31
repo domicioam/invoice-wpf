@@ -5,16 +5,6 @@ using Evento = NFe.Core.NFeRecepcaoEvento4;
 
 namespace NFe.Core.NotasFiscais
 {
-    public enum Servico
-    {
-        CONSULTA,
-        ENVIO,
-        CANCELAMENTO,
-        STATUS,
-        INUTILIZACAO,
-        AUTORIZACAO,
-        RetAutorizacao
-    }
 
     public class ServiceFactory : IServiceFactory
     {
@@ -94,10 +84,5 @@ namespace NFe.Core.NotasFiscais
 
             return new Service() { SoapClient = soapClient };
         }
-    }
-
-    public class Service
-    {
-        public object SoapClient { get; set; }
     }
 }

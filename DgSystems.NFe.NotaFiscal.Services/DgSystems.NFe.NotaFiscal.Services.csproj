@@ -75,16 +75,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CancelaNotaFiscalService.cs" />
+    <Compile Include="CertificadoService.cs" />
     <Compile Include="CertificateManager.cs" />
+    <Compile Include="ConfiguracaoService.cs" />
     <Compile Include="ConsultaStatusServicoSefazService.cs" />
+    <Compile Include="DestinatarioService.cs" />
+    <Compile Include="EmissorService.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="EnviarNotaService.cs" />
+    <Compile Include="EventoService.cs" />
     <Compile Include="ImportadorXmlService.cs" />
     <Compile Include="InutilizarNotaFiscalService.cs" />
     <Compile Include="ModoOnlineService.cs" />
     <Compile Include="ConsultarNotaFiscalService.cs" />
     <Compile Include="NotaInutilizadaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceFactory.cs" />
+    <Compile Include="TransportadoraService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">

@@ -201,9 +201,7 @@
   <ItemGroup>
     <Compile Include="AssinaturaDigital.cs" />
     <Compile Include="Cadastro\Certificado\CertificadoRepository.cs" />
-    <Compile Include="Cadastro\Certificado\CertificadoService.cs" />
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
-    <Compile Include="Cadastro\Configuracoes\ConfiguracaoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
@@ -321,6 +319,8 @@
     <Compile Include="Domain\Services\IInutilizarNotaFiscalService.cs" />
     <Compile Include="QrCode.cs" />
     <Compile Include="ResultadoEnvio.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="Servico.cs" />
     <Compile Include="XmlNFe.cs" />
     <Compile Include="Domain\Impostos\IcmsCreator.cs" />
     <Compile Include="Domain\Impostos\IcmsUfDestinoDirector.cs" />
@@ -398,14 +398,12 @@
     <Compile Include="IServiceFactory.cs" />
     <Compile Include="Domain\Services\IConsultarNotaFiscalService.cs" />
     <Compile Include="INFeCancelamento.cs" />
-    <Compile Include="EventoService.cs" />
     <Compile Include="Domain\Services\ICancelarNotaFiscalService.cs" />
     <Compile Include="IConsultaStatusServicoService.cs" />
     <Compile Include="IEventoService.cs" />
     <Compile Include="Domain\Services\IEnviarNotaFiscalService.cs" />
     <Compile Include="INotaInutilizadaService.cs" />
     <Compile Include="NotaInutilizadaTO.cs" />
-    <Compile Include="Cadastro\Transportadora\TransportadoraService.cs" />
     <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -438,11 +436,9 @@
     </Compile>
     <Compile Include="MensagemRetornoTransmissaoNotasContingencia.cs" />
     <Compile Include="Domain\Destinatario.cs" />
-    <Compile Include="Cadastro\Destinatario\DestinatarioService.cs" />
     <Compile Include="Endereco.cs" />
     <Compile Include="Domain\CodMunicipioIBGE.cs" />
     <Compile Include="Domain\Emitente.cs" />
-    <Compile Include="Cadastro\Emissor\EmissorService.cs" />
     <Compile Include="Domain\Endereco.cs" />
     <Compile Include="Estado.cs" />
     <Compile Include="Ibpt.cs" />
@@ -458,7 +454,6 @@
     <Compile Include="Domain\Transportadora.cs" />
     <Compile Include="Domain\Transporte.cs" />
     <Compile Include="Domain\Veiculo.cs" />
-    <Compile Include="ServiceFactory.cs" />
     <Compile Include="MensagemRetornoEnvioNFe.cs" />
     <Compile Include="RetornoNotaFiscal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
