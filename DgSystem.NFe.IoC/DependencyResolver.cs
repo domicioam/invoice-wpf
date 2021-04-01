@@ -63,7 +63,6 @@ namespace DgSystem.NFe.IoC
             container.Register<IEnviaNotaFiscalService, EnviarNotaFiscalService>(Lifestyle.Transient);
             container.Register<IServiceFactory, ServiceFactory>(Lifestyle.Transient);
             container.Register<INotaInutilizadaService, NotaInutilizadaService>(Lifestyle.Transient);
-            container.Register<IEventoService, EventoService>(Lifestyle.Transient);
             container.Register<ImportadorXmlService>(Lifestyle.Transient);
             container.Register<ICertificadoService, CertificadoService>(Lifestyle.Transient);
             container.Register<IConsultaStatusServicoSefazService, ConsultaStatusServicoSefazService>(Lifestyle.Transient);

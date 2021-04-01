@@ -79,7 +79,6 @@
     <Compile Include="ConsultaStatusServicoSefazService.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="EnviarNotaService.cs" />
-    <Compile Include="EventoService.cs" />
     <Compile Include="IbptManager.cs" />
     <Compile Include="ImportadorXmlService.cs" />
     <Compile Include="InutilizarNotaFiscalService.cs" />

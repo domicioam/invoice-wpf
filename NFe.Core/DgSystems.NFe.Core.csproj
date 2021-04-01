@@ -380,7 +380,6 @@
     <Compile Include="Domain\Services\IConsultarNotaFiscalService.cs" />
     <Compile Include="Domain\Services\ICancelarNotaFiscalService.cs" />
     <Compile Include="IConsultaStatusServicoService.cs" />
-    <Compile Include="IEventoService.cs" />
     <Compile Include="Domain\Services\IEnviarNotaFiscalService.cs" />
     <Compile Include="INotaInutilizadaService.cs" />
     <Compile Include="NotaInutilizadaTO.cs" />

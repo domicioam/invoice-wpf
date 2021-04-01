@@ -16,12 +16,12 @@ namespace NFe.Core.NotasFiscais.Services
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly IEventoService _eventoService;
+        private readonly IEventoRepository _eventoService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly INotaInutilizadaService _notaInutilizadaService;
 
         public ImportadorXmlService(INotaFiscalRepository notaFiscalRepository,
-            INotaInutilizadaService notaInutilizadaService, IEventoService eventoService)
+            INotaInutilizadaService notaInutilizadaService, IEventoRepository eventoService)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _notaInutilizadaService = notaInutilizadaService;
