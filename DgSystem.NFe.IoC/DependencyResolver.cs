@@ -7,7 +7,6 @@ using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Cadastro.Ibpt;
 using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Repositories;
@@ -85,7 +84,6 @@ namespace DgSystem.NFe.IoC
             container.Register<ModoOnlineService>(Lifestyle.Transient);
             container.Register<GeradorZip>(Lifestyle.Transient);
             container.Register<GeradorPDF>(Lifestyle.Transient);
-            container.Register<ITransportadoraService, TransportadoraService>(Lifestyle.Transient);
             container.Register<SefazSettings>(Lifestyle.Transient);
             container.Register<InutilizarNotaFiscalService>(Lifestyle.Transient);
             container.Register<XmlUtil>(Lifestyle.Transient);

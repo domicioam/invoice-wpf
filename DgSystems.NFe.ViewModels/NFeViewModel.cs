@@ -5,7 +5,6 @@ using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
-using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
@@ -34,7 +33,7 @@ namespace DgSystems.NFe.ViewModels
         private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmitenteRepository emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository)
+        public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmitenteRepository emissorService, IMunicipioRepository municipioService, ITransportadoraRepository transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
@@ -244,7 +243,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IProdutoRepository _produtoRepository;
         private readonly IEmitenteRepository _emissorService;
         private readonly IMunicipioRepository _municipioService;
-        private readonly ITransportadoraService _transportadoraService;
+        private readonly ITransportadoraRepository _transportadoraService;
         private readonly IDestinatarioRepository _destinatarioService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private readonly IConfiguracaoRepository _configuracaoService;

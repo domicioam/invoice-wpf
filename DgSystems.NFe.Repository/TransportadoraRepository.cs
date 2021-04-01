@@ -35,7 +35,13 @@ namespace NFe.Repository.Repositories
 
         public List<TransportadoraEntity> GetAll()
         {
-            return _context.Transportadora.ToList();
+            var transportadorasDB = _context.Transportadora.ToList();
+
+            var transportadoras = new List<TransportadoraEntity>();
+
+            foreach (var transportadoraDB in transportadorasDB) transportadoras.Add(transportadoraDB);
+
+            return transportadoras;
         }
     }
 }
