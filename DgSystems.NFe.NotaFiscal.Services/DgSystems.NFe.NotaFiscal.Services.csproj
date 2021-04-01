@@ -77,7 +77,6 @@
     <Compile Include="CancelaNotaFiscalService.cs" />
     <Compile Include="CertificadoService.cs" />
     <Compile Include="ConsultaStatusServicoSefazService.cs" />
-    <Compile Include="DestinatarioService.cs" />
     <Compile Include="EmissorService.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
     <Compile Include="EnviarNotaService.cs" />

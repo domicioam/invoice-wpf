@@ -6,6 +6,7 @@ using EmissorNFe.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Destinatario;
+using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.WPF.Commands;
 using NFe.WPF.Events;
@@ -14,7 +15,7 @@ namespace NFe.WPF.ViewModel
 {
     public class DestinatarioMainViewModel : ViewModelBase
     {
-        private IDestinatarioService _destinatarioService;
+        private IDestinatarioRepository _destinatarioService;
         private DestinatarioViewModel _destinatarioViewModel;
 
         public ObservableCollection<DestinatarioModel> Destinatarios { get; set; }
@@ -23,7 +24,7 @@ namespace NFe.WPF.ViewModel
         public ICommand ExcluirDestinatarioCmd { get; set; }
         public ICommand AlterarDestinatarioCmd { get; set; }
 
-        public DestinatarioMainViewModel(IDestinatarioService destinatarioService, DestinatarioViewModel destinatarioViewModel)
+        public DestinatarioMainViewModel(IDestinatarioRepository destinatarioService, DestinatarioViewModel destinatarioViewModel)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             AlterarDestinatarioCmd = new RelayCommand<DestinatarioModel>(AlterarDestinatarioCmd_Execute, null);

@@ -34,7 +34,11 @@ namespace NFe.Core.Cadastro.Destinatario
         {
             using (var context = new NFeContext())
             {
-                return context.Destinatario.Include(d => d.Endereco).ToList();
+                var destinatariosDB = context.Destinatario.Include(d => d.Endereco).ToList();
+                var destinatariosTO = new List<DestinatarioEntity>();
+                foreach (var destinatarioDB in destinatariosDB) destinatariosTO.Add(destinatarioDB);
+
+                return destinatariosTO;
             }
         }
 

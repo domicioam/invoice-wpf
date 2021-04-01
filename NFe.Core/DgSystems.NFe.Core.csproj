@@ -335,7 +335,6 @@
     <Compile Include="Domain\Impostos\PisCreator.cs" />
     <Compile Include="Domain\Impostos\PisStDirector.cs" />
     <Compile Include="SefazSettings.cs" />
-    <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
     <Compile Include="Cadastro\Transportadora\ITransportadoraService.cs" />
     <Compile Include="Cadastro\Certificado\CertificadoEntity.cs" />

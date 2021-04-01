@@ -34,7 +34,7 @@ namespace DgSystems.NFe.ViewModels
         private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioService destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository)
+        public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmissorService emissorService, IMunicipioRepository municipioService, ITransportadoraService transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
@@ -245,7 +245,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IEmissorService _emissorService;
         private readonly IMunicipioRepository _municipioService;
         private readonly ITransportadoraService _transportadoraService;
-        private readonly IDestinatarioService _destinatarioService;
+        private readonly IDestinatarioRepository _destinatarioService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private readonly IConfiguracaoRepository _configuracaoService;
         private readonly DestinatarioViewModel _destinatarioViewModel;
