@@ -1,5 +1,6 @@
 ﻿using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Domain;
+using NFe.Core.Interfaces;
 using NFe.Core.NFeInutilizacao4;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Services;
@@ -14,12 +15,12 @@ namespace NFe.Core.Sefaz.Facades
 {
     public class InutilizarNotaFiscalService : IInutilizarNotaFiscalService
     {
-        private readonly INotaInutilizadaService _notaInutilizadaService;
+        private readonly INotaInutilizadaRepository _notaInutilizadaService;
         private readonly SefazSettings _sefazSettings;
         private readonly ICertificadoService _certificadoService;
         private readonly IServiceFactory _serviceFactory;
 
-        public InutilizarNotaFiscalService(INotaInutilizadaService notaInutilizadaService, SefazSettings sefazSettings, ICertificadoService certificadoService, IServiceFactory serviceFactory)
+        public InutilizarNotaFiscalService(INotaInutilizadaRepository notaInutilizadaService, SefazSettings sefazSettings, ICertificadoService certificadoService, IServiceFactory serviceFactory)
         {
             _notaInutilizadaService = notaInutilizadaService;
             _sefazSettings = sefazSettings;

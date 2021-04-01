@@ -18,10 +18,10 @@ namespace NFe.Core.NotasFiscais.Services
 
         private readonly IEventoRepository _eventoService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
-        private readonly INotaInutilizadaService _notaInutilizadaService;
+        private readonly INotaInutilizadaRepository _notaInutilizadaService;
 
         public ImportadorXmlService(INotaFiscalRepository notaFiscalRepository,
-            INotaInutilizadaService notaInutilizadaService, IEventoRepository eventoService)
+            INotaInutilizadaRepository notaInutilizadaService, IEventoRepository eventoService)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _notaInutilizadaService = notaInutilizadaService;

@@ -22,10 +22,10 @@ namespace NFe.Core.Utils.Zip
 
         private INotaFiscalRepository _notaFiscalRepository;
         private IEventoRepository _eventoService;
-        private INotaInutilizadaService _notaInutilizadaService;
+        private INotaInutilizadaRepository _notaInutilizadaService;
         private GeradorPDF _geradorPdf;
 
-        public GeradorZip(IEventoRepository eventoService, INotaInutilizadaService notaInutilizadaService,
+        public GeradorZip(IEventoRepository eventoService, INotaInutilizadaRepository notaInutilizadaService,
             GeradorPDF geradorPdf, INotaFiscalRepository notaFiscalRepository)
         {
             _notaFiscalRepository = notaFiscalRepository;

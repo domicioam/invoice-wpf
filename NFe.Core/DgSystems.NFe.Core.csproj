@@ -381,7 +381,6 @@
     <Compile Include="Domain\Services\ICancelarNotaFiscalService.cs" />
     <Compile Include="IConsultaStatusServicoService.cs" />
     <Compile Include="Domain\Services\IEnviarNotaFiscalService.cs" />
-    <Compile Include="INotaInutilizadaService.cs" />
     <Compile Include="NotaInutilizadaTO.cs" />
     <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
       <AutoGen>True</AutoGen>
