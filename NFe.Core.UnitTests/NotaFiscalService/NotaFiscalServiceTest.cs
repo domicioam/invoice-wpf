@@ -20,6 +20,7 @@ using NFe.Core.Utils.Assinatura;
 using Xunit;
 using NFe.Core.NotasFiscais;
 using DgSystems.NFe.Core.Cadastro;
+using NFe.Core.Cadastro.Ibpt;
 
 namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
 {
@@ -266,7 +267,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             {
                 new Pagamento(FormaPagamento.Dinheiro) {Valor = 65}
             };
-            var infoAdicional = new InfoAdicional(produtos);
+            var infoAdicional = new InfoAdicional(produtos, new IbptManager());
             var notaFiscal = new NotaFiscal(emitente, null, identificação, transporte, totalNFe, infoAdicional,
                 produtos, pagamentos);
             return notaFiscal;

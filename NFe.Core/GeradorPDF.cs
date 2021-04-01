@@ -10,15 +10,12 @@ using System.Linq;
 using System.Text;
 using static QRCoder.PayloadGenerator;
 using System.Drawing;
-using System.Xml;
 
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.Domain;
 using NFe.Core.Utils.PDF.RelatorioGerencial;
 
-using NFe.Repository;
-using NFe.Repository.Repositories;
 using System.Drawing.Imaging;
 using Zen.Barcode;
 using System.Drawing.Printing;

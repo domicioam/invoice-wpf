@@ -4,11 +4,11 @@ using NFe.Core.Domain;
 
 namespace NFe.Core.Cadastro.Ibpt
 {
-    public static class IbptManager
+    public class IbptManager : IIbptManager
     {
-        private static readonly List<NotasFiscais.Ibpt> _ibptList;
+        private readonly List<NotasFiscais.Ibpt> _ibptList;
 
-        static IbptManager()
+        public IbptManager()
         {
             _ibptList = new List<NotasFiscais.Ibpt>();
 
@@ -18,7 +18,7 @@ namespace NFe.Core.Cadastro.Ibpt
             _ibptList.Add(new NotasFiscais.Ibpt("73110000", "Recipientes de ferro/aco,p/gases comprimidos/ liquefeit.", 6.77, 12.0));
         }
 
-        public static List<NotasFiscais.Ibpt> GetIbptByNcmList(List<string> ncmList)
+        public List<NotasFiscais.Ibpt> GetIbptByNcmList(List<string> ncmList)
         {
             return _ibptList.Where(i => ncmList.Contains(i.NCM)).ToList();
         }

@@ -20,7 +20,7 @@ using NFe.Core.Utils.PDF;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
-
+using NFe.Core.Cadastro.Ibpt;
 
 namespace DgSystems.NFe.ViewModels
 {
@@ -35,9 +35,10 @@ namespace DgSystems.NFe.ViewModels
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly XmlUtil _xmlUtil;
+        private readonly IIbptManager _ibptManager;
 
         public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
-            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil)
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil, IIbptManager ibptManager)
         {
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoService = configuracaoService;
@@ -46,6 +47,7 @@ namespace DgSystems.NFe.ViewModels
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             _notaFiscalRepository = notaFiscalRepository;
             _xmlUtil = xmlUtil;
+            _ibptManager = ibptManager;
         }
 
         public async Task<NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
@@ -81,7 +83,7 @@ namespace DgSystems.NFe.ViewModels
                 var produtos = GetProdutos(notaFiscalModel);
                 var pagamentos = GetPagamentos(notaFiscalModel);
                 var totalNFe = GetTotalNFe();
-                var infoAdicional = new InfoAdicional(produtos);
+                var infoAdicional = new InfoAdicional(produtos, _ibptManager);
                 var transporte = GetTransporte(notaFiscalModel, modelo);
 
                 notaFiscal = new NotaFiscal(emissor, destinatario, identificacao, transporte,

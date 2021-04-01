@@ -200,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssinaturaDigital.cs" />
-    <Compile Include="Cadastro\Certificado\CertificadoRepository.cs" />
     <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
@@ -213,6 +212,7 @@
     <Compile Include="Domain\Certificate.cs" />
     <Compile Include="Domain\MensagemRetornoEventoCancelamento.cs" />
     <Compile Include="Domain\Services\ICertificateManager.cs" />
+    <Compile Include="Domain\Services\IIbptManager.cs" />
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
@@ -339,16 +339,6 @@
     <Compile Include="SefazSettings.cs" />
     <Compile Include="Cadastro\Destinatario\IDestinatarioService.cs" />
     <Compile Include="Cadastro\Emissor\IEmissorService.cs" />
-    <Compile Include="Cadastro\Configuracoes\ConfiguracaoRepository.cs" />
-    <Compile Include="Cadastro\Destinatario\DestinatarioRepository.cs" />
-    <Compile Include="Cadastro\Emissor\EmitenteRepository.cs" />
-    <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoRepository.cs" />
-    <Compile Include="Cadastro\Repositories\EstadoRepository.cs" />
-    <Compile Include="Cadastro\Ibpt\IbptRepository.cs" />
-    <Compile Include="Cadastro\Imposto\ImpostoRepository.cs" />
-    <Compile Include="Cadastro\Repositories\MunicipioRepository.cs" />
-    <Compile Include="Cadastro\Produto\ProdutoRepository.cs" />
-    <Compile Include="Cadastro\Transportadora\TransportadoraRepository.cs" />
     <Compile Include="Cadastro\Transportadora\ITransportadoraService.cs" />
     <Compile Include="Cadastro\Certificado\CertificadoEntity.cs" />
     <Compile Include="Cadastro\Imposto\CfopEntity.cs" />
@@ -362,7 +352,6 @@
     <Compile Include="Cadastro\Enums\TabelaIcmsCst.cs" />
     <Compile Include="Cadastro\Enums\TabelaPisCst.cs" />
     <Compile Include="Cadastro\EstadoEntity.cs" />
-    <Compile Include="NFeContext.cs" />
     <Compile Include="Cadastro\Repositories\EventoEntity.cs" />
     <Compile Include="Cadastro\Imposto\GrupoImposto.cs" />
     <Compile Include="Contabilidade\HistoricoEnvioContabilidade.cs" />
@@ -370,10 +359,6 @@
     <Compile Include="Cadastro\Imposto\Imposto.cs" />
     <Compile Include="Cadastro\MunicipioEntity.cs" />
     <Compile Include="Cadastro\NaturezaOperacao\NaturezaOperacaoEntity.cs" />
-    <Compile Include="Contabilidade\HistoricoEnvioContabilidadeRepository.cs" />
-    <Compile Include="Cadastro\Repositories\EventoRepository.cs" />
-    <Compile Include="Cadastro\Repositories\NotaFiscalRepository.cs" />
-    <Compile Include="Cadastro\Repositories\NotaInutilizadaRepository.cs" />
     <Compile Include="Cadastro\Repositories\NotaFiscalEntity.cs" />
     <Compile Include="Cadastro\Repositories\NotaInutilizadaEntity.cs" />
     <Compile Include="Cadastro\Produto\ProdutoEntity.cs" />
@@ -442,7 +427,6 @@
     <Compile Include="Domain\Endereco.cs" />
     <Compile Include="Estado.cs" />
     <Compile Include="Ibpt.cs" />
-    <Compile Include="Cadastro\Ibpt\IbptManager.cs" />
     <Compile Include="Domain\IcmsTotal.cs" />
     <Compile Include="Domain\IdentificacaoNFe.cs" />
     <Compile Include="Domain\InfoAdicional.cs" />

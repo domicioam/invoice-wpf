@@ -1,4 +1,14 @@
-﻿using System;
+﻿using DgSystems.NFe.Core.Cadastro;
+using DgSystems.NFe.Extensions;
+using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.Cadastro.Ibpt;
+using NFe.Core.Domain;
+using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
+using NFe.Core.Sefaz;
+using NFe.Core.Utils.Conversores.Enums;
+using NFe.Core.Utils.Xml;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
@@ -6,17 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
-using DgSystems.NFe.Core.Cadastro;
-using DgSystems.NFe.Extensions;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Imposto;
-using NFe.Core.Entitities;
-using NFe.Core.Entitities.Enums;
-using NFe.Core.Interfaces;
-using NFe.Core.Domain;
-using NFe.Core.Sefaz;
-using NFe.Core.Utils.Conversores.Enums;
-using NFe.Core.Utils.Xml;
 using Retorno = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
 using TUf = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TUf;
 using TUfEmi = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TUfEmi;
@@ -26,6 +25,12 @@ namespace NFe.Core.NotasFiscais.Repositories
     public class NotaFiscalRepository : INotaFiscalRepository
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly IIbptManager _ibptManager;
+
+        public NotaFiscalRepository(IIbptManager ibptManager)
+        {
+            _ibptManager = ibptManager;
+        }
 
         public void ExcluirNota(string chave)
         {
@@ -515,7 +520,7 @@ namespace NFe.Core.NotasFiscais.Repositories
 
         private InfoAdicional GetInfoAdicional(List<Produto> produtos)
         {
-            return new InfoAdicional(produtos);
+            return new InfoAdicional(produtos, _ibptManager);
         }
 
         private List<Produto> GetProdutos(Retorno.TNFe nfe)

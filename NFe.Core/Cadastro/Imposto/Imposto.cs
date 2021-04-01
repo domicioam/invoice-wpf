@@ -31,7 +31,7 @@ namespace DgSystems.NFe.Core.Cadastro
         public GrupoImpostos GrupoImpostos { get; set; }
     }
 
-    internal class ImpostoIdComparer : IEqualityComparer<Imposto>
+    public class ImpostoIdComparer : IEqualityComparer<Imposto>
     {
         public bool Equals(Imposto x, Imposto y)
         {

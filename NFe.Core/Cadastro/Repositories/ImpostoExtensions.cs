@@ -13,7 +13,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
 
 namespace NFe.Core.NotasFiscais.Repositories
 {
-    internal static class ImpostoExtensions
+    public static class ImpostoExtensions
     {
         public static Domain.Imposto ToImposto(this TNFeInfNFeDetImpostoICMSICMS60 detImposto)
         {

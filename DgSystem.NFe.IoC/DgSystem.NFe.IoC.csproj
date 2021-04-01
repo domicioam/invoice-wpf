@@ -85,6 +85,10 @@
       <Project>{ecdf9d2b-0867-4dc3-a82f-00fa86d0ed10}</Project>
       <Name>DgSystems.NFe.NotaFiscal.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DgSystems.NFe.Repository\DgSystems.NFe.Repository.csproj">
+      <Project>{ef266259-ff71-47f0-a68c-c44bc298bf76}</Project>
+      <Name>DgSystems.NFe.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DgSystems.NFe.ViewModels\DgSystems.NFe.ViewModels.csproj">
       <Project>{CC19C00F-F36B-4FBC-A34F-E3FF9955FBF5}</Project>
       <Name>DgSystems.NFe.ViewModels</Name>

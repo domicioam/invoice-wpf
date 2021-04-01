@@ -7,10 +7,10 @@ namespace NFe.Core.Domain
 {
     public class InfoAdicional
     {
-        public InfoAdicional(List<Produto> produtos)
+        public InfoAdicional(List<Produto> produtos, IIbptManager ibptManager)
         {
             var ncmList = produtos.Select(p => p.Ncm).ToList();
-            var ibptList = IbptManager.GetIbptByNcmList(ncmList);
+            var ibptList = ibptManager.GetIbptByNcmList(ncmList);
 
             double impostoEstudalTotal = 0;
             double impostoFederalTotal = 0;

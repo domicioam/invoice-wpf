@@ -1,14 +1,17 @@
-﻿using EmissorNFe.ViewModel;
+﻿using DgSystems.NFe.ViewModels;
+using EmissorNFe.ViewModel;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
+using NFe.Core.Cadastro.Ibpt;
+using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Cadastro.Transportadora;
 using NFe.Core.Interfaces;
-using NFe.Core.Domain;
+using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Repositories;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
@@ -22,16 +25,6 @@ using NFe.WPF.Utils;
 using NFe.WPF.View;
 using NFe.WPF.ViewModel;
 using SimpleInjector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DgSystems.NFe.ViewModels;
-using NFe.Core.Cadastro.Imposto;
-using NFe.Core.NotasFiscais.Repositories;
-using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 
 namespace DgSystem.NFe.IoC
 {
@@ -101,6 +94,7 @@ namespace DgSystem.NFe.IoC
             container.Register<SefazSettings>(Lifestyle.Transient);
             container.Register<InutilizarNotaFiscalService>(Lifestyle.Transient);
             container.Register<XmlUtil>(Lifestyle.Transient);
+            container.Register<IIbptManager, IbptManager>(Lifestyle.Transient);
 
             container.Verify();
 

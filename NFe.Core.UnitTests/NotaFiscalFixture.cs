@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DgSystems.NFe.Core.Cadastro;
 using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Cadastro.Ibpt;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Domain;
 
@@ -46,7 +47,7 @@ namespace DgSystems.NFe.Core.UnitTests
                 {
                     new Pagamento(FormaPagamento.Dinheiro) {Valor = 65}
                 };
-            var infoAdicional = new InfoAdicional(produtos);
+            var infoAdicional = new InfoAdicional(produtos, new IbptManager());
             var notaFiscal = new NotaFiscal(emitente, null, identificação, transporte, totalNFe, infoAdicional,
                 produtos, pagamentos);
 
