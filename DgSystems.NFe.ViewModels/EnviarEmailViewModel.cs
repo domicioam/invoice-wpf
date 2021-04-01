@@ -22,7 +22,7 @@ namespace NFe.WPF.ViewModel
 {
     public class EnviarEmailViewModel : ViewModelBaseValidation
     {
-        public EnviarEmailViewModel(MailManager mailManager, IConfiguracaoService configuracaoService, INotaFiscalRepository notaFiscalRepository)
+        public EnviarEmailViewModel(MailManager mailManager, IConfiguracaoRepository configuracaoService, INotaFiscalRepository notaFiscalRepository)
         {
             EnviarEmailCmd = new RelayCommand<IClosable>(EnviarEmailCmd_Execute, EnviarEmailCmd_CanExecute);
             _mailManager = mailManager;
@@ -34,7 +34,7 @@ namespace NFe.WPF.ViewModel
 
         private string _email;
         private MailManager _mailManager;
-        private IConfiguracaoService _configuracaoService;
+        private IConfiguracaoRepository _configuracaoService;
         private INotaFiscalRepository _notaFiscalRepository;
 
         [EmailAddress]

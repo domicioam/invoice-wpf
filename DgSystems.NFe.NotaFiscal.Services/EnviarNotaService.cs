@@ -16,6 +16,7 @@ using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 using NFe.Core.Domain;
+using NFe.Core.Interfaces;
 
 namespace NFe.Core.NotasFiscais.Services
 {
@@ -23,11 +24,11 @@ namespace NFe.Core.NotasFiscais.Services
     {
         private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoService;
         private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
 
-        public EnviarNotaFiscalService(IConfiguracaoService configuracaoService, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta)
+        public EnviarNotaFiscalService(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta)
         {
             _configuracaoService = configuracaoService;
             _serviceFactory = serviceFactory;

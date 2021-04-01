@@ -201,7 +201,6 @@
   <ItemGroup>
     <Compile Include="AssinaturaDigital.cs" />
     <Compile Include="Domain\Services\ICertificadoService.cs" />
-    <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\TUfConversor.cs" />

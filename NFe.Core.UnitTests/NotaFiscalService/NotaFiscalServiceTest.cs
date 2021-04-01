@@ -47,7 +47,6 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             ConfigurarConfiguracao();
 
             var configuracaoRepository = new ConfiguracaoRepositoryFake();
-            var configuracaoService = new ConfiguracaoService(configuracaoRepository);
 
             var certificadoRepository = certificadoRepositoryMock.Object;
             var serviceFactory = serviceFactoryMock.Object;
@@ -62,10 +61,10 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, notaFiscalRepository, emissorService,
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoRepository, certificadoRepository, notaFiscalRepository, emissorService,
                 nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 
-            var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
+            var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, serviceFactory, nfeConsulta);
 
             var modoOnlineService = new ModoOnlineService(configuracaoRepository, consultaStatusServicoService, notaFiscalRepository, notaFiscalContingenciaService);
 
@@ -99,9 +98,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var serviceFactoryMock = ConfigurarServiceFactoryMock();
 
             ConfigurarConfiguracao();
-
             var configuracaoRepository = new ConfiguracaoRepositoryFake();
-            var configuracaoService = new global::NFe.Core.Cadastro.Configuracoes.ConfiguracaoService(configuracaoRepository);
 
             var notaFiscalRepositoryMock = new Mock<INotaFiscalRepository>();
             notaFiscalRepositoryMock
@@ -115,7 +112,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
 
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
-            var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
+            var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, serviceFactory, nfeConsulta);
             var modoOnlineService = new ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
                 notaFiscalContingenciaService);
@@ -148,7 +145,6 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             ConfigurarConfiguracao();
 
             var configuracaoRepository = new ConfiguracaoRepositoryFake();
-            var configuracaoService = new ConfiguracaoService(configuracaoRepository);
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
             var certificadoRepository = certificadoRepositoryMock.Object;
@@ -162,9 +158,9 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
-            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoRepository, certificadoRepository, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 
-            var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
+            var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, serviceFactory, nfeConsulta);
 
             var modoOnlineService = new ModoOnlineService(
                 configuracaoRepository, consultaStatusServicoService, notaFiscalRepository,
@@ -208,7 +204,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
                 ProximoNumNFe = "1",
             };
 
-            var configuracaoServiceMock = new Mock<IConfiguracaoService>();
+            var configuracaoServiceMock = new Mock<IConfiguracaoRepository>();
             configuracaoServiceMock.Setup(m => m.GetConfiguracao()).Returns(configuracao);
         }
 

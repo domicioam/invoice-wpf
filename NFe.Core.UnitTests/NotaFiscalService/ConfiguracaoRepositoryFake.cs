@@ -1,4 +1,5 @@
 ﻿using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.Domain;
 using NFe.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,25 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             return _configuracao;
         }
 
+        public Task<ConfiguracaoEntity> GetConfiguracaoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ObterProximoNumeroNotaFiscal(Modelo modelo)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Salvar(ConfiguracaoEntity configuracao)
         {
             _configuracao = configuracao;
             return _configuracao.Id;
+        }
+
+        public void SalvarPróximoNúmeroSérie(Modelo modelo, Ambiente ambiente)
+        {
+            throw new NotImplementedException();
         }
     }
 }

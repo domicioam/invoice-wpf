@@ -28,7 +28,7 @@ namespace DgSystems.NFe.ViewModels
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoService certificadoRepository, IEmissorService emissorService)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoService certificadoRepository, IEmissorService emissorService)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
@@ -148,7 +148,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IEnviarNotaAppService _enviarNotaAppService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
-        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IDestinatarioService _destinatarioService;
         private readonly ICertificadoService _certificadoRepository;

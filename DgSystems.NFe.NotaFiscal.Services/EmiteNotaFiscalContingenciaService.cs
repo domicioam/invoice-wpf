@@ -39,7 +39,7 @@ namespace NFe.Core.Sefaz.Facades
         private const string MensagemErro =
             "Tentativa de transmissão de notas em contingência falhou. Serviço continua indisponível.";
         private const string SEFAZ_ENVIRONMENT_STAGING = "staging";
-        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoService;
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
@@ -54,7 +54,7 @@ namespace NFe.Core.Sefaz.Facades
         private readonly SefazSettings _sefazSettings;
         private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
+        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, ICertificadoRepository certificadoRepository, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;

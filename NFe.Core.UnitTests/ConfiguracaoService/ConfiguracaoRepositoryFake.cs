@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.Domain;
 
 namespace NFe.Core.UnitTests.ConfiguracaoService
 {
@@ -34,10 +35,25 @@ namespace NFe.Core.UnitTests.ConfiguracaoService
             return _configuracao;
         }
 
+        public Task<ConfiguracaoEntity> GetConfiguracaoAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ObterProximoNumeroNotaFiscal(Modelo modelo)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Salvar(ConfiguracaoEntity configuracao)
         {
             _configuracao = configuracao;
             return _configuracao.Id;
+        }
+
+        public void SalvarPróximoNúmeroSérie(Modelo modelo, Ambiente ambiente)
+        {
+            throw new NotImplementedException();
         }
     }
 }

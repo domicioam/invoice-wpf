@@ -29,7 +29,7 @@ namespace DgSystems.NFe.ViewModels
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
-        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly SefazSettings _sefazSettings;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
@@ -37,7 +37,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly XmlUtil _xmlUtil;
         private readonly IIbptManager _ibptManager;
 
-        public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
+        public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil, IIbptManager ibptManager)
         {
             _enviaNotaFiscalService = enviaNotaFiscalService;

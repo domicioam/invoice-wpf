@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Configuracoes;
+using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
@@ -18,9 +19,9 @@ namespace NFe.WPF.ViewModel
         private string _cscID;
         private string _csc;
         private string _emailContabilidade;
-        private readonly IConfiguracaoService _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoService;
 
-        public OpcoesViewModel(IConfiguracaoService configuracaoService)
+        public OpcoesViewModel(IConfiguracaoRepository configuracaoService)
         {
             SalvarCmd = new RelayCommand<Window>(SalvarCmd_Execute, null);
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
