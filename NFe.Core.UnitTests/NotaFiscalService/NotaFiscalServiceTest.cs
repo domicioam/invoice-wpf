@@ -6,7 +6,6 @@ using System.Security.Cryptography.X509Certificates;
 using Moq;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
@@ -55,7 +54,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
 
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
-            var emissorService = new Mock<IEmissorService>().Object;
+            var emissorService = new Mock<IEmitenteRepository>().Object;
             var certificadoService = new Mock<ICertificadoService>().Object;
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
@@ -153,7 +152,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var certificateManager = certificadoManagerMock.Object;
             var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
-            var emissorService = new Mock<IEmissorService>().Object;
+            var emissorService = new Mock<IEmitenteRepository>().Object;
             var certificadoService = new Mock<ICertificadoService>().Object;
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;

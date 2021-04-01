@@ -1,6 +1,5 @@
 ﻿using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Interfaces;
 using NFe.Core.NfeStatusServico4;
@@ -25,9 +24,9 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly ICertificadoService _certificateManager;
         private readonly RijndaelManagedEncryption _encryptor;
-        private readonly IEmissorService _emissorService;
+        private readonly IEmitenteRepository _emissorService;
 
-        public ConsultaStatusServicoSefazService(IEmissorService emissorService, ICertificadoRepository certificadoService,
+        public ConsultaStatusServicoSefazService(IEmitenteRepository emissorService, ICertificadoRepository certificadoService,
             ICertificadoService certificateManager, RijndaelManagedEncryption encryptor)
         {
             _emissorService = emissorService;

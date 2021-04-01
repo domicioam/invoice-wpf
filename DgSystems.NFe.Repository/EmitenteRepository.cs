@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NFe.Core;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 
@@ -43,6 +44,28 @@ namespace NFe.Core.Cadastro.Emissor
         public EmitenteEntity GetEmitente()
         {
             return _context.Emitente.FirstOrDefault();
+        }
+
+        public Domain.Emissor GetEmissor()
+        {
+            var emitenteDb = GetEmitente();
+
+            var enderecoEmitente = new Endereco(emitenteDb.Logradouro, emitenteDb.Numero, emitenteDb.Bairro,
+                emitenteDb.Municipio, emitenteDb.CEP, emitenteDb.UF);
+
+            return new Domain.Emissor(emitenteDb.RazaoSocial, emitenteDb.NomeFantasia, emitenteDb.CNPJ,
+                emitenteDb.InscricaoEstadual, emitenteDb.InscricaoMunicipal, emitenteDb.CNAE,
+                emitenteDb.RegimeTributario, enderecoEmitente, emitenteDb.Telefone);
+        }
+
+        public EmitenteEntity GetEmitenteEntity()
+        {
+            var emitenteDb = GetEmitente();
+
+            if (emitenteDb == null)
+                return null;
+
+            return emitenteDb;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
+using NFe.Core.Interfaces;
 using NFe.WPF.ViewModel.Base;
 
 namespace NFe.WPF.ViewModel
@@ -128,7 +129,7 @@ namespace NFe.WPF.ViewModel
         }
 
         private string _contato;
-        private IEmissorService _emissorService;
+        private IEmitenteRepository _emissorService;
 
         public string Contato
         {
@@ -140,7 +141,7 @@ namespace NFe.WPF.ViewModel
         public ICommand LoadedCmd { get; set; }
         public ICommand SalvarEmpresaCmd { get; set; }
 
-        public EmitenteViewModel(IEmissorService emissorService)
+        public EmitenteViewModel(IEmitenteRepository emissorService)
         {
             SalvarEmpresaCmd = new RelayCommand<Window>(SalvarEmpresaCmd_Execute, null);
             LoadedCmd = new RelayCommand<string>(LoadedCmd_Execute, null);

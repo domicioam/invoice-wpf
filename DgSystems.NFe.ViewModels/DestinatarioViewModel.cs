@@ -16,7 +16,7 @@ namespace NFe.WPF.ViewModel
 {
     public class DestinatarioViewModel : ViewModelBaseValidation
     {
-        public DestinatarioViewModel(IEstadoRepository estadoService, IEmissorService emissorService, IDestinatarioRepository destinatarioService, IMunicipioRepository municipioService)
+        public DestinatarioViewModel(IEstadoRepository estadoService, IEmitenteRepository emissorService, IDestinatarioRepository destinatarioService, IMunicipioRepository municipioService)
         {
             SalvarDestinatarioCmd = new RelayCommand<Window>(SalvarDestinatarioCmd_Execute, null);
             LoadedCmd = new RelayCommand<bool>(LoadedCmd_Execute, null);
@@ -32,7 +32,7 @@ namespace NFe.WPF.ViewModel
 
         private DestinatarioModel _destinatarioParaSalvar;
         private IEstadoRepository _estadoRepository;
-        private IEmissorService _emissorService;
+        private IEmitenteRepository _emissorService;
         private IDestinatarioRepository _destinatarioService;
         private IMunicipioRepository _municipioService;
 

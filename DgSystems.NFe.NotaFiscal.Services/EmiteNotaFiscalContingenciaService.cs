@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
@@ -45,7 +44,7 @@ namespace NFe.Core.Sefaz.Facades
 
         private bool _isFirstTimeRecheckingRecipts;
         private bool _isFirstTimeResending;
-        private readonly IEmissorService _emissorService;
+        private readonly IEmitenteRepository _emissorService;
         private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly ICertificadoService _certificadoService;
@@ -54,7 +53,7 @@ namespace NFe.Core.Sefaz.Facades
         private readonly SefazSettings _sefazSettings;
         private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, ICertificadoRepository certificadoRepository, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
+        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, ICertificadoRepository certificadoRepository, INotaFiscalRepository notaFiscalRepository,  IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;

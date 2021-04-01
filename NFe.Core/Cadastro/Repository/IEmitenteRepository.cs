@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 
 namespace NFe.Core.Interfaces
@@ -9,5 +10,7 @@ namespace NFe.Core.Interfaces
         void Excluir(EmitenteEntity emitente);
         List<EmitenteEntity> GetAll();
         EmitenteEntity GetEmitente();
+        Emissor GetEmissor();
+        EmitenteEntity GetEmitenteEntity();
     }
 }

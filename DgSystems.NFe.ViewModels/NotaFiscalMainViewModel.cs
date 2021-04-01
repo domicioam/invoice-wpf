@@ -39,7 +39,7 @@ namespace DgSystems.NFe.ViewModels
         public NotaFiscalMainViewModel(IEnviaNotaFiscalService enviaNotaFiscalService,
             IConfiguracaoRepository configuracaoService, ICertificadoService certificadoService,
             IProdutoRepository produtoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
-            IEmissorService emissorService,
+            IEmitenteRepository emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
             INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta)
@@ -72,7 +72,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly ICertificadoService _certificadoService;
         private readonly IConfiguracaoRepository _configuracaoService;
         private readonly IConsultaStatusServicoSefazService _consultaStatusServicoService;
-        private readonly IEmissorService _emissorService;
+        private readonly IEmitenteRepository _emissorService;
         private readonly EnviarEmailViewModel _enviarEmailViewModel;
 
         private bool _isBusy;
