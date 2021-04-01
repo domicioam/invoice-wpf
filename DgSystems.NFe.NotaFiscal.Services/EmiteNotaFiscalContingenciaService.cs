@@ -41,7 +41,6 @@ namespace NFe.Core.Sefaz.Facades
         private const string SEFAZ_ENVIRONMENT_STAGING = "staging";
         private readonly IConfiguracaoService _configuracaoService;
         private readonly ICertificadoRepository _certificadoRepository;
-        private readonly ICertificateManager _certificateManager;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private bool _isFirstTimeRecheckingRecipts;
@@ -55,11 +54,10 @@ namespace NFe.Core.Sefaz.Facades
         private readonly SefazSettings _sefazSettings;
         private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, ICertificateManager certificateManager, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
+        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoService configuracaoService, ICertificadoRepository certificadoRepository, INotaFiscalRepository notaFiscalRepository,  IEmissorService emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
         {
             _configuracaoService = configuracaoService;
             _certificadoRepository = certificadoRepository;
-            _certificateManager = certificateManager;
             _notaFiscalRepository = notaFiscalRepository;
             _emissorService = emissorService;
             _nfeConsulta = nfeConsulta;
@@ -225,16 +223,8 @@ namespace NFe.Core.Sefaz.Facades
                 {
                     if (resultado.Motivo.Contains("Duplicidade"))
                     {
-                        X509Certificate2 certificado;
-                        var certificadoEntity = _certificadoRepository.GetCertificado();
+                        X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
                         var emitente = _emissorService.GetEmissor();
-
-                        if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-                            certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                                _encryptor.DecryptRijndael(certificadoEntity.Senha));
-                        else
-                            certificado =
-                                _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 
                         var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal
                         (
@@ -280,14 +270,7 @@ namespace NFe.Core.Sefaz.Facades
 
         private List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
         {
-            var certificadoEntity = _certificadoRepository.GetCertificado();
-            X509Certificate2 certificado;
-
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            else
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
+            X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
 
             var consultaRecibo = new TConsReciNFe
             {
@@ -361,15 +344,7 @@ namespace NFe.Core.Sefaz.Facades
             var node = document.DocumentElement;
 
             var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
-            X509Certificate2 certificado;
-
-            var certificadoEntity = _certificadoRepository.GetCertificado();
-
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            else
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
+            X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
 
             try
             {

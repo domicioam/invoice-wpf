@@ -1,6 +1,7 @@
 ﻿using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
 using NFe.Core.Cadastro.Emissor;
@@ -27,7 +28,7 @@ namespace DgSystems.NFe.ViewModels
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoRepository certificadoRepository, IEmissorService emissorService)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoService configuracaoService, IProdutoRepository produtoRepository, IDestinatarioService destinatarioService, ICertificadoService certificadoRepository, IEmissorService emissorService)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
@@ -150,7 +151,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IDestinatarioService _destinatarioService;
-        private readonly ICertificadoRepository _certificadoRepository;
+        private readonly ICertificadoService _certificadoRepository;
         private readonly IEmissorService _emissorService;
 
 
@@ -172,7 +173,7 @@ namespace DgSystems.NFe.ViewModels
             IsBusy = true;
             try
             {
-                X509Certificate2 certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
+                X509Certificate2 certificado = _certificadoRepository.GetX509Certificate2();
                 var emissor = _emissorService.GetEmissor();
                 var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(NotaFiscal, _modelo, emissor, certificado, _dialogService);
                 IsBusy = false;

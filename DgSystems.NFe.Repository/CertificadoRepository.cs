@@ -14,13 +14,11 @@ namespace NFe.Core.Cadastro.Certificado
     public class CertificadoRepository : ICertificadoRepository
     {
         private NFeContext _context;
-        private readonly ICertificateManager _certificateManager;
         private readonly RijndaelManagedEncryption _encryptor;
 
-        public CertificadoRepository(ICertificateManager certificateManager, RijndaelManagedEncryption encryptor)
+        public CertificadoRepository(RijndaelManagedEncryption encryptor)
         {
             _context = new NFeContext();
-            _certificateManager = certificateManager;
             _encryptor = encryptor;
         }
 
@@ -46,22 +44,6 @@ namespace NFe.Core.Cadastro.Certificado
             return _context.Certificado.OrderByDescending(o => o.Id).FirstOrDefault();
         }
 
-        public X509Certificate2 PickCertificateBasedOnInstallationType()
-        {
-            var certificadoEntity = GetCertificado();
-            X509Certificate2 certificado;
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-            {
 
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            }
-            else
-            {
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
-            }
-
-            return certificado;
-        }
     }
 }

@@ -25,17 +25,15 @@ namespace NFe.Core.NotasFiscais.Services
     public class CancelaNotaFiscalService : ICancelaNotaFiscalService
     {
         private readonly IEventoService _eventoService;
-        private readonly INFeCancelamento _nfeCancelamento;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificadoService _certificadoService;
         private IServiceFactory _serviceFactory;
         private SefazSettings _sefazSettings;
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public CancelaNotaFiscalService(INFeCancelamento nfeCancelamento, INotaFiscalRepository notaFiscalRepository,
+        public CancelaNotaFiscalService(INotaFiscalRepository notaFiscalRepository,
             IEventoService eventoService, ICertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
         {
-            _nfeCancelamento = nfeCancelamento;
             _notaFiscalRepository = notaFiscalRepository;
             _eventoService = eventoService;
             _certificadoService = certificadoService;
@@ -45,7 +43,7 @@ namespace NFe.Core.NotasFiscais.Services
 
         public MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
         {
-            var resultadoCancelamento = _nfeCancelamento.CancelarNotaFiscal(dadosNotaParaCancelar.ufEmitente, dadosNotaParaCancelar.codigoUf,
+            var resultadoCancelamento = CancelarNotaFiscal(dadosNotaParaCancelar.ufEmitente, dadosNotaParaCancelar.codigoUf,
                 dadosNotaParaCancelar.cnpjEmitente,
                 dadosNotaParaCancelar.chaveNFe,
                 dadosNotaParaCancelar.protocoloAutorizacao, dadosNotaParaCancelar.modeloNota, justificativa);
@@ -73,7 +71,7 @@ namespace NFe.Core.NotasFiscais.Services
             return resultadoCancelamento;
         }
 
-        private MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
+        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
             string protocoloAutorizacao, Modelo modeloNota, string justificativa)
         {
             try

@@ -62,7 +62,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService,
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, notaFiscalRepository, emissorService,
                 nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
@@ -140,7 +140,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             // Arrange
 
             Mock<ICertificadoRepository> certificadoRepositoryMock;
-            Mock<ICertificateManager> certificadoManagerMock;
+            Mock<ICertificadoService> certificadoManagerMock;
             ConfigurarCertificadoDigital(out certificadoRepositoryMock, out certificadoManagerMock);
 
             var serviceFactoryMock = ConfigurarServiceFactoryMock();
@@ -162,7 +162,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
-            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, certificateManager, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoService, certificadoRepository, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoService, serviceFactory, nfeConsulta);
 
@@ -225,16 +225,16 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             return serviceFactoryMock;
         }
 
-        private void ConfigurarCertificadoDigital(out Mock<ICertificadoRepository> certificadoRepositoryMock, out Mock<ICertificateManager> certificadoManagerMock)
+        private void ConfigurarCertificadoDigital(out Mock<ICertificadoRepository> certificadoRepositoryMock, out Mock<ICertificadoService> certificadoManagerMock)
         {
             certificadoRepositoryMock = new Mock<ICertificadoRepository>();
             certificadoRepositoryMock
                 .Setup(m => m.GetCertificado())
                 .Returns(() => _fixture.CertificadoEntity );
 
-            certificadoManagerMock = new Mock<ICertificateManager>();
+            certificadoManagerMock = new Mock<ICertificadoService>();
             certificadoManagerMock
-                .Setup(m => m.GetCertificateByPath(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(m => m.GetX509Certificate2())
                 .Returns(() => _fixture.X509Certificate2);
         }
 

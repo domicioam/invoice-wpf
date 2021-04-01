@@ -76,7 +76,6 @@
   <ItemGroup>
     <Compile Include="CancelaNotaFiscalService.cs" />
     <Compile Include="CertificadoService.cs" />
-    <Compile Include="CertificateManager.cs" />
     <Compile Include="ConfiguracaoService.cs" />
     <Compile Include="ConsultaStatusServicoSefazService.cs" />
     <Compile Include="DestinatarioService.cs" />

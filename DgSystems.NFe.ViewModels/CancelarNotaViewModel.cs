@@ -1,5 +1,6 @@
 ﻿using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight.Command;
+using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
@@ -27,10 +28,9 @@ namespace NFe.WPF.ViewModel
         private string _motivoCancelamento;
         private readonly IConfiguracaoService _configuracaoService;
         private readonly IEmissorService _emissorService;
-        private readonly ICertificadoRepository _certificadoService;
         private readonly InutilizarNotaFiscalService _notaInutilizadaFacade;
         private readonly INotaFiscalRepository _notaFiscalRepository;
-        private readonly ICertificateManager _certificateManager;
+        private readonly ICertificadoService _certificateManager;
         private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
 
         [Required]
@@ -183,25 +183,13 @@ namespace NFe.WPF.ViewModel
 
         private void EnviarCancelamentoNotaFiscal(Modelo modelo, string chave, string protocolo)
         {
-            X509Certificate2 certificado;
+            X509Certificate2 certificado = _certificateManager.GetX509Certificate2();
 
             var modeloNota = modelo;
             var config = _configuracaoService.GetConfiguracao();
 
             var emitente = _emissorService.GetEmissor();
             var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emitente.Endereco.UF);
-
-            var certificadoEntity = _certificadoService.GetCertificado();
-
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-            {
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    new RijndaelManagedEncryption().DecryptRijndael(certificadoEntity.Senha));
-            }
-            else
-            {
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
-            }
 
             UF = emitente.Endereco.UF;
             CodigoUF = codigoUF;
@@ -215,12 +203,11 @@ namespace NFe.WPF.ViewModel
             MessagingCenter.Send(this, nameof(CancelarNotaFiscalCommand), command);
         }
 
-        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, ICertificadoRepository certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificateManager certificateManager, ICancelaNotaFiscalService cancelaNotaFiscalService)
+        public CancelarNotaViewModel(IConfiguracaoService configuracaoService, IEmissorService emissorService, InutilizarNotaFiscalService notaInutilizadaFacade, INotaFiscalRepository notaFiscalRepository, ICertificadoService certificateManager, ICancelaNotaFiscalService cancelaNotaFiscalService)
         {
             EnviarCancelamentoCmd = new RelayCommand<Window>(EnviarCancelamentoCmd_Execute, null);
             _configuracaoService = configuracaoService;
             _emissorService = emissorService;
-            _certificadoService = certificadoService;
             _notaInutilizadaFacade = notaInutilizadaFacade;
             _notaFiscalRepository = notaFiscalRepository;
             _certificateManager = certificateManager;

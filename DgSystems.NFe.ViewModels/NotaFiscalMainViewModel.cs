@@ -42,7 +42,7 @@ namespace DgSystems.NFe.ViewModels
             IEmissorService emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta, ICertificadoRepository certificadoRepository)
+            INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -60,7 +60,6 @@ namespace DgSystems.NFe.ViewModels
             _visualizarNotaEnviadaViewModel = visualizarNotaEnviadaViewModel;
             _enviarEmailViewModel = enviarEmailViewModel;
             _nfeConsulta = nfeConsulta;
-            _certificadoRepository = certificadoRepository;
 
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
 
@@ -82,7 +81,6 @@ namespace DgSystems.NFe.ViewModels
         private bool _isNotasPendentesVerificadas;
         private string _mensagensErroContingencia;
         private readonly IConsultarNotaFiscalService _nfeConsulta;
-        private readonly ICertificadoRepository _certificadoRepository;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
@@ -228,7 +226,7 @@ namespace DgSystems.NFe.ViewModels
 
             try
             {
-                var certificado = _certificadoRepository.PickCertificateBasedOnInstallationType();
+                var certificado = _certificadoService.GetX509Certificate2();
                 var xmlNFe = new XmlNFe(notaFiscalBo, "http://www.portalfiscal.inf.br/nfe", certificado, config.CscId, config.Csc);
 
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);

@@ -21,7 +21,7 @@ namespace NFe.Core.UnitTests.Facades
         [Fact]
         public void Should_Cancel_Nota_Fiscal_And_Save_Event_Correctly_When_Data_Is_Valid()
         {
-            var nfeCancelamento = new Mock<INFeCancelamento>();
+            var nfeCancelamento = new Mock<ICancelaNotaFiscalService>();
 
             var date = new DateTime(20, 10, 20);
 
@@ -41,7 +41,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var eventoService = new Mock<IEventoService>();
 
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
 
             var fixture = new Fixture();
 
@@ -65,7 +65,7 @@ namespace NFe.Core.UnitTests.Facades
         [Fact]
         public void Should_Not_Update_Entity_When_Cancellation_Fails()
         {
-            var nfeCancelamento = new Mock<INFeCancelamento>();
+            var nfeCancelamento = new Mock<ICancelaNotaFiscalService>();
 
             var date = new DateTime(20, 10, 20);
 
@@ -81,7 +81,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var notaFiscalRepository = new Mock<INotaFiscalRepository>();
             var eventoService = new Mock<IEventoService>();
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(nfeCancelamento.Object, notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
 
             var fixture = new Fixture();
             var dadosNotaParaCancelar = fixture.Build<DadosNotaParaCancelar>().Create();

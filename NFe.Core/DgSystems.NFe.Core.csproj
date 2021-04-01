@@ -200,7 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssinaturaDigital.cs" />
-    <Compile Include="Cadastro\Certificado\ICertificadoService.cs" />
+    <Compile Include="Domain\Services\ICertificadoService.cs" />
     <Compile Include="Cadastro\Configuracoes\IConfiguracaoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
@@ -211,7 +211,6 @@
     <Compile Include="Conversores\UfToTCOrgaoIBGEConversor.cs" />
     <Compile Include="Domain\Certificate.cs" />
     <Compile Include="Domain\MensagemRetornoEventoCancelamento.cs" />
-    <Compile Include="Domain\Services\ICertificateManager.cs" />
     <Compile Include="Domain\Services\IIbptManager.cs" />
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
@@ -382,7 +381,6 @@
     <Compile Include="Cadastro\Repository\ITransportadoraRepository.cs" />
     <Compile Include="IServiceFactory.cs" />
     <Compile Include="Domain\Services\IConsultarNotaFiscalService.cs" />
-    <Compile Include="INFeCancelamento.cs" />
     <Compile Include="Domain\Services\ICancelarNotaFiscalService.cs" />
     <Compile Include="IConsultaStatusServicoService.cs" />
     <Compile Include="IEventoService.cs" />

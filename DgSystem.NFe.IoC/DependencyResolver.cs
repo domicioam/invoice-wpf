@@ -12,6 +12,7 @@ using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Repositories;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
@@ -58,7 +59,6 @@ namespace DgSystem.NFe.IoC
 
             container.Register<IConsultarNotaFiscalService, ConsultarNotaFiscalService>(Lifestyle.Transient);
             container.Register<RijndaelManagedEncryption>(Lifestyle.Transient);
-            container.Register<ICertificateManager, CertificateManager>(Lifestyle.Transient);
             container.Register<IEnviarNotaAppService, EnviarNotaAppService>(Lifestyle.Transient);
             container.Register<IEnviaNotaFiscalService, EnviarNotaFiscalService>(Lifestyle.Transient);
             container.Register<IServiceFactory, ServiceFactory>(Lifestyle.Transient);

@@ -1,4 +1,5 @@
-﻿using NFe.Core.Cadastro.Configuracoes;
+﻿using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Interfaces;
@@ -22,12 +23,12 @@ namespace NFe.Core.NotasFiscais.Services
 
         private const string SEFAZ_ENVIRONMENT = "production";
         private readonly ICertificadoRepository _certificadoRepository;
-        private readonly ICertificateManager _certificateManager;
+        private readonly ICertificadoService _certificateManager;
         private readonly RijndaelManagedEncryption _encryptor;
         private readonly IEmissorService _emissorService;
 
         public ConsultaStatusServicoSefazService(IEmissorService emissorService, ICertificadoRepository certificadoService,
-            ICertificateManager certificateManager, RijndaelManagedEncryption encryptor)
+            ICertificadoService certificateManager, RijndaelManagedEncryption encryptor)
         {
             _emissorService = emissorService;
             _certificadoRepository = certificadoService;
@@ -46,18 +47,7 @@ namespace NFe.Core.NotasFiscais.Services
             if (certificadoEntity == null)
                 return false;
 
-
-            X509Certificate2 certificado;
-            if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
-            {
-                certificado = _certificateManager.GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
-            }
-            else
-            {
-                certificado = _certificateManager.GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
-            }
-
+            X509Certificate2 certificado = _certificateManager.GetX509Certificate2();
             return ConsultarStatus(codigoUf, ambiente, certificado, modelo);
         }
 
