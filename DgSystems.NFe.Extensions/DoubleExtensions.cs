@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NFe.Core.Extensions
 {
-    static class DoubleExtensions
+    public static class DoubleExtensions
     {
         public static string AsNumberFormattedString(this double value)
         {

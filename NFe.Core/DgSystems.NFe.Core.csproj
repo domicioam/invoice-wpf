@@ -214,8 +214,9 @@
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
-    <Compile Include="GeradorPDF.cs" />
-    <Compile Include="GeradorZip.cs" />
+    <Compile Include="QrCode.cs" />
+    <Compile Include="Reports\GeradorPDF.cs" />
+    <Compile Include="Reports\GeradorZip.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="IEmiteNotaFiscalContingenciaFacade.cs" />
     <Compile Include="MailFrom.cs" />
@@ -302,22 +303,20 @@
     <Compile Include="Domain\Impostos\Pis\PisOutr.cs" />
     <Compile Include="Domain\Impostos\Pis\PisQtde.cs" />
     <Compile Include="Domain\Impostos\Pis\PisSt.cs" />
-    <Compile Include="PDF\NotaCancelada.cs" />
-    <Compile Include="PDF\RelatorioGerencial\Emitente.cs" />
-    <Compile Include="PDF\RelatorioGerencial\Evento.cs" />
-    <Compile Include="PDF\RelatorioGerencial\NotaFiscal.cs" />
-    <Compile Include="PDF\RelatorioGerencial\NotaInutilizada.cs" />
-    <Compile Include="PDF\ReportNFCeReadModel.cs" />
-    <Compile Include="PDF\ReportNFeReadModel.cs" />
+    <Compile Include="Reports\NotaCancelada.cs" />
+    <Compile Include="Reports\RelatorioGerencial\Emitente.cs" />
+    <Compile Include="Reports\RelatorioGerencial\Evento.cs" />
+    <Compile Include="Reports\RelatorioGerencial\NotaFiscal.cs" />
+    <Compile Include="Reports\RelatorioGerencial\NotaInutilizada.cs" />
+    <Compile Include="Reports\ReportNFCeReadModel.cs" />
+    <Compile Include="Reports\ReportNFeReadModel.cs" />
     <Compile Include="Domain\Impostos\CofinsCreator.cs" />
     <Compile Include="Domain\Impostos\CofinsStCreator.cs" />
     <Compile Include="DadosNotaParaCancelar.cs" />
     <Compile Include="Domain\Services\IInutilizarNotaFiscalService.cs" />
-    <Compile Include="QrCode.cs" />
     <Compile Include="ResultadoEnvio.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Servico.cs" />
-    <Compile Include="XmlNFe.cs" />
     <Compile Include="Domain\Impostos\IcmsCreator.cs" />
     <Compile Include="Domain\Impostos\IcmsUfDestinoDirector.cs" />
     <Compile Include="Domain\Impostos\IImpostoCreator.cs" />
@@ -415,7 +414,7 @@
     <Compile Include="Domain\Emitente.cs" />
     <Compile Include="Domain\Endereco.cs" />
     <Compile Include="Estado.cs" />
-    <Compile Include="Ibpt.cs" />
+    <Compile Include="Domain\Ibpt.cs" />
     <Compile Include="Domain\IcmsTotal.cs" />
     <Compile Include="Domain\IdentificacaoNFe.cs" />
     <Compile Include="Domain\InfoAdicional.cs" />
@@ -435,9 +434,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="XmlUtil.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="ValidadorXml.cs" />
+    <Compile Include="XmlNFe.cs" />
+    <Compile Include="XmlUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SqlServerTypes\readme.htm" />
