@@ -91,6 +91,8 @@
     <Compile Include="CstListManager.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DecimalExtensions.cs" />
+    <Compile Include="DoubleExtensions.cs" />
+    <Compile Include="Enumeration.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="IXmlFileWritable.cs" />
     <Compile Include="MessageService.cs" />

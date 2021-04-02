@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="NfeAutorizacao\Envio\EnviNFe_v3_10.cs" />
     <Compile Include="NfeAutorizacao\Retorno\RetEnviNFe_v3_10.cs" />
     <Compile Include="NfeAutorizacao\Retorno\TNfeProc.cs" />

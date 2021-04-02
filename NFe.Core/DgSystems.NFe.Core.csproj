@@ -214,7 +214,6 @@
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
-    <Compile Include="Extensions\Enumeration.cs" />
     <Compile Include="GeradorPDF.cs" />
     <Compile Include="GeradorZip.cs" />
     <Compile Include="Globals.cs" />
@@ -242,10 +241,9 @@
     <Compile Include="Domain\Impostos\Cofins\CofinsOutr.cs" />
     <Compile Include="Domain\Impostos\Cofins\CofinsQtde.cs" />
     <Compile Include="Domain\Impostos\Cofins\CofinsSt.cs" />
-    <Compile Include="Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
-    <Compile Include="Events\NotasFiscaisTransmitidasEvent.cs" />
-    <Compile Include="Events\ServicoOfflineEvent.cs" />
-    <Compile Include="Extensions\DoubleExtensions.cs" />
+    <Compile Include="Domain\Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
+    <Compile Include="Domain\Events\NotasFiscaisTransmitidasEvent.cs" />
+    <Compile Include="Domain\Events\ServicoOfflineEvent.cs" />
     <Compile Include="Domain\Impostos\Icms\Icms.cs" />
     <Compile Include="Domain\Impostos\Icms\Icms00.cs" />
     <Compile Include="Domain\Impostos\Icms\Icms10.cs" />
@@ -349,7 +347,7 @@
     <Compile Include="Domain\Repository\Entity\EstadoEntity.cs" />
     <Compile Include="Domain\Repository\Entity\EventoEntity.cs" />
     <Compile Include="Domain\Repository\Entity\GrupoImposto.cs" />
-    <Compile Include="Contabilidade\HistoricoEnvioContabilidade.cs" />
+    <Compile Include="Domain\Repository\Entity\HistoricoEnvioContabilidade.cs" />
     <Compile Include="Domain\Repository\Entity\IbptEntity.cs" />
     <Compile Include="Domain\Repository\Entity\Imposto.cs" />
     <Compile Include="Domain\Repository\Entity\MunicipioEntity.cs" />
@@ -413,7 +411,6 @@
     </Compile>
     <Compile Include="MensagemRetornoTransmissaoNotasContingencia.cs" />
     <Compile Include="Domain\Destinatario.cs" />
-    <Compile Include="Endereco.cs" />
     <Compile Include="Domain\CodMunicipioIBGE.cs" />
     <Compile Include="Domain\Emitente.cs" />
     <Compile Include="Domain\Endereco.cs" />
