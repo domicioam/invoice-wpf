@@ -7,8 +7,8 @@
     <ProjectGuid>{ECDF9D2B-0867-4DC3-A82F-00FA86D0ED10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DgSystems.NFe.NotaFiscal.Services</RootNamespace>
-    <AssemblyName>DgSystems.NFe.NotaFiscal.Services</AssemblyName>
+    <RootNamespace>DgSystems.NFe.Services</RootNamespace>
+    <AssemblyName>DgSystems.NFe.Services</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -153,9 +153,9 @@
       <Project>{4fc78899-460b-4ae0-98e5-e3997cf9a110}</Project>
       <Name>DgSystems.NFe.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DgSystems.NFe.NotaFiscal.Services\DgSystems.NFe.NotaFiscal.Services.csproj">
+    <ProjectReference Include="..\DgSystems.NFe.NotaFiscal.Services\DgSystems.NFe.Services.csproj">
       <Project>{ecdf9d2b-0867-4dc3-a82f-00fa86d0ed10}</Project>
-      <Name>DgSystems.NFe.NotaFiscal.Services</Name>
+      <Name>DgSystems.NFe.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\DgSystems.NFe.Repository\DgSystems.NFe.Repository.csproj">
       <Project>{ef266259-ff71-47f0-a68c-c44bc298bf76}</Project>
