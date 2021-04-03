@@ -32,7 +32,7 @@ namespace NFe.Core.NotasFiscais.Services
             _nfeConsulta = nfeConsulta;
         }
 
-        public ResultadoEnvio EnviarNotaFiscal(Domain.NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado, XmlNFe xmlNFe)
+        public ResultadoEnvio EnviarNotaFiscal(NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado, XmlNFe xmlNFe)
         {
             if (!IsNotaFiscalValida(notaFiscal, cscId, csc, certificado))
             {
@@ -63,8 +63,7 @@ namespace NFe.Core.NotasFiscais.Services
                         var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
                         notaFiscal = AtribuirValoresApósEnvioComSucesso(notaFiscal, xmlNFe.QrCode, protDeserialized);
-                        var resultadoEnvio = new ResultadoEnvio(notaFiscal, protDeserialized, xmlNFe.QrCode, xmlNFe.TNFe, xmlNFe.XmlNode);
-                        return resultadoEnvio;
+                        return new ResultadoEnvio(notaFiscal, protDeserialized, xmlNFe.QrCode, xmlNFe.TNFe, xmlNFe.XmlNode);
                     }
 
                     //Nota continua com status pendente nesse caso
