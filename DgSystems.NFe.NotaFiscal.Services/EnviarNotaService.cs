@@ -1,22 +1,19 @@
-﻿using System;
-using System.Xml;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Security.Cryptography.X509Certificates;
-
-using NFe.Core.Sefaz;
-using NFe.Core.Utils;
-using NFe.Core.Utils.Xml;
+﻿using NFe.Core.Domain;
 using NFe.Core.Entitities;
-using NFe.Core.Sefaz.Facades;
-using NFe.Core.NFeAutorizacao4;
-using NFe.Core.Utils.Assinatura;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
-using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
-using NFe.Core.Domain;
 using NFe.Core.Interfaces;
+using NFe.Core.NFeAutorizacao4;
+using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.Sefaz;
+using NFe.Core.Sefaz.Facades;
+using NFe.Core.Utils.Assinatura;
+using NFe.Core.Utils.Xml;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
+using System;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
+using System.Xml;
+using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
 namespace NFe.Core.NotasFiscais.Services
 {
@@ -89,8 +86,7 @@ namespace NFe.Core.NotasFiscais.Services
                         var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
                         notaFiscal = AtribuirValoresApósEnvioComSucesso(notaFiscal, xmlNFe.QrCode, protDeserialized);
-                        var resultadoEnvio = new ResultadoEnvio(notaFiscal, protDeserialized, xmlNFe.QrCode, xmlNFe.TNFe, xmlNFe.XmlNode);
-                        return resultadoEnvio;
+                        return new ResultadoEnvio(notaFiscal, protDeserialized, xmlNFe.QrCode, xmlNFe.TNFe, xmlNFe.XmlNode);
                     }
 
                     throw;
@@ -124,18 +120,16 @@ namespace NFe.Core.NotasFiscais.Services
 
             var result = client.nfeAutorizacaoLote(inValue).nfeResultMsg;
             var retorno = (TRetEnviNFe)XmlUtil.Deserialize<TRetEnviNFe>(result.OuterXml);
-            var protocolo = (TProtNFe)retorno.Item;
-            return protocolo;
+            return (TProtNFe)retorno.Item;
         }
 
-        private NFeAutorizacao4Soap CriarClientWS(Domain.NotaFiscal notaFiscal, X509Certificate2 certificado, CodigoUfIbge codigoUf)
+        private NFeAutorizacao4Soap CriarClientWS(NotaFiscal notaFiscal, X509Certificate2 certificado, CodigoUfIbge codigoUf)
         {
             var servico = _serviceFactory.GetService(notaFiscal.Identificacao.Modelo, Servico.AUTORIZACAO, codigoUf, certificado);
-            var client = (NFeAutorizacao4Soap)servico.SoapClient;
-            return client;
+            return (NFeAutorizacao4Soap)servico.SoapClient;
         }
 
-        private static Domain.NotaFiscal AtribuirValoresApósEnvioComSucesso(Domain.NotaFiscal notaFiscal, QrCode qrCode, TProtNFe protocolo)
+        private static NotaFiscal AtribuirValoresApósEnvioComSucesso(NotaFiscal notaFiscal, QrCode qrCode, TProtNFe protocolo)
         {
             var dataAutorizacao = DateTime.ParseExact(protocolo.infProt.dhRecbto, DATE_STRING_FORMAT, CultureInfo.InvariantCulture);
             if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
@@ -147,7 +141,7 @@ namespace NFe.Core.NotasFiscais.Services
             return notaFiscal;
         }
 
-        public bool IsNotaFiscalValida(Domain.NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado)
+        public bool IsNotaFiscalValida(NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado)
         {
             var refUri = "#NFe" + notaFiscal.Identificacao.Chave;
             var digVal = "";
