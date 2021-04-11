@@ -1,5 +1,4 @@
 ﻿using Microsoft.Reporting.WinForms;
-using NFe.Core;
 using QRCoder;
 using System;
 using System.Collections.Generic;
@@ -27,6 +26,7 @@ using Pagamento = NFe.WPF.Model.Pagamento;
 using Produto = NFe.WPF.Model.Produto;
 using Transportadora = NFe.WPF.Model.ReportNFe.Transportadora;
 using NFe.Core.NotasFiscais;
+using System.Xml;
 
 namespace NFe.Core.Utils.PDF
 {
@@ -50,7 +50,7 @@ namespace NFe.Core.Utils.PDF
             string extension = string.Empty;
 
             var emitenteEntity = _emitenteRepository.GetEmitente();
-            var emitente = new RelatorioGerencial.Emitente()
+            var emitente = new Emitente()
             {
                 RazaoSocial = emitenteEntity.RazaoSocial,
                 CNPJ = emitenteEntity.CNPJ
@@ -150,8 +150,8 @@ namespace NFe.Core.Utils.PDF
             var eventoCancelamentoNFCe = _eventoRepository.GetEventosPorNotasId(nfceCanceladas.Select(n => n.Id));
             var eventoCancelamentoNFe = _eventoRepository.GetEventosPorNotasId(nfeCanceladas.Select(n => n.Id));
 
-            List<RelatorioGerencial.NotaInutilizada> nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(65)).Select(
-                nota => new RelatorioGerencial.NotaInutilizada()
+            List<NotaInutilizada> nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(65)).Select(
+                nota => new NotaInutilizada()
                 {
                     Serie = nota.Serie,
                     Numero = nota.Numero,
@@ -161,8 +161,8 @@ namespace NFe.Core.Utils.PDF
                 }
                 ).ToList();
 
-            List<RelatorioGerencial.NotaInutilizada> nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(55)).Select(
-                nota => new RelatorioGerencial.NotaInutilizada()
+            List<NotaInutilizada> nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(55)).Select(
+                nota => new NotaInutilizada()
                 {
                     Serie = nota.Serie,
                     Numero = nota.Numero,
@@ -313,7 +313,7 @@ namespace NFe.Core.Utils.PDF
             string extension = string.Empty;
 
             Byte[] data;
-            System.Drawing.Bitmap qrCodeAsBitmap;
+            Bitmap qrCodeAsBitmap;
             string qrCodeUrl = GetQrCodeUrl(notaFiscal.QrCodeUrl);
 
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
@@ -351,11 +351,11 @@ namespace NFe.Core.Utils.PDF
                     ValorTotal = produto.ValorTotal
                 }).ToList();
 
-                var pagamentos = notaFiscal.Pagamentos.Select(pagamento => new Pagamento()
+                var pagamentos = notaFiscal.Pagamentos.ConvertAll(pagamento => new Pagamento()
                 {
                     Nome = pagamento.FormaPagamentoTexto,
                     Valor = pagamento.Valor
-                }).ToList();
+                });
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
@@ -593,10 +593,10 @@ namespace NFe.Core.Utils.PDF
 
             var destinatario = notaFiscal.Destinatario;
 
-            #region QrCode
             var barcode = BarcodeDrawFactory.Code128WithChecksum;
             var barcodeImg = barcode.Draw(notaFiscal.Identificacao.Chave.ToString(), 36);
 
+            // QrCode
             Byte[] data;
 
             using (var memoryStream = new MemoryStream())
@@ -605,11 +605,9 @@ namespace NFe.Core.Utils.PDF
                 data = memoryStream.ToArray();
             }
 
-            #endregion QrCode
-
             SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
 
-            var produtos = notaFiscal.Produtos.Select(produto => new WPF.Model.ReportNFe.Produto()
+            var produtos = notaFiscal.Produtos.ConvertAll(produto => new WPF.Model.ReportNFe.Produto()
             {
                 Codigo = produto.Codigo,
                 Descricao = produto.Descricao,
@@ -621,7 +619,7 @@ namespace NFe.Core.Utils.PDF
                 ValorUnitario = produto.ValorUnidadeComercial,
                 ValorDesconto = produto.Desconto,
                 ValorLiquido = produto.ValorTotal
-            }).ToList();
+            });
 
             using (var reportViewer = new ReportViewer())
             {
