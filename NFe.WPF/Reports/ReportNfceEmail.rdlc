@@ -518,142 +518,6 @@
           <FontSize>5.5pt</FontSize>
         </Style>
       </Tablix>
-      <Textbox Name="Textbox24">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>QTD. TOTAL DE ITENS</Value>
-                <Style>
-                  <FontSize>6pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox19</rd:DefaultName>
-        <Top>1.13485in</Top>
-        <Left>0.41275cm</Left>
-        <Height>0.18056in</Height>
-        <Width>1.68765in</Width>
-        <ZIndex>3</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox53">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Label>ValorProdutos</Label>
-                <Value>=Sum(Fields!ValorTotalProdutos.Value, "Dados")</Value>
-                <Style>
-                  <FontSize>6pt</FontSize>
-                  <Format>N2</Format>
-                  <Language>pt-BR</Language>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Right</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox21</rd:DefaultName>
-        <Top>1.32235in</Top>
-        <Left>1.84441in</Left>
-        <Height>0.18056in</Height>
-        <Width>1.06554in</Width>
-        <ZIndex>4</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox25">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Label>QtdeProdutos</Label>
-                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
-                <Style>
-                  <FontSize>6pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Right</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox21</rd:DefaultName>
-        <Top>1.13485in</Top>
-        <Left>1.84441in</Left>
-        <Height>0.18056in</Height>
-        <Width>1.06554in</Width>
-        <ZIndex>5</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox26">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>VALOR TOTAL R$</Value>
-                <Style>
-                  <FontSize>6pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox19</rd:DefaultName>
-        <Top>1.32235in</Top>
-        <Left>0.41275cm</Left>
-        <Height>0.18056in</Height>
-        <Width>1.68765in</Width>
-        <ZIndex>6</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
@@ -837,7 +701,7 @@
         <Left>0.41275cm</Left>
         <Height>0.36446in</Height>
         <Width>2.77247in</Width>
-        <ZIndex>7</ZIndex>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -868,7 +732,7 @@
         <Left>0.47625cm</Left>
         <Height>0.19098in</Height>
         <Width>2.69745in</Width>
-        <ZIndex>8</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -936,7 +800,7 @@
         <Left>0.11702in</Left>
         <Height>0.26042in</Height>
         <Width>2.80543in</Width>
-        <ZIndex>9</ZIndex>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -970,7 +834,7 @@
         <Left>0.48646in</Left>
         <Height>0.13542in</Height>
         <Width>2.09233in</Width>
-        <ZIndex>10</ZIndex>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1017,7 +881,7 @@
         <Top>1.90385in</Top>
         <Height>0.29196in</Height>
         <Width>3.06775in</Width>
-        <ZIndex>11</ZIndex>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1052,7 +916,7 @@
         <Top>2.22341in</Top>
         <Height>0.14757in</Height>
         <Width>3.074in</Width>
-        <ZIndex>12</ZIndex>
+        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1088,7 +952,7 @@
         <Left>0.09525cm</Left>
         <Height>0.14224in</Height>
         <Width>2.97087in</Width>
-        <ZIndex>13</ZIndex>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1170,7 +1034,7 @@
         <Left>0.14198in</Left>
         <Height>0.16308in</Height>
         <Width>2.73049in</Width>
-        <ZIndex>14</ZIndex>
+        <ZIndex>10</ZIndex>
         <Visibility>
           <Hidden>=IIf(IsNothing(First(Fields!Destinatario.Value.Nome, "Dados")),True,False)</Hidden>
         </Visibility>
@@ -1189,7 +1053,7 @@
         <Left>0.96459in</Left>
         <Height>3cm</Height>
         <Width>3cm</Width>
-        <ZIndex>15</ZIndex>
+        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1251,7 +1115,7 @@
         <Left>0.14202in</Left>
         <Height>0.14584in</Height>
         <Width>2.75545in</Width>
-        <ZIndex>16</ZIndex>
+        <ZIndex>12</ZIndex>
         <Visibility>
           <Hidden>=IIf(IsNothing(First(Fields!Protocolo.Value, "Dados")),True,False)</Hidden>
         </Visibility>
@@ -1291,7 +1155,7 @@
         <Left>0.11146in</Left>
         <Height>0.18056in</Height>
         <Width>2.87453in</Width>
-        <ZIndex>17</ZIndex>
+        <ZIndex>13</ZIndex>
         <Visibility>
           <Hidden>=IIf(IsNothing(First(Fields!InformacaoInteresse.Value, "Dados")),True,False)</Hidden>
         </Visibility>
@@ -1299,6 +1163,184 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="Tablix3">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>3.51966cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.51966cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.34277cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Descricao1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Descricao.Value</Value>
+                              <Style>
+                                <FontSize>6pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Descricao1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Valor1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Valor.Value</Value>
+                              <Style>
+                                <FontSize>6pt</FontSize>
+                                <Format>N2</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Valor1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details2" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>TotaisNotaFiscal</DataSetName>
+        <Top>3.38349cm</Top>
+        <Left>0.41275cm</Left>
+        <Height>0.34277cm</Height>
+        <Width>7.03932cm</Width>
+        <ZIndex>14</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <FontSize>6pt</FontSize>
+        </Style>
+      </Tablix>
+      <Textbox Name="Textbox24">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Qtde. total de itens</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox19</rd:DefaultName>
+        <Top>1.17652in</Top>
+        <Left>0.41275cm</Left>
+        <Height>0.15278in</Height>
+        <Width>1.69675in</Width>
+        <ZIndex>15</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox25">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>QtdeProdutos</Label>
+                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox21</rd:DefaultName>
+        <Top>1.17652in</Top>
+        <Left>1.84441in</Left>
+        <Height>0.15278in</Height>
+        <Width>1.07464in</Width>
+        <ZIndex>16</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
@@ -1346,6 +1388,13 @@
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
       <rd:DataSourceID>0234d9a5-de11-40cc-8bfe-c49d2c2cfc52</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="NFeWPFModel3">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>0b8f9667-1ad6-45ef-b71e-e3900aa6245d</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -1472,6 +1521,28 @@
         <rd:TableName>ReportNFCeReadModel</rd:TableName>
         <rd:ObjectDataSourceSelectMethod>Pagamentos</rd:ObjectDataSourceSelectMethod>
         <rd:ObjectDataSourceType>NFe.WPF.Model.ReportNFCeReadModel, NFe.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="TotaisNotaFiscal">
+      <Query>
+        <DataSourceName>NFeWPFModel3</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Descricao">
+          <DataField>Descricao</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Valor">
+          <DataField>Valor</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>NFe.WPF.Model</rd:DataSetName>
+        <rd:TableName>ReportNFCeReadModel</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>TotaisNotaFiscal</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceType>NFe.WPF.Model.ReportNFCeReadModel, NFe.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

@@ -361,6 +361,31 @@ namespace NFe.Core.Utils.PDF
                     new ItemTotal() { Descricao = "Valor total R$", Valor = notaFiscal.ValorTotalProdutos }
                 };
 
+                double totalDesconto = notaFiscal.Produtos.Sum(p => p.Desconto);
+                if (totalDesconto > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Desconto R$", Valor = totalDesconto });
+                }
+
+                double totalFrete = notaFiscal.Produtos.Sum(p => p.Frete);
+                if (totalFrete > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Frete R$", Valor = totalFrete });
+                }
+
+                double totalSeguro = notaFiscal.Produtos.Sum(p => p.Seguro);
+                if(totalSeguro > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Seguro R$", Valor = totalSeguro });
+                }
+
+                double totalOutros = notaFiscal.Produtos.Sum(p => p.Outros);
+                if(totalOutros > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Outros R$", Valor = totalOutros });
+                }
+
+                totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Valor a Pagar R$", Valor = notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros });
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
@@ -522,6 +547,36 @@ namespace NFe.Core.Utils.PDF
                     Valor = pagamento.Valor
                 }).ToList();
 
+                var totaisNotaFiscal = new List<ItemTotal> {
+                    new ItemTotal() { Descricao = "Valor total R$", Valor = notaFiscal.ValorTotalProdutos }
+                };
+
+                double totalDesconto = notaFiscal.Produtos.Sum(p => p.Desconto);
+                if (totalDesconto > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Desconto R$", Valor = totalDesconto });
+                }
+
+                double totalFrete = notaFiscal.Produtos.Sum(p => p.Frete);
+                if (totalFrete > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Frete R$", Valor = totalFrete });
+                }
+
+                double totalSeguro = notaFiscal.Produtos.Sum(p => p.Seguro);
+                if (totalSeguro > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Seguro R$", Valor = totalSeguro });
+                }
+
+                double totalOutros = notaFiscal.Produtos.Sum(p => p.Outros);
+                if (totalOutros > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Outros R$", Valor = totalOutros });
+                }
+
+                totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Valor a Pagar R$", Valor = notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros });
+
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
                     Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
@@ -559,7 +614,8 @@ namespace NFe.Core.Utils.PDF
                         CEP = destinatario.Endereco?.Cep
                     },
                     Produtos = produtos,
-                    Pagamentos = pagamentos
+                    Pagamentos = pagamentos,
+                    TotaisNotaFiscal = totaisNotaFiscal
                 };
 
                 ReportDataSource dadosDataSource = new ReportDataSource()
@@ -580,9 +636,16 @@ namespace NFe.Core.Utils.PDF
                     Value = reportNFCeReadModel.Pagamentos
                 };
 
+                ReportDataSource totaisNotaFiscalDataSource = new ReportDataSource()
+                {
+                    Name = "TotaisNotaFiscal",
+                    Value = reportNFCeReadModel.TotaisNotaFiscal
+                };
+
                 reportViewer.LocalReport.DataSources.Add(dadosDataSource);
                 reportViewer.LocalReport.DataSources.Add(produtosDataSource);
                 reportViewer.LocalReport.DataSources.Add(pagamentosDataSource);
+                reportViewer.LocalReport.DataSources.Add(totaisNotaFiscalDataSource);
 
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.ReportPath = Path.Combine(Directory.GetCurrentDirectory(), @"Reports\ReportNfceEmail.rdlc");
