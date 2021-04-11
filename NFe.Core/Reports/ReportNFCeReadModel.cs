@@ -20,6 +20,7 @@ namespace NFe.WPF.Model
         public Emissor Emissor { get; set; }
         public List<Produto> Produtos { get; set; }
         public List<Pagamento> Pagamentos { get; set; }
+        public List<ItemTotal> TotaisNotaFiscal { get; set; }
         public int QuantidadeTotalProdutos { get; set; }
         public double ValorTotalProdutos  { get; set; }
         public Destinatario Destinatario { get; set; }
@@ -68,5 +69,12 @@ namespace NFe.WPF.Model
         public string UF { get; set; }
         public string CEP { get; set; }
 
+    }
+
+    [Serializable]
+    public struct ItemTotal
+    {
+        public string Descricao { get; set; }
+        public double Valor { get; set; }
     }
 }

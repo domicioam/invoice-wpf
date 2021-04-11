@@ -357,6 +357,11 @@ namespace NFe.Core.Utils.PDF
                     Valor = pagamento.Valor
                 });
 
+                var totaisNotaFiscal = new List<ItemTotal> {
+                    new ItemTotal() { Descricao = "Valor total R$", Valor = notaFiscal.ValorTotalProdutos }
+                };
+
+
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
                     Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
@@ -394,7 +399,8 @@ namespace NFe.Core.Utils.PDF
                         CEP = destinatario.Endereco?.Cep
                     },
                     Produtos = produtos,
-                    Pagamentos = pagamentos
+                    Pagamentos = pagamentos,
+                    TotaisNotaFiscal = totaisNotaFiscal
                 };
 
                 ReportDataSource dadosDataSource = new ReportDataSource()
@@ -415,9 +421,16 @@ namespace NFe.Core.Utils.PDF
                     Value = reportNFCeReadModel.Pagamentos
                 };
 
+                ReportDataSource totaisNotaFiscalDataSource = new ReportDataSource()
+                {
+                    Name = "TotaisNotaFiscal",
+                    Value = reportNFCeReadModel.TotaisNotaFiscal
+                };
+
                 reportViewer.LocalReport.DataSources.Add(dadosDataSource);
                 reportViewer.LocalReport.DataSources.Add(produtosDataSource);
                 reportViewer.LocalReport.DataSources.Add(pagamentosDataSource);
+                reportViewer.LocalReport.DataSources.Add(totaisNotaFiscalDataSource);
 
                 reportViewer.ProcessingMode = ProcessingMode.Local;
                 reportViewer.LocalReport.ReportPath = Path.Combine(Directory.GetCurrentDirectory(), @"Reports\ReportNfce.rdlc");
