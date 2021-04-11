@@ -69,7 +69,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
         <Top>0.13423in</Top>
-        <Left>0.18544in</Left>
+        <Left>0.19118in</Left>
         <Height>0.18056in</Height>
         <Width>2.58703in</Width>
         <Style>
@@ -103,6 +103,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
         <Top>0.32506in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.18056in</Height>
         <Width>2.77247in</Width>
         <ZIndex>1</ZIndex>
@@ -502,6 +503,7 @@
         </TablixRowHierarchy>
         <DataSetName>Produtos</DataSetName>
         <Top>0.68062in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.40146in</Height>
         <Width>2.75655in</Width>
         <ZIndex>2</ZIndex>
@@ -510,14 +512,14 @@
           <FontSize>5.5pt</FontSize>
         </Style>
       </Tablix>
-      <Textbox Name="Textbox24">
+      <Textbox Name="lblQtdeItens">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>QTD. TOTAL DE ITENS</Value>
+                <Value>Qtde. total de itens</Value>
                 <Style>
                   <FontSize>6pt</FontSize>
                 </Style>
@@ -526,8 +528,8 @@
             <Style />
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox19</rd:DefaultName>
-        <Top>1.10985in</Top>
+        <Top>1.11679in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.18056in</Height>
         <Width>1.68765in</Width>
         <ZIndex>3</ZIndex>
@@ -541,7 +543,7 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox53">
+      <Textbox Name="txtValorTotal">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -562,9 +564,8 @@
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox21</rd:DefaultName>
         <Top>1.29735in</Top>
-        <Left>1.68191in</Left>
+        <Left>1.68765in</Left>
         <Height>0.18056in</Height>
         <Width>1.06554in</Width>
         <ZIndex>4</ZIndex>
@@ -578,7 +579,7 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox25">
+      <Textbox Name="txtQtdeTotalItens">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
@@ -597,9 +598,8 @@
             </Style>
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox21</rd:DefaultName>
         <Top>1.10985in</Top>
-        <Left>1.68191in</Left>
+        <Left>1.68765in</Left>
         <Height>0.18056in</Height>
         <Width>1.06554in</Width>
         <ZIndex>5</ZIndex>
@@ -613,14 +613,14 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="Textbox26">
+      <Textbox Name="lblValorTotal">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
         <Paragraphs>
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>VALOR TOTAL R$</Value>
+                <Value>Valor total R$</Value>
                 <Style>
                   <FontSize>6pt</FontSize>
                 </Style>
@@ -629,8 +629,8 @@
             <Style />
           </Paragraph>
         </Paragraphs>
-        <rd:DefaultName>Textbox19</rd:DefaultName>
         <Top>1.29735in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.18056in</Height>
         <Width>1.68765in</Width>
         <ZIndex>6</ZIndex>
@@ -823,7 +823,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Pagamentos</DataSetName>
-        <Top>1.50373in</Top>
+        <Top>2.50373in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.36446in</Height>
         <Width>2.77247in</Width>
         <ZIndex>7</ZIndex>
@@ -853,7 +854,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
-        <Top>4.67049in</Top>
+        <Top>5.67049in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.19098in</Height>
         <Width>2.77247in</Width>
         <ZIndex>8</ZIndex>
@@ -920,8 +922,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.79448in</Top>
-        <Left>0.01702in</Left>
+        <Top>3.79448in</Top>
+        <Left>0.02276in</Left>
         <Height>0.26042in</Height>
         <Width>2.80543in</Width>
         <ZIndex>9</ZIndex>
@@ -954,8 +956,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>3.077in</Top>
-        <Left>0.38646in</Left>
+        <Top>4.077in</Top>
+        <Left>0.3922in</Left>
         <Height>0.13542in</Height>
         <Width>2.09233in</Width>
         <ZIndex>10</ZIndex>
@@ -1002,7 +1004,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox60</rd:DefaultName>
-        <Top>1.87885in</Top>
+        <Top>2.87885in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.29196in</Height>
         <Width>3.06775in</Width>
         <ZIndex>11</ZIndex>
@@ -1037,7 +1040,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.19841in</Top>
+        <Top>3.19841in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.14757in</Height>
         <Width>3.074in</Width>
         <ZIndex>12</ZIndex>
@@ -1072,7 +1076,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.35362in</Top>
+        <Top>3.35362in</Top>
+        <Left>0.01458cm</Left>
         <Height>0.14224in</Height>
         <Width>2.97087in</Width>
         <ZIndex>13</ZIndex>
@@ -1153,8 +1158,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.57863in</Top>
-        <Left>0.04198in</Left>
+        <Top>3.57863in</Top>
+        <Left>0.04772in</Left>
         <Height>0.16308in</Height>
         <Width>2.73049in</Width>
         <ZIndex>14</ZIndex>
@@ -1172,8 +1177,8 @@
         <Value>=First(Fields!QrCodeImage.Value, "Dados")</Value>
         <MIMEType>image/bmp</MIMEType>
         <Sizing>Fit</Sizing>
-        <Top>3.43383in</Top>
-        <Left>0.85209in</Left>
+        <Top>4.43383in</Top>
+        <Left>0.85783in</Left>
         <Height>3cm</Height>
         <Width>3cm</Width>
         <ZIndex>15</ZIndex>
@@ -1234,8 +1239,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox60</rd:DefaultName>
-        <Top>3.22897in</Top>
-        <Left>0.01702in</Left>
+        <Top>4.22897in</Top>
+        <Left>0.02276in</Left>
         <Height>0.14584in</Height>
         <Width>2.75545in</Width>
         <ZIndex>16</ZIndex>
@@ -1275,7 +1280,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
         <Top>0.48409in</Top>
-        <Left>0.01146in</Left>
+        <Left>0.0172in</Left>
         <Height>0.18056in</Height>
         <Width>2.87453in</Width>
         <ZIndex>17</ZIndex>
@@ -1290,6 +1295,338 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="lblDesconto">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Desconto R$</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.47791in</Top>
+        <Left>0.01458cm</Left>
+        <Height>0.18056in</Height>
+        <Width>1.68765in</Width>
+        <ZIndex>18</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="txtDesconto">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>QtdeProdutos</Label>
+                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.47791in</Top>
+        <Left>1.68765in</Left>
+        <Height>0.18056in</Height>
+        <Width>1.06554in</Width>
+        <ZIndex>19</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="lblFrete">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Frete R$</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.65847in</Top>
+        <Left>0.04369cm</Left>
+        <Height>0.18056in</Height>
+        <Width>1.68765in</Width>
+        <ZIndex>20</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="txtFrete">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>QtdeProdutos</Label>
+                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.65847in</Top>
+        <Left>1.68765in</Left>
+        <Height>0.18056in</Height>
+        <Width>1.06554in</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="lblSeguro">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Seguro R$</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.83903in</Top>
+        <Left>0.01458cm</Left>
+        <Height>0.18056in</Height>
+        <Width>1.68765in</Width>
+        <ZIndex>22</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="txtSeguro">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>QtdeProdutos</Label>
+                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.83903in</Top>
+        <Left>1.68765in</Left>
+        <Height>0.18056in</Height>
+        <Width>1.06554in</Width>
+        <ZIndex>23</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="lblOutros">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Outros R$</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>2.01959in</Top>
+        <Left>0.04369cm</Left>
+        <Height>0.18056in</Height>
+        <Width>1.68765in</Width>
+        <ZIndex>24</ZIndex>
+        <Visibility>
+          <Hidden>true</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="txtOutros">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>QtdeProdutos</Label>
+                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>2.01959in</Top>
+        <Left>1.68765in</Left>
+        <Height>0.18056in</Height>
+        <Width>1.06554in</Width>
+        <ZIndex>25</ZIndex>
+        <Visibility>
+          <Hidden>true</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="txtValorPagar">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Label>QtdeProdutos</Label>
+                <Value>=Sum(Fields!QuantidadeTotalProdutos.Value, "Dados")</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>2.20015in</Top>
+        <Left>1.68765in</Left>
+        <Height>0.18056in</Height>
+        <Width>1.06554in</Width>
+        <ZIndex>26</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="lblValorPagar">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Valor a Pagar R$</Value>
+                <Style>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>2.20015in</Top>
+        <Left>0.04369cm</Left>
+        <Height>0.18056in</Height>
+        <Width>1.68765in</Width>
+        <ZIndex>27</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>11.17501in</Height>
     <Style>
@@ -1298,7 +1635,7 @@
       </Border>
     </Style>
   </Body>
-  <Width>7.80796cm</Width>
+  <Width>7.82254cm</Width>
   <Page>
     <PageHeight>40cm</PageHeight>
     <PageWidth>7.9cm</PageWidth>
