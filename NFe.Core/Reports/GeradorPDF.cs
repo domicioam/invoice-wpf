@@ -495,8 +495,6 @@ namespace NFe.Core.Utils.PDF
                 printDoc.Print();
 #endif
             }
-
-
         }
 
         public static string ObterPdfEnvioNotaFiscalEmail(Domain.NotaFiscal notaFiscal)
