@@ -53,33 +53,6 @@ namespace DgSystems.NFe.ViewModels
             _emissorService = emissorService;
 
             MessagingCenter.Subscribe<NotaFiscalMainViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (_, e) => DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario));
-
-            Finalidades = new List<string>()
-            {
-                "Normal",
-                "Complementar",
-                "Ajuste",
-                "Devolução"
-            };
-
-            FormasPagamento = new Dictionary<string, string>()
-            {
-                { "Dinheiro", "Dinheiro" },
-                { "Cheque", "Cheque" },
-                { "CartaoCredito", "Cartão de Crédito" },
-                { "CartaoDebito", "Cartão de Débito" }
-                //{ "CreditoLoja", "Crédito Loja" },
-                //{ "ValeAlimentacao",  "Vale Alimentação" },
-                //{ "ValeRefeicao", "Vale Refeição" },
-                //{ "ValePresente", "Vale Presente"},
-                //{ "ValeCombustivel", "Vale Combustível"},
-                //{ "Outros", "Outros" }
-            };
-
-            Parcelas = new List<int>()
-            {
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
-            };
         }
 
         private PagamentoModel _pagamento;
@@ -105,7 +78,13 @@ namespace DgSystems.NFe.ViewModels
         public TransportadoraModel TransportadoraParaSalvar { get; set; }
         public ObservableCollection<DestinatarioModel> Destinatarios { get; set; }
         public ObservableCollection<TransportadoraModel> Transportadoras { get; set; }
-        public List<string> Finalidades { get; set; }
+        public List<string> Finalidades => new List<string>()
+        {
+            "Normal",
+            "Complementar",
+            "Ajuste",
+            "Devolução"
+        };
         public PagamentoModel Pagamento
         {
             get { return _pagamento; }
@@ -116,8 +95,24 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        public Dictionary<string, string> FormasPagamento { get; set; }
-        public List<int> Parcelas { get; set; }
+        public Dictionary<string, string> FormasPagamento => new Dictionary<string, string>()
+        {
+            { "Dinheiro", "Dinheiro" },
+            { "Cheque", "Cheque" },
+            { "CartaoCredito", "Cartão de Crédito" },
+            { "CartaoDebito", "Cartão de Débito" }
+            //{ "CreditoLoja", "Crédito Loja" },
+            //{ "ValeAlimentacao",  "Vale Alimentação" },
+            //{ "ValeRefeicao", "Vale Refeição" },
+            //{ "ValePresente", "Vale Presente"},
+            //{ "ValeCombustivel", "Vale Combustível"},
+            //{ "Outros", "Outros" }
+        };
+
+        public List<int> Parcelas => new List<int>()
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+        };
 
         public ProdutoModel Produto
         {
@@ -157,7 +152,7 @@ namespace DgSystems.NFe.ViewModels
             await EnviarNotaAsync(closable);
         }
 
-        public async Task EnviarNotaAsync(IClosable closable)
+        private async Task EnviarNotaAsync(IClosable closable)
         {
             ValidateModel();
 

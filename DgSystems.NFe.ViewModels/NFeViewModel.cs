@@ -81,44 +81,7 @@ namespace DgSystems.NFe.ViewModels
                 ProdutosCombo.Add(produtoDb);
             }
 
-            IndicadoresPresenca = new List<string>()
-            {
-                "Não se Aplica",
-                "Presencial",
-                "Não Presencial, Internet",
-                "Não Presencial, Teleatendimento",
-                "Entrega a Domicílio",
-                "Não Presencial, Outros"
-            };
-
-            Finalidades = new List<string>()
-            {
-                "Normal",
-                "Complementar",
-                "Ajuste",
-                "Devolução"
-            };
-
-            FormasPagamento = new Dictionary<string, string>()
-            {
-                { "Dinheiro", "Dinheiro" },
-                { "Cheque", "Cheque" },
-                { "CartaoCredito", "Cartão de Crédito" },
-                { "CartaoDebito", "Cartão de Débito" }
-                //{ "CreditoLoja", "Crédito Loja" },
-                //{ "ValeAlimentacao",  "Vale Alimentação" },
-                //{ "ValeRefeicao", "Vale Refeição" },
-                //{ "ValePresente", "Vale Presente"},
-                //{ "ValeCombustivel", "Vale Combustível"},
-                //{ "Outros", "Outros" }
-            };
-
-            EstadosUF = _estadoRepository.GetEstados().Select(e => e.Uf).ToList();
-
-            Parcelas = new List<int>()
-            {
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
-            };
+            EstadosUF = _estadoRepository.GetEstados().ConvertAll(e => e.Uf);
         }
 
         private void ExcluirTransportadoraCmd_Execute(TransportadoraModel transportadora)
@@ -188,8 +151,24 @@ namespace DgSystems.NFe.ViewModels
         public ObservableCollection<TransportadoraModel> Transportadoras { get; set; }
         public ObservableCollection<NaturezaOperacaoModel> NaturezasOperacoes { get; set; }
 
-        public List<string> IndicadoresPresenca { get; set; }
-        public List<string> Finalidades { get; set; }
+        public List<string> IndicadoresPresenca => new List<string>()
+        {
+            "Não se Aplica",
+            "Presencial",
+            "Não Presencial, Internet",
+            "Não Presencial, Teleatendimento",
+            "Entrega a Domicílio",
+            "Não Presencial, Outros"
+        };
+
+        public List<string> Finalidades => new List<string>()
+        {
+            "Normal",
+            "Complementar",
+            "Ajuste",
+            "Devolução"
+        };
+
         public PagamentoModel Pagamento
         {
             get { return _pagamento; }
@@ -200,9 +179,25 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        public Dictionary<string, string> FormasPagamento { get; set; }
+        public Dictionary<string, string> FormasPagamento => new Dictionary<string, string>()
+        {
+            { "Dinheiro", "Dinheiro" },
+            { "Cheque", "Cheque" },
+            { "CartaoCredito", "Cartão de Crédito" },
+            { "CartaoDebito", "Cartão de Débito" }
+            //{ "CreditoLoja", "Crédito Loja" },
+            //{ "ValeAlimentacao",  "Vale Alimentação" },
+            //{ "ValeRefeicao", "Vale Refeição" },
+            //{ "ValePresente", "Vale Presente"},
+            //{ "ValeCombustivel", "Vale Combustível"},
+            //{ "Outros", "Outros" }
+        };
+
         public List<string> EstadosUF { get; }
-        public List<int> Parcelas { get; set; }
+        public List<int> Parcelas => new List<int>()
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+        };
 
         public ProdutoModel Produto
         {
@@ -386,16 +381,16 @@ namespace DgSystems.NFe.ViewModels
 
             var config = _configuracaoService.GetConfiguracao();
 
-           Serie = config.SerieNFe;
-           Numero = config.ProximoNumNFe;
-           ModeloNota = "NF-e";
+            Serie = config.SerieNFe;
+            Numero = config.ProximoNumNFe;
+            ModeloNota = "NF-e";
 
-           DataEmissao = DateTime.Now;
-           HoraEmissao = DateTime.Now;
-           DataSaida = DateTime.Now;
-           HoraSaida = DateTime.Now;
-           IndicadorPresenca = PresencaComprador.Presencial;
-           Finalidade = "Normal";
+            DataEmissao = DateTime.Now;
+            HoraEmissao = DateTime.Now;
+            DataSaida = DateTime.Now;
+            HoraSaida = DateTime.Now;
+            IndicadorPresenca = PresencaComprador.Presencial;
+            Finalidade = "Normal";
 
             if (Destinatarios.Count == 0)
             {
