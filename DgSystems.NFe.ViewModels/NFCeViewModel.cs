@@ -2,9 +2,6 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Destinatario;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
@@ -49,7 +46,7 @@ namespace DgSystems.NFe.ViewModels
             _dialogService = dialogService;
             _enviarNotaAppService = enviarNotaAppService;
             _naturezaOperacaoRepository = naturezaOperacaoService;
-            _configuracaoService = configuracaoService;
+            _configuracaoRepository = configuracaoService;
             _produtoRepository = produtoRepository;
             _destinatarioService = destinatarioService;
             _certificadoRepository = certificadoRepository;
@@ -148,7 +145,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IEnviarNotaAppService _enviarNotaAppService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
-        private readonly IConfiguracaoRepository _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IDestinatarioRepository _destinatarioService;
         private readonly ICertificadoService _certificadoRepository;
@@ -157,14 +154,14 @@ namespace DgSystems.NFe.ViewModels
 
         private async void EnviarNotaCmd_ExecuteAsync(IClosable closable)
         {
-            await EnviarNotaAsync(this, _modelo, closable);
+            await EnviarNotaAsync(closable);
         }
 
-        public async Task EnviarNotaAsync(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
+        public async Task EnviarNotaAsync(IClosable closable)
         {
-            NotaFiscal.ValidateModel();
+            ValidateModel();
 
-            if (NotaFiscal.HasErrors)
+            if (HasErrors)
             {
                 return;
             }
@@ -175,7 +172,7 @@ namespace DgSystems.NFe.ViewModels
             {
                 X509Certificate2 certificado = _certificadoRepository.GetX509Certificate2();
                 var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(NotaFiscal, _modelo, emissor, certificado, _dialogService);
+                var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(this, _modelo, emissor, certificado, _dialogService);
                 IsBusy = false;
                 var result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
                 if (result)
@@ -283,7 +280,7 @@ namespace DgSystems.NFe.ViewModels
             DestinatarioSelecionado = new DestinatarioModel();
             Pagamento = new PagamentoModel { FormaPagamento = "Dinheiro" };
 
-            var config = _configuracaoService.GetConfiguracao();
+            var config = _configuracaoRepository.GetConfiguracao();
 
             Serie = config.SerieNFCe;
             Numero = config.ProximoNumNFCe;

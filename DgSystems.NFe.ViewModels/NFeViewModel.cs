@@ -2,9 +2,6 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Destinatario;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
@@ -283,7 +280,7 @@ namespace DgSystems.NFe.ViewModels
 
         private async void EnviarNotaCmd_ExecuteAsync(IClosable closable)
         {
-            await EnviarNotaAsync(this, _modelo, closable);
+            await EnviarNotaAsync(closable);
         }
 
         private void AdicionarProdutoCmd_Execute(object obj)
@@ -416,7 +413,7 @@ namespace DgSystems.NFe.ViewModels
                 }
             }
 
-            if (NaturezasOperacoes.Count <= 0)
+            if (NaturezasOperacoes.Count == 0)
             {
                 foreach (var naturezaDB in _naturezaOperacaoRepository.GetAll())
                 {
@@ -435,16 +432,16 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        public async Task EnviarNotaAsync(NotaFiscalModel NotaFiscal, Modelo _modelo, IClosable closable)
+        private async Task EnviarNotaAsync(IClosable closable)
         {
-            if (!NotaFiscal.NaturezaOperacao.Equals("Venda"))
+            if (!NaturezaOperacao.Equals("Venda"))
             {
-                NotaFiscal.Pagamentos = new ObservableCollection<PagamentoModel>() { new PagamentoModel() { FormaPagamento = "Sem Pagamento" } };
+                Pagamentos = new ObservableCollection<PagamentoModel>() { new PagamentoModel() { FormaPagamento = "Sem Pagamento" } };
             }
 
-            NotaFiscal.ValidateModel();
+            ValidateModel();
 
-            if (NotaFiscal.HasErrors)
+            if (HasErrors)
             {
                 return;
             }
@@ -456,7 +453,7 @@ namespace DgSystems.NFe.ViewModels
             {
                 X509Certificate2 certificado = _certificadoRepository.GetX509Certificate2();
                 var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaController.EnviarNotaAsync(NotaFiscal, _modelo, emissor, certificado, _dialogService);
+                var notaFiscal = await _enviarNotaController.EnviarNotaAsync(this, _modelo, emissor, certificado, _dialogService);
                 IsBusy = false;
                 bool result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
                 if (result)
