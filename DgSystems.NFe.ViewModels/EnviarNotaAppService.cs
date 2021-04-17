@@ -74,7 +74,21 @@ namespace DgSystems.NFe.ViewModels
             await Task.Run(() =>
             {
                 const TipoEmissao tipoEmissao = TipoEmissao.Normal;
-                var destinatario = CreateDestinatario(notaFiscalModel, _sefazSettings.Ambiente, modelo);
+                var destinatario = Destinatario.CreateDestinatario(notaFiscalModel.DestinatarioSelecionado.Endereco.Logradouro,
+                    notaFiscalModel.DestinatarioSelecionado.InscricaoEstadual,
+                    notaFiscalModel.DestinatarioSelecionado.NomeRazao,
+                    notaFiscalModel.DestinatarioSelecionado.Telefone,
+                    notaFiscalModel.DestinatarioSelecionado.Email,
+                    notaFiscalModel.DestinatarioSelecionado.Documento ?? notaFiscalModel.Documento,
+                    notaFiscalModel.DestinatarioSelecionado.Endereco.Numero,
+                    notaFiscalModel.DestinatarioSelecionado.Endereco.Bairro,
+                    notaFiscalModel.DestinatarioSelecionado.Endereco.Municipio,
+                    notaFiscalModel.DestinatarioSelecionado.Endereco.CEP,
+                    notaFiscalModel.DestinatarioSelecionado.Endereco.UF,
+                    notaFiscalModel.IsEstrangeiro,
+                    _sefazSettings.Ambiente,
+                    modelo);
+
                 var documentoDanfe = destinatario != null ? destinatario.Documento.GetDocumentoDanfe(destinatario.TipoDestinatario) : "CPF";
                 var codigoUF = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), emissor.Endereco.UF);
 
@@ -161,52 +175,6 @@ namespace DgSystems.NFe.ViewModels
             return e.InnerException != null ? e.InnerException.Message : e.Message;
         }
 
-        private static Destinatario CreateDestinatario(NotaFiscalModel notaFiscal, Ambiente ambiente, Modelo _modelo)
-        {
-            if (notaFiscal.DestinatarioSelecionado.Documento == null &&
-                string.IsNullOrEmpty(notaFiscal.Documento)) return null;
-
-            string documento, nomeRazao, inscricaoEstadual = null;
-            DestinatarioModel destinatarioSelecionado = null;
-            Endereco endereco = null;
-
-            if (notaFiscal.DestinatarioSelecionado.Documento != null)
-            {
-                destinatarioSelecionado = notaFiscal.DestinatarioSelecionado;
-
-                if (notaFiscal.DestinatarioSelecionado.Endereco.Logradouro != null)
-                {
-                    var enderecoModel = notaFiscal.DestinatarioSelecionado.Endereco;
-                    endereco = new Endereco(enderecoModel.Logradouro, enderecoModel.Numero, enderecoModel.Bairro,
-                        enderecoModel.Municipio, enderecoModel.CEP, enderecoModel.UF);
-                }
-
-                inscricaoEstadual = notaFiscal.DestinatarioSelecionado?.InscricaoEstadual;
-                documento = notaFiscal.DestinatarioSelecionado.Documento;
-                nomeRazao = notaFiscal.DestinatarioSelecionado.NomeRazao;
-            }
-            else
-            {
-                documento = notaFiscal.Documento;
-                nomeRazao = "CONSUMIDOR NÃO IDENTIFICADO";
-            }
-
-            TipoDestinatario tipoDestinatario;
-
-            if (notaFiscal.IsEstrangeiro)
-                tipoDestinatario = TipoDestinatario.Estrangeiro;
-            else if (documento.Length == 11)
-                tipoDestinatario = TipoDestinatario.PessoaFisica;
-            else
-                tipoDestinatario = TipoDestinatario.PessoaJuridica;
-
-            var destinatario = new Destinatario(ambiente, _modelo, destinatarioSelecionado?.Telefone,
-                destinatarioSelecionado?.Email, endereco, tipoDestinatario, inscricaoEstadual, documento: new Documento(documento),
-                nomeRazao: nomeRazao);
-
-            return destinatario;
-        }
-
         private static IdentificacaoNFe CreateIdentificacaoNFe(NotaFiscalModel notaFiscal, CodigoUfIbge codigoUf, DateTime now,
             Emissor emitente, Modelo modeloNota,
             int serie, string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, string documentoDanfe)
@@ -273,7 +241,7 @@ namespace DgSystems.NFe.ViewModels
             {
                 var produtoEntity = produtosTo.First(c => c.Id == produtoNota.ProdutoSelecionado.Id);
 
-                IEnumerable<global::NFe.Core.Domain.Imposto> impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new global::NFe.Core.Domain.Imposto() 
+                IEnumerable<global::NFe.Core.Domain.Imposto> impostos = produtoEntity.GrupoImpostos.Impostos.Select(i => new global::NFe.Core.Domain.Imposto()
                 {
                     Aliquota = i.Aliquota,
                     BaseCalculo = i.BaseCalculo,

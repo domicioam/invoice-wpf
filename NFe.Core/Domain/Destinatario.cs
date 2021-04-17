@@ -57,5 +57,40 @@ namespace NFe.Core.Domain
         public string Email { get; set; }
         public TipoDestinatario TipoDestinatario { get; set; }
         public bool IsIsentoICMS { get; set; }
+
+        public static Destinatario CreateDestinatario(string logradouro, string inscricaoEstadual, string nomeRazao, string telefone, 
+            string email, string documentoInput, string numero, string bairro, string municipio, string cep, string uf, bool isEstrangeiro, Ambiente ambiente, Modelo _modelo)
+        {
+            if (string.IsNullOrEmpty(documentoInput)) return null;
+
+            Endereco endereco = null;
+
+            if (documentoInput != null)
+            {
+                if (logradouro != null)
+                {
+                    endereco = new Endereco(logradouro, numero, bairro,
+                        municipio, cep, uf);
+                }
+            }
+            else
+            {
+                nomeRazao = "CONSUMIDOR NÃO IDENTIFICADO";
+            }
+
+            TipoDestinatario tipoDestinatario;
+
+            if (isEstrangeiro)
+                tipoDestinatario = TipoDestinatario.Estrangeiro;
+            else if (documentoInput.Length == 11)
+                tipoDestinatario = TipoDestinatario.PessoaFisica;
+            else
+                tipoDestinatario = TipoDestinatario.PessoaJuridica;
+
+            return new Destinatario(ambiente, _modelo, telefone,
+                email, endereco, tipoDestinatario, inscricaoEstadual, documento: new Documento(documentoInput),
+                nomeRazao: nomeRazao);
+        }
+
     }
 }

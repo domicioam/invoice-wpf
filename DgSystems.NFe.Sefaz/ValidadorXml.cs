@@ -32,6 +32,12 @@ namespace NFe.Core.Utils.Xml
             try
             {
                 string path = Path.Combine(Environment.CurrentDirectory, @"XmlSchemas\XSD\Nota 4.0\" + nomeXsd);
+
+                if(!File.Exists(path))
+                {
+                    throw new InvalidOperationException("Arquivo do schema xml não existe!");
+                }
+
                 var cfg = new XmlReaderSettings { ValidationType = ValidationType.Schema };
 
                 var schemas = new XmlSchemaSet();

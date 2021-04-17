@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
-using EmissorNFe.Model.Base;
 using NFe.Core.Domain;
 using NFe.WPF.ViewModel.Base;
 
