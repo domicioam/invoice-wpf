@@ -283,7 +283,7 @@ namespace NFe.WPF.NotaFiscal.Model
         public ICommand ExcluirPagamentoCmd { get; set; }
         public NFeCoreModelo Modelo1 { get; set; }
 
-        public virtual async Task EnviarNotaAsync(IClosable closable)
+        protected virtual async Task EnviarNotaAsync(IClosable closable)
         {
             ValidateModel();
 
@@ -328,7 +328,7 @@ namespace NFe.WPF.NotaFiscal.Model
             }
         }
 
-        public NotaFiscalModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IEmitenteRepository emissorService, ICertificadoService certificadoRepository)
+        protected NotaFiscalModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IEmitenteRepository emissorService, ICertificadoService certificadoRepository)
         {
             _certificadoRepository = certificadoRepository;
             _enviarNotaAppService = enviarNotaAppService;

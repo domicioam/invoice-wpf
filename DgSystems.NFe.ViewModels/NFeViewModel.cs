@@ -340,7 +340,7 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        public override async Task EnviarNotaAsync(IClosable closable)
+        protected override async Task EnviarNotaAsync(IClosable closable)
         {
             if (!NaturezaOperacao.Equals("Venda"))
             {
