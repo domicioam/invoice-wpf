@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using DgSystems.NFe.ViewModels;
+﻿using DgSystems.NFe.ViewModels;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Views;
 using NFe.Core.Cadastro.Certificado;
@@ -15,7 +7,14 @@ using NFe.Core.Interfaces;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Base;
 using NFe.WPF.ViewModel.Services;
-
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using NFeCoreModelo = NFe.Core.Domain.Modelo;
 
 namespace NFe.WPF.NotaFiscal.Model
