@@ -11,21 +11,15 @@ using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.WPF.ViewModel.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using NFeCoreModelo = NFe.Core.Domain.Modelo;
 
 namespace DgSystems.NFe.ViewModels
 {
     public class NFCeViewModel : NotaFiscalModel
     {
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, IDestinatarioRepository destinatarioService, ICertificadoService certificadoRepository, IEmitenteRepository emissorService)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, IDestinatarioRepository destinatarioService, ICertificadoService certificadoRepository, IEmitenteRepository emissorService) : base(enviarNotaAppService, dialogService, emissorService, certificadoRepository)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
@@ -43,157 +37,27 @@ namespace DgSystems.NFe.ViewModels
             ExcluirProdutoNotaCmd = new RelayCommand<ProdutoModel>(ExcluirProdutoNotaCmd_Execute, null);
             ExcluirPagamentoCmd = new RelayCommand<PagamentoModel>(ExcluirPagamentoCmd_Execute, null);
 
-            _dialogService = dialogService;
-            _enviarNotaAppService = enviarNotaAppService;
             _naturezaOperacaoRepository = naturezaOperacaoService;
             _configuracaoRepository = configuracaoService;
             _produtoRepository = produtoRepository;
             _destinatarioService = destinatarioService;
-            _certificadoRepository = certificadoRepository;
-            _emissorService = emissorService;
 
             MessagingCenter.Subscribe<NotaFiscalMainViewModel, DestinatarioSalvoEvent>(this, nameof(DestinatarioSalvoEvent), (_, e) => DestinatarioVM_DestinatarioSalvoEvent(e.Destinatario));
         }
 
-        private PagamentoModel _pagamento;
-        private ProdutoModel _produto;
-        private Modelo _modelo;
-        private bool _isBusy;
-
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
-        }
-
-        private string _busyContent;
-
-        public string BusyContent
-        {
-            get { return _busyContent; }
-            set { SetProperty(ref _busyContent, value); }
-        }
-
-        public DestinatarioModel DestinatarioParaSalvar { get; set; }
-        public TransportadoraModel TransportadoraParaSalvar { get; set; }
         public ObservableCollection<DestinatarioModel> Destinatarios { get; set; }
         public ObservableCollection<TransportadoraModel> Transportadoras { get; set; }
-        public List<string> Finalidades => new List<string>()
-        {
-            "Normal",
-            "Complementar",
-            "Ajuste",
-            "Devolução"
-        };
-        public PagamentoModel Pagamento
-        {
-            get { return _pagamento; }
-            set
-            {
-                _pagamento = value;
-                RaisePropertyChanged(nameof(Pagamento));
-            }
-        }
-
-        public Dictionary<string, string> FormasPagamento => new Dictionary<string, string>()
-        {
-            { "Dinheiro", "Dinheiro" },
-            { "Cheque", "Cheque" },
-            { "CartaoCredito", "Cartão de Crédito" },
-            { "CartaoDebito", "Cartão de Débito" }
-            //{ "CreditoLoja", "Crédito Loja" },
-            //{ "ValeAlimentacao",  "Vale Alimentação" },
-            //{ "ValeRefeicao", "Vale Refeição" },
-            //{ "ValePresente", "Vale Presente"},
-            //{ "ValeCombustivel", "Vale Combustível"},
-            //{ "Outros", "Outros" }
-        };
-
-        public List<int> Parcelas => new List<int>()
-        {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
-        };
-
-        public ProdutoModel Produto
-        {
-            get
-            {
-                return _produto;
-            }
-            set
-            {
-                SetProperty(ref _produto, value);
-            }
-        }
 
         public ObservableCollection<ProdutoEntity> ProdutosCombo { get; set; }
 
-        public ICommand SalvarTransportadoraCmd { get; set; }
-        public ICommand AdicionarProdutoCmd { get; set; }
-        public ICommand GerarPagtoCmd { get; set; }
-        public ICommand EnviarNotaCmd { get; set; }
-        public ICommand LoadedCmd { get; set; }
-        public ICommand ClosedCmd { get; set; }
-        public ICommand ExcluirProdutoNotaCmd { get; set; }
-        public ICommand ExcluirPagamentoCmd { get; set; }
-
-        private readonly IDialogService _dialogService;
-        private readonly IEnviarNotaAppService _enviarNotaAppService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IDestinatarioRepository _destinatarioService;
-        private readonly ICertificadoService _certificadoRepository;
-        private readonly IEmitenteRepository _emissorService;
-
 
         private async void EnviarNotaCmd_ExecuteAsync(IClosable closable)
         {
             await EnviarNotaAsync(closable);
-        }
-
-        private async Task EnviarNotaAsync(IClosable closable)
-        {
-            ValidateModel();
-
-            if (HasErrors)
-            {
-                return;
-            }
-
-            BusyContent = "Enviando...";
-            IsBusy = true;
-            try
-            {
-                X509Certificate2 certificado = _certificadoRepository.GetX509Certificate2();
-                var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaAppService.EnviarNotaAsync(this, _modelo, emissor, certificado, _dialogService);
-                IsBusy = false;
-                var result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
-                if (result)
-                {
-                    BusyContent = "Gerando impressão...";
-                    IsBusy = true;
-                    await _enviarNotaAppService.ImprimirNotaFiscal(notaFiscal);
-                }
-            }
-            catch (ArgumentException e)
-            {
-                log.Error(e);
-                var erro = e.Message + "\n" + e.InnerException?.Message;
-                await _dialogService.ShowError("Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + erro, "Erro", "Ok", null);
-            }
-            catch (Exception e)
-            {
-                log.Error(e);
-                var erro = e.Message + "\n" + e.InnerException?.Message;
-                await _dialogService.ShowError("Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + erro, "Erro", "Ok", null);
-            }
-            finally
-            {
-                IsBusy = false;
-                closable.Close();
-            }
         }
 
         private void GerarPagtoCmd_Execute(object obj)
@@ -264,12 +128,12 @@ namespace DgSystems.NFe.ViewModels
         {
             if (modelo?.Equals("55") == true)
             {
-                _modelo = NFeCoreModelo.Modelo55;
+                Modelo1 = NFeCoreModelo.Modelo55;
                 IsImpressaoBobina = false;
             }
             else
             {
-                _modelo = NFeCoreModelo.Modelo65;
+                Modelo1 = NFeCoreModelo.Modelo65;
             }
 
             DestinatarioSelecionado = new DestinatarioModel();

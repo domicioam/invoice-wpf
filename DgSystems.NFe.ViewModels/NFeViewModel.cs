@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NFeCoreModelo = NFe.Core.Domain.Modelo;
@@ -28,9 +27,8 @@ namespace DgSystems.NFe.ViewModels
     public class NFeViewModel : NotaFiscalModel
     {
         private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public NFeViewModel(IEnviarNotaAppService enviarNotaController, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmitenteRepository emissorService, IMunicipioRepository municipioService, ITransportadoraRepository transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository)
+        public NFeViewModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmitenteRepository emissorService, IMunicipioRepository municipioService, ITransportadoraRepository transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository) : base(enviarNotaAppService, dialogService, emissorService, certificadoRepository)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();
@@ -44,14 +42,12 @@ namespace DgSystems.NFe.ViewModels
 
             _estadoRepository = estadoService;
             _produtoRepository = produtoRepository;
-            _emissorService = emissorService;
             _municipioService = municipioService;
             _transportadoraService = transportadoraService;
             _destinatarioService = destinatarioService;
             _naturezaOperacaoRepository = naturezaOperacaoService;
             _configuracaoService = configuracaoService;
             _destinatarioViewModel = destinatarioViewModel;
-            _certificadoRepository = certificadoRepository;
 
             AdicionarProdutoCmd = new RelayCommand<object>(AdicionarProdutoCmd_Execute, null);
             GerarPagtoCmd = new RelayCommand<object>(GerarPagtoCmd_Execute, null);
@@ -65,8 +61,6 @@ namespace DgSystems.NFe.ViewModels
             TransportadoraWindowLoadedCmd = new RelayCommand(TransportadoraWindowLoadedCmd_Execute, null);
             DestinatarioChangedCmd = new RelayCommand<DestinatarioModel>(DestinatarioChangedCmd_Execute, null);
 
-            _enviarNotaController = enviarNotaController;
-            _dialogService = dialogService;
 
             Estados = new ObservableCollection<EstadoEntity>();
             Municipios = new ObservableCollection<MunicipioEntity>();
@@ -100,30 +94,10 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        private PagamentoModel _pagamento;
-        private ProdutoModel _produto;
-        private Modelo _modelo;
         private NaturezaOperacaoModel _naturezaOperacaoParaSalvar;
 
-        private bool _isBusy;
-
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
-        }
-
-        private string _busyContent;
-
-        public string BusyContent
-        {
-            get { return _busyContent; }
-            set { SetProperty(ref _busyContent, value); }
-        }
         public ObservableCollection<EstadoEntity> Estados { get; set; }
         public ObservableCollection<MunicipioEntity> Municipios { get; set; }
-        public DestinatarioModel DestinatarioParaSalvar { get; set; }
-        public TransportadoraModel TransportadoraParaSalvar { get; set; }
         public NaturezaOperacaoModel NaturezaOperacaoSelecionada
         {
             get
@@ -161,86 +135,25 @@ namespace DgSystems.NFe.ViewModels
             "Não Presencial, Outros"
         };
 
-        public List<string> Finalidades => new List<string>()
-        {
-            "Normal",
-            "Complementar",
-            "Ajuste",
-            "Devolução"
-        };
-
-        public PagamentoModel Pagamento
-        {
-            get { return _pagamento; }
-            set
-            {
-                _pagamento = value;
-                RaisePropertyChanged(nameof(Pagamento));
-            }
-        }
-
-        public Dictionary<string, string> FormasPagamento => new Dictionary<string, string>()
-        {
-            { "Dinheiro", "Dinheiro" },
-            { "Cheque", "Cheque" },
-            { "CartaoCredito", "Cartão de Crédito" },
-            { "CartaoDebito", "Cartão de Débito" }
-            //{ "CreditoLoja", "Crédito Loja" },
-            //{ "ValeAlimentacao",  "Vale Alimentação" },
-            //{ "ValeRefeicao", "Vale Refeição" },
-            //{ "ValePresente", "Vale Presente"},
-            //{ "ValeCombustivel", "Vale Combustível"},
-            //{ "Outros", "Outros" }
-        };
-
         public List<string> EstadosUF { get; }
-        public List<int> Parcelas => new List<int>()
-        {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
-        };
-
-        public ProdutoModel Produto
-        {
-            get
-            {
-                return _produto;
-            }
-            set
-            {
-                SetProperty(ref _produto, value);
-            }
-        }
 
         public ObservableCollection<ProdutoEntity> ProdutosCombo { get; set; }
 
         #region Commands
-
-        public ICommand SalvarTransportadoraCmd { get; set; }
-        public ICommand AdicionarProdutoCmd { get; set; }
-        public ICommand GerarPagtoCmd { get; set; }
-        public ICommand EnviarNotaCmd { get; set; }
-        public ICommand LoadedCmd { get; set; }
-        public ICommand ClosedCmd { get; set; }
-        public ICommand ExcluirProdutoNotaCmd { get; set; }
-        public ICommand ExcluirPagamentoCmd { get; set; }
         public ICommand UfSelecionadoCmd { get; set; }
         public ICommand TransportadoraWindowLoadedCmd { get; set; }
         public ICommand DestinatarioChangedCmd { get; set; }
         public ICommand ExcluirTransportadoraCmd { get; set; }
         #endregion Commands
 
-        private readonly IEnviarNotaAppService _enviarNotaController;
-        private readonly IDialogService _dialogService;
         private readonly IEstadoRepository _estadoRepository;
         private readonly IProdutoRepository _produtoRepository;
-        private readonly IEmitenteRepository _emissorService;
         private readonly IMunicipioRepository _municipioService;
         private readonly ITransportadoraRepository _transportadoraService;
         private readonly IDestinatarioRepository _destinatarioService;
         private readonly INaturezaOperacaoRepository _naturezaOperacaoRepository;
         private readonly IConfiguracaoRepository _configuracaoService;
         private readonly DestinatarioViewModel _destinatarioViewModel;
-        private readonly ICertificadoService _certificadoRepository;
 
         private void SalvarTransportadoraCmd_Execute(IClosable closable)
         {
@@ -368,12 +281,12 @@ namespace DgSystems.NFe.ViewModels
         {
             if (modelo?.Equals("55") == true)
             {
-                _modelo = NFeCoreModelo.Modelo55;
+                Modelo1 = NFeCoreModelo.Modelo55;
                 IsImpressaoBobina = false;
             }
             else
             {
-                _modelo = NFeCoreModelo.Modelo65;
+                Modelo1 = NFeCoreModelo.Modelo65;
             }
 
             DestinatarioSelecionado = new DestinatarioModel();
@@ -427,52 +340,14 @@ namespace DgSystems.NFe.ViewModels
             }
         }
 
-        private async Task EnviarNotaAsync(IClosable closable)
+        public override async Task EnviarNotaAsync(IClosable closable)
         {
             if (!NaturezaOperacao.Equals("Venda"))
             {
                 Pagamentos = new ObservableCollection<PagamentoModel>() { new PagamentoModel() { FormaPagamento = "Sem Pagamento" } };
             }
 
-            ValidateModel();
-
-            if (HasErrors)
-            {
-                return;
-            }
-
-            BusyContent = "Enviando...";
-            IsBusy = true;
-
-            try
-            {
-                X509Certificate2 certificado = _certificadoRepository.GetX509Certificate2();
-                var emissor = _emissorService.GetEmissor();
-                var notaFiscal = await _enviarNotaController.EnviarNotaAsync(this, _modelo, emissor, certificado, _dialogService);
-                IsBusy = false;
-                bool result = await _dialogService.ShowMessage("Nota enviada com sucesso! Deseja imprimi-la?", "Emissão NFe", "Sim", "Não", null);
-                if (result)
-                {
-                    BusyContent = "Gerando impressão...";
-                    IsBusy = true;
-                    await _enviarNotaController.ImprimirNotaFiscal(notaFiscal);
-                }
-            }
-            catch (ArgumentException e)
-            {
-                Log.Error(e);
-                await _dialogService.ShowError("Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + e.InnerException.Message, "Erro", "Ok", null);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-                await _dialogService.ShowError("Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + e.InnerException.Message, "Erro", "Ok", null);
-            }
-            finally
-            {
-                IsBusy = false;
-                closable.Close();
-            }
+            await base.EnviarNotaAsync(closable);
         }
 
         private TransportadoraModel _transportadoraSelecionada;
