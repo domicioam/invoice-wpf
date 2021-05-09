@@ -1,16 +1,12 @@
 ﻿using DgSystems.NFe.ViewModels.Commands;
 using GalaSoft.MvvmLight.Command;
 using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz.Facades;
-using NFe.Core.Utils;
-using NFe.Core.Utils.Assinatura;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel.Base;
 using System;
