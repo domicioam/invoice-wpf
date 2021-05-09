@@ -73,6 +73,17 @@ namespace NFe.Core.Domain
         {
             return TotalNFe.IcmsTotal.ValorTotalIcms;
         }
+
+        public bool IsContingency()
+        {
+            return Identificacao.TipoEmissao == TipoEmissao.ContigenciaNfce ||
+                   Identificacao.TipoEmissao == TipoEmissao.FsDa;
+        }
+
+        public bool ProdutoÉCombustível(int i)
+        {
+            return Identificacao.Modelo != Modelo.Modelo65 && Produtos[i].Ncm.Equals("27111910");
+        }
     }
 }
  
