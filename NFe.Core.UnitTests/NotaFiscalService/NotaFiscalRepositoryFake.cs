@@ -138,13 +138,13 @@ namespace NFe.Core.UnitTests.NotaFiscalService
             NotaFiscalEntity.Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65";
             NotaFiscalEntity.Serie = notaFiscal.Identificacao.Serie.ToString();
             NotaFiscalEntity.TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString();
-            NotaFiscalEntity.ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto;
-            NotaFiscalEntity.ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros;
-            NotaFiscalEntity.ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete;
-            NotaFiscalEntity.ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms;
+            NotaFiscalEntity.ValorDesconto = notaFiscal.IcmsTotal.ValorTotalDesconto;
+            NotaFiscalEntity.ValorDespesas = notaFiscal.IcmsTotal.TotalOutros;
+            NotaFiscalEntity.ValorFrete = notaFiscal.IcmsTotal.ValorTotalFrete;
+            NotaFiscalEntity.ValorICMS = notaFiscal.IcmsTotal.ValorTotalIcms;
             NotaFiscalEntity.ValorProdutos = notaFiscal.ValorTotalProdutos;
-            NotaFiscalEntity.ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro;
-            NotaFiscalEntity.ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe;
+            NotaFiscalEntity.ValorSeguro = notaFiscal.IcmsTotal.ValorTotalSeguro;
+            NotaFiscalEntity.ValorTotal = notaFiscal.IcmsTotal.ValorTotalNFe;
             NotaFiscalEntity.Numero = notaFiscal.Identificacao.Numero;
 
             return Salvar(NotaFiscalEntity);

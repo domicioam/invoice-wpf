@@ -192,13 +192,13 @@ namespace NFe.Core.NotasFiscais.Repositories
                 Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65",
                 Serie = notaFiscal.Identificacao.Serie.ToString(),
                 TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString(),
-                ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto,
-                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros,
-                ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete,
-                ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms,
+                ValorDesconto = notaFiscal.IcmsTotal.ValorTotalDesconto,
+                ValorDespesas = notaFiscal.IcmsTotal.TotalOutros,
+                ValorFrete = notaFiscal.IcmsTotal.ValorTotalFrete,
+                ValorICMS = notaFiscal.IcmsTotal.ValorTotalIcms,
                 ValorProdutos = notaFiscal.ValorTotalProdutos,
-                ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro,
-                ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe,
+                ValorSeguro = notaFiscal.IcmsTotal.ValorTotalSeguro,
+                ValorTotal = notaFiscal.IcmsTotal.ValorTotalNFe,
                 Numero = notaFiscal.Identificacao.Numero
             };
 
@@ -242,13 +242,13 @@ namespace NFe.Core.NotasFiscais.Repositories
                 Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65",
                 Serie = notaFiscal.Identificacao.Serie.ToString(),
                 TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString(),
-                ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto,
-                ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros,
-                ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete,
-                ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms,
+                ValorDesconto = notaFiscal.IcmsTotal.ValorTotalDesconto,
+                ValorDespesas = notaFiscal.IcmsTotal.TotalOutros,
+                ValorFrete = notaFiscal.IcmsTotal.ValorTotalFrete,
+                ValorICMS = notaFiscal.IcmsTotal.ValorTotalIcms,
                 ValorProdutos = notaFiscal.ValorTotalProdutos,
-                ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro,
-                ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe,
+                ValorSeguro = notaFiscal.IcmsTotal.ValorTotalSeguro,
+                ValorTotal = notaFiscal.IcmsTotal.ValorTotalNFe,
                 Numero = notaFiscal.Identificacao.Numero,
                 DataAutorizacao = notaFiscal.DataHoraAutorização,
                 Protocolo = notaFiscal.ProtocoloAutorizacao
@@ -334,7 +334,7 @@ namespace NFe.Core.NotasFiscais.Repositories
             var infoAdicional = GetInfoAdicional(produtos);
             var qrCode = nfe.infNFeSupl?.qrCode;
 
-            var notaFiscal = new Domain.NotaFiscal(emitente, destinatario, identificacao, transporte, totalNFe, infoAdicional,
+            var notaFiscal = new Domain.NotaFiscal(emitente, destinatario, identificacao, transporte, totalNFe, null, null, infoAdicional,
                 produtos, pagamentos);
 
             if (nfeProc.protNFe.infProt != null)
@@ -492,30 +492,28 @@ namespace NFe.Core.NotasFiscais.Repositories
 
         }
 
-        private TotalNFe GetTotalNFe(Retorno.TNFe nfe)
+        private IcmsTotal GetTotalNFe(Retorno.TNFe nfe)
         {
             var infNfeTotal = nfe.infNFe.total.ICMSTot;
 
-            var totalNFe = new TotalNFe { IcmsTotal = new IcmsTotal() };
-            var icmsTotal = totalNFe.IcmsTotal;
-
-            icmsTotal.BaseCalculo = double.Parse(infNfeTotal.vBC, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalIcms = double.Parse(infNfeTotal.vICMS, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalDesonerado = double.Parse(infNfeTotal.vICMSDeson, CultureInfo.InvariantCulture);
-            icmsTotal.BaseCalculoST = double.Parse(infNfeTotal.vBCST, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalST = double.Parse(infNfeTotal.vST, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalProdutos = double.Parse(infNfeTotal.vProd, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalFrete = double.Parse(infNfeTotal.vFrete, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalSeguro = double.Parse(infNfeTotal.vSeg, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalDesconto = double.Parse(infNfeTotal.vDesc, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalII = double.Parse(infNfeTotal.vII, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalIpi = double.Parse(infNfeTotal.vIPI, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalPis = double.Parse(infNfeTotal.vPIS, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalCofins = double.Parse(infNfeTotal.vCOFINS, CultureInfo.InvariantCulture);
-            icmsTotal.TotalOutros = double.Parse(infNfeTotal.vOutro, CultureInfo.InvariantCulture);
-            icmsTotal.ValorTotalNFe = double.Parse(infNfeTotal.vNF, CultureInfo.InvariantCulture);
-
-            return totalNFe;
+            return new IcmsTotal
+            {
+                BaseCalculo = double.Parse(infNfeTotal.vBC, CultureInfo.InvariantCulture),
+                ValorTotalIcms = double.Parse(infNfeTotal.vICMS, CultureInfo.InvariantCulture),
+                ValorTotalDesonerado = double.Parse(infNfeTotal.vICMSDeson, CultureInfo.InvariantCulture),
+                BaseCalculoST = double.Parse(infNfeTotal.vBCST, CultureInfo.InvariantCulture),
+                ValorTotalST = double.Parse(infNfeTotal.vST, CultureInfo.InvariantCulture),
+                ValorTotalProdutos = double.Parse(infNfeTotal.vProd, CultureInfo.InvariantCulture),
+                ValorTotalFrete = double.Parse(infNfeTotal.vFrete, CultureInfo.InvariantCulture),
+                ValorTotalSeguro = double.Parse(infNfeTotal.vSeg, CultureInfo.InvariantCulture),
+                ValorTotalDesconto = double.Parse(infNfeTotal.vDesc, CultureInfo.InvariantCulture),
+                ValorTotalII = double.Parse(infNfeTotal.vII, CultureInfo.InvariantCulture),
+                ValorTotalIpi = double.Parse(infNfeTotal.vIPI, CultureInfo.InvariantCulture),
+                ValorTotalPis = double.Parse(infNfeTotal.vPIS, CultureInfo.InvariantCulture),
+                ValorTotalCofins = double.Parse(infNfeTotal.vCOFINS, CultureInfo.InvariantCulture),
+                TotalOutros = double.Parse(infNfeTotal.vOutro, CultureInfo.InvariantCulture),
+                ValorTotalNFe = double.Parse(infNfeTotal.vNF, CultureInfo.InvariantCulture)
+            };
         }
 
         private InfoAdicional GetInfoAdicional(List<Produto> produtos)

@@ -37,8 +37,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
                 new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
-            notaFiscal.TotalNFe = new TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, null,null, produtos);
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -65,8 +64,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
                 new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
-            notaFiscal.TotalNFe = new TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, null,null, produtos);
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -92,8 +90,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
                 new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
-            notaFiscal.TotalNFe = new TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null,null,null, produtos);
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -126,8 +123,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
                 new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
-            notaFiscal.TotalNFe = new TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, null,null,produtos);
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -164,8 +160,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
                 new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
-            notaFiscal.TotalNFe = new TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null,null,null, produtos);
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 
@@ -198,8 +193,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var emissor = new Emissor(null, null, null, null, null, null, "RegimeNormal",
                 new Endereco(null, null, null, "BRASILIA", null, "DF"), null);
 
-            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
-            notaFiscal.TotalNFe = new TotalNFe();
+            var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null,null,null, produtos);
 
             var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
 

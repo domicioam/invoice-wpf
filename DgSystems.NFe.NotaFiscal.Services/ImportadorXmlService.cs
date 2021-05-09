@@ -90,13 +90,13 @@ namespace NFe.Core.NotasFiscais.Services
                         notaFiscalEntity.Modelo = notaFiscal.Identificacao.Modelo == Modelo.Modelo55 ? "55" : "65";
                         notaFiscalEntity.Serie = notaFiscal.Identificacao.Serie.ToString();
                         notaFiscalEntity.TipoEmissao = notaFiscal.Identificacao.TipoEmissao.ToString();
-                        notaFiscalEntity.ValorDesconto = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto;
-                        notaFiscalEntity.ValorDespesas = notaFiscal.TotalNFe.IcmsTotal.TotalOutros;
-                        notaFiscalEntity.ValorFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete;
-                        notaFiscalEntity.ValorICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms;
+                        notaFiscalEntity.ValorDesconto = notaFiscal.IcmsTotal.ValorTotalDesconto;
+                        notaFiscalEntity.ValorDespesas = notaFiscal.IcmsTotal.TotalOutros;
+                        notaFiscalEntity.ValorFrete = notaFiscal.IcmsTotal.ValorTotalFrete;
+                        notaFiscalEntity.ValorICMS = notaFiscal.IcmsTotal.ValorTotalIcms;
                         notaFiscalEntity.ValorProdutos = notaFiscal.ValorTotalProdutos;
-                        notaFiscalEntity.ValorSeguro = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro;
-                        notaFiscalEntity.ValorTotal = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe;
+                        notaFiscalEntity.ValorSeguro = notaFiscal.IcmsTotal.ValorTotalSeguro;
+                        notaFiscalEntity.ValorTotal = notaFiscal.IcmsTotal.ValorTotalNFe;
                         notaFiscalEntity.Numero = notaFiscal.Identificacao.Numero;
                         notaFiscalEntity.DataAutorizacao = DateTime.ParseExact(notaFiscal.DhAutorizacao,
                             "yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using EmissorNFe.Model;
-using GalaSoft.MvvmLight.Views;
-using NFe.Core.Cadastro.Configuracoes;
+﻿using GalaSoft.MvvmLight.Views;
+using NFe.Core.Cadastro.Ibpt;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
-using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
@@ -20,7 +13,12 @@ using NFe.Core.Utils.PDF;
 using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.Core.Cadastro.Ibpt;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace DgSystems.NFe.ViewModels
 {
@@ -96,12 +94,10 @@ namespace DgSystems.NFe.ViewModels
                     Convert.ToInt32(notaFiscalModel.Serie), notaFiscalModel.Numero, tipoEmissao, _sefazSettings.Ambiente, documentoDanfe);
                 var produtos = GetProdutos(notaFiscalModel);
                 var pagamentos = GetPagamentos(notaFiscalModel);
-                var totalNFe = GetTotalNFe();
                 var infoAdicional = new InfoAdicional(produtos, _ibptManager);
                 var transporte = GetTransporte(notaFiscalModel, modelo);
 
-                notaFiscal = new NotaFiscal(emissor, destinatario, identificacao, transporte,
-                    totalNFe, infoAdicional, produtos, pagamentos);
+                notaFiscal = new NotaFiscal(emissor, destinatario, identificacao, transporte, null, null, null, infoAdicional, produtos, pagamentos);
 
                 var cscId = config.CscId;
                 var csc = config.Csc;
@@ -181,19 +177,10 @@ namespace DgSystems.NFe.ViewModels
         {
             var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), Acentuacao.RemoverAcentuacao(notaFiscal.Finalidade));
 
-            var identificacao = new IdentificacaoNFe(codigoUf, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
+            return new IdentificacaoNFe(codigoUf, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
                 tipoEmissao, ambiente, emitente,
                 notaFiscal.NaturezaOperacao, finalidadeEmissao, notaFiscal.IsImpressaoBobina,
                 notaFiscal.IndicadorPresenca, documentoDanfe);
-
-            return identificacao;
-        }
-
-        [Obsolete("The fields set in this method are ignored.")]
-        private static TotalNFe GetTotalNFe()
-        {
-            var totalNFe = new TotalNFe { IcmsTotal = new IcmsTotal() };
-            return totalNFe;
         }
 
         private static List<Pagamento> GetPagamentos(NotaFiscalModel notaFiscal)

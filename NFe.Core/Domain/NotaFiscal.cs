@@ -8,7 +8,7 @@ namespace NFe.Core.Domain
     public class NotaFiscal
     {
         public NotaFiscal(Emissor emitente, Destinatario destinatario, IdentificacaoNFe identificacao,
-            Transporte transporte, TotalNFe totalNFe,
+            Transporte transporte, IcmsTotal icmsTotal, IssqnTotal issqnTotal, RetencaoTributosFederais retencaoTributosFederais,
             InfoAdicional infoAdicional, List<Produto> produtos, List<Pagamento> pagamentos = null)
         {
             Emitente = emitente;
@@ -20,7 +20,10 @@ namespace NFe.Core.Domain
             Identificacao = identificacao;
             Pagamentos = pagamentos;
             Transporte = transporte;
-            TotalNFe = totalNFe;
+            IcmsTotal = icmsTotal;
+            IssqnTotal = issqnTotal;
+            RetencaoTributosFederais = retencaoTributosFederais;
+
             InfoAdicional = infoAdicional;
             Produtos = produtos;
 
@@ -36,7 +39,6 @@ namespace NFe.Core.Domain
         public List<Pagamento> Pagamentos { get; set; }
         public Transporte Transporte { get; set; }
         public InfoAdicional InfoAdicional { get; set; }
-        public TotalNFe TotalNFe { get; set; }
         public string QrCodeUrl { get; set; }
 
         public string VersaoLayout { get; } = "4.00";
@@ -58,6 +60,9 @@ namespace NFe.Core.Domain
         public string DhAutorizacao { get; set; }
         public bool IsEnviada { get; set; }
         public DateTime DataHoraAutorização { get; set; }
+        public IcmsTotal IcmsTotal { get; set; }
+        public IssqnTotal IssqnTotal { get; set; }
+        public RetencaoTributosFederais RetencaoTributosFederais { get; set; }
 
         public void CalcularChave()
         {
@@ -66,12 +71,12 @@ namespace NFe.Core.Domain
 
         public double GetTotal()
         {
-            return TotalNFe.IcmsTotal.ValorTotalNFe;
+            return IcmsTotal.ValorTotalNFe;
         }
 
         public double GetTotalIcms()
         {
-            return TotalNFe.IcmsTotal.ValorTotalIcms;
+            return IcmsTotal.ValorTotalIcms;
         }
 
         public bool IsContingency()
