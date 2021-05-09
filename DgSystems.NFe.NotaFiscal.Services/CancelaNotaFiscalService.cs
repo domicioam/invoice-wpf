@@ -27,9 +27,9 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly IEventoRepository _eventoService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly ICertificadoService _certificadoService;
-        private IServiceFactory _serviceFactory;
-        private SefazSettings _sefazSettings;
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly IServiceFactory _serviceFactory;
+        private readonly SefazSettings _sefazSettings;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CancelaNotaFiscalService(INotaFiscalRepository notaFiscalRepository,
             IEventoRepository eventoService, ICertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
@@ -43,10 +43,7 @@ namespace NFe.Core.NotasFiscais.Services
 
         public MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
         {
-            var resultadoCancelamento = CancelarNotaFiscal(dadosNotaParaCancelar.ufEmitente, dadosNotaParaCancelar.codigoUf,
-                dadosNotaParaCancelar.cnpjEmitente,
-                dadosNotaParaCancelar.chaveNFe,
-                dadosNotaParaCancelar.protocoloAutorizacao, dadosNotaParaCancelar.modeloNota, justificativa);
+            var resultadoCancelamento = CancelarNotaFiscalInternalMethod(dadosNotaParaCancelar, justificativa);
 
             if (resultadoCancelamento.Status != StatusEvento.SUCESSO)
                 return resultadoCancelamento;
@@ -71,37 +68,42 @@ namespace NFe.Core.NotasFiscais.Services
             return resultadoCancelamento;
         }
 
-        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe,
-            string protocoloAutorizacao, Modelo modeloNota, string justificativa)
+        private MensagemRetornoEventoCancelamento CancelarNotaFiscalInternalMethod(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
         {
             try
             {
-                var infEvento = new TEventoInfEvento();
-                infEvento.cOrgao = UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(ufEmitente);
-                infEvento.tpAmb = (XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TAmb)(int)_sefazSettings.Ambiente;
-                infEvento.Item = cnpjEmitente;
-                infEvento.ItemElementName = XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.ItemChoiceType.CNPJ;
-                infEvento.chNFe = chaveNFe;
-                infEvento.dhEvento = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
-                infEvento.tpEvento = TEventoInfEventoTpEvento.Item110111;
-                infEvento.nSeqEvento = "1";
-                infEvento.verEvento = TEventoInfEventoVerEvento.Item100;
+                var infEvento = new TEventoInfEvento
+                {
+                    cOrgao = UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(dadosNotaParaCancelar.ufEmitente),
+                    tpAmb = (XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TAmb)(int)_sefazSettings.Ambiente,
+                    Item = dadosNotaParaCancelar.cnpjEmitente,
+                    ItemElementName = XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.ItemChoiceType.CNPJ,
+                    chNFe = dadosNotaParaCancelar.chaveNFe,
+                    dhEvento = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    tpEvento = TEventoInfEventoTpEvento.Item110111,
+                    nSeqEvento = "1",
+                    verEvento = TEventoInfEventoVerEvento.Item100,
 
-                infEvento.detEvento = new TEventoInfEventoDetEvento();
+                    detEvento = new TEventoInfEventoDetEvento()
+                };
                 infEvento.detEvento.versao = TEventoInfEventoDetEventoVersao.Item100;
                 infEvento.detEvento.descEvento = TEventoInfEventoDetEventoDescEvento.Cancelamento;
-                infEvento.detEvento.nProt = protocoloAutorizacao;
+                infEvento.detEvento.nProt = dadosNotaParaCancelar.protocoloAutorizacao;
                 infEvento.detEvento.xJust = justificativa;
-                infEvento.Id = "ID110111" + chaveNFe + "01";
+                infEvento.Id = "ID110111" + dadosNotaParaCancelar.chaveNFe + "01";
 
-                var evento = new TEvento();
-                evento.versao = "1.00";
-                evento.infEvento = infEvento;
+                var evento = new TEvento
+                {
+                    versao = "1.00",
+                    infEvento = infEvento
+                };
 
-                var envioEvento = new TEnvEvento();
-                envioEvento.versao = "1.00";
-                envioEvento.idLote = "1";
-                envioEvento.evento = new TEvento[] { evento };
+                var envioEvento = new TEnvEvento
+                {
+                    versao = "1.00",
+                    idLote = "1",
+                    evento = new TEvento[] { evento }
+                };
 
                 var xml = XmlUtil.Serialize(envioEvento, "http://www.portalfiscal.inf.br/nfe");
 
@@ -111,8 +113,8 @@ namespace NFe.Core.NotasFiscais.Services
 
                 //var resultadoValidacao = ValidadorXml.ValidarXml(node.OuterXml, "envEventoCancNFe_v1.00.xsd");
 
-                var servico = _serviceFactory.GetService(modeloNota,
-                                                Servico.CANCELAMENTO, codigoUf, certificado);
+                var servico = _serviceFactory.GetService(dadosNotaParaCancelar.modeloNota,
+                                                Servico.CANCELAMENTO, dadosNotaParaCancelar.codigoUf, certificado);
 
                 var client = (NFeRecepcaoEvento4SoapClient)servico.SoapClient;
 
@@ -124,7 +126,7 @@ namespace NFe.Core.NotasFiscais.Services
                 {
                     var retEvento = retorno.retEvento;
 
-                    if (retEvento.Count() > 0)
+                    if (retEvento.Length > 0)
                     {
                         var retInfEvento = retEvento[0].infEvento;
 

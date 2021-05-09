@@ -32,7 +32,7 @@ namespace NFe.Core.UnitTests.Facades
                 IdEvento = "ID12345667899"
             };
 
-            nfeCancelamento.Setup(n => n.CancelarNotaFiscal(It.IsAny<string>(), It.IsAny<CodigoUfIbge>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Modelo>(), It.IsAny<string>()))
+            nfeCancelamento.Setup(n => n.CancelarNotaFiscal(It.IsAny<DadosNotaParaCancelar>(), It.IsAny<string>()))
                 .Returns(resultadoCancelamento);
             
             var notaFiscalRepository = new Mock<INotaFiscalRepository>();
@@ -49,7 +49,7 @@ namespace NFe.Core.UnitTests.Facades
 
             cancelaNotaFiscalFacade.CancelarNotaFiscal(dadosNotaParaCancelar, "Teste Unitário");
 
-            nfeCancelamento.Verify(n => n.CancelarNotaFiscal(It.IsAny<string>(), It.IsAny<CodigoUfIbge>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Modelo>(), It.IsAny<string>()), Times.Once);
+            nfeCancelamento.Verify(n => n.CancelarNotaFiscal(It.IsAny<DadosNotaParaCancelar>(), It.IsAny<string>()), Times.Once);
             notaFiscalRepository.Verify(n => n.GetNotaFiscalByChave(It.IsAny<string>()), Times.Once);
             notaFiscalRepository.Verify(n => n.Salvar(It.IsAny<NotaFiscalEntity>(), null), Times.Once);
 
@@ -76,7 +76,7 @@ namespace NFe.Core.UnitTests.Facades
                 IdEvento = "ID12345667899"
             };
 
-            nfeCancelamento.Setup(n => n.CancelarNotaFiscal(It.IsAny<string>(), It.IsAny<CodigoUfIbge>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Modelo>(), It.IsAny<string>()))
+            nfeCancelamento.Setup(n => n.CancelarNotaFiscal(It.IsAny<DadosNotaParaCancelar>(), It.IsAny<string>()))
                 .Returns(resultadoCancelamento);
 
             var notaFiscalRepository = new Mock<INotaFiscalRepository>();
@@ -88,7 +88,7 @@ namespace NFe.Core.UnitTests.Facades
 
             cancelaNotaFiscalFacade.CancelarNotaFiscal(dadosNotaParaCancelar, "Teste Unitário");
 
-            nfeCancelamento.Verify(n => n.CancelarNotaFiscal(It.IsAny<string>(), It.IsAny<CodigoUfIbge>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Modelo>(), It.IsAny<string>()), Times.Once);
+            nfeCancelamento.Verify(n => n.CancelarNotaFiscal(It.IsAny<DadosNotaParaCancelar>(), It.IsAny<string>()), Times.Once);
             notaFiscalRepository.Verify(n => n.GetNotaFiscalByChave(It.IsAny<string>()), Times.Never);
             notaFiscalRepository.Verify(n => n.Salvar(It.IsAny<NotaFiscalEntity>(), null), Times.Never);
             eventoService.Verify(e => e.Salvar(It.IsAny<EventoEntity>()), Times.Never);
