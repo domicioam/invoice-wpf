@@ -30,16 +30,13 @@ using NFe.Core.XmlSchemas.NfeRetAutorizacao.Retorno;
 
 namespace NFe.Core.Sefaz.Facades
 {
-
     public class EmiteNotaFiscalContingenciaFacade : IEmiteNotaFiscalContingenciaFacade
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private const string MensagemErro =
             "Tentativa de transmissão de notas em contingência falhou. Serviço continua indisponível.";
-        private const string SEFAZ_ENVIRONMENT_STAGING = "staging";
         private readonly IConfiguracaoRepository _configuracaoService;
-        private readonly ICertificadoRepository _certificadoRepository;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
         private bool _isFirstTimeRecheckingRecipts;
@@ -51,12 +48,10 @@ namespace NFe.Core.Sefaz.Facades
         private readonly InutilizarNotaFiscalService _notaInutilizadaFacade;
         private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
         private readonly SefazSettings _sefazSettings;
-        private readonly RijndaelManagedEncryption _encryptor;
 
-        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, ICertificadoRepository certificadoRepository, INotaFiscalRepository notaFiscalRepository,  IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings, RijndaelManagedEncryption encryptor)
+        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService, SefazSettings sefazSettings)
         {
             _configuracaoService = configuracaoService;
-            _certificadoRepository = certificadoRepository;
             _notaFiscalRepository = notaFiscalRepository;
             _emissorService = emissorService;
             _nfeConsulta = nfeConsulta;
@@ -65,10 +60,9 @@ namespace NFe.Core.Sefaz.Facades
             _notaInutilizadaFacade = notaInutilizadaFacade;
             _cancelaNotaFiscalService = cancelaNotaFiscalService;
             _sefazSettings = sefazSettings;
-            _encryptor = encryptor;
         }
 
-        public Domain.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, Domain.NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
+        public Domain.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
         {
             notaFiscal = SetContingenciaFields(config, notaFiscal);
             var xmlNFeContingencia = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
@@ -78,7 +72,7 @@ namespace NFe.Core.Sefaz.Facades
             return notaFiscal;
         }
 
-        private Domain.NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, Domain.NotaFiscal notaFiscal)
+        private Domain.NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, NotaFiscal notaFiscal)
         {
             notaFiscal.Identificacao.Numero = _configuracaoService.ObterProximoNumeroNotaFiscal(notaFiscal.Identificacao.Modelo);
             notaFiscal.Identificacao.DataHoraEntradaContigencia = config.DataHoraEntradaContingencia;
@@ -97,7 +91,6 @@ namespace NFe.Core.Sefaz.Facades
 
             var notas = _notaFiscalRepository.GetNotasContingencia();
 
-            var config = await _configuracaoService.GetConfiguracaoAsync();
             var notasNFe = new List<string>();
             var notasNfCe = new List<string>();
 
@@ -114,10 +107,10 @@ namespace NFe.Core.Sefaz.Facades
             try
             {
                 if (notasNfCe.Count != 0)
-                    erros = await TransmitirConsultarLoteContingenciaAsync(config, notasNfCe, Modelo.Modelo65);
+                    erros = await TransmitirConsultarLoteContingenciaAsync(notasNfCe, Modelo.Modelo65);
 
                 if (notasNFe.Count != 0)
-                    erros = await TransmitirConsultarLoteContingenciaAsync(config, notasNFe, Modelo.Modelo55);
+                    erros = await TransmitirConsultarLoteContingenciaAsync(notasNFe, Modelo.Modelo55);
             }
             catch (Exception e)
             {
@@ -162,10 +155,10 @@ namespace NFe.Core.Sefaz.Facades
                 var dadosNotaParaCancelar = new DadosNotaParaCancelar
                 {
                     ufEmitente = ufEmissor,
-                    codigoUf = codigoUfEnum, 
+                    codigoUf = codigoUfEnum,
                     cnpjEmitente = emitente.CNPJ,
-                    chaveNFe = notaParaCancelar.Chave, 
-                    protocoloAutorizacao = result.Protocolo.infProt.nProt, 
+                    chaveNFe = notaParaCancelar.Chave,
+                    protocoloAutorizacao = result.Protocolo.infProt.nProt,
                     modeloNota = modelo
                 };
 
@@ -182,8 +175,7 @@ namespace NFe.Core.Sefaz.Facades
             }
         }
 
-        private async Task<List<string>> TransmitirConsultarLoteContingenciaAsync(ConfiguracaoEntity config,
-    List<string> notasNfCe, Modelo modelo)
+        private async Task<List<string>> TransmitirConsultarLoteContingenciaAsync(List<string> notasNfCe, Modelo modelo)
         {
             var retornoTransmissao = TransmitirLoteNotasFiscaisContingencia(notasNfCe, modelo);
 
@@ -216,7 +208,7 @@ namespace NFe.Core.Sefaz.Facades
                     var xml = await nota.LoadXmlAsync();
                     xml = xml.Replace("<protNFe />", resultado.Xml);
 
-                     _notaFiscalRepository.Salvar(nota, xml);
+                    _notaFiscalRepository.Salvar(nota, xml);
                 }
                 else
                 {
@@ -248,7 +240,7 @@ namespace NFe.Core.Sefaz.Facades
                             var xml = await nota.LoadXmlAsync();
                             xml = xml.Replace("<protNFe />", protSerialized);
 
-                             _notaFiscalRepository.Salvar(nota, xml);
+                            _notaFiscalRepository.Salvar(nota, xml);
                         }
                         else
                         {

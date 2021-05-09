@@ -60,8 +60,8 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
             INotaFiscalRepository notaFiscalRepository = new NotaFiscalRepositoryFake();
-            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoRepository, certificadoRepository, notaFiscalRepository, emissorService,
-                nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoRepository, notaFiscalRepository, emissorService,
+                nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, serviceFactory, nfeConsulta);
 
@@ -157,7 +157,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
             var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
-            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoRepository, certificadoRepository, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao }, new global::NFe.Core.Utils.RijndaelManagedEncryption());
+            var notaFiscalContingenciaService = new EmiteNotaFiscalContingenciaFacade(configuracaoRepository, notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, notaInutilizadaFacade, cancelaNotaFiscalService, new global::NFe.Core.Sefaz.SefazSettings() { Ambiente = Ambiente.Homologacao });
 
             var notaFiscalService = new EnviarNotaFiscalService(configuracaoRepository, serviceFactory, nfeConsulta);
 
