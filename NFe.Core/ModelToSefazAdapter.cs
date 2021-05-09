@@ -70,7 +70,7 @@ namespace NFe.Core.Sefaz
         {
             return new TNFeInfNFeTotal
             {
-                ICMSTot = notaFiscal.IcmsTotal == null ? null : ConvertIcmsTotal(notaFiscal),
+                ICMSTot = notaFiscal.TotalNFe.IcmsTotal == null ? null : ConvertIcmsTotal(notaFiscal),
                 ISSQNtot = ConvertIssqn(notaFiscal),
                 retTrib = ConvertTributosFederais(notaFiscal)
             };
@@ -78,7 +78,7 @@ namespace NFe.Core.Sefaz
 
         private static TNFeInfNFeTotalRetTrib ConvertTributosFederais(NotaFiscal notaFiscal)
         {
-            var retencaoTributosFederais = notaFiscal.RetencaoTributosFederais;
+            var retencaoTributosFederais = notaFiscal.TotalNFe.RetencaoTributosFederais;
             if (retencaoTributosFederais == null) return null;
 
             return new TNFeInfNFeTotalRetTrib
@@ -95,7 +95,7 @@ namespace NFe.Core.Sefaz
 
         private static TNFeInfNFeTotalISSQNtot ConvertIssqn(NotaFiscal notaFiscal)
         {
-            var issqnTotal = notaFiscal.IssqnTotal;
+            var issqnTotal = notaFiscal.TotalNFe.IssqnTotal;
             if (issqnTotal == null) return null;
 
             return new TNFeInfNFeTotalISSQNtot
@@ -117,30 +117,30 @@ namespace NFe.Core.Sefaz
 
         public static TNFeInfNFeTotalICMSTot ConvertIcmsTotal(NotaFiscal notaFiscal)
         {
-            notaFiscal.IcmsTotal = IcmsTotal.CalculateIcmsTotal(notaFiscal.Produtos);
+            notaFiscal.TotalNFe.IcmsTotal = IcmsTotal.CalculateIcmsTotal(notaFiscal.Produtos);
 
             return new TNFeInfNFeTotalICMSTot
             {
-                vBC = notaFiscal.IcmsTotal.BaseCalculo.AsNumberFormattedString(),
-                vICMS = notaFiscal.IcmsTotal.ValorTotalIcms.AsNumberFormattedString(),
-                vICMSDeson = notaFiscal.IcmsTotal.ValorTotalDesonerado.AsNumberFormattedString(),
-                vFCPSTRet = notaFiscal.IcmsTotal
+                vBC = notaFiscal.TotalNFe.IcmsTotal.BaseCalculo.AsNumberFormattedString(),
+                vICMS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIcms.AsNumberFormattedString(),
+                vICMSDeson = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesonerado.AsNumberFormattedString(),
+                vFCPSTRet = notaFiscal.TotalNFe.IcmsTotal
                     .TotalFundoCombatePobrezaSubstituicaoTributariaRetidoAnteriormente.AsNumberFormattedString(),
-                vProd = notaFiscal.IcmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
-                vFrete = notaFiscal.IcmsTotal.ValorTotalFrete.AsNumberFormattedString(),
-                vSeg = notaFiscal.IcmsTotal.ValorTotalSeguro.AsNumberFormattedString(),
-                vDesc = notaFiscal.IcmsTotal.ValorTotalDesconto.AsNumberFormattedString(),
-                vOutro = notaFiscal.IcmsTotal.TotalOutros.AsNumberFormattedString(),
-                vFCPST = notaFiscal.IcmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria
+                vProd = notaFiscal.TotalNFe.IcmsTotal.ValorTotalProdutos.AsNumberFormattedString(),
+                vFrete = notaFiscal.TotalNFe.IcmsTotal.ValorTotalFrete.AsNumberFormattedString(),
+                vSeg = notaFiscal.TotalNFe.IcmsTotal.ValorTotalSeguro.AsNumberFormattedString(),
+                vDesc = notaFiscal.TotalNFe.IcmsTotal.ValorTotalDesconto.AsNumberFormattedString(),
+                vOutro = notaFiscal.TotalNFe.IcmsTotal.TotalOutros.AsNumberFormattedString(),
+                vFCPST = notaFiscal.TotalNFe.IcmsTotal.TotalFundoCombatePobrezaSubstituicaoTributaria
                     .AsNumberFormattedString(),
-                vBCST = notaFiscal.IcmsTotal.BaseCalculoST.AsNumberFormattedString(),
-                vST = notaFiscal.IcmsTotal.ValorTotalST.AsNumberFormattedString(),
-                vFCP = notaFiscal.IcmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
-                vII = notaFiscal.IcmsTotal.ValorTotalII.AsNumberFormattedString(),
-                vIPI = notaFiscal.IcmsTotal.ValorTotalIpi.AsNumberFormattedString(),
-                vPIS = notaFiscal.IcmsTotal.ValorTotalPis.AsNumberFormattedString(),
-                vCOFINS = notaFiscal.IcmsTotal.ValorTotalCofins.AsNumberFormattedString(),
-                vNF = notaFiscal.IcmsTotal.ValorTotalNFe.AsNumberFormattedString(),
+                vBCST = notaFiscal.TotalNFe.IcmsTotal.BaseCalculoST.AsNumberFormattedString(),
+                vST = notaFiscal.TotalNFe.IcmsTotal.ValorTotalST.AsNumberFormattedString(),
+                vFCP = notaFiscal.TotalNFe.IcmsTotal.TotalFundoCombatePobreza.AsNumberFormattedString(),
+                vII = notaFiscal.TotalNFe.IcmsTotal.ValorTotalII.AsNumberFormattedString(),
+                vIPI = notaFiscal.TotalNFe.IcmsTotal.ValorTotalIpi.AsNumberFormattedString(),
+                vPIS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalPis.AsNumberFormattedString(),
+                vCOFINS = notaFiscal.TotalNFe.IcmsTotal.ValorTotalCofins.AsNumberFormattedString(),
+                vNF = notaFiscal.TotalNFe.IcmsTotal.ValorTotalNFe.AsNumberFormattedString(),
                 vIPIDevol = "0.00"
             };
         }

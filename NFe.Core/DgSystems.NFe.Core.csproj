@@ -422,6 +422,7 @@
     <Compile Include="Domain\Cartao.cs" />
     <Compile Include="Domain\Pagamento.cs" />
     <Compile Include="Domain\Produto.cs" />
+    <Compile Include="Domain\TotalNFe.cs" />
     <Compile Include="Domain\Transportadora.cs" />
     <Compile Include="Domain\Transporte.cs" />
     <Compile Include="Domain\Veiculo.cs" />

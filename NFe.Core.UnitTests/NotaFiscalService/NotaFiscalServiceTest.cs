@@ -245,6 +245,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
             const int valorTotalProdutos = 65;
             var totalIcms = new IcmsTotal(0, 0, 0, 0, 0, valorTotalProdutos, 0, 0, 0, 0, 0, 0, 0, 0, valorTotalProdutos,
                 0);
+            var totalNFe = new TotalNFe { IcmsTotal = totalIcms };
             var impostosList = new List<global::NFe.Core.Domain.Imposto>
             {
                 new global::NFe.Core.Domain.Imposto {CST = "60", TipoImposto = TipoImposto.Icms},
@@ -262,7 +263,7 @@ namespace DgSystems.NFe.Core.UnitTests.NotaFiscalService
                 new Pagamento(FormaPagamento.Dinheiro) {Valor = 65}
             };
             var infoAdicional = new InfoAdicional(produtos, new IbptManager());
-            var notaFiscal = new NotaFiscal(emitente, null, identificação, transporte, totalIcms,null,null, infoAdicional,
+            var notaFiscal = new NotaFiscal(emitente, null, identificação, transporte, totalNFe, infoAdicional,
                 produtos, pagamentos);
             return notaFiscal;
         }

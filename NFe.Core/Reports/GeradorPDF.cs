@@ -699,7 +699,7 @@ namespace NFe.Core.Utils.PDF
             {
                 reportViewer.LocalReport.ReleaseSandboxAppDomain();
                 var emitente = notaFiscal.Emitente;
-                var calculoImposto = notaFiscal.IcmsTotal;
+                var calculoImposto = notaFiscal.TotalNFe.IcmsTotal;
                 var transportadora = notaFiscal.Transporte.Transportadora;
                 var veiculo = notaFiscal.Transporte.Veiculo;
 
