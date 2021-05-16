@@ -305,7 +305,7 @@ namespace NFe.WPF.NotaFiscal.Model
                 {
                     BusyContent = "Gerando impressão...";
                     IsBusy = true;
-                    await _enviarNotaAppService.ImprimirNotaFiscal(notaFiscal);
+                    _enviarNotaAppService.ImprimirNotaFiscal(notaFiscal);
                 }
             }
             catch (ArgumentException e)

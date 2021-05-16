@@ -3,16 +3,15 @@ using DgSystems.NFe.ViewModels.Commands;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using NFe.Core.Messaging;
+using NFe.Core;
 using NFe.Core.Domain;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
-using NFe.Core.Utils.PDF;
 using NFe.WPF.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
-using NFe.Core;
 
 namespace NFe.WPF.ViewModel
 {
@@ -36,7 +35,7 @@ namespace NFe.WPF.ViewModel
         public string Modelo { get; private set; }
         public string Numero { get; private set; }
 
-        public NFe.Core.Domain.NotaFiscal NotaFiscal
+        public Core.Domain.NotaFiscal NotaFiscal
         {
             get
             {

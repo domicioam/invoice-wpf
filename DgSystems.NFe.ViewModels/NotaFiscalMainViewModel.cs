@@ -1,8 +1,6 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
@@ -13,7 +11,6 @@ using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Conversores;
-using NFe.Core.Utils.PDF;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel;
