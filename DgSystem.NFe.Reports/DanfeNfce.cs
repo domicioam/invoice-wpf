@@ -10,15 +10,13 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using static QRCoder.PayloadGenerator;
 
 namespace DgSystem.NFe.Reports
 {
-    class DanfeNfce
+    internal class DanfeNfce
     {
-        static private System.Drawing.Point _PrintingDPI;
+        static private Point _PrintingDPI;
         static private int _PrintingIndex;
         static private List<Stream> _PrintingStreams = new List<Stream>();
 
