@@ -12,6 +12,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
+using NFe.Core;
 
 namespace NFe.WPF.ViewModel
 {
@@ -159,7 +160,12 @@ namespace NFe.WPF.ViewModel
 
             try
             {
-                await GeradorPDF.GerarPdfNotaFiscal(_notaFiscalBO);
+                var command = new ImprimirDanfeCommand(_notaFiscalBO);
+                command.Execute();
+                if (!command.IsExecuted)
+                {
+                    log.Error("Danfe não impresso.");
+                }
             }
             catch (Exception e)
             {

@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssinaturaDigital.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="Domain\Services\ICertificadoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="ImprimirDanfeCommand.cs" />
     <Compile Include="QrCode.cs" />
     <Compile Include="Reports\GeradorPDF.cs" />
     <Compile Include="Reports\GeradorZip.cs" />

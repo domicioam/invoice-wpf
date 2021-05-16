@@ -21,6 +21,7 @@ using NFe.WPF.Events;
 using NFe.WPF.NotaFiscal.Model;
 using NFe.WPF.NotaFiscal.ViewModel;
 using NFe.Core.Cadastro.Ibpt;
+using NFe.Core;
 
 namespace DgSystems.NFe.ViewModels
 {
@@ -159,9 +160,14 @@ namespace DgSystems.NFe.ViewModels
 
 
 
-        public async Task ImprimirNotaFiscal(NotaFiscal notaFiscal)
+        public void ImprimirNotaFiscal(NotaFiscal notaFiscal)
         {
-            await GeradorPDF.GerarPdfNotaFiscal(notaFiscal);
+            var command = new ImprimirDanfeCommand(notaFiscal);
+            command.Execute();
+            if(!command.IsExecuted)
+            {
+                log.Error("Danfe não impresso.");
+            }
         }
 
         private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)

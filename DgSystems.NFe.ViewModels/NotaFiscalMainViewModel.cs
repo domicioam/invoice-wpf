@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
+using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Emissor;
@@ -241,7 +242,13 @@ namespace DgSystems.NFe.ViewModels
                 {
                     BusyContent = "Gerando impressão...";
                     IsBusy = true;
-                    await GeradorPDF.GerarPdfNotaFiscal(notaFiscalBo);
+
+                    var command = new ImprimirDanfeCommand(notaFiscalBo);
+                    command.Execute();
+                    if (!command.IsExecuted)
+                    {
+                        log.Error("Danfe não impresso.");
+                    }
                 }
 
                 IsBusy = false;
