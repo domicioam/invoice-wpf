@@ -19,9 +19,9 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private NFe.Core.Domain.NotaFiscal _notaFiscal;
+        private Core.Domain.NotaFiscal _notaFiscal;
         private string _documentoDestinatario;
-        private NFe.Core.Domain.NotaFiscal _notaFiscalBO;
+        private Core.Domain.NotaFiscal _notaFiscalBO;
 
         public ICommand EmitirSegundaViaCmd { get; set; }
         public ICommand CancelarNotaCmd { get; set; }
@@ -70,7 +70,7 @@ namespace NFe.WPF.ViewModel
         public string NaturezaOperacao { get; private set; }
         public string Serie { get; private set; }
 
-        internal void VisualizarNotaFiscal(NFe.Core.Domain.NotaFiscal notaFiscal)
+        internal void VisualizarNotaFiscal(Core.Domain.NotaFiscal notaFiscal)
         {
             NotaFiscal = notaFiscal;
 
