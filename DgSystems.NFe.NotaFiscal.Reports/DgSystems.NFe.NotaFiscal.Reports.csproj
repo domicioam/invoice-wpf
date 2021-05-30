@@ -51,6 +51,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DgSystem.NFe.Reports\DgSystem.NFe.Reports.csproj">
+      <Project>{98C94FC3-3933-4B4E-9477-9B7F3A474FE6}</Project>
+      <Name>DgSystem.NFe.Reports</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NFe.Core\DgSystems.NFe.Core.csproj">
       <Project>{B844A95A-B767-4C52-9E5A-80081421CEC4}</Project>
       <Name>DgSystems.NFe.Core</Name>

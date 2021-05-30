@@ -14,13 +14,13 @@ using static QRCoder.PayloadGenerator;
 
 namespace DgSystem.NFe.Reports
 {
-    internal class DanfeNfce
+    public class DanfeNfce
     {
         static private Point _PrintingDPI;
         static private int _PrintingIndex;
         static private List<Stream> _PrintingStreams = new List<Stream>();
 
-        private static void GerarPDFNfce(NotaFiscal notaFiscal)
+        public static void GerarPDFNfce(NotaFiscal notaFiscal)
         {
             Warning[] warnings;
             string[] streamIds;

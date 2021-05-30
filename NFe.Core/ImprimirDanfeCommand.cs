@@ -22,8 +22,6 @@ namespace NFe.Core
             {
                 // refactor: usar mediator para enviar mensagem de imprimir danfe para o bounded context de reports
                 bool result = await mediator.Send(new ImprimirDanfe(NotaFiscal));
-
-                await GeradorPDF.GerarPdfNotaFiscal(NotaFiscal);
                 IsExecuted = result;
             }
             catch

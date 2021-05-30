@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using DgSystem.NFe.Reports;
+using MediatR;
 using NFe.Core;
+using NFe.Core.Utils.PDF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,20 @@ namespace DgSystems.NFe.NotaFiscal.Reports
         {
             // manda imprimir e responde com true se sucesso
 
-            throw new NotImplementedException();
+            // if nfce
+            // call DanfeNfce
+
+
+            var notaFiscal = new DgSystem.NFe.Reports.NotaFiscal();
+
+
+            if(request.NotaFiscal.Identificacao.Modelo == global::NFe.Core.Domain.Modelo.Modelo65)
+            {
+                DanfeNfce.GerarPDFNfce()
+            }
+
+
+            return GeradorPDF.GerarPdfNotaFiscal(request.NotaFiscal);
         }
     }
 }
