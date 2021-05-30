@@ -22,17 +22,86 @@ namespace DgSystems.NFe.NotaFiscal.Reports
             // call DanfeNfce
             // move qrcode generation to DgSystems.NFe.Reports
 
+            Identificacao identificacao
+                = new Identificacao(
+                    new Chave(request.NotaFiscal.Identificacao.Chave.ChaveMasked),
+                    request.NotaFiscal.Identificacao.Numero,
+                    request.NotaFiscal.Identificacao.Serie.ToString(),
+                    request.NotaFiscal.Identificacao.DataHoraEmissao,
+                    request.NotaFiscal.Identificacao.LinkConsultaChave,
+                    request.NotaFiscal.Identificacao.MensagemInteresseContribuinte);
 
-            var notaFiscal = new DgSystem.NFe.Reports.NotaFiscal();
+            Emitente emitente
+                = new Emitente(
+                    request.NotaFiscal.Emitente.CNPJ,
+                    request.NotaFiscal.Emitente.Endereco.Logradouro,
+                    request.NotaFiscal.Emitente.Nome,
+                    request.NotaFiscal.Emitente.Endereco.Numero,
+                    request.NotaFiscal.Emitente.Endereco.Bairro,
+                    request.NotaFiscal.Emitente.Endereco.Municipio,
+                    request.NotaFiscal.Emitente.Endereco.UF,
+                    request.NotaFiscal.Emitente.Endereco.Cep);
 
+            Destinatario destinatario
+                = new Destinatario(
+                    request.NotaFiscal.Destinatario.NomeRazao,
+                    request.NotaFiscal.Destinatario.Documento.Numero,
+                    request.NotaFiscal.Destinatario.Endereco?.Logradouro,
+                    request.NotaFiscal.Destinatario.Endereco?.Numero,
+                    request.NotaFiscal.Destinatario.Endereco?.Bairro,
+                    request.NotaFiscal.Destinatario.Endereco?.Municipio,
+                    request.NotaFiscal.Destinatario.Endereco?.UF,
+                    request.NotaFiscal.Destinatario.Endereco?.Cep);
 
-            if(request.NotaFiscal.Identificacao.Modelo == global::NFe.Core.Domain.Modelo.Modelo65)
+            IEnumerable<Produto> produtos =
+                request.NotaFiscal.Produtos
+                .Select(p =>
+                    new Produto(
+                        p.Codigo,
+                        p.Descricao,
+                        p.ValorUnidadeComercial,
+                        p.ValorTotal,
+                        p.QtdeUnidadeComercial,
+                        p.Desconto,
+                        p.Frete,
+                        p.Seguro,
+                        p.Outros));
+
+            IEnumerable<Pagamento> pagamentos =
+                request.NotaFiscal.Pagamentos
+                .Select(p =>
+                    new Pagamento(p.FormaPagamentoTexto, p.Valor));
+
+            var notaFiscal
+                = new DgSystem.NFe.Reports.NotaFiscal(
+                    request.NotaFiscal.QrCodeUrl,
+                    identificacao,
+                    emitente,
+                    destinatario,
+                    produtos,
+                    pagamentos,
+                    request.NotaFiscal.ValorTotalProdutos,
+                    request.NotaFiscal.ProtocoloAutorizacao,
+                    request.NotaFiscal.DhAutorizacao,
+                    request.NotaFiscal.InfoAdicional.InfoAdicionalComplementar,
+                    request.NotaFiscal.QtdTotalProdutos);
+
+            try
             {
-                DanfeNfce.GerarPDFNfce()
+                if (request.NotaFiscal.Identificacao.Modelo == global::NFe.Core.Domain.Modelo.Modelo65)
+                {
+                    DanfeNfce.GerarPDFNfce(notaFiscal);
+                }
+                else
+                {
+                    // DanfeNfe
+                }
+                return Task.FromResult(true);
             }
-
-
-            return GeradorPDF.GerarPdfNotaFiscal(request.NotaFiscal);
+            catch
+            {
+                return Task.FromResult(false);
+            }
         }
     }
 }

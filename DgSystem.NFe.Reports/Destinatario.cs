@@ -1,19 +1,29 @@
-﻿namespace DgSystem.NFe.Reports
+﻿using System;
+
+namespace DgSystem.NFe.Reports
 {
+    [Serializable]
     public class Destinatario
     {
-        public Destinatario(string nomeRazao)
+        public Destinatario(string nomeRazao, string documento = null, string logradouro = null, string numero = null, string bairro = null, string municipio = null, string uF = null, string cEP = null)
         {
             NomeRazao = nomeRazao;
+            Documento = documento;
+            Logradouro = logradouro;
+            Numero = numero;
+            Bairro = bairro;
+            Municipio = municipio;
+            UF = uF;
+            CEP = cEP;
         }
 
-        public string Documento { get; internal set; }
-        public string Logradouro { get; internal set; }
-        public string Numero { get; internal set; }
-        public string Bairro { get; internal set; }
-        public string Municipio { get; internal set; }
-        public string UF { get; internal set; }
-        public string CEP { get; internal set; }
-        public string NomeRazao { get; internal set; }
+        public string Documento { get;  }
+        public string Logradouro { get;  }
+        public string Numero { get;  }
+        public string Bairro { get;  }
+        public string Municipio { get;  }
+        public string UF { get;  }
+        public string CEP { get;  }
+        public string NomeRazao { get;  }
     }
 }

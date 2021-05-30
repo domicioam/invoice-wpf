@@ -2,14 +2,25 @@
 
 namespace DgSystem.NFe.Reports
 {
+    [Serializable]
     public class Identificacao
     {
-        public byte[] QrCodeImage { get; internal set; }
-        public Chave Chave { get; internal set; }
-        public string Numero { get; internal set; }
-        public string Serie { get; internal set; }
-        public DateTime DataHoraEmissao { get; internal set; }
-        public string LinkConsultaChave { get; internal set; }
-        public string MensagemInteresseContribuinte { get; internal set; }
+        public Identificacao(Chave chave, string numero, string serie, DateTime dataHoraEmissao, string linkConsultaChave, string mensagemInteresseContribuinte)
+        {
+            Chave = chave;
+            Numero = numero;
+            Serie = serie;
+            DataHoraEmissao = dataHoraEmissao;
+            LinkConsultaChave = linkConsultaChave;
+            MensagemInteresseContribuinte = mensagemInteresseContribuinte;
+        }
+
+        public byte[] QrCodeImage { get; set; }
+        public Chave Chave { get; }
+        public string Numero { get; }
+        public string Serie { get; }
+        public DateTime DataHoraEmissao { get; }
+        public string LinkConsultaChave { get; }
+        public string MensagemInteresseContribuinte { get; }
     }
 }

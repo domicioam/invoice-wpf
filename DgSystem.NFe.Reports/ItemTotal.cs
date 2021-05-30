@@ -1,8 +1,17 @@
-﻿namespace DgSystem.NFe.Reports
+﻿using System;
+
+namespace DgSystem.NFe.Reports
 {
-    internal class ItemTotal
+    [Serializable]
+    public class ItemTotal
     {
-        public string Descricao { get; internal set; }
-        public object Valor { get; internal set; }
+        public ItemTotal(string descricao, object valor)
+        {
+            Descricao = descricao;
+            Valor = valor;
+        }
+
+        public string Descricao { get; }
+        public object Valor { get; }
     }
 }

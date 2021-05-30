@@ -1,15 +1,31 @@
-﻿namespace DgSystem.NFe.Reports
+﻿using System;
+
+namespace DgSystem.NFe.Reports
 {
+    [Serializable]
     public class Produto
     {
-        public string Codigo { get; internal set; }
-        public string Descricao { get; internal set; }
-        public double ValorUnitario { get; internal set; }
-        public double ValorTotal { get; internal set; }
-        public int Quantidade { get; internal set; }
-        public int Desconto { get; internal set; }
-        public int Frete { get; internal set; }
-        public int Seguro { get; internal set; }
-        public int Outros { get; internal set; }
+        public Produto(string codigo, string descricao, double valorUnitario, double valorTotal, int quantidade, double desconto, double frete, double seguro, double outros)
+        {
+            Codigo = codigo;
+            Descricao = descricao;
+            ValorUnitario = valorUnitario;
+            ValorTotal = valorTotal;
+            Quantidade = quantidade;
+            Desconto = desconto;
+            Frete = frete;
+            Seguro = seguro;
+            Outros = outros;
+        }
+
+        public string Codigo { get;  }
+        public string Descricao { get;  }
+        public double ValorUnitario { get;  }
+        public double ValorTotal { get;  }
+        public int Quantidade { get;  }
+        public double Desconto { get;  }
+        public double Frete { get;  }
+        public double Seguro { get;  }
+        public double Outros { get;  }
     }
 }

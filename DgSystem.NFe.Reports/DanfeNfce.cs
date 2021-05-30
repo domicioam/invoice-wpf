@@ -58,56 +58,41 @@ namespace DgSystem.NFe.Reports
                 var emitente = notaFiscal.Emitente;
                 var destinatario = notaFiscal.Destinatario ?? new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
 
-                var produtos = notaFiscal.Produtos.Select(produto => new Produto()
-                {
-                    Codigo = produto.Codigo,
-                    Descricao = produto.Descricao,
-                    Quantidade = produto.Quantidade,
-                    ValorUnitario = produto.ValorUnitario,
-                    ValorTotal = produto.ValorTotal
-                }).ToList();
-
-                var pagamentos = notaFiscal.Pagamentos.Select(pagamento => new Pagamento()
-                {
-                    Nome = pagamento.Nome,
-                    Valor = pagamento.Valor
-                });
-
                 var totaisNotaFiscal = new List<ItemTotal> {
-                    new ItemTotal() { Descricao = "Valor total R$", Valor = notaFiscal.ValorTotalProdutos }
+                    new ItemTotal("Valor total R$", notaFiscal.ValorTotalProdutos)
                 };
 
                 double totalDesconto = notaFiscal.Produtos.Sum(p => p.Desconto);
                 if (totalDesconto > 0)
                 {
-                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Desconto R$", Valor = totalDesconto });
+                    totaisNotaFiscal.Add(new ItemTotal("Desconto R$", totalDesconto));
                 }
 
                 double totalFrete = notaFiscal.Produtos.Sum(p => p.Frete);
                 if (totalFrete > 0)
                 {
-                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Frete R$", Valor = totalFrete });
+                    totaisNotaFiscal.Add(new ItemTotal("Frete R$", totalFrete));
                 }
 
                 double totalSeguro = notaFiscal.Produtos.Sum(p => p.Seguro);
                 if (totalSeguro > 0)
                 {
-                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Seguro R$", Valor = totalSeguro });
+                    totaisNotaFiscal.Add(new ItemTotal("Seguro R$", totalSeguro));
                 }
 
                 double totalOutros = notaFiscal.Produtos.Sum(p => p.Outros);
                 if (totalOutros > 0)
                 {
-                    totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Outros R$", Valor = totalOutros });
+                    totaisNotaFiscal.Add(new ItemTotal("Outros R$", totalOutros ));
                 }
 
-                totaisNotaFiscal.Add(new ItemTotal() { Descricao = "Valor a Pagar R$", Valor = notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros });
+                totaisNotaFiscal.Add(new ItemTotal("Valor a Pagar R$", notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros ));
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
                     Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
                     Numero = notaFiscal.Identificacao.Numero,
-                    Serie = notaFiscal.Identificacao.Serie.ToString(),
+                    Serie = notaFiscal.Identificacao.Serie,
                     DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,
                     Protocolo = notaFiscal.ProtocoloAutorizacao,
                     DataHoraAutorizacao = notaFiscal.DhAutorizacao.Replace("-", "/"),
@@ -117,29 +102,10 @@ namespace DgSystem.NFe.Reports
                     QuantidadeTotalProdutos = notaFiscal.QtdTotalProdutos,
                     ValorTotalProdutos = notaFiscal.ValorTotalProdutos,
                     QrCodeImage = data,
-                    Emissor = new Emitente()
-                    {
-                        CNPJ = emitente.CNPJ,
-                        Nome = emitente.Nome,
-                        Logradouro = emitente.Logradouro,
-                        Numero = emitente.Numero,
-                        Bairro = emitente.Bairro,
-                        Municipio = emitente.Municipio,
-                        UF = emitente.UF,
-                        CEP = emitente.CEP
-                    },
-                    Destinatario = new Destinatario(destinatario.NomeRazao)
-                    {
-                        Documento = destinatario.Documento,
-                        Logradouro = destinatario.Logradouro,
-                        Numero = destinatario.Numero,
-                        Bairro = destinatario.Bairro,
-                        Municipio = destinatario.Municipio,
-                        UF = destinatario.UF,
-                        CEP = destinatario.CEP
-                    },
-                    Produtos = produtos,
-                    Pagamentos = pagamentos,
+                    Emissor = notaFiscal.Emitente,
+                    Destinatario = notaFiscal.Destinatario,
+                    Produtos = notaFiscal.Produtos.ToList(),
+                    Pagamentos = notaFiscal.Pagamentos.ToList(),
                     TotaisNotaFiscal = totaisNotaFiscal
                 };
 

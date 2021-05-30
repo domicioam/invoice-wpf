@@ -2,6 +2,11 @@
 {
     public class Chave
     {
-        public string ChaveMasked { get; internal set; }
+        public Chave(string chaveMasked)
+        {
+            ChaveMasked = chaveMasked;
+        }
+
+        public string ChaveMasked { get; }
     }
 }

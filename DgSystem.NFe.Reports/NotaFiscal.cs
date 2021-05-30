@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DgSystem.NFe.Reports
 {
-
+    [Serializable]
     public class NotaFiscal
     {
         public NotaFiscal(string qrCodeUrl, Identificacao identificacao, Emitente emitente, Destinatario destinatario, IEnumerable<Produto> produtos, IEnumerable<Pagamento> pagamentos, double valorTotalProdutos, string protocoloAutorizacao, string dhAutorizacao, string infoAdicionalComplementar, int qtdTotalProdutos)
