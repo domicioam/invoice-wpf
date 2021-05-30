@@ -3,6 +3,7 @@ using DgSystems.NFe.ViewModels.Commands;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
+using MediatR;
 using NFe.Core;
 using NFe.Core.Domain;
 using NFe.Core.Messaging;
@@ -63,6 +64,7 @@ namespace NFe.WPF.ViewModel
         }
 
         private CancelarNotaViewModel _cancelarNotaViewModel;
+        private readonly IMediator mediator;
 
         public bool IsDestinatarioEstrangeiro { get; set; }
         public ObservableCollection<ProdutoModel> Produtos { get; private set; }
@@ -137,13 +139,14 @@ namespace NFe.WPF.ViewModel
             MessagingCenter.Send(this, nameof(OpenVisualizarNotaEnviadaWindowCommand), command);
         }
 
-        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, CancelarNotaViewModel cancelarNotaViewModel)
+        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, CancelarNotaViewModel cancelarNotaViewModel, IMediator mediator)
         {
             EmitirSegundaViaCmd = new RelayCommand(EmitirSegundaViaCmd_Execute, null);
             CancelarNotaCmd = new RelayCommand(CancelarNotaCmd_Execute, null);
 
             _dialogService = dialogService;
             _cancelarNotaViewModel = cancelarNotaViewModel;
+            this.mediator = mediator;
         }
 
         private void CancelarNotaCmd_Execute()
@@ -159,7 +162,7 @@ namespace NFe.WPF.ViewModel
 
             try
             {
-                var command = new ImprimirDanfeCommand(_notaFiscalBO);
+                var command = new ImprimirDanfeCommand(_notaFiscalBO, mediator);
                 command.Execute();
                 if (!command.IsExecuted)
                 {

@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Views;
+using MediatR;
 using NFe.Core;
 using NFe.Core.Cadastro.Ibpt;
 using NFe.Core.Domain;
@@ -34,9 +35,10 @@ namespace DgSystems.NFe.ViewModels
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly XmlUtil _xmlUtil;
         private readonly IIbptManager _ibptManager;
+        private readonly IMediator mediator;
 
         public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
-            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil, IIbptManager ibptManager)
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil, IIbptManager ibptManager, IMediator mediator)
         {
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoService = configuracaoService;
@@ -46,6 +48,7 @@ namespace DgSystems.NFe.ViewModels
             _notaFiscalRepository = notaFiscalRepository;
             _xmlUtil = xmlUtil;
             _ibptManager = ibptManager;
+            this.mediator = mediator;
         }
 
         public async Task<NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
@@ -159,7 +162,7 @@ namespace DgSystems.NFe.ViewModels
 
         public void ImprimirNotaFiscal(NotaFiscal notaFiscal)
         {
-            var command = new ImprimirDanfeCommand(notaFiscal);
+            var command = new ImprimirDanfeCommand(notaFiscal, mediator);
             command.Execute();
             if(!command.IsExecuted)
             {

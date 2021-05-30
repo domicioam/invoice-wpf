@@ -134,6 +134,9 @@
     <Reference Include="MailKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.2.10.1\lib\net48\MailKit.dll</HintPath>
     </Reference>
+    <Reference Include="MediatR, Version=9.0.0.0, Culture=neutral, PublicKeyToken=bb9a41a5e8aaa7e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.9.0.0\lib\net461\MediatR.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -215,6 +218,7 @@
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="ImprimirDanfe.cs" />
     <Compile Include="ImprimirDanfeCommand.cs" />
     <Compile Include="QrCode.cs" />
     <Compile Include="Reports\GeradorPDF.cs" />
