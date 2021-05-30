@@ -2,7 +2,7 @@
 {
     public class Pagamento
     {
-        public object Nome { get; internal set; }
-        public object Valor { get; internal set; }
+        public string Nome { get; internal set; }
+        public double Valor { get; internal set; }
     }
 }

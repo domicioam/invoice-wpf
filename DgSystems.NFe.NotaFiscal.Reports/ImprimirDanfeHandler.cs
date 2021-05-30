@@ -20,6 +20,7 @@ namespace DgSystems.NFe.NotaFiscal.Reports
 
             // if nfce
             // call DanfeNfce
+            // move qrcode generation to DgSystems.NFe.Reports
 
 
             var notaFiscal = new DgSystem.NFe.Reports.NotaFiscal();
