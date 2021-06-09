@@ -13,6 +13,9 @@ namespace DgSystems.NFe.NotaFiscal.Reports
 {
     public class ImprimirDanfeHandler : IRequestHandler<ImprimirDanfe, bool>
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
         // send message from NotaFiscal bounded context to Reports bounded context
         public Task<bool> Handle(ImprimirDanfe request, CancellationToken cancellationToken)
         {
@@ -82,7 +85,7 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                     pagamentos,
                     request.NotaFiscal.ValorTotalProdutos,
                     request.NotaFiscal.ProtocoloAutorizacao,
-                    request.NotaFiscal.DhAutorizacao,
+                    request.NotaFiscal.DataHoraAutorização,
                     request.NotaFiscal.InfoAdicional.InfoAdicionalComplementar,
                     request.NotaFiscal.QtdTotalProdutos);
 
@@ -98,8 +101,9 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                 }
                 return Task.FromResult(true);
             }
-            catch
+            catch(Exception e)
             {
+                log.Error($"{nameof(ImprimirDanfeHandler)}: Erro ao criar danfe.", e);
                 return Task.FromResult(false);
             }
         }

@@ -9,7 +9,7 @@ namespace DgSystem.NFe.Reports
     [Serializable]
     public class NotaFiscal
     {
-        public NotaFiscal(string qrCodeUrl, Identificacao identificacao, Emitente emitente, Destinatario destinatario, IEnumerable<Produto> produtos, IEnumerable<Pagamento> pagamentos, double valorTotalProdutos, string protocoloAutorizacao, string dhAutorizacao, string infoAdicionalComplementar, int qtdTotalProdutos)
+        public NotaFiscal(string qrCodeUrl, Identificacao identificacao, Emitente emitente, Destinatario destinatario, IEnumerable<Produto> produtos, IEnumerable<Pagamento> pagamentos, double valorTotalProdutos, string protocoloAutorizacao, DateTime dhAutorizacao, string infoAdicionalComplementar, int qtdTotalProdutos)
         {
             QrCodeUrl = qrCodeUrl;
             Identificacao = identificacao;
@@ -32,7 +32,7 @@ namespace DgSystem.NFe.Reports
         public IEnumerable<Pagamento> Pagamentos { get; internal set; }
         public double ValorTotalProdutos { get; internal set; }
         public string ProtocoloAutorizacao { get; internal set; }
-        public string DhAutorizacao { get; internal set; }
+        public DateTime DhAutorizacao { get; internal set; }
         public string InfoAdicionalComplementar { get; internal set; }
         public int QtdTotalProdutos { get; internal set; }
     }

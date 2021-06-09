@@ -95,7 +95,7 @@ namespace DgSystem.NFe.Reports
                     Serie = notaFiscal.Identificacao.Serie,
                     DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,
                     Protocolo = notaFiscal.ProtocoloAutorizacao,
-                    DataHoraAutorizacao = notaFiscal.DhAutorizacao.Replace("-", "/"),
+                    DataHoraAutorizacao = notaFiscal.DhAutorizacao.ToString("dd/MM/yyyy HH:mm:ss").Replace("-", "/"),
                     InformacaoAdicional = notaFiscal.InfoAdicionalComplementar,
                     LinkConsultaChave = notaFiscal.Identificacao.LinkConsultaChave,
                     InformacaoInteresse = notaFiscal.Identificacao.MensagemInteresseContribuinte,

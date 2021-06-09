@@ -7,7 +7,7 @@ namespace DgSystem.NFe.Reports
     {
         public Destinatario(string nomeRazao, string documento = null, string logradouro = null, string numero = null, string bairro = null, string municipio = null, string uF = null, string cEP = null)
         {
-            NomeRazao = nomeRazao;
+            Nome = nomeRazao;
             Documento = documento;
             Logradouro = logradouro;
             Numero = numero;
@@ -24,6 +24,6 @@ namespace DgSystem.NFe.Reports
         public string Municipio { get;  }
         public string UF { get;  }
         public string CEP { get;  }
-        public string NomeRazao { get;  }
+        public string Nome { get;  }
     }
 }
