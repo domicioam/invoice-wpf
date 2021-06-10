@@ -58,59 +58,12 @@ namespace NFe.Core.Sefaz
             }
         }
 
-        public virtual string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
-        {
-            var nfeProc = new TNfeProc();
-            const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
-
-            nfeProc.NFe = nfe.ToTNFeRetorno(nFeNamespaceName);
-
-            if (nfeProc.NFe.infNFeSupl != null) nfeProc.NFe.infNFeSupl.qrCode = "";
-
-            if (protocolo != null)
-            {
-                var protocoloSerializado = Serialize(protocolo, nFeNamespaceName);
-                nfeProc.protNFe = (XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe) Deserialize<XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe>(protocoloSerializado);
-            }
-            else
-            {
-                nfeProc.protNFe = new XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TProtNFe();
-            }
-
-            nfeProc.versao = "4.00";
-            var result = Serialize(nfeProc, nFeNamespaceName).Replace("<motDesICMS>1</motDesICMS>", string.Empty);
-
-            if (nfeProc.NFe.infNFeSupl != null)
-            {
-                return result.Replace("<qrCode />", "<qrCode>" + urlQrCode + "</qrCode>")
-                   .Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
-            }
-            else
-            {
-                return result.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
-            }
-        }
-
         public static string GerarXmlLoteNFe(NotaFiscal notaFiscal, string nFeNamespaceName)
         {
             TEnviNFe lote = GetLoteNFe(notaFiscal);
 
             var parametroXml = Serialize(lote, nFeNamespaceName);
             return parametroXml.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
-        }
-
-        public static string GerarXmlListaNFe(List<string> notasFiscais)
-        {
-            var notasConcatenadas = new StringBuilder();
-
-            for (var i = 0; i < notasFiscais.Count; i++)
-            {
-                var nfeProc = new XmlDocument();
-                nfeProc.LoadXml(notasFiscais[i]);
-                notasConcatenadas.Append(nfeProc.GetElementsByTagName("NFe")[0].OuterXml);
-            }
-
-            return notasConcatenadas.ToString();
         }
 
         public static TEnviNFe GetLoteNFe(NotaFiscal notaFiscal)

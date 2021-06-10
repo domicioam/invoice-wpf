@@ -7,7 +7,7 @@ using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
 
 namespace NFe.Core.Sefaz
 {
-    static class NFeClassesExtensions
+    public static class NFeClassesExtensions
     {
         public static XmlSchemas.NfeAutorizacao.Retorno.NfeProc.TNFe ToTNFeRetorno(this TNFe nfe, string nfeNamespaceName)
         {
