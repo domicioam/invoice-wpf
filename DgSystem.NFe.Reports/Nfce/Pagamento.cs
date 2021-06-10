@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DgSystem.NFe.Reports
+namespace DgSystem.NFe.Reports.Nfce
 {
     [Serializable]
     public class Pagamento

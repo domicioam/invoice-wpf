@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DgSystem.NFe.Reports
+namespace DgSystem.NFe.Reports.Nfce
 {
     [Serializable]
     public class NotaFiscal

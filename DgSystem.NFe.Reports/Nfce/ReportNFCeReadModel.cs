@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DgSystem.NFe.Reports
+namespace DgSystem.NFe.Reports.Nfce
 {
     internal class ReportNFCeReadModel
     {

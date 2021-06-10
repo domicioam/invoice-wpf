@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DgSystem.NFe.Reports
+namespace DgSystem.NFe.Reports.Nfce
 {
     [Serializable]
     public class Destinatario
@@ -17,13 +17,13 @@ namespace DgSystem.NFe.Reports
             CEP = cEP;
         }
 
-        public string Documento { get;  }
-        public string Logradouro { get;  }
-        public string Numero { get;  }
-        public string Bairro { get;  }
-        public string Municipio { get;  }
-        public string UF { get;  }
-        public string CEP { get;  }
-        public string Nome { get;  }
+        public string Documento { get; }
+        public string Logradouro { get; }
+        public string Numero { get; }
+        public string Bairro { get; }
+        public string Municipio { get; }
+        public string UF { get; }
+        public string CEP { get; }
+        public string Nome { get; }
     }
 }

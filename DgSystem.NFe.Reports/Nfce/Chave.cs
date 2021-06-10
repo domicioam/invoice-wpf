@@ -1,4 +1,4 @@
-﻿namespace DgSystem.NFe.Reports
+﻿namespace DgSystem.NFe.Reports.Nfce
 {
     public class Chave
     {

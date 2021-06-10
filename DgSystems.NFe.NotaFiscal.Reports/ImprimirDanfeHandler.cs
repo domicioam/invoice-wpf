@@ -1,4 +1,4 @@
-﻿using DgSystem.NFe.Reports;
+﻿using DgSystem.NFe.Reports.Nfce;
 using MediatR;
 using NFe.Core;
 using NFe.Core.Utils.PDF;

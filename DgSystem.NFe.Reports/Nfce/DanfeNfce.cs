@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using static QRCoder.PayloadGenerator;
 
-namespace DgSystem.NFe.Reports
+namespace DgSystem.NFe.Reports.Nfce
 {
     public class DanfeNfce
     {
@@ -28,7 +28,7 @@ namespace DgSystem.NFe.Reports
             string encoding = string.Empty;
             string extension = string.Empty;
 
-            Byte[] data;
+            byte[] data;
             Bitmap qrCodeAsBitmap;
             string qrCodeUrl = GetQrCodeUrl(notaFiscal.QrCodeUrl);
 
@@ -83,10 +83,10 @@ namespace DgSystem.NFe.Reports
                 double totalOutros = notaFiscal.Produtos.Sum(p => p.Outros);
                 if (totalOutros > 0)
                 {
-                    totaisNotaFiscal.Add(new ItemTotal("Outros R$", totalOutros ));
+                    totaisNotaFiscal.Add(new ItemTotal("Outros R$", totalOutros));
                 }
 
-                totaisNotaFiscal.Add(new ItemTotal("Valor a Pagar R$", notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros ));
+                totaisNotaFiscal.Add(new ItemTotal("Valor a Pagar R$", notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros));
 
                 var reportNFCeReadModel = new ReportNFCeReadModel
                 {
@@ -225,7 +225,7 @@ namespace DgSystem.NFe.Reports
             ev.Graphics.DrawImageUnscaled(mf, adjustedRect);
 
             _PrintingIndex++;
-            ev.HasMorePages = (_PrintingIndex < _PrintingStreams.Count);
+            ev.HasMorePages = _PrintingIndex < _PrintingStreams.Count;
         }
 
         private static Stream CreateStream(string name, string fileNameExtension, Encoding encoding, string mimeType, bool willSeek)

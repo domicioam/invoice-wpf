@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DgSystem.NFe.Reports
+namespace DgSystem.NFe.Reports.Nfce
 {
     [Serializable]
     public class Produto
@@ -18,14 +18,14 @@ namespace DgSystem.NFe.Reports
             Outros = outros;
         }
 
-        public string Codigo { get;  }
-        public string Descricao { get;  }
-        public double ValorUnitario { get;  }
-        public double ValorTotal { get;  }
-        public int Quantidade { get;  }
-        public double Desconto { get;  }
-        public double Frete { get;  }
-        public double Seguro { get;  }
-        public double Outros { get;  }
+        public string Codigo { get; }
+        public string Descricao { get; }
+        public double ValorUnitario { get; }
+        public double ValorTotal { get; }
+        public int Quantidade { get; }
+        public double Desconto { get; }
+        public double Frete { get; }
+        public double Seguro { get; }
+        public double Outros { get; }
     }
 }
