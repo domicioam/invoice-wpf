@@ -40,7 +40,7 @@ namespace NFe.Core.Sefaz.Facades
 
             if (mensagemRetorno.Status != Status.ERRO)
             {
-                var notaInutilizada = new NotaInutilizadaTO
+                var notaInutilizada = new NotaInutilizada
                 {
                     DataInutilizacao = DateTime.Now,
                     IdInutilizacao = mensagemRetorno.IdInutilizacao,

@@ -112,7 +112,7 @@ namespace NFe.Core.Utils.Zip
             });
         }
 
-        private bool GerarXmlsNotasInutilizadas(List<NotaInutilizadaTO> notasInutilizadas, string startPath)
+        private bool GerarXmlsNotasInutilizadas(List<NotaInutilizada> notasInutilizadas, string startPath)
         {
             try
             {

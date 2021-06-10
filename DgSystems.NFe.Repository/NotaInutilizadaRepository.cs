@@ -52,18 +52,18 @@ namespace NFe.Repository.Repositories
             _context.SaveChanges();
         }
 
-        public List<NotaInutilizadaTO> GetNotasFiscaisPorMesAno(DateTime periodo)
+        public List<NotaInutilizada> GetNotasFiscaisPorMesAno(DateTime periodo)
         {
             var notasInutilizadasDB = _context.NotaInutilizada.Where(n => n.DataInutilizacao.Month.Equals(periodo.Month) && n.DataInutilizacao.Year == periodo.Year);
 
-            var notasInutilizadas = new List<NotaInutilizadaTO>();
+            var notasInutilizadas = new List<NotaInutilizada>();
 
-            foreach (var notaInutDb in notasInutilizadasDB) notasInutilizadas.Add((NotaInutilizadaTO)notaInutDb);
+            foreach (var notaInutDb in notasInutilizadasDB) notasInutilizadas.Add((NotaInutilizada)notaInutDb);
 
             return notasInutilizadas;
         }
 
-        public virtual void Salvar(NotaInutilizadaTO notaInutilizada, string xml)
+        public virtual void Salvar(NotaInutilizada notaInutilizada, string xml)
         {
             try
             {
@@ -87,23 +87,23 @@ namespace NFe.Repository.Repositories
 
 
 
-        public NotaInutilizadaTO GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData)
+        public NotaInutilizada GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData)
         {
             var notaInutilizada =
-                (NotaInutilizadaTO)GetNotaInutilizada(idInutilizacao);
+                (NotaInutilizada)GetNotaInutilizada(idInutilizacao);
 
             if (isLoadXmlData && notaInutilizada != null) notaInutilizada.LoadXml();
 
             return notaInutilizada;
         }
 
-        public NotaInutilizadaTO GetNotaInutilizadaFromXml(string xml)
+        public NotaInutilizada GetNotaInutilizadaFromXml(string xml)
         {
             var procInutNFe = (TProcInutNFe)XmlUtil.Deserialize<TProcInutNFe>(xml);
             var envInfInut = procInutNFe.inutNFe.infInut;
             var retInfInut = procInutNFe.retInutNFe.infInut;
 
-            var notaInutilizada = new NotaInutilizadaTO();
+            var notaInutilizada = new NotaInutilizada();
             notaInutilizada.Serie = envInfInut.serie;
             notaInutilizada.Numero = envInfInut.nNFFin;
             notaInutilizada.Modelo = envInfInut.mod == TMod.Item55 ? 55 : 65;

@@ -21,7 +21,7 @@ namespace NFe.Core.Utils.PDF
             _eventoRepository = eventoRepository;
         }
 
-        public void GerarRelatorioGerencial(List<NotaFiscalEntity> notasPeriodo, List<NotaInutilizadaTO> notasInutilizadas, DateTime mesAno, string startPath)
+        public void GerarRelatorioGerencial(List<NotaFiscalEntity> notasPeriodo, List<NotasFiscais.NotaInutilizada> notasInutilizadas, DateTime mesAno, string startPath)
         {
             Warning[] warnings;
             string[] streamIds;
@@ -130,8 +130,8 @@ namespace NFe.Core.Utils.PDF
             var eventoCancelamentoNFCe = _eventoRepository.GetEventosPorNotasId(nfceCanceladas.Select(n => n.Id));
             var eventoCancelamentoNFe = _eventoRepository.GetEventosPorNotasId(nfeCanceladas.Select(n => n.Id));
 
-            List<NotaInutilizada> nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(65)).Select(
-                nota => new NotaInutilizada()
+            List<RelatorioGerencial.NotaInutilizada> nfceInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(65)).Select(
+                nota => new RelatorioGerencial.NotaInutilizada()
                 {
                     Serie = nota.Serie,
                     Numero = nota.Numero,
@@ -141,8 +141,8 @@ namespace NFe.Core.Utils.PDF
                 }
                 ).ToList();
 
-            List<NotaInutilizada> nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(55)).Select(
-                nota => new NotaInutilizada()
+            List<RelatorioGerencial.NotaInutilizada> nfeInutilizadas = notasInutilizadas.Where(n => n.Modelo.Equals(55)).Select(
+                nota => new RelatorioGerencial.NotaInutilizada()
                 {
                     Serie = nota.Serie,
                     Numero = nota.Numero,
