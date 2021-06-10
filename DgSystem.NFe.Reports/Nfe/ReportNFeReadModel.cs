@@ -23,9 +23,15 @@ namespace DgSystem.NFe.Reports.Nfe
         public byte[] QrCodeImage { get; set; }
         public Emitente Emissor { get; set; }
         public Destinatario Destinatario { get; set; }
-        public List<Produto> Produtos { get; set; }
+        public IEnumerable<Produto> Produtos { get; set; }
         public IEnumerable<Pagamento> Pagamentos { get; set; }
         public List<ItemTotal> TotaisNotaFiscal { get; set; }
-
+        public string DataSaida { get; internal set; }
+        public string HoraSaida { get; internal set; }
+        public string NaturezaOperacao { get; internal set; }
+        public string TipoOperacao { get; internal set; }
+        public byte[] BarcodeImage { get; internal set; }
+        public Transportadora Transportadora { get; internal set; }
+        public CalculoImposto CalculoImposto { get; internal set; }
     }
 }

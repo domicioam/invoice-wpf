@@ -76,7 +76,7 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                     new Pagamento(p.FormaPagamentoTexto, p.Valor));
 
             var notaFiscal
-                = new DgSystem.NFe.Reports.NotaFiscal(
+                = new DgSystem.NFe.Reports.Nfce.NotaFiscal(
                     request.NotaFiscal.QrCodeUrl,
                     identificacao,
                     emitente,
@@ -97,6 +97,15 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                 }
                 else
                 {
+
+                    if (request.NotaFiscal.Identificacao.Ambiente == global::NFe.Core.Domain.Ambiente.Homologacao)
+                    {
+                        //notaFiscal.InfoAdicionalComplementar = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL";
+                    }
+
+
+
+
                     // DanfeNfe
                 }
                 return Task.FromResult(true);
