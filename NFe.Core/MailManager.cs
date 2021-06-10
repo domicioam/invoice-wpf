@@ -13,6 +13,7 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using System.Net.Mail;
 using MailKit.Security;
+using MediatR;
 
 namespace NFe.WPF.Utils
 {
@@ -24,14 +25,17 @@ namespace NFe.WPF.Utils
         private readonly IEmitenteRepository _emitenteRepository;
         private readonly GeradorZip _geradorZip;
         private readonly INotaFiscalRepository _notaFiscalRepository;
+        private readonly IMediator mediator;
 
         public MailManager(IHistoricoEnvioContabilidadeRepository historicoEnvioContabilidadeRepository,
-            IEmitenteRepository emitenteRepository, GeradorZip geradorZip, INotaFiscalRepository notaFiscalRepository)
+            IEmitenteRepository emitenteRepository, GeradorZip geradorZip, INotaFiscalRepository notaFiscalRepository,
+            IMediator mediator)
         {
             _historicoEnvioContabilidadeRepository = historicoEnvioContabilidadeRepository;
             _emitenteRepository = emitenteRepository;
             _geradorZip = geradorZip;
             _notaFiscalRepository = notaFiscalRepository;
+            this.mediator = mediator;
         }
 
         public Task EnviarNotasParaContabilidade(int diaParaEnvio)
@@ -92,8 +96,14 @@ namespace NFe.WPF.Utils
             var xml = await notaFiscal.LoadXmlAsync();
             var notaFiscalCore = _notaFiscalRepository.GetNotaFiscalFromNfeProcXml(xml);
 
-            var pdfPath = GeradorPDF.ObterPdfEnvioNotaFiscalEmail(notaFiscalCore);
-            await EnviarEmailDestinatario(email, xmlPath, pdfPath);
+            var command = new GerarDanfeNfceEmailCommand(notaFiscalCore, mediator);
+            command.ExecuteAsync();
+
+            if (command.IsExecuted)
+            {
+                string pdfPath = command.Result;
+                await EnviarEmailDestinatario(email, xmlPath, pdfPath);
+            }
         }
 
 

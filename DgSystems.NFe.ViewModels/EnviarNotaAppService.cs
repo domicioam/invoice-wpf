@@ -163,7 +163,7 @@ namespace DgSystems.NFe.ViewModels
         public void ImprimirNotaFiscal(NotaFiscal notaFiscal)
         {
             var command = new ImprimirDanfeCommand(notaFiscal, mediator);
-            command.Execute();
+            command.ExecuteAsync();
             if(!command.IsExecuted)
             {
                 log.Error("Danfe não impresso.");

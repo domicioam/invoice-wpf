@@ -14,6 +14,6 @@ namespace NFe.Core
         }
 
         public bool IsExecuted { get; protected set; }
-        public abstract void Execute();
+        public abstract void ExecuteAsync();
     }
 }

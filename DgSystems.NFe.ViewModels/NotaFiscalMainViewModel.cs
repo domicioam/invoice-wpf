@@ -244,7 +244,7 @@ namespace DgSystems.NFe.ViewModels
                     IsBusy = true;
 
                     var command = new ImprimirDanfeCommand(notaFiscalBo, mediator);
-                    command.Execute();
+                    command.ExecuteAsync();
                     if (!command.IsExecuted)
                     {
                         log.Error("Danfe não impresso.");

@@ -178,6 +178,136 @@ namespace DgSystem.NFe.Reports.Nfce
             }
         }
 
+        public static string ObterPdfEnvioNotaFiscalEmail(NotaFiscal notaFiscal)
+        {
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = string.Empty;
+
+            byte[] data;
+            Bitmap qrCodeAsBitmap;
+            string qrCodeUrl = GetQrCodeUrl(notaFiscal.QrCodeUrl);
+
+            using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+            {
+                Url generator = new Url(qrCodeUrl);
+                string payload = generator.ToString();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                qrCodeAsBitmap = qrCode.GetGraphic(10);
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                qrCodeAsBitmap.Save(memoryStream, ImageFormat.Bmp);
+                data = memoryStream.ToArray();
+            }
+
+            notaFiscal.Identificacao.QrCodeImage = data;
+
+            // SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
+
+            using (ReportViewer reportViewer = new ReportViewer())
+            {
+                reportViewer.LocalReport.ReleaseSandboxAppDomain();
+
+                var emitente = notaFiscal.Emitente;
+                var destinatario = notaFiscal.Destinatario ?? new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
+
+                var totaisNotaFiscal = new List<ItemTotal> {
+                    new ItemTotal("Valor total R$", notaFiscal.ValorTotalProdutos)
+                };
+
+                double totalDesconto = notaFiscal.Produtos.Sum(p => p.Desconto);
+                if (totalDesconto > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal("Desconto R$", totalDesconto));
+                }
+
+                double totalFrete = notaFiscal.Produtos.Sum(p => p.Frete);
+                if (totalFrete > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal("Frete R$", totalFrete));
+                }
+
+                double totalSeguro = notaFiscal.Produtos.Sum(p => p.Seguro);
+                if (totalSeguro > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal("Seguro R$", totalSeguro));
+                }
+
+                double totalOutros = notaFiscal.Produtos.Sum(p => p.Outros);
+                if (totalOutros > 0)
+                {
+                    totaisNotaFiscal.Add(new ItemTotal("Outros R$", totalOutros));
+                }
+
+                totaisNotaFiscal.Add(new ItemTotal("Valor a Pagar R$", notaFiscal.ValorTotalProdutos - totalDesconto + totalFrete + totalSeguro + totalOutros));
+
+                var reportNFCeReadModel = new ReportNFCeReadModel
+                {
+                    Chave = notaFiscal.Identificacao.Chave.ChaveMasked,
+                    Numero = notaFiscal.Identificacao.Numero,
+                    Serie = notaFiscal.Identificacao.Serie,
+                    DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,
+                    Protocolo = notaFiscal.ProtocoloAutorizacao,
+                    DataHoraAutorizacao = notaFiscal.DhAutorizacao.ToString("dd/MM/yyyy HH:mm:ss").Replace("-", "/"),
+                    InformacaoAdicional = notaFiscal.InfoAdicionalComplementar,
+                    LinkConsultaChave = notaFiscal.Identificacao.LinkConsultaChave,
+                    InformacaoInteresse = notaFiscal.Identificacao.MensagemInteresseContribuinte,
+                    QuantidadeTotalProdutos = notaFiscal.QtdTotalProdutos,
+                    ValorTotalProdutos = notaFiscal.ValorTotalProdutos,
+                    QrCodeImage = data,
+                    Emissor = notaFiscal.Emitente,
+                    Destinatario = notaFiscal.Destinatario,
+                    Produtos = notaFiscal.Produtos.ToList(),
+                    Pagamentos = notaFiscal.Pagamentos.ToList(),
+                    TotaisNotaFiscal = totaisNotaFiscal
+                };
+
+                ReportDataSource dadosDataSource = new ReportDataSource()
+                {
+                    Name = "Dados",
+                    Value = new List<ReportNFCeReadModel>() { reportNFCeReadModel }
+                };
+
+                ReportDataSource produtosDataSource = new ReportDataSource()
+                {
+                    Name = "Produtos",
+                    Value = reportNFCeReadModel.Produtos
+                };
+
+                ReportDataSource pagamentosDataSource = new ReportDataSource()
+                {
+                    Name = "Pagamentos",
+                    Value = reportNFCeReadModel.Pagamentos
+                };
+
+                ReportDataSource totaisNotaFiscalDataSource = new ReportDataSource()
+                {
+                    Name = "TotaisNotaFiscal",
+                    Value = reportNFCeReadModel.TotaisNotaFiscal
+                };
+
+                reportViewer.LocalReport.DataSources.Add(dadosDataSource);
+                reportViewer.LocalReport.DataSources.Add(produtosDataSource);
+                reportViewer.LocalReport.DataSources.Add(pagamentosDataSource);
+                reportViewer.LocalReport.DataSources.Add(totaisNotaFiscalDataSource);
+
+                reportViewer.ProcessingMode = ProcessingMode.Local;
+                reportViewer.LocalReport.ReportPath = Path.Combine(Directory.GetCurrentDirectory(), @"Reports\ReportNfceEmail.rdlc");
+
+                byte[] bytes = reportViewer.LocalReport.Render("PDF", null, out _, out _, out _, out _, out warnings);
+
+                string pathToPdf = Path.Combine(Path.GetTempPath(), notaFiscal.Identificacao.Chave + ".pdf");
+                File.WriteAllBytes(pathToPdf, bytes);
+
+                return pathToPdf;
+            }
+        }
+
         private static string GetQrCodeUrl(string text, string firstString = "<![CDATA[", string lastString = "]]>")
         {
             if (string.IsNullOrWhiteSpace(text))

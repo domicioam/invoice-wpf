@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DgSystems.NFe.NotaFiscal.Reports
 {
-    public class ImprimirDanfeHandler : IRequestHandler<ImprimirDanfe, bool>
+    public class ImprimirDanfeHandler : IRequestHandler<ImprimirDanfe, bool>, IRequestHandler<global::NFe.Core.Domain.GerarDanfeNfceEmail, string>
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -97,7 +97,8 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                     if (request.NotaFiscal.Identificacao.Ambiente == global::NFe.Core.Domain.Ambiente.Homologacao)
                     {
                         infoAdicionalComplementar = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGAÇÃO - SEM VALOR FISCAL";
-                    } else
+                    }
+                    else
                     {
                         infoAdicionalComplementar = request.NotaFiscal.InfoAdicional.InfoAdicionalComplementar;
                     }
@@ -142,7 +143,7 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                             request.NotaFiscal.Destinatario.Endereco.Cep,
                             request.NotaFiscal.Destinatario.Telefone);
 
-                    IEnumerable <DgSystem.NFe.Reports.Nfe.Produto> produtos =
+                    IEnumerable<DgSystem.NFe.Reports.Nfe.Produto> produtos =
                         request.NotaFiscal.Produtos
                         .Select(p =>
                             new DgSystem.NFe.Reports.Nfe.Produto(
@@ -223,11 +224,80 @@ namespace DgSystems.NFe.NotaFiscal.Reports
                 }
                 return Task.FromResult(true);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 log.Error($"{nameof(ImprimirDanfeHandler)}: Erro ao criar danfe.", e);
                 return Task.FromResult(false);
             }
+        }
+
+        public Task<string> Handle(global::NFe.Core.Domain.GerarDanfeNfceEmail request, CancellationToken cancellationToken)
+        {
+            Identificacao identificacao
+                = new Identificacao(
+                    new Chave(request.NotaFiscal.Identificacao.Chave.ChaveMasked),
+                    request.NotaFiscal.Identificacao.Numero,
+                    request.NotaFiscal.Identificacao.Serie.ToString(),
+                    request.NotaFiscal.Identificacao.DataHoraEmissao,
+                    request.NotaFiscal.Identificacao.LinkConsultaChave,
+                    request.NotaFiscal.Identificacao.MensagemInteresseContribuinte);
+
+            Emitente emitente
+                = new Emitente(
+                    request.NotaFiscal.Emitente.CNPJ,
+                    request.NotaFiscal.Emitente.Endereco.Logradouro,
+                    request.NotaFiscal.Emitente.Nome,
+                    request.NotaFiscal.Emitente.Endereco.Numero,
+                    request.NotaFiscal.Emitente.Endereco.Bairro,
+                    request.NotaFiscal.Emitente.Endereco.Municipio,
+                    request.NotaFiscal.Emitente.Endereco.UF,
+                    request.NotaFiscal.Emitente.Endereco.Cep);
+
+            Destinatario destinatario
+                = new Destinatario(
+                    request.NotaFiscal.Destinatario.NomeRazao,
+                    request.NotaFiscal.Destinatario.Documento.Numero,
+                    request.NotaFiscal.Destinatario.Endereco?.Logradouro,
+                    request.NotaFiscal.Destinatario.Endereco?.Numero,
+                    request.NotaFiscal.Destinatario.Endereco?.Bairro,
+                    request.NotaFiscal.Destinatario.Endereco?.Municipio,
+                    request.NotaFiscal.Destinatario.Endereco?.UF,
+                    request.NotaFiscal.Destinatario.Endereco?.Cep);
+
+            IEnumerable<Produto> produtos =
+                request.NotaFiscal.Produtos
+                .Select(p =>
+                    new Produto(
+                        p.Codigo,
+                        p.Descricao,
+                        p.ValorUnidadeComercial,
+                        p.ValorTotal,
+                        p.QtdeUnidadeComercial,
+                        p.Desconto,
+                        p.Frete,
+                        p.Seguro,
+                        p.Outros));
+
+            IEnumerable<Pagamento> pagamentos =
+                request.NotaFiscal.Pagamentos
+                .Select(p =>
+                    new Pagamento(p.FormaPagamentoTexto, p.Valor));
+
+            var notaFiscal
+                = new DgSystem.NFe.Reports.Nfce.NotaFiscal(
+                    request.NotaFiscal.QrCodeUrl,
+                    identificacao,
+                    emitente,
+                    destinatario,
+                    produtos,
+                    pagamentos,
+                    request.NotaFiscal.ValorTotalProdutos,
+                    request.NotaFiscal.ProtocoloAutorizacao,
+                    request.NotaFiscal.DataHoraAutorização,
+                    request.NotaFiscal.InfoAdicional.InfoAdicionalComplementar,
+                    request.NotaFiscal.QtdTotalProdutos);
+
+            return Task.FromResult(DanfeNfce.ObterPdfEnvioNotaFiscalEmail(notaFiscal));
         }
     }
 }

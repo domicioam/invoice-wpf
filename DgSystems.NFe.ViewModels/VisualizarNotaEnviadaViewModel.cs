@@ -163,7 +163,7 @@ namespace NFe.WPF.ViewModel
             try
             {
                 var command = new ImprimirDanfeCommand(_notaFiscalBO, mediator);
-                command.Execute();
+                command.ExecuteAsync();
                 if (!command.IsExecuted)
                 {
                     log.Error("Danfe não impresso.");

@@ -204,6 +204,7 @@
   <ItemGroup>
     <Compile Include="AssinaturaDigital.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Domain\GerarDanfeNfceEmail.cs" />
     <Compile Include="Domain\Services\ICertificadoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Domain\Status.cs" />
     <Compile Include="Domain\StatusEvento.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="GerarDanfeNfceEmailCommand.cs" />
     <Compile Include="ImprimirDanfe.cs" />
     <Compile Include="ImprimirDanfeCommand.cs" />
     <Compile Include="QrCode.cs" />
@@ -314,8 +316,6 @@
     <Compile Include="Reports\RelatorioGerencial\Evento.cs" />
     <Compile Include="Reports\RelatorioGerencial\NotaFiscal.cs" />
     <Compile Include="Reports\RelatorioGerencial\NotaInutilizada.cs" />
-    <Compile Include="Reports\ReportNFCeReadModel.cs" />
-    <Compile Include="Reports\ReportNFeReadModel.cs" />
     <Compile Include="Domain\Impostos\CofinsCreator.cs" />
     <Compile Include="Domain\Impostos\CofinsStCreator.cs" />
     <Compile Include="DadosNotaParaCancelar.cs" />
