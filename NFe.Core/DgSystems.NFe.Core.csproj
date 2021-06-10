@@ -330,7 +330,6 @@
     <Compile Include="Domain\Impostos\ImpostoDirectorFactory.cs" />
     <Compile Include="Domain\Impostos\IpiDirector.cs" />
     <Compile Include="Domain\Impostos\IssqnDirector.cs" />
-    <Compile Include="ModelToSefazAdapter.cs" />
     <Compile Include="NFeClassesExtensions.cs" />
     <Compile Include="NfeDetImpostoFactory.cs" />
     <Compile Include="Domain\Impostos\PisAliqDirector.cs" />
