@@ -5,27 +5,30 @@ namespace DgSystem.NFe.Reports.Nfe
     [Serializable]
     public class Produto
     {
-        public Produto(string codigo, string descricao, double valorUnitario, double valorTotal, int quantidade, double desconto, double frete, double seguro, double outros)
+        public Produto(string codigo, string descricao, string ncm, string cst, string cfop, string unidadeComercial, 
+            int quantidade, double valorUnitario, double valorDesconto, double valorLiquido)
         {
             Codigo = codigo;
             Descricao = descricao;
-            ValorUnitario = valorUnitario;
-            ValorTotal = valorTotal;
+            Ncm = ncm;
+            Cst = cst;
+            Cfop = cfop;
+            UnidadeComercial = unidadeComercial;
             Quantidade = quantidade;
-            Desconto = desconto;
-            Frete = frete;
-            Seguro = seguro;
-            Outros = outros;
+            ValorUnitario = valorUnitario;
+            ValorDesconto = valorDesconto;
+            ValorLiquido = valorLiquido;
         }
 
-        public string Codigo { get; }
-        public string Descricao { get; }
-        public double ValorUnitario { get; }
-        public double ValorTotal { get; }
-        public int Quantidade { get; }
-        public double Desconto { get; }
-        public double Frete { get; }
-        public double Seguro { get; }
-        public double Outros { get; }
+        public string Codigo { get;  }
+        public string Descricao { get;  }
+        public string Ncm { get;  }
+        public string Cst { get;  }
+        public string Cfop { get;  }
+        public string UnidadeComercial { get;  }
+        public int Quantidade { get;  }
+        public double ValorUnitario { get;  }
+        public double ValorDesconto { get;  }
+        public double ValorLiquido { get;  }
     }
 }

@@ -8,8 +8,7 @@ namespace DgSystem.NFe.Reports.Nfe
         public CalculoImposto(double baseCalculo, double baseCalculoST, double valorDespesasAcessorias,
             double valorTotalAproximado, double valorTotalCofins, double valorTotalDesconto, double valorTotalDesonerado,
             double valorTotalFrete, double valorTotalIcms, double valorTotalII, double valorTotalIpi, double valorTotalNFe,
-            double valorTotalPis, double valorTotalProdutos, double valorTotalSeguro, double valorTotalST,
-            double totalOutros, double valorTotalAproximadoTributos)
+            double valorTotalPis, double valorTotalProdutos, double valorTotalSeguro, double valorTotalST)
         {
             BaseCalculo = baseCalculo;
             BaseCalculoST = baseCalculoST;
@@ -27,8 +26,6 @@ namespace DgSystem.NFe.Reports.Nfe
             ValorTotalProdutos = valorTotalProdutos;
             ValorTotalSeguro = valorTotalSeguro;
             ValorTotalST = valorTotalST;
-            TotalOutros = totalOutros;
-            ValorTotalAproximadoTributos = valorTotalAproximadoTributos;
         }
 
         public double BaseCalculo { get; }
@@ -47,7 +44,5 @@ namespace DgSystem.NFe.Reports.Nfe
         public double ValorTotalProdutos { get; }
         public double ValorTotalSeguro { get; }
         public double ValorTotalST { get; }
-        public double TotalOutros { get; }
-        public double ValorTotalAproximadoTributos { get; }
     }
 }

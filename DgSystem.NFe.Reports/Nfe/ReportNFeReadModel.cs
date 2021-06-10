@@ -13,25 +13,23 @@ namespace DgSystem.NFe.Reports.Nfe
         public string Numero { get; set; }
         public string Serie { get; set; }
         public DateTime DataHoraEmissao { get; set; }
-        public string Protocolo { get; set; }
+        public string ProtocoloAutorizacao { get; set; }
+        public string NaturezaOperacao { get; internal set; }
         public string DataHoraAutorizacao { get; set; }
+        public string DataSaida { get; internal set; }
+        public string HoraSaida { get; internal set; }
         public string InformacaoAdicional { get; set; }
         public string LinkConsultaChave { get; set; }
         public string InformacaoInteresse { get; set; }
-        public int QuantidadeTotalProdutos { get; set; }
-        public double ValorTotalProdutos { get; set; }
-        public byte[] QrCodeImage { get; set; }
+        public string TipoOperacao { get; internal set; }
         public Emitente Emissor { get; set; }
-        public Destinatario Destinatario { get; set; }
         public IEnumerable<Produto> Produtos { get; set; }
         public IEnumerable<Pagamento> Pagamentos { get; set; }
-        public List<ItemTotal> TotaisNotaFiscal { get; set; }
-        public string DataSaida { get; internal set; }
-        public string HoraSaida { get; internal set; }
-        public string NaturezaOperacao { get; internal set; }
-        public string TipoOperacao { get; internal set; }
-        public byte[] BarcodeImage { get; internal set; }
-        public Transportadora Transportadora { get; internal set; }
+        public int QuantidadeTotalProdutos { get; set; }
+        public double ValorTotalProdutos { get; set; }
+        public Destinatario Destinatario { get; set; }
         public CalculoImposto CalculoImposto { get; internal set; }
+        public Transportadora Transportadora { get; internal set; }
+        public byte[] BarcodeImage { get; internal set; }
     }
 }

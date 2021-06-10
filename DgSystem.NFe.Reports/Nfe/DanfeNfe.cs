@@ -40,7 +40,7 @@ namespace DgSystem.NFe.Reports.Nfe
                     Numero = notaFiscal.Identificacao.Numero,
                     Serie = notaFiscal.Identificacao.Serie,
                     DataHoraEmissao = notaFiscal.Identificacao.DataHoraEmissao,
-                    Protocolo = notaFiscal.ProtocoloAutorizacao,
+                    ProtocoloAutorizacao = notaFiscal.ProtocoloAutorizacao,
                     DataHoraAutorizacao = notaFiscal.DhAutorizacao.ToString("dd/MM/yyyy HH:mm:ss").Replace("-", "/"),
                     DataSaida = notaFiscal.Identificacao.DataSaida,
                     HoraSaida = notaFiscal.Identificacao.HoraSaida,
