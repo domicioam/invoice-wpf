@@ -449,14 +449,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ValorUnitario1">
+                    <Textbox Name="ValorTotal">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ValorUnitario.Value</Value>
+                              <Value>=Fields!ValorTotal.Value</Value>
                               <Style>
                                 <FontSize>6pt</FontSize>
                                 <Format>N2</Format>
@@ -467,7 +467,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ValorUnitario1</rd:DefaultName>
+                      <rd:DefaultName>ValorTotal</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -479,6 +479,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
