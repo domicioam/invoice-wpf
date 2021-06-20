@@ -1,11 +1,9 @@
 ﻿using DgSystem.NFe.Reports.Nfce;
 using MediatR;
 using NFe.Core;
-using NFe.Core.Utils.PDF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,6 +18,8 @@ namespace DgSystems.NFe.NotaFiscal.Reports
         public Task<bool> Handle(ImprimirDanfe request, CancellationToken cancellationToken)
         {
             // move qrcode generation to DgSystems.NFe.Reports
+
+            log.Info("Mensagem para imprimir danfe recebida.");
 
             try
             {
@@ -47,14 +47,14 @@ namespace DgSystems.NFe.NotaFiscal.Reports
 
                     Destinatario destinatario
                         = new Destinatario(
-                            request.NotaFiscal.Destinatario.NomeRazao,
-                            request.NotaFiscal.Destinatario.Documento.Numero,
-                            request.NotaFiscal.Destinatario.Endereco?.Logradouro,
-                            request.NotaFiscal.Destinatario.Endereco?.Numero,
-                            request.NotaFiscal.Destinatario.Endereco?.Bairro,
-                            request.NotaFiscal.Destinatario.Endereco?.Municipio,
-                            request.NotaFiscal.Destinatario.Endereco?.UF,
-                            request.NotaFiscal.Destinatario.Endereco?.Cep);
+                            request.NotaFiscal.Destinatario?.NomeRazao,
+                            request.NotaFiscal.Destinatario?.Documento.Numero,
+                            request.NotaFiscal.Destinatario?.Endereco?.Logradouro,
+                            request.NotaFiscal.Destinatario?.Endereco?.Numero,
+                            request.NotaFiscal.Destinatario?.Endereco?.Bairro,
+                            request.NotaFiscal.Destinatario?.Endereco?.Municipio,
+                            request.NotaFiscal.Destinatario?.Endereco?.UF,
+                            request.NotaFiscal.Destinatario?.Endereco?.Cep);
 
                     IEnumerable<Produto> produtos =
                         request.NotaFiscal.Produtos
@@ -226,7 +226,7 @@ namespace DgSystems.NFe.NotaFiscal.Reports
             }
             catch (Exception e)
             {
-                log.Error($"{nameof(ImprimirDanfeHandler)}: Erro ao criar danfe.", e);
+                log.Error("Erro ao criar danfe.", e);
                 return Task.FromResult(false);
             }
         }

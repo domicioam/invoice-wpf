@@ -4,8 +4,6 @@ using NFe.Core.Domain;
 using NFe.Core.Interfaces;
 using NFe.Core.NfeStatusServico4;
 using NFe.Core.Sefaz;
-using NFe.Core.Utils;
-using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores.Enums.StatusServico;
 using NFe.Core.XMLSchemas.NfeStatusServico2.Envio;
 using System;
@@ -23,31 +21,36 @@ namespace NFe.Core.NotasFiscais.Services
         private const string SEFAZ_ENVIRONMENT = "production";
         private readonly ICertificadoRepository _certificadoRepository;
         private readonly ICertificadoService _certificateManager;
-        private readonly RijndaelManagedEncryption _encryptor;
         private readonly IEmitenteRepository _emissorService;
 
         public ConsultaStatusServicoSefazService(IEmitenteRepository emissorService, ICertificadoRepository certificadoService,
-            ICertificadoService certificateManager, RijndaelManagedEncryption encryptor)
+            ICertificadoService certificateManager)
         {
             _emissorService = emissorService;
             _certificadoRepository = certificadoService;
             _certificateManager = certificateManager;
-            _encryptor = encryptor;
         }
 
         public bool ExecutarConsultaStatus(ConfiguracaoEntity config, Modelo modelo)
         {
-            var sefazEnvironment = ConfigurationManager.AppSettings["sefazEnvironment"];
+            try
+            {
+                var sefazEnvironment = ConfigurationManager.AppSettings["sefazEnvironment"];
 
-            var ambiente = sefazEnvironment == SEFAZ_ENVIRONMENT ? Ambiente.Producao : Ambiente.Homologacao;
-            var codigoUf = (CodigoUfIbge) Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
-            var certificadoEntity = _certificadoRepository.GetCertificado();
+                var ambiente = sefazEnvironment == SEFAZ_ENVIRONMENT ? Ambiente.Producao : Ambiente.Homologacao;
+                var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
+                var certificadoEntity = _certificadoRepository.GetCertificado();
 
-            if (certificadoEntity == null)
+                if (certificadoEntity == null)
+                    return false;
+
+                X509Certificate2 certificado = _certificateManager.GetX509Certificate2();
+                return ConsultarStatus(codigoUf, ambiente, certificado, modelo);
+            }catch(Exception e)
+            {
+                log.Error("Erro ao tentar consultar status do serviço da SEFAZ.", e);
                 return false;
-
-            X509Certificate2 certificado = _certificateManager.GetX509Certificate2();
-            return ConsultarStatus(codigoUf, ambiente, certificado, modelo);
+            }
         }
 
         private bool ConsultarStatus(CodigoUfIbge codigoUF, Ambiente ambiente, X509Certificate2 certificado, Modelo modelo)

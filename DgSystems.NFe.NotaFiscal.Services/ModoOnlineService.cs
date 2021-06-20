@@ -14,13 +14,9 @@ namespace NFe.Core.NotasFiscais.Services
         private static Timer _timer;
         private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IConsultaStatusServicoSefazService _consultaStatusServicoService;
-        private bool _isOnline;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private string Name => nameof(ModoOnlineService);
-
 
         public ModoOnlineService(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
@@ -39,14 +35,14 @@ namespace NFe.Core.NotasFiscais.Services
 
         private void NotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
         {
-            log.Info($"{Name}: Evento de nota fiscal emitida em contingência recebido.");
+            log.Info("Evento de nota fiscal emitida em contingência recebido.");
 
             AtivarModoOffline(justificativa, horário);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            log.Info($"{Name}: Verificando estado do serviço da Sefaz.");
+            log.Info("Verificando estado do serviço da Sefaz.");
             var config = _configuracaoRepository.GetConfiguracao();
 
             if (config == null)
@@ -55,20 +51,19 @@ namespace NFe.Core.NotasFiscais.Services
             if (_consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo55)
                 && _consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo65))
             {
-                if (_isOnline) return;
+                if (!config.IsContingencia) return;
 
                 AtivarModoOnline();
                 _isOnline = true;
-                log.Info($"{Name}: Modo online ativado.");
+                log.Info("Modo online ativado.");
             }
             else
             {
-                if (!_isOnline) return;
+                if (config.IsContingencia) return;
 
-                AtivarModoOffline("Serviço indisponível ou sem conexão com a internet",
-                    DateTime.Now);
+                AtivarModoOffline("Serviço indisponível ou sem conexão com a internet", DateTime.Now);
                 _isOnline = false;
-                log.Info($"{Name}: Modo offline ativado.");
+                log.Info("Modo offline ativado.");
             }
         }
 
