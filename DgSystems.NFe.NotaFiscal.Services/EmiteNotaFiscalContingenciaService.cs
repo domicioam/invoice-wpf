@@ -21,6 +21,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -325,7 +326,7 @@ namespace NFe.Core.Sefaz.Facades
             lote.NFe[0] = new TNFe(); //Gera tag <NFe /> vazia para usar no replace
 
             var parametroXml = XmlUtil.Serialize(lote, "http://www.portalfiscal.inf.br/nfe");
-            parametroXml = parametroXml.Replace("<NFe />", XmlUtil.GerarXmlListaNFe(nfeList))
+            parametroXml = parametroXml.Replace("<NFe />", GerarXmlListaNFe(nfeList))
                 .Replace("<motDesICMS>1</motDesICMS>", string.Empty);
 
             var document = new XmlDocument();
@@ -365,6 +366,20 @@ namespace NFe.Core.Sefaz.Facades
                     TipoMensagem = TipoMensagem.ServicoIndisponivel
                 };
             }
+        }
+
+        public static string GerarXmlListaNFe(List<string> notasFiscais)
+        {
+            var notasConcatenadas = new StringBuilder();
+
+            for (var i = 0; i < notasFiscais.Count; i++)
+            {
+                var nfeProc = new XmlDocument();
+                nfeProc.LoadXml(notasFiscais[i]);
+                notasConcatenadas.Append(nfeProc.GetElementsByTagName("NFe")[0].OuterXml);
+            }
+
+            return notasConcatenadas.ToString();
         }
     }
 }

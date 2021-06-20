@@ -4,7 +4,7 @@ using NFe.Interfaces;
 
 namespace NFe.Core.NotasFiscais
 {
-    public class NotaInutilizadaTO : IXmlFileWritable
+    public class NotaInutilizada : IXmlFileWritable
     {
         public int Id { get; set; }
         public string Serie { get; set; }
@@ -21,11 +21,11 @@ namespace NFe.Core.NotasFiscais
             get { return IdInutilizacao + "-procInutNFe.xml"; }
         }
 
-        public static explicit operator NotaInutilizadaTO(NotaInutilizadaEntity emitenteEntity)
+        public static explicit operator NotaInutilizada(NotaInutilizadaEntity emitenteEntity)
         {
             if (emitenteEntity == null) return null;
 
-            return new NotaInutilizadaTO
+            return new NotaInutilizada
             {
                 Id = emitenteEntity.Id,
                 Serie = emitenteEntity.Serie,
@@ -39,7 +39,7 @@ namespace NFe.Core.NotasFiscais
             };
         }
 
-        public static explicit operator NotaInutilizadaEntity(NotaInutilizadaTO emitenteEntity)
+        public static explicit operator NotaInutilizadaEntity(NotaInutilizada emitenteEntity)
         {
             return new NotaInutilizadaEntity
             {

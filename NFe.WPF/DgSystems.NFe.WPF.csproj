@@ -291,12 +291,6 @@
     <Resource Include="Icons\SendEmail_16x.png" />
     <Resource Include="Icons\SwitchToPreview_16x.png" />
     <Resource Include="Icons\ProjectXML_16x.png" />
-    <Content Include="Reports\ReportNfe.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Reports\ReportNfceEmail.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="icone_nfe_4aG_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -311,9 +305,6 @@
     <Content Include="Dlls\Microsoft.ReportViewer.ProcessingObjectModel.dll" />
     <Content Include="Dlls\Microsoft.ReportViewer.WinForms.dll" />
     <Content Include="Reports\RelatorioGerencial.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Reports\ReportNfce.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="App.64Bits.config">

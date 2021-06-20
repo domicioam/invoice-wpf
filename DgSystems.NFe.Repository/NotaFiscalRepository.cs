@@ -562,6 +562,7 @@ namespace NFe.Core.NotasFiscais.Repositories
                 var seguro = det.prod.vSeg.ToDouble(CultureInfo.InvariantCulture);
                 var outros = det.prod.vOutro.ToDouble(CultureInfo.InvariantCulture);
                 var frete = det.prod.vFrete.ToDouble(CultureInfo.InvariantCulture);
+                var desconto = det.prod.vDesc.ToDouble(CultureInfo.InvariantCulture);
 
                 var newProduto = new Produto(impostos, 
                     0, 
@@ -570,7 +571,7 @@ namespace NFe.Core.NotasFiscais.Repositories
                     int.Parse(det.prod.qCom), 
                     det.prod.uCom,
                     det.prod.vUnCom.ToDouble(CultureInfo.InvariantCulture), 
-                    0, 
+                    desconto, 
                     ambiente == Ambiente.Producao,
                     frete,
                     seguro,

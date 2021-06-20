@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
+using MediatR;
+using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Cadastro.Emissor;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
@@ -12,7 +12,6 @@ using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Conversores;
-using NFe.Core.Utils.PDF;
 using NFe.Core.Utils.Xml;
 using NFe.WPF.Events;
 using NFe.WPF.ViewModel;
@@ -42,7 +41,7 @@ namespace DgSystems.NFe.ViewModels
             IEmitenteRepository emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta)
+            INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta, IMediator mediator)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -64,6 +63,7 @@ namespace DgSystems.NFe.ViewModels
             NotasFiscais = new ObservableCollection<NotaFiscalMemento>();
 
             SubscribeToEvents();
+            this.mediator = mediator;
         }
 
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -87,6 +87,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IProdutoRepository _produtoRepository;
         private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;
+        private readonly IMediator mediator;
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
         {
@@ -241,7 +242,13 @@ namespace DgSystems.NFe.ViewModels
                 {
                     BusyContent = "Gerando impressão...";
                     IsBusy = true;
-                    await GeradorPDF.GerarPdfNotaFiscal(notaFiscalBo);
+
+                    var command = new ImprimirDanfeCommand(notaFiscalBo, mediator);
+                    command.ExecuteAsync();
+                    if (!command.IsExecuted)
+                    {
+                        log.Error("Danfe não impresso.");
+                    }
                 }
 
                 IsBusy = false;

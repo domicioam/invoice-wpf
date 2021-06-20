@@ -1,6 +1,10 @@
-﻿using DgSystems.NFe.ViewModels;
+﻿using DgSystems.NFe.NotaFiscal.Reports;
+using DgSystems.NFe.ViewModels;
 using EmissorNFe.ViewModel;
 using GalaSoft.MvvmLight.Views;
+using MediatR;
+using MediatR.SimpleInjector;
+using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Cadastro.Destinatario;
@@ -11,12 +15,10 @@ using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Repositories;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils;
-using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.PDF;
 using NFe.Core.Utils.Zip;
 using NFe.Repository.Repositories;
@@ -25,10 +27,13 @@ using NFe.WPF.Utils;
 using NFe.WPF.View;
 using NFe.WPF.ViewModel;
 using SimpleInjector;
+using System.Collections.Generic;
+using System.Reflection;
+using ServiceFactory = NFe.Core.NotasFiscais.ServiceFactory;
 
 namespace DgSystem.NFe.IoC
 {
-    public class DependencyResolver
+    public static class DependencyResolver
     {
         public static void RegisterTypes()
         {
@@ -89,11 +94,19 @@ namespace DgSystem.NFe.IoC
             container.Register<XmlUtil>(Lifestyle.Transient);
             container.Register<IIbptManager, IbptManager>(Lifestyle.Transient);
 
+            container.BuildMediator(GetAssemblies());
+
             container.Verify();
 
             Container = container;
         }
 
         public static Container Container { get; set; }
+
+        private static IEnumerable<Assembly> GetAssemblies()
+        {
+            yield return typeof(ImprimirDanfe).GetTypeInfo().Assembly;
+            yield return typeof(ImprimirDanfeHandler).GetTypeInfo().Assembly;
+        }
     }
 }

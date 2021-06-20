@@ -3,10 +3,11 @@ using DgSystems.NFe.ViewModels.Commands;
 using EmissorNFe.Model;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
-using NFe.Core.Messaging;
+using MediatR;
+using NFe.Core;
 using NFe.Core.Domain;
+using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
-using NFe.Core.Utils.PDF;
 using NFe.WPF.ViewModel.Base;
 using System;
 using System.Collections.ObjectModel;
@@ -19,9 +20,9 @@ namespace NFe.WPF.ViewModel
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private NFe.Core.Domain.NotaFiscal _notaFiscal;
+        private Core.Domain.NotaFiscal _notaFiscal;
         private string _documentoDestinatario;
-        private NFe.Core.Domain.NotaFiscal _notaFiscalBO;
+        private Core.Domain.NotaFiscal _notaFiscalBO;
 
         public ICommand EmitirSegundaViaCmd { get; set; }
         public ICommand CancelarNotaCmd { get; set; }
@@ -35,7 +36,7 @@ namespace NFe.WPF.ViewModel
         public string Modelo { get; private set; }
         public string Numero { get; private set; }
 
-        public NFe.Core.Domain.NotaFiscal NotaFiscal
+        public Core.Domain.NotaFiscal NotaFiscal
         {
             get
             {
@@ -63,6 +64,7 @@ namespace NFe.WPF.ViewModel
         }
 
         private CancelarNotaViewModel _cancelarNotaViewModel;
+        private readonly IMediator mediator;
 
         public bool IsDestinatarioEstrangeiro { get; set; }
         public ObservableCollection<ProdutoModel> Produtos { get; private set; }
@@ -70,7 +72,7 @@ namespace NFe.WPF.ViewModel
         public string NaturezaOperacao { get; private set; }
         public string Serie { get; private set; }
 
-        internal void VisualizarNotaFiscal(NFe.Core.Domain.NotaFiscal notaFiscal)
+        internal void VisualizarNotaFiscal(Core.Domain.NotaFiscal notaFiscal)
         {
             NotaFiscal = notaFiscal;
 
@@ -137,13 +139,14 @@ namespace NFe.WPF.ViewModel
             MessagingCenter.Send(this, nameof(OpenVisualizarNotaEnviadaWindowCommand), command);
         }
 
-        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, CancelarNotaViewModel cancelarNotaViewModel)
+        public VisualizarNotaEnviadaViewModel(IDialogService dialogService, CancelarNotaViewModel cancelarNotaViewModel, IMediator mediator)
         {
             EmitirSegundaViaCmd = new RelayCommand(EmitirSegundaViaCmd_Execute, null);
             CancelarNotaCmd = new RelayCommand(CancelarNotaCmd_Execute, null);
 
             _dialogService = dialogService;
             _cancelarNotaViewModel = cancelarNotaViewModel;
+            this.mediator = mediator;
         }
 
         private void CancelarNotaCmd_Execute()
@@ -159,7 +162,12 @@ namespace NFe.WPF.ViewModel
 
             try
             {
-                await GeradorPDF.GerarPdfNotaFiscal(_notaFiscalBO);
+                var command = new ImprimirDanfeCommand(_notaFiscalBO, mediator);
+                command.ExecuteAsync();
+                if (!command.IsExecuted)
+                {
+                    log.Error("Danfe não impresso.");
+                }
             }
             catch (Exception e)
             {

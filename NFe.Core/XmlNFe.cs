@@ -1,14 +1,9 @@
 ﻿using NFe.Core.Domain;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace NFe.Core.Sefaz.Facades

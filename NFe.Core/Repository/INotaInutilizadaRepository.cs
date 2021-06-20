@@ -12,9 +12,9 @@ namespace NFe.Core.Interfaces
         NotaInutilizadaEntity GetNotaInutilizada(string idInutilizacao);
         void Insert(NotaInutilizadaEntity novaNotaInutilizada);
         void Save();
-        List<NotaInutilizadaTO> GetNotasFiscaisPorMesAno(DateTime periodo);
-        NotaInutilizadaTO GetNotaInutilizadaFromXml(string xml);
-        NotaInutilizadaTO GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData);
-        void Salvar(NotaInutilizadaTO notaInutilizada, string xml);
+        List<NotaInutilizada> GetNotasFiscaisPorMesAno(DateTime periodo);
+        NotaInutilizada GetNotaInutilizadaFromXml(string xml);
+        NotaInutilizada GetNotaInutilizada(string idInutilizacao, bool isLoadXmlData);
+        void Salvar(NotaInutilizada notaInutilizada, string xml);
     }
 }

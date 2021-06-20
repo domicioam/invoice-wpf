@@ -1,26 +1,29 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Views;
+using MediatR;
+using NFe.Core;
+using NFe.Core.Cadastro.Ibpt;
+using NFe.Core.Domain;
+using NFe.Core.Entitities;
+using NFe.Core.Events;
+using NFe.Core.Interfaces;
+using NFe.Core.Messaging;
+using NFe.Core.NotasFiscais.Services;
+using NFe.Core.Sefaz;
+using NFe.Core.Sefaz.Facades;
+using NFe.Core.Utils.Acentuacao;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
+using NFe.WPF.Events;
+using NFe.WPF.NotaFiscal.Model;
+using NFe.WPF.NotaFiscal.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using EmissorNFe.Model;
-using GalaSoft.MvvmLight.Views;
-using NFe.Core.Cadastro.Configuracoes;
-using NFe.Core.Entitities;
-using NFe.Core.Events;
-using NFe.Core.Interfaces;
-using NFe.Core.Messaging;
-using NFe.Core.Domain;
-using NFe.Core.NotasFiscais.Services;
-using NFe.Core.Sefaz;
-using NFe.Core.Sefaz.Facades;
-using NFe.Core.Utils.Acentuacao;
-using NFe.Core.Utils.PDF;
-using NFe.WPF.Events;
-using NFe.WPF.NotaFiscal.Model;
-using NFe.WPF.NotaFiscal.ViewModel;
-using NFe.Core.Cadastro.Ibpt;
+using NfeProc = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
+using TNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFe;
+using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
 namespace DgSystems.NFe.ViewModels
 {
@@ -34,11 +37,11 @@ namespace DgSystems.NFe.ViewModels
         private readonly SefazSettings _sefazSettings;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
-        private readonly XmlUtil _xmlUtil;
         private readonly IIbptManager _ibptManager;
+        private readonly IMediator mediator;
 
         public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
-            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, XmlUtil xmlUtil, IIbptManager ibptManager)
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator)
         {
             _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoService = configuracaoService;
@@ -46,8 +49,8 @@ namespace DgSystems.NFe.ViewModels
             _sefazSettings = sefazSettings;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             _notaFiscalRepository = notaFiscalRepository;
-            _xmlUtil = xmlUtil;
             _ibptManager = ibptManager;
+            this.mediator = mediator;
         }
 
         public async Task<NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
@@ -119,7 +122,7 @@ namespace DgSystems.NFe.ViewModels
                     {
                         var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
 
-                        var xmlNFeProc = _xmlUtil.GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
+                        var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
                         _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
                     }
 
@@ -148,7 +151,7 @@ namespace DgSystems.NFe.ViewModels
 
                     _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
                     notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
-                    var xmlProc = _xmlUtil.GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                    var xmlProc = GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
                     _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
                     throw;
                 }
@@ -157,11 +160,47 @@ namespace DgSystems.NFe.ViewModels
             return notaFiscal;
         }
 
-
-
-        public async Task ImprimirNotaFiscal(NotaFiscal notaFiscal)
+        public virtual string GerarNfeProcXml(TNFe nfe, QrCode urlQrCode, TProtNFe protocolo = null)
         {
-            await GeradorPDF.GerarPdfNotaFiscal(notaFiscal);
+            var nfeProc = new TNfeProc();
+            const string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
+
+            nfeProc.NFe = nfe.ToTNFeRetorno(nFeNamespaceName);
+
+            if (nfeProc.NFe.infNFeSupl != null) nfeProc.NFe.infNFeSupl.qrCode = "";
+
+            if (protocolo != null)
+            {
+                var protocoloSerializado = XmlUtil.Serialize(protocolo, nFeNamespaceName);
+                nfeProc.protNFe = (NfeProc.TProtNFe)XmlUtil.Deserialize<NfeProc.TProtNFe>(protocoloSerializado);
+            }
+            else
+            {
+                nfeProc.protNFe = new NfeProc.TProtNFe();
+            }
+
+            nfeProc.versao = "4.00";
+            var result = XmlUtil.Serialize(nfeProc, nFeNamespaceName).Replace("<motDesICMS>1</motDesICMS>", string.Empty);
+
+            if (nfeProc.NFe.infNFeSupl != null)
+            {
+                return result.Replace("<qrCode />", "<qrCode>" + urlQrCode + "</qrCode>")
+                   .Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
+            }
+            else
+            {
+                return result.Replace("<NFe>", "<NFe xmlns=\"http://www.portalfiscal.inf.br/nfe\">");
+            }
+        }
+
+        public void ImprimirNotaFiscal(NotaFiscal notaFiscal)
+        {
+            var command = new ImprimirDanfeCommand(notaFiscal, mediator);
+            command.ExecuteAsync();
+            if(!command.IsExecuted)
+            {
+                log.Error("Danfe não impresso.");
+            }
         }
 
         private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)

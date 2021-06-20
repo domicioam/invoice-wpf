@@ -1,21 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using DgSystems.NFe.Core.Cadastro;
 using DgSystems.NFe.Extensions;
 using NFe.Core;
-using NFe.Core.Cadastro.Imposto;
 using NFe.Core.Domain;
 using NFe.Core.Sefaz;
 using NFe.Core.Utils.Conversores.Enums.Autorizacao;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
+using System.Collections.Generic;
 using Xunit;
-using DgSystems.NFe.Core.Cadastro;
 
 namespace DgSystems.NFe.Core.UnitTests.Sefaz
 {
-    public class ModelToSefazAdapterTests : IClassFixture<NotaFiscalFixture>
+    public class XmlUtilTests : IClassFixture<NotaFiscalFixture>
     {
         private NotaFiscalFixture _fixture;
 
-        public ModelToSefazAdapterTests(NotaFiscalFixture fixture)
+        public XmlUtilTests(NotaFiscalFixture fixture)
         {
             _fixture = fixture;
         }
@@ -40,7 +39,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
             notaFiscal.TotalNFe = new TotalNFe();
 
-            var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
+            var result = XmlUtil.ConvertIcmsTotal(notaFiscal);
 
             Assert.Equal("250.00", result.vBC);
             Assert.Equal("25.00", result.vICMS);
@@ -68,7 +67,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
             notaFiscal.TotalNFe = new TotalNFe();
 
-            var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
+            var result = XmlUtil.ConvertIcmsTotal(notaFiscal);
 
             Assert.Equal("0.00", result.vBC);
             Assert.Equal("0.00", result.vICMS);
@@ -95,7 +94,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
             notaFiscal.TotalNFe = new TotalNFe();
 
-            var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
+            var result = XmlUtil.ConvertIcmsTotal(notaFiscal);
 
             Assert.Equal("250.00", result.vBC);
             Assert.Equal("25.00", result.vICMS);
@@ -129,7 +128,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
             notaFiscal.TotalNFe = new TotalNFe();
 
-            var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
+            var result = XmlUtil.ConvertIcmsTotal(notaFiscal);
 
             Assert.Equal("0.00", result.vBC);
             Assert.Equal("0.00", result.vICMS);
@@ -167,7 +166,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
             notaFiscal.TotalNFe = new TotalNFe();
 
-            var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
+            var result = XmlUtil.ConvertIcmsTotal(notaFiscal);
 
             Assert.Equal("250.00", result.vBC);
             Assert.Equal("25.00", result.vICMS);
@@ -201,7 +200,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
             var notaFiscal = new NotaFiscal(emissor, null, new IdentificacaoNFe(), null, null, null, produtos);
             notaFiscal.TotalNFe = new TotalNFe();
 
-            var result = ModelToSefazAdapter.ConvertIcmsTotal(notaFiscal);
+            var result = XmlUtil.ConvertIcmsTotal(notaFiscal);
 
 
             Assert.Equal("155.00", result.vNF);
@@ -210,7 +209,7 @@ namespace DgSystems.NFe.Core.UnitTests.Sefaz
         [Fact]
         public void Should_set_correct_fields_when_nota_fiscal_is_valid()
         {
-            var tNFe = ModelToSefazAdapter.GetLoteNFe(_fixture.NotaFiscal);
+            var tNFe = XmlUtil.GetLoteNFe(_fixture.NotaFiscal);
 
             // Identificação
             var infIde = tNFe.NFe[0].infNFe.ide;

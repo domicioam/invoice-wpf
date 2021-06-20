@@ -43,7 +43,13 @@ namespace NFe.Core.Domain
 
         public int QtdTotalProdutos
         {
-            get { return Produtos != null ? Produtos.Count : 0; }
+            get
+            {
+                if (Produtos == null)
+                    return 0;
+
+                return Produtos.Sum(p => p.QtdeUnidadeComercial);
+            }
         }
 
         public double ValorTotalProdutos

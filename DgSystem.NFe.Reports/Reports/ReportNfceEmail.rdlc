@@ -69,7 +69,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
         <Top>0.13423in</Top>
-        <Left>0.19118in</Left>
+        <Left>0.28544in</Left>
         <Height>0.18056in</Height>
         <Width>2.58703in</Width>
         <Style>
@@ -103,7 +103,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
         <Top>0.32506in</Top>
-        <Left>0.01458cm</Left>
+        <Left>0.4445cm</Left>
         <Height>0.18056in</Height>
         <Width>2.77247in</Width>
         <ZIndex>1</ZIndex>
@@ -117,7 +117,7 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Tablix Name="tableProdutos">
+      <Tablix Name="Tablix4">
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
@@ -222,7 +222,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox32</rd:DefaultName>
@@ -255,7 +257,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox34</rd:DefaultName>
@@ -288,7 +292,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox36</rd:DefaultName>
@@ -443,14 +449,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ValorUnitario1">
+                    <Textbox Name="ValorTotal">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ValorUnitario.Value</Value>
+                              <Value>=Fields!ValorTotal.Value</Value>
                               <Style>
                                 <FontSize>6pt</FontSize>
                                 <Format>N2</Format>
@@ -461,7 +467,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ValorUnitario1</rd:DefaultName>
+                      <rd:DefaultName>ValorTotal</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -473,6 +479,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -502,8 +509,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Produtos</DataSetName>
-        <Top>0.68062in</Top>
-        <Left>0.01458cm</Left>
+        <Top>0.70562in</Top>
+        <Left>0.41275cm</Left>
         <Height>0.40146in</Height>
         <Width>2.75655in</Width>
         <ZIndex>2</ZIndex>
@@ -524,7 +531,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.15284in</Height>
+              <Height>0.18223in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -597,7 +604,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.15284in</Height>
+              <Height>0.18223in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -691,9 +698,9 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>Pagamentos</DataSetName>
-        <Top>1.50373in</Top>
-        <Left>0.01458cm</Left>
-        <Height>0.30568in</Height>
+        <Top>1.52873in</Top>
+        <Left>0.41275cm</Left>
+        <Height>0.36446in</Height>
         <Width>2.77247in</Width>
         <ZIndex>3</ZIndex>
         <Style>
@@ -722,10 +729,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
-        <Top>4.67049in</Top>
-        <Left>0.01458cm</Left>
+        <Top>4.69549in</Top>
+        <Left>0.47625cm</Left>
         <Height>0.19098in</Height>
-        <Width>2.77247in</Width>
+        <Width>2.69745in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -790,8 +797,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.79448in</Top>
-        <Left>0.02276in</Left>
+        <Top>2.81948in</Top>
+        <Left>0.11702in</Left>
         <Height>0.26042in</Height>
         <Width>2.80543in</Width>
         <ZIndex>5</ZIndex>
@@ -824,8 +831,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>3.077in</Top>
-        <Left>0.3922in</Left>
+        <Top>3.102in</Top>
+        <Left>0.48646in</Left>
         <Height>0.13542in</Height>
         <Width>2.09233in</Width>
         <ZIndex>6</ZIndex>
@@ -872,8 +879,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox60</rd:DefaultName>
-        <Top>1.87885in</Top>
-        <Left>0.01458cm</Left>
+        <Top>1.90385in</Top>
         <Height>0.29196in</Height>
         <Width>3.06775in</Width>
         <ZIndex>7</ZIndex>
@@ -908,8 +914,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.19841in</Top>
-        <Left>0.01458cm</Left>
+        <Top>2.22341in</Top>
         <Height>0.14757in</Height>
         <Width>3.074in</Width>
         <ZIndex>8</ZIndex>
@@ -944,8 +949,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.35362in</Top>
-        <Left>0.01458cm</Left>
+        <Top>2.37862in</Top>
+        <Left>0.09525cm</Left>
         <Height>0.14224in</Height>
         <Width>2.97087in</Width>
         <ZIndex>9</ZIndex>
@@ -1026,8 +1031,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>2.57863in</Top>
-        <Left>0.04772in</Left>
+        <Top>2.60363in</Top>
+        <Left>0.14198in</Left>
         <Height>0.16308in</Height>
         <Width>2.73049in</Width>
         <ZIndex>10</ZIndex>
@@ -1045,8 +1050,8 @@
         <Value>=First(Fields!QrCodeImage.Value, "Dados")</Value>
         <MIMEType>image/bmp</MIMEType>
         <Sizing>Fit</Sizing>
-        <Top>3.43383in</Top>
-        <Left>0.85783in</Left>
+        <Top>3.45883in</Top>
+        <Left>0.96459in</Left>
         <Height>3cm</Height>
         <Width>3cm</Width>
         <ZIndex>11</ZIndex>
@@ -1107,8 +1112,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox60</rd:DefaultName>
-        <Top>3.22897in</Top>
-        <Left>0.02276in</Left>
+        <Top>3.25397in</Top>
+        <Left>0.14202in</Left>
         <Height>0.14584in</Height>
         <Width>2.75545in</Width>
         <ZIndex>12</ZIndex>
@@ -1147,8 +1152,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox13</rd:DefaultName>
-        <Top>0.48409in</Top>
-        <Left>0.0172in</Left>
+        <Top>0.50909in</Top>
+        <Left>0.11146in</Left>
         <Height>0.18056in</Height>
         <Width>2.87453in</Width>
         <ZIndex>13</ZIndex>
@@ -1167,10 +1172,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.48626cm</Width>
+              <Width>3.51966cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.48626cm</Width>
+              <Width>3.51966cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1262,10 +1267,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>TotaisNotaFiscal</DataSetName>
-        <Top>3.24944cm</Top>
-        <Left>0.04369cm</Left>
+        <Top>3.38349cm</Top>
+        <Left>0.41275cm</Left>
         <Height>0.34277cm</Height>
-        <Width>6.97253cm</Width>
+        <Width>7.03932cm</Width>
         <ZIndex>14</ZIndex>
         <Style>
           <Border>
@@ -1291,9 +1296,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox19</rd:DefaultName>
-        <Top>1.12375in</Top>
+        <Top>1.17652in</Top>
+        <Left>0.41275cm</Left>
         <Height>0.15278in</Height>
-        <Width>1.68765in</Width>
+        <Width>1.69675in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -1325,10 +1331,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox21</rd:DefaultName>
-        <Top>1.12375in</Top>
-        <Left>1.68191in</Left>
+        <Top>1.17652in</Top>
+        <Left>1.84441in</Left>
         <Height>0.15278in</Height>
-        <Width>1.06554in</Width>
+        <Width>1.07464in</Width>
         <ZIndex>16</ZIndex>
         <Style>
           <Border>
@@ -1341,16 +1347,16 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>11.17501in</Height>
+    <Height>5.28959in</Height>
     <Style>
       <Border>
         <Style>None</Style>
       </Border>
     </Style>
   </Body>
-  <Width>8.47161cm</Width>
+  <Width>7.80796cm</Width>
   <Page>
-    <PageHeight>40cm</PageHeight>
+    <PageHeight>15cm</PageHeight>
     <PageWidth>7.9cm</PageWidth>
     <InteractiveHeight>0cm</InteractiveHeight>
     <InteractiveWidth>7.8cm</InteractiveWidth>
@@ -1389,7 +1395,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>c2bcbe72-965f-4f25-9815-f5aef0a9c190</rd:DataSourceID>
+      <rd:DataSourceID>0b8f9667-1ad6-45ef-b71e-e3900aa6245d</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
