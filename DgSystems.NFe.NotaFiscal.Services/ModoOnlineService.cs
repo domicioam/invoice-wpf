@@ -54,7 +54,6 @@ namespace NFe.Core.NotasFiscais.Services
                 if (!config.IsContingencia) return;
 
                 AtivarModoOnline();
-                _isOnline = true;
                 log.Info("Modo online ativado.");
             }
             else
@@ -62,7 +61,6 @@ namespace NFe.Core.NotasFiscais.Services
                 if (config.IsContingencia) return;
 
                 AtivarModoOffline("Serviço indisponível ou sem conexão com a internet", DateTime.Now);
-                _isOnline = false;
                 log.Info("Modo offline ativado.");
             }
         }
