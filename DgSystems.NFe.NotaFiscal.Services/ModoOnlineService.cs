@@ -59,6 +59,7 @@ namespace NFe.Core.NotasFiscais.Services
 
                 AtivarModoOnline();
                 _isOnline = true;
+                log.Info($"{Name}: Modo online ativado.");
             }
             else
             {
@@ -67,6 +68,7 @@ namespace NFe.Core.NotasFiscais.Services
                 AtivarModoOffline("Serviço indisponível ou sem conexão com a internet",
                     DateTime.Now);
                 _isOnline = false;
+                log.Info($"{Name}: Modo offline ativado.");
             }
         }
 
@@ -99,8 +101,6 @@ namespace NFe.Core.NotasFiscais.Services
 
             configuração.IsContingencia = false;
             _configuracaoRepository.Salvar(configuração);
-
-            log.Info($"{Name}: Modo online ativado.");
         }
 
         public void AtivarModoOffline(string justificativa, DateTime dataHoraContingencia)
@@ -113,8 +113,6 @@ namespace NFe.Core.NotasFiscais.Services
 
             var theEvent = new ServicoOfflineEvent();
             MessagingCenter.Send(this, nameof(ServicoOfflineEvent), theEvent);
-
-            log.Info($"{Name}: Modo offline ativado.");
         }
 
         public void StartTimer()
