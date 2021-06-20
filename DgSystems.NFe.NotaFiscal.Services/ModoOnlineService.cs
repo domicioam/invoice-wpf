@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.Sefaz.Facades;
-using NFe.Core.Domain;
+using System;
+using System.Windows.Forms;
 
 namespace NFe.Core.NotasFiscais.Services
 {
@@ -18,6 +17,10 @@ namespace NFe.Core.NotasFiscais.Services
         private bool _isOnline;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
+        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private string Name => nameof(ModoOnlineService);
+
 
         public ModoOnlineService(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
@@ -28,19 +31,22 @@ namespace NFe.Core.NotasFiscais.Services
 
             MessagingCenter.Subscribe<EnviarNotaFiscalService, NotaFiscalEmitidaEmContingenciaEvent>(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), (s, e) =>
             {
-                EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent(e.justificativa, e.horário);
+                NotaEmitidaEmContingenciaEvent(e.justificativa, e.horário);
             });
 
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
         }
 
-        private void EnviaNotaFiscalServiceEnviaNotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
+        private void NotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
         {
+            log.Info($"{Name}: Evento de nota fiscal emitida em contingência recebido.");
+
             AtivarModoOffline(justificativa, horário);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            log.Info($"{Name}: Verificando estado do serviço da Sefaz.");
             var config = _configuracaoRepository.GetConfiguracao();
 
             if (config == null)
@@ -93,6 +99,8 @@ namespace NFe.Core.NotasFiscais.Services
 
             configuração.IsContingencia = false;
             _configuracaoRepository.Salvar(configuração);
+
+            log.Info($"{Name}: Modo online ativado.");
         }
 
         public void AtivarModoOffline(string justificativa, DateTime dataHoraContingencia)
@@ -105,6 +113,8 @@ namespace NFe.Core.NotasFiscais.Services
 
             var theEvent = new ServicoOfflineEvent();
             MessagingCenter.Send(this, nameof(ServicoOfflineEvent), theEvent);
+
+            log.Info($"{Name}: Modo offline ativado.");
         }
 
         public void StartTimer()

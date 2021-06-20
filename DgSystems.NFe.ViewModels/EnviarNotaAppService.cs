@@ -40,6 +40,8 @@ namespace DgSystems.NFe.ViewModels
         private readonly IIbptManager _ibptManager;
         private readonly IMediator mediator;
 
+        private string Name => nameof(EnviarNotaAppService);
+
         public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator)
         {
@@ -58,7 +60,10 @@ namespace DgSystems.NFe.ViewModels
             notaFiscalModel.ValidateModel();
 
             if (notaFiscalModel.HasErrors)
+            {
+                log.Error($"{Name}: Nota fiscal contém erros de validação não resolvidos.");
                 throw new NotaFiscalModelHasErrorsException("Nota fiscal contém erros de validação não resolvidos.");
+            }
 
             double valorTotalProdutos = notaFiscalModel.Produtos.Sum(c => c.QtdeProduto * c.ValorUnitario - c.Descontos + c.Outros + c.Frete + c.Seguro);
             double valorTotalPagamentos = notaFiscalModel.Pagamentos.Sum(p => p.QtdeParcelas * p.ValorParcela);
@@ -116,10 +121,13 @@ namespace DgSystems.NFe.ViewModels
                 {
                     if (config.IsContingencia)
                     {
+                        log.Info($"{Name}: Enviando nota fiscal em modo contingência.");
                         notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
                     }
                     else
                     {
+                        log.Info($"{Name}: Enviando nota fiscal em modo online.");
+
                         var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
 
                         var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
@@ -131,7 +139,7 @@ namespace DgSystems.NFe.ViewModels
                 }
                 catch (WebException e)
                 {
-                    log.Error(e);
+                    log.Error($"{Name}: Erro de conexão ao enviar nota fiscal.", e);
 
                     // Necessário para não tentar enviar a mesma nota como contingência.
                     _configuracaoRepository.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
@@ -147,7 +155,7 @@ namespace DgSystems.NFe.ViewModels
                 }
                 catch (Exception e)
                 {
-                    log.Error(e);
+                    log.Error($"{Name}: Erro ao tentar enviar nota fiscal.", e);
 
                     _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
                     notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
