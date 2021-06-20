@@ -32,7 +32,7 @@ namespace DgSystems.NFe.ViewModels
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
-        private readonly IConfiguracaoRepository _configuracaoService;
+        private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IProdutoRepository _produtoRepository;
         private readonly SefazSettings _sefazSettings;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
@@ -44,7 +44,7 @@ namespace DgSystems.NFe.ViewModels
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator)
         {
             _enviaNotaFiscalService = enviaNotaFiscalService;
-            _configuracaoService = configuracaoService;
+            _configuracaoRepository = configuracaoService;
             _produtoRepository = produtoRepository;
             _sefazSettings = sefazSettings;
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
@@ -71,7 +71,7 @@ namespace DgSystems.NFe.ViewModels
                 throw new ArgumentException("Valor total da nota não corresponde ao valor de pagamento.");
             }
 
-            var config = await _configuracaoService.GetConfiguracaoAsync();
+            var config = await _configuracaoRepository.GetConfiguracaoAsync();
             NotaFiscal notaFiscal = null;
 
             await Task.Run(() =>
@@ -134,7 +134,7 @@ namespace DgSystems.NFe.ViewModels
                     log.Error(e);
 
                     // Necessário para não tentar enviar a mesma nota como contingência.
-                    _configuracaoService.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
+                    _configuracaoRepository.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
 
                     // Stop execution if model 55
                     if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
