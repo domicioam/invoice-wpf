@@ -116,9 +116,6 @@ namespace DgSystems.NFe.Services.Actors
                     var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = msg.Erros };
                     MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
                 }
-
-                configuração.IsContingencia = false;
-                _configuracaoRepository.Salvar(configuração);
             }
             catch (Exception e)
             {
