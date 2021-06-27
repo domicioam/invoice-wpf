@@ -123,6 +123,10 @@ namespace NFe.Core.NotasFiscais.Services
                 MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
                 log.Error("Erro ao tentar transmitir as notas emitidas em contingência.", e);
             }
+            finally
+            {
+                actorSystem.Stop(emiteNfeContingenciaActor);
+            }
         }
 
         public void AtivarModoOffline(string justificativa, DateTime dataHoraContingencia)

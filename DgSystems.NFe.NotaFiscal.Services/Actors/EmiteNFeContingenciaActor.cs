@@ -117,8 +117,6 @@ namespace DgSystems.NFe.Services.Actors
         {
             log.Info("Mensagem para transmitir notas emitidas em contingência recebida.");
 
-            log.Info("Iniciando transmissão de notas fiscais emitidas em contingência.");
-
             var notas = _notaFiscalRepository.GetNotasContingencia();
 
             var notasNFe = new List<string>();
