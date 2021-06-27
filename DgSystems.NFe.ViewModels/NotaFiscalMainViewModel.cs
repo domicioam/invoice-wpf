@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.CommandWpf;
+﻿using DgSystems.NFe.Services.Actors;
+using GalaSoft.MvvmLight.CommandWpf;
 using MediatR;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
@@ -423,7 +424,7 @@ namespace DgSystems.NFe.ViewModels
             MessagingCenter.Subscribe<EnviarNotaAppService, NotaFiscalEnviadaEvent>(this, nameof(NotaFiscalEnviadaEvent),
                 (s, e) => EnviarNotaController_NotaEnviadaEventHandler());
 
-            MessagingCenter.Subscribe<ModoOnlineService, NotasFiscaisTransmitidasEvent>(this,
+            MessagingCenter.Subscribe<ModoOnlineActor, NotasFiscaisTransmitidasEvent>(this,
                 nameof(NotasFiscaisTransmitidasEvent),
                 (s, e) => ModoOnlineService_NotasTransmitidasEventHandler(e.MensagensErro));
 

@@ -87,7 +87,6 @@ namespace DgSystem.NFe.IoC
             container.Register<IEmiteNotaFiscalContingenciaFacade, EmiteNotaFiscalContingenciaFacade>(Lifestyle.Transient);
             container.Register<ICancelaNotaFiscalService, CancelaNotaFiscalService>(Lifestyle.Transient);
             container.Register<MailManager>(Lifestyle.Transient);
-            container.Register<ModoOnlineService>(Lifestyle.Transient);
             container.Register<GeradorZip>(Lifestyle.Transient);
             container.Register<GeradorPDF>(Lifestyle.Transient);
             container.Register<SefazSettings>(Lifestyle.Transient);
