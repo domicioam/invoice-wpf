@@ -1,4 +1,5 @@
-﻿using DgSystems.NFe.NotaFiscal.Reports;
+﻿using Akka.Actor;
+using DgSystems.NFe.NotaFiscal.Reports;
 using DgSystems.NFe.ViewModels;
 using EmissorNFe.ViewModel;
 using GalaSoft.MvvmLight.Views;
@@ -93,6 +94,11 @@ namespace DgSystem.NFe.IoC
             container.Register<InutilizarNotaFiscalService>(Lifestyle.Transient);
             container.Register<XmlUtil>(Lifestyle.Transient);
             container.Register<IIbptManager, IbptManager>(Lifestyle.Transient);
+
+            var actorSystem = ActorSystem.Create("ActorSystem");
+
+            container.RegisterInstance<ActorSystem>(actorSystem);
+
 
             container.BuildMediator(GetAssemblies());
 

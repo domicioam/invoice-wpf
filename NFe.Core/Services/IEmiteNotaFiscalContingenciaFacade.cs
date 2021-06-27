@@ -10,7 +10,6 @@ namespace NFe.Core.Sefaz.Facades
     public interface IEmiteNotaFiscalContingenciaFacade
     {
         Domain.NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, Domain.NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName);
-        Task<List<string>> TransmitirNotasFiscalEmContingencia();
         void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar, INotaFiscalRepository notaFiscalRepository);
     }
 }

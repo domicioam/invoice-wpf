@@ -1,10 +1,16 @@
-﻿using NFe.Core.Domain;
+﻿using Akka.Actor;
+using DgSystems.NFe.Services.Actors;
+using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
+using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
+using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace NFe.Core.NotasFiscais.Services
@@ -17,9 +23,16 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ActorSystem actorSystem;
+        private readonly IEmitenteRepository emissorService;
+        private readonly IConsultarNotaFiscalService nfeConsulta;
+        private readonly IServiceFactory serviceFactory;
+        private readonly ICertificadoService certificadoService;
+        private readonly SefazSettings sefazSettings;
 
         public ModoOnlineService(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
-            INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+            INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, ActorSystem actorSystem,
+            IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, SefazSettings sefazSettings)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _configuracaoRepository = configuracaoRepository;
@@ -31,6 +44,12 @@ namespace NFe.Core.NotasFiscais.Services
             });
 
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
+            this.actorSystem = actorSystem;
+            this.emissorService = emissorService;
+            this.nfeConsulta = nfeConsulta;
+            this.serviceFactory = serviceFactory;
+            this.certificadoService = certificadoService;
+            this.sefazSettings = sefazSettings;
         }
 
         private void NotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
@@ -81,19 +100,29 @@ namespace NFe.Core.NotasFiscais.Services
                     primeiraNotaContingencia.Modelo);
             }
 
-            var mensagensErro = await _emiteNotaFiscalContingenciaService.TransmitirNotasFiscalEmContingencia();
+            var emiteNfeContingenciaActor = actorSystem.ActorOf(Props.Create(() => new EmiteNFeContingenciaActor(_notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)));
 
-            if (mensagensErro != null)
+            try
             {
-                _emiteNotaFiscalContingenciaService.InutilizarCancelarNotasPendentesContingencia(notaParaCancelar,
-                    _notaFiscalRepository);
+                var result = await emiteNfeContingenciaActor.Ask<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia(), TimeSpan.FromSeconds(30));
 
-                var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = mensagensErro };
+                if (result.Erros != null)
+                {
+                    _emiteNotaFiscalContingenciaService.InutilizarCancelarNotasPendentesContingencia(notaParaCancelar,
+                        _notaFiscalRepository);
+
+                    var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = result.Erros };
+                    MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
+                }
+
+                configuração.IsContingencia = false;
+                _configuracaoRepository.Salvar(configuração);
+            }catch (Exception e)
+            {
+                var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = new List<string> { "Erro ao tentar transmitir notas emitidas em contingência." } };
                 MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
+                log.Error("Erro ao tentar transmitir as notas emitidas em contingência.", e);
             }
-
-            configuração.IsContingencia = false;
-            _configuracaoRepository.Salvar(configuração);
         }
 
         public void AtivarModoOffline(string justificativa, DateTime dataHoraContingencia)
