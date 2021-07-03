@@ -1,4 +1,5 @@
-﻿using DgSystems.NFe.Services.Actors;
+﻿using Akka.Actor;
+using DgSystems.NFe.Services.Actors;
 using GalaSoft.MvvmLight.CommandWpf;
 using MediatR;
 using NFe.Core;
@@ -8,6 +9,7 @@ using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
+using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
@@ -36,13 +38,13 @@ namespace DgSystems.NFe.ViewModels
 {
     public class NotaFiscalMainViewModel : ViewModelBaseValidation
     {
-        public NotaFiscalMainViewModel(IEnviaNotaFiscalService enviaNotaFiscalService,
-            IConfiguracaoRepository configuracaoService, ICertificadoService certificadoService,
-            IProdutoRepository produtoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
-            IEmitenteRepository emissorService,
+        public NotaFiscalMainViewModel(IConfiguracaoRepository configuracaoService,
+            ICertificadoService certificadoService, IProdutoRepository produtoRepository,
+            IConsultaStatusServicoSefazService consultaStatusServicoService, IEmitenteRepository emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
-            INotaFiscalRepository notaFiscalRepository, IConsultarNotaFiscalService nfeConsulta, IMediator mediator)
+            INotaFiscalRepository notaFiscalRepository,
+            IConsultarNotaFiscalService nfeConsulta, IMediator mediator, ActorSystem actorSystem, IServiceFactory serviceFactory)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -50,7 +52,6 @@ namespace DgSystems.NFe.ViewModels
             EnviarEmailCmd = new RelayCommand<NotaFiscalMemento>(EnviarEmailCmd_Execute, null);
             MudarPaginaCmd = new RelayCommand<int>(MudarPaginaCmd_Execute, null);
 
-            _enviaNotaFiscalService = enviaNotaFiscalService;
             _notaFiscalRepository = notaFiscalRepository;
             _configuracaoService = configuracaoService;
             _certificadoService = certificadoService;
@@ -65,6 +66,8 @@ namespace DgSystems.NFe.ViewModels
 
             SubscribeToEvents();
             this.mediator = mediator;
+            this.actorSystem = actorSystem;
+            this.serviceFactory = serviceFactory;
         }
 
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -84,11 +87,12 @@ namespace DgSystems.NFe.ViewModels
         private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
         private readonly IProdutoRepository _produtoRepository;
         private readonly VisualizarNotaEnviadaViewModel _visualizarNotaEnviadaViewModel;
         private ObservableCollection<NotaFiscalMemento> _notasFiscais;
         private readonly IMediator mediator;
+        private readonly ActorSystem actorSystem;
+        private readonly IServiceFactory serviceFactory;
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
         {
@@ -140,7 +144,7 @@ namespace DgSystems.NFe.ViewModels
                 NotasFiscais[index] = new NotaFiscalMemento(nota.Numero,
                     nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao,
                     nota.DataAutorizacao, nota.Destinatario, nota.UfDestinatario,
-                    nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
+                    nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((global::NFe.Core.Entitities.Status)nota.Status).ToString(), nota.Chave);
             }
         }
 
@@ -178,7 +182,7 @@ namespace DgSystems.NFe.ViewModels
                 var xml = await loadXmlTask;
                 xml = xml.Replace("<protNFe />", document.OuterXml.Replace("TProtNFe", "protNFe"));
 
-                notaFiscalDb.Status = (int)Status.ENVIADA;
+                notaFiscalDb.Status = (int)global::NFe.Core.Entitities.Status.ENVIADA;
                 _notaFiscalRepository.Salvar(notaFiscalDb, xml);
 
                 return notaFiscalDb;
@@ -232,7 +236,9 @@ namespace DgSystems.NFe.ViewModels
                 var xmlNFe = new XmlNFe(notaFiscalBo, "http://www.portalfiscal.inf.br/nfe", certificado, config.CscId, config.Csc);
 
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
-                _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe);
+
+                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta)));
+                await enviarNotaActor.Ask<ResultadoEnvio>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe), TimeSpan.FromSeconds(40));
 
                 IsBusy = false;
 
@@ -388,7 +394,7 @@ namespace DgSystems.NFe.ViewModels
             NotasFiscais[index] = new NotaFiscalMemento(nota.Numero,
                 nota.Modelo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
                 nota.Destinatario, nota.UfDestinatario, nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")),
-                new StatusEnvio((Status)nota.Status).ToString(), nota.Chave);
+                new StatusEnvio((global::NFe.Core.Entitities.Status)nota.Status).ToString(), nota.Chave);
         }
 
         private void OpcoesVM_ConfiguracaoAlteradaEventHandler()
@@ -409,7 +415,7 @@ namespace DgSystems.NFe.ViewModels
                     .Select(nota => new NotaFiscalMemento(nota.Numero,
                         nota.Modelo == "65" ? Modelo.Modelo65 : Modelo.Modelo55, nota.DataEmissao, nota.DataAutorizacao,
                         nota.Destinatario, nota.UfDestinatario,
-                        nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((Status)nota.Status).ToString(), nota.Chave))
+                        nota.ValorTotal.ToString("N2", new CultureInfo("pt-BR")), new StatusEnvio((global::NFe.Core.Entitities.Status)nota.Status).ToString(), nota.Chave))
                     .OrderByDescending(n => n.DataEmissão);
 
                 await Application.Current.Dispatcher.BeginInvoke(new Action(() =>

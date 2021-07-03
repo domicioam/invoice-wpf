@@ -40,7 +40,7 @@ namespace NFe.WPF.ViewModel
         public ICommand FiltrarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
 
-        public AcompanhamentoNotasViewModel(IEnviaNotaFiscalService enviaNotaFiscalService, INotaFiscalRepository notaFiscalRepository)
+        public AcompanhamentoNotasViewModel(INotaFiscalRepository notaFiscalRepository)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             FiltrarCmd = new RelayCommand(FiltrarCmd_Execute, null);

@@ -250,7 +250,6 @@
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsOutr.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsQtde.cs" />
     <Compile Include="NotasFiscais\Impostos\Cofins\CofinsSt.cs" />
-    <Compile Include="Events\NotaFiscalEmitidaEmContingenciaEvent.cs" />
     <Compile Include="Events\NotasFiscaisTransmitidasEvent.cs" />
     <Compile Include="Events\ServicoOfflineEvent.cs" />
     <Compile Include="NotasFiscais\Impostos\Icms\Icms.cs" />
@@ -381,7 +380,6 @@
     <Compile Include="IConsultarNotaFiscalService.cs" />
     <Compile Include="ICancelarNotaFiscalService.cs" />
     <Compile Include="Services\IConsultaStatusServicoService.cs" />
-    <Compile Include="IEnviarNotaFiscalService.cs" />
     <Compile Include="NotaInutilizada.cs" />
     <Compile Include="Connected Services\NFeAutorizacao4\Reference.cs">
       <AutoGen>True</AutoGen>

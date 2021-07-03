@@ -10,6 +10,7 @@ using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.WPF.Utils;
+using System.Globalization;
 using System.Windows.Input;
 
 namespace EmissorNFe.ViewModel
@@ -34,7 +35,7 @@ namespace EmissorNFe.ViewModel
 
         private void LoadedCmd_Execute()
         {
-            var modoOnlineActor = actorSystem.ActorOf(Props.Create(() => new ModoOnlineActor(configuracaoRepository, consultaStatusServicoService, NotaFiscalRepository, emiteNotaFiscalContingenciaService, actorSystem, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)));
+            var modoOnlineActor = actorSystem.ActorOf(Props.Create(() => new ModoOnlineActor(configuracaoRepository, consultaStatusServicoService, NotaFiscalRepository, emiteNotaFiscalContingenciaService, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)), "modoOnline");
             modoOnlineActor.Tell(new ModoOnlineActor.Start());
 
             _mailManager.EnviarNotasParaContabilidade(diaParaEnvio);

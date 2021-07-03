@@ -1,5 +1,4 @@
 ﻿using Akka.Actor;
-using DgSystems.NFe.Services.Actors;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
@@ -13,8 +12,6 @@ using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DgSystems.NFe.Services.Actors
 {
@@ -48,12 +45,11 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IServiceFactory serviceFactory;
         private readonly ICertificadoService certificadoService;
         private readonly SefazSettings sefazSettings;
-        private IActorRef _self;
         private IActorRef emiteNfeContingenciaActor;
 
         public ModoOnlineActor(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
-            INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, ActorSystem actorSystem,
-            IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, SefazSettings sefazSettings)
+            INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, IEmitenteRepository emissorService,
+            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, SefazSettings sefazSettings)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _configuracaoRepository = configuracaoRepository;
@@ -66,13 +62,6 @@ namespace DgSystems.NFe.Services.Actors
             this.serviceFactory = serviceFactory;
             this.certificadoService = certificadoService;
             this.sefazSettings = sefazSettings;
-
-            MessagingCenter.Subscribe<EnviarNotaFiscalService, NotaFiscalEmitidaEmContingenciaEvent>(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), (s, e) =>
-            {
-                NotaEmitidaEmContingenciaEvent(e.justificativa, e.horário);
-            });
-
-            _self = Self; // use only in NotaEmitidaEmContingenciaEvent
 
             Receive<Start>(HandleStart);
             Receive<Tick>(HandleTick);
@@ -127,13 +116,6 @@ namespace DgSystems.NFe.Services.Actors
             {
                 Context.Stop(emiteNfeContingenciaActor);
             }
-        }
-
-        private void NotaEmitidaEmContingenciaEvent(string justificativa, DateTime horário)
-        {
-            log.Info("Evento de nota fiscal emitida em contingência recebido.");
-
-            _self.Tell(new AtivarModoOffline(justificativa, horário));
         }
 
         private void HandleAtivarModoOnline(AtivarModoOnline msg)

@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight.Views;
+﻿using Akka.Actor;
+using DgSystems.NFe.Services.Actors;
+using GalaSoft.MvvmLight.Views;
 using MediatR;
 using NFe.Core;
 using NFe.Core.Cadastro.Ibpt;
@@ -7,6 +9,8 @@ using NFe.Core.Entitities;
 using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
+using NFe.Core.NotasFiscais;
+using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
@@ -31,7 +35,6 @@ namespace DgSystems.NFe.ViewModels
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly IEnviaNotaFiscalService _enviaNotaFiscalService;
         private readonly IConfiguracaoRepository _configuracaoRepository;
         private readonly IProdutoRepository _produtoRepository;
         private readonly SefazSettings _sefazSettings;
@@ -39,11 +42,13 @@ namespace DgSystems.NFe.ViewModels
         private readonly INotaFiscalRepository _notaFiscalRepository;
         private readonly IIbptManager _ibptManager;
         private readonly IMediator mediator;
+        private readonly IServiceFactory serviceFactory;
+        private readonly IConsultarNotaFiscalService nfeConsulta;
+        private readonly ActorSystem actorSystem;
 
-        public EnviarNotaAppService(IEnviaNotaFiscalService enviaNotaFiscalService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings,
-            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator)
+        public EnviarNotaAppService(IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService,
+            INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta, ActorSystem actorSystem)
         {
-            _enviaNotaFiscalService = enviaNotaFiscalService;
             _configuracaoRepository = configuracaoService;
             _produtoRepository = produtoRepository;
             _sefazSettings = sefazSettings;
@@ -51,6 +56,9 @@ namespace DgSystems.NFe.ViewModels
             _notaFiscalRepository = notaFiscalRepository;
             _ibptManager = ibptManager;
             this.mediator = mediator;
+            this.serviceFactory = serviceFactory;
+            this.nfeConsulta = nfeConsulta;
+            this.actorSystem = actorSystem;
         }
 
         public async Task<NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
@@ -77,7 +85,7 @@ namespace DgSystems.NFe.ViewModels
             var config = await _configuracaoRepository.GetConfiguracaoAsync();
             NotaFiscal notaFiscal = null;
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 const TipoEmissao tipoEmissao = TipoEmissao.Normal;
                 var destinatario = Destinatario.CreateDestinatario(notaFiscalModel.DestinatarioSelecionado.Endereco.Logradouro,
@@ -114,6 +122,7 @@ namespace DgSystems.NFe.ViewModels
                 var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
                 XmlNFe xmlNFe = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
+                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoRepository, serviceFactory, nfeConsulta)));
 
                 try
                 {
@@ -126,7 +135,7 @@ namespace DgSystems.NFe.ViewModels
                     {
                         log.Info("Enviando nota fiscal em modo online.");
 
-                        var resultadoEnvio = _enviaNotaFiscalService.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe);
+                        var resultadoEnvio = await enviarNotaActor.Ask<ResultadoEnvio>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(40));
 
                         var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
                         _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
@@ -156,10 +165,14 @@ namespace DgSystems.NFe.ViewModels
                     log.Error("Erro ao tentar enviar nota fiscal.", e);
 
                     _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
-                    notaFiscal.Identificacao.Status = new StatusEnvio(Status.PENDENTE);
+                    notaFiscal.Identificacao.Status = new StatusEnvio(global::NFe.Core.Entitities.Status.PENDENTE);
                     var xmlProc = GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
                     _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
                     throw;
+                }
+                finally
+                {
+                    actorSystem.Stop(enviarNotaActor);
                 }
             });
 
@@ -211,8 +224,8 @@ namespace DgSystems.NFe.ViewModels
 
         private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)
         {
-            var theEvent = new NotaFiscalEmitidaEmContingenciaEvent() { justificativa = message, horário = notaFiscal.Identificacao.DataHoraEmissao };
-            MessagingCenter.Send(this, nameof(NotaFiscalEmitidaEmContingenciaEvent), theEvent);
+            var modoOnlineActor = actorSystem.ActorSelection("/user/modoOnline");
+            modoOnlineActor.Tell(new ModoOnlineActor.AtivarModoOffline(message, notaFiscal.Identificacao.DataHoraEmissao));
         }
 
         private static string GetExceptionMessage(Exception e)

@@ -100,13 +100,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\EmiteNFeContingenciaActor.cs" />
+    <Compile Include="Actors\EnviarNotaActor.cs" />
     <Compile Include="Actors\ModoOnlineActor.cs" />
+    <Compile Include="Actors\SefazActor.cs" />
     <Compile Include="CancelaNotaFiscalService.cs" />
     <Compile Include="CertificadoService.cs" />
     <Compile Include="ConsultaReciboException.cs" />
     <Compile Include="ConsultaStatusServicoSefazService.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaService.cs" />
-    <Compile Include="EnviarNotaService.cs" />
     <Compile Include="IbptManager.cs" />
     <Compile Include="ImportadorXmlService.cs" />
     <Compile Include="InutilizarNotaFiscalService.cs" />
