@@ -5,13 +5,10 @@ using MediatR;
 using NFe.Core;
 using NFe.Core.Cadastro.Ibpt;
 using NFe.Core.Domain;
-using NFe.Core.Entitities;
-using NFe.Core.Events;
 using NFe.Core.Interfaces;
 using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
-using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Acentuacao;
@@ -24,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using NfeProc = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
 using TNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFe;
@@ -135,40 +133,51 @@ namespace DgSystems.NFe.ViewModels
                     {
                         log.Info("Enviando nota fiscal em modo online.");
 
-                        var resultadoEnvio = await enviarNotaActor.Ask<ResultadoEnvio>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(40));
+                        var result = await enviarNotaActor.Ask<Status>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(60));
 
-                        var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
-                        _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
+                        if(result is Status.Success success)
+                        {
+                            ResultadoEnvio resultadoEnvio = (ResultadoEnvio)success.Status;
+                            var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
+                            _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
+
+                            var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
+                            MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
+                        } else
+                        {
+                            Status.Failure failure = (Status.Failure)result;
+                            log.Error("Erro ao enviar nota fiscal", failure.Cause);
+                            throw failure.Cause;
+                        }
                     }
-
-                    var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
-                    MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
-                }
-                catch (WebException e)
-                {
-                    log.Error("Erro de conexão ao enviar nota fiscal.", e);
-
-                    // Necessário para não tentar enviar a mesma nota como contingência.
-                    _configuracaoRepository.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
-
-                    // Stop execution if model 55
-                    if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
-                        throw;
-
-                    var message = GetExceptionMessage(e);
-                    PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
-
-                    notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
                 }
                 catch (Exception e)
                 {
-                    log.Error("Erro ao tentar enviar nota fiscal.", e);
+                    if(e is WebException || e is CommunicationException)
+                    {
+                        log.Error("Erro de conexão ao enviar nota fiscal.", e);
 
-                    _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
-                    notaFiscal.Identificacao.Status = new StatusEnvio(global::NFe.Core.Entitities.Status.PENDENTE);
-                    var xmlProc = GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
-                    _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
-                    throw;
+                        // Necessário para não tentar enviar a mesma nota como contingência.
+                        _configuracaoRepository.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
+
+                        // Stop execution if model 55
+                        if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
+                            throw;
+
+                        var message = GetExceptionMessage(e);
+                        PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
+
+                        notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
+                    } else
+                    {
+                        log.Error("Erro ao tentar enviar nota fiscal.", e);
+
+                        _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
+                        notaFiscal.Identificacao.Status = new StatusEnvio(global::NFe.Core.Entitities.Status.PENDENTE);
+                        var xmlProc = GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                        _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
+                        throw;
+                    }
                 }
                 finally
                 {
@@ -239,19 +248,16 @@ namespace DgSystems.NFe.ViewModels
         {
             var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), Acentuacao.RemoverAcentuacao(notaFiscal.Finalidade));
 
-            var identificacao = new IdentificacaoNFe(codigoUf, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
+            return new IdentificacaoNFe(codigoUf, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
                 tipoEmissao, ambiente, emitente,
                 notaFiscal.NaturezaOperacao, finalidadeEmissao, notaFiscal.IsImpressaoBobina,
                 notaFiscal.IndicadorPresenca, documentoDanfe);
-
-            return identificacao;
         }
 
         [Obsolete("The fields set in this method are ignored.")]
         private static TotalNFe GetTotalNFe()
         {
-            var totalNFe = new TotalNFe { IcmsTotal = new IcmsTotal() };
-            return totalNFe;
+            return new TotalNFe { IcmsTotal = new IcmsTotal() };
         }
 
         private static List<Pagamento> GetPagamentos(NotaFiscalModel notaFiscal)

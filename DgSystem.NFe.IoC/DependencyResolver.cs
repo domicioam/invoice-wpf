@@ -3,7 +3,6 @@ using DgSystems.NFe.NotaFiscal.Reports;
 using DgSystems.NFe.ViewModels;
 using EmissorNFe.ViewModel;
 using GalaSoft.MvvmLight.Views;
-using MediatR;
 using MediatR.SimpleInjector;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;

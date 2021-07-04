@@ -62,8 +62,7 @@ namespace DgSystems.NFe.Services.Actors
             {
                 const string message = "Nota fiscal inválida.";
                 log.Error(message);
-                // TODO: throw causes the actor to restart;
-                throw new ArgumentException(message);
+                Sender.Tell(new Status.Failure(new ArgumentException(message)));
             }
 
             var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
@@ -77,7 +76,7 @@ namespace DgSystems.NFe.Services.Actors
                 if (IsSuccess(protocolo))
                 {
                     var notaFiscal = AtribuirValoresApósEnvioComSucesso(msg.NotaFiscal, msg.XmlNFe.QrCode, protocolo);
-                    Sender.Tell(new ResultadoEnvio(notaFiscal, protocolo, msg.XmlNFe.QrCode, msg.XmlNFe.TNFe, msg.XmlNFe.XmlNode));
+                    Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protocolo, msg.XmlNFe.QrCode, msg.XmlNFe.TNFe, msg.XmlNFe.XmlNode)));
                 }
                 else
                 {
@@ -89,13 +88,12 @@ namespace DgSystems.NFe.Services.Actors
                         var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
                         var notaFiscal = AtribuirValoresApósEnvioComSucesso(msg.NotaFiscal, msg.XmlNFe.QrCode, protDeserialized);
-                        Sender.Tell(new ResultadoEnvio(notaFiscal, protDeserialized, msg.XmlNFe.QrCode, msg.XmlNFe.TNFe, msg.XmlNFe.XmlNode));
+                        Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, msg.XmlNFe.QrCode, msg.XmlNFe.TNFe, msg.XmlNFe.XmlNode)));
                     }
 
                     //Nota continua com status pendente nesse caso
                     var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", protocolo.infProt.xMotivo);
-                    // TODO: throw causes the actor to restart;
-                    throw new ArgumentException(mensagem);
+                    Sender.Tell(new Status.Failure(new ArgumentException(mensagem)));
                 }
             }
             catch (Exception e)
@@ -112,17 +110,17 @@ namespace DgSystems.NFe.Services.Actors
                         var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
                         var notaFiscal = AtribuirValoresApósEnvioComSucesso(msg.NotaFiscal, msg.XmlNFe.QrCode, protDeserialized);
-                        Sender.Tell(new ResultadoEnvio(notaFiscal, protDeserialized, msg.XmlNFe.QrCode, msg.XmlNFe.TNFe, msg.XmlNFe.XmlNode));
+                        Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, msg.XmlNFe.QrCode, msg.XmlNFe.TNFe, msg.XmlNFe.XmlNode)));
                     }
-
-                    // TODO: throw causes the actor to restart;
-                    throw;
+                    else
+                    {
+                        Sender.Tell(new Status.Failure(e));
+                    }
                 }
                 catch (Exception retornoConsultaException)
                 {
                     log.Error(retornoConsultaException);
-                    // TODO: throw causes the actor to restart;
-                    throw;
+                    Sender.Tell(new Status.Failure(retornoConsultaException));
                 }
             }
             finally
