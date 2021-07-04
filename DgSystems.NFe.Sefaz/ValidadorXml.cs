@@ -1,15 +1,10 @@
-﻿using NFe.Core.XmlSchemas.NfeAutorizacao.Envio;
+﻿using DgSystems.NFe.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Schema;
-using NFe.Core.Utils;
-using DgSystems.NFe.Extensions;
 
 namespace NFe.Core.Utils.Xml
 {
@@ -69,6 +64,11 @@ namespace NFe.Core.Utils.Xml
             {
                 log.Error(e);
                 throw new Exception("Ocorreu o seguinte erro durante a validação XML:" + "\n" + e.Message);
+            }
+            catch(Exception e)
+            {
+                log.Error(e);
+                throw;
             }
             finally
             {

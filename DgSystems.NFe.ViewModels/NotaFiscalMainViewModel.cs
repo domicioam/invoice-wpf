@@ -44,7 +44,7 @@ namespace DgSystems.NFe.ViewModels
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
             INotaFiscalRepository notaFiscalRepository,
-            IConsultarNotaFiscalService nfeConsulta, IMediator mediator, ActorSystem actorSystem, IServiceFactory serviceFactory)
+            IConsultarNotaFiscalService nfeConsulta, IMediator mediator, ActorSystem actorSystem, IServiceFactory serviceFactory, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -68,6 +68,7 @@ namespace DgSystems.NFe.ViewModels
             this.mediator = mediator;
             this.actorSystem = actorSystem;
             this.serviceFactory = serviceFactory;
+            this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
         }
 
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -93,6 +94,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly IMediator mediator;
         private readonly ActorSystem actorSystem;
         private readonly IServiceFactory serviceFactory;
+        private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
         {
@@ -237,7 +239,7 @@ namespace DgSystems.NFe.ViewModels
 
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
 
-                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta)));
+                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta, emiteNotaFiscalContingenciaService)));
                 await enviarNotaActor.Ask<ResultadoEnvio>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe), TimeSpan.FromSeconds(40));
 
                 IsBusy = false;

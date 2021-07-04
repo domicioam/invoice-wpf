@@ -43,10 +43,14 @@ namespace DgSystems.NFe.Services.Actors
             ServiceFactory = serviceFactory;
         }
 
+        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public IServiceFactory ServiceFactory { get; }
 
         private void HandlenfeAutorizacaoLote(nfeAutorizacaoLote msg)
         {
+            log.Info($"{nameof(nfeAutorizacaoLote)} recebida.");
+
             NFeAutorizacao4Soap client = CriarClientWS(msg.NotaFiscal, msg.Certificado, msg.CodigoUf);
             TProtNFe protocolo = InvocaServico_E_RetornaProtocolo(msg.Node, client);
 

@@ -14,6 +14,7 @@ using System;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml;
 using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
@@ -48,44 +49,62 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IConfiguracaoRepository _configuracaoService;
         private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
+        private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
 
         public XmlNFe XmlNFe { get; private set; }
         public NotaFiscal NotaFiscal { get; private set; }
         public X509Certificate2 Certificado { get; private set; }
 
-        public EnviarNotaActor(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta)
+        public EnviarNotaActor(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             _configuracaoService = configuracaoService;
             _serviceFactory = serviceFactory;
             _nfeConsulta = nfeConsulta;
 
-            Receive<EnviarNotaFiscal>(HandleEnviarNotaFiscal);
+            ReceiveAsync<EnviarNotaFiscal>(HandleEnviarNotaFiscal);
             Receive<Result<TProtNFe>>(HandlenfeAutorizacaoLoteResult);
-            Receive<ReceiveTimeout>(HandleReceiveTimeout);
+            ReceiveAsync<ReceiveTimeout>(HandleReceiveTimeoutAsync);
+            this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
         }
 
-        private void HandleEnviarNotaFiscal(EnviarNotaFiscal msg)
+        private async Task HandleEnviarNotaFiscal(EnviarNotaFiscal msg)
         {
+            NotaFiscal = msg.NotaFiscal;
+            Certificado = msg.Certificado;
+            XmlNFe = msg.XmlNFe;
+
             if (!IsNotaFiscalValida(msg.NotaFiscal, msg.CscId, msg.Csc, msg.Certificado))
             {
                 const string message = "Nota fiscal inválida.";
                 log.Error(message);
                 Sender.Tell(new Status.Failure(new ArgumentException(message)));
+                return;
             }
 
-            NotaFiscal = msg.NotaFiscal;
-            Certificado = msg.Certificado;
-            XmlNFe = msg.XmlNFe;
+            var config = await _configuracaoService.GetConfiguracaoAsync();
 
-            var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), msg.NotaFiscal.Emitente.Endereco.UF);
+            if (config.IsContingencia)
+            {
+                log.Info("Enviando nota fiscal em modo contingência.");
+                NotaFiscal = emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(msg.Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
+                Sender.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+            }
+            else
+            {
+                var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), msg.NotaFiscal.Emitente.Endereco.UF);
 
-            var sefazActor = Context.ActorOf(Props.Create(() => new SefazActor(_serviceFactory)));
-            sefazActor.Tell(new SefazActor.nfeAutorizacaoLote(msg.XmlNFe.XmlNode, msg.NotaFiscal, msg.Certificado, codigoUf));
-            SetReceiveTimeout(TimeSpan.FromSeconds(30));
+                var sefazActor = Context.ActorOf(Props.Create(() => new SefazActor(_serviceFactory)));
+                sefazActor.Tell(new SefazActor.nfeAutorizacaoLote(msg.XmlNFe.XmlNode, msg.NotaFiscal, msg.Certificado, codigoUf));
+                SetReceiveTimeout(TimeSpan.FromSeconds(30));
+            }
         }
 
         private void HandlenfeAutorizacaoLoteResult(Result<TProtNFe> obj)
         {
+            log.Info("Resultado do envio da nota fiscal recebido.");
+
+            SetReceiveTimeout(null);
+
             if (obj.IsSuccess)
             {
                 if (IsSuccess(obj.Value))
@@ -139,8 +158,10 @@ namespace DgSystems.NFe.Services.Actors
             Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
         }
 
-        private void HandleReceiveTimeout(ReceiveTimeout obj)
+        private async Task HandleReceiveTimeoutAsync(ReceiveTimeout obj)
         {
+            SetReceiveTimeout(null);
+
             var retorno = VerificaSeNotaFoiEnviada();
 
             if (retorno.IsEnviada)
@@ -159,19 +180,19 @@ namespace DgSystems.NFe.Services.Actors
 
                 // Stop execution if model 55
                 if (NotaFiscal.Identificacao.Modelo == Modelo.Modelo55)
-                    throw;
+                {
+                    Sender.Tell(new Status.Failure(new Exception("Timeout ao enviar nota fiscal.")));
+                    return;
+                }
 
-                var message = GetExceptionMessage(e);
-                PublishInvoiceSentInContigencyModeEvent(NotaFiscal, message);
+                var modoOnlineActor = Context.System.ActorSelection("/user/modoOnline");
+                modoOnlineActor.Tell(new ModoOnlineActor.AtivarModoOffline("Timeout ao enviar nota fiscal.", NotaFiscal.Identificacao.DataHoraEmissao));
 
-                notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
+                var config = await _configuracaoService.GetConfiguracaoAsync();
 
+                NotaFiscal = emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
 
-
-
-
-
-                throw new NotImplementedException();
+                Sender.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
         }
 
@@ -212,17 +233,6 @@ namespace DgSystems.NFe.Services.Actors
             notaFiscal.DataHoraAutorização = dataAutorizacao;
             notaFiscal.ProtocoloAutorizacao = protocolo.infProt.nProt;
             return notaFiscal;
-        }
-
-        private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)
-        {
-            var modoOnlineActor = Context.System.ActorSelection("/user/modoOnline");
-            modoOnlineActor.Tell(new ModoOnlineActor.AtivarModoOffline(message, notaFiscal.Identificacao.DataHoraEmissao));
-        }
-
-        private static string GetExceptionMessage(Exception e)
-        {
-            return e.InnerException != null ? e.InnerException.Message : e.Message;
         }
 
         public bool IsNotaFiscalValida(NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado)

@@ -120,36 +120,30 @@ namespace DgSystems.NFe.ViewModels
                 var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
                 XmlNFe xmlNFe = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
-                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoRepository, serviceFactory, nfeConsulta)));
+                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoRepository, serviceFactory, nfeConsulta, _emiteNotaFiscalContingenciaService)));
 
                 try
                 {
-                    if (config.IsContingencia)
+                    var result = await enviarNotaActor.Ask<Status>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(60));
+
+                    if (result is Status.Success success)
                     {
-                        log.Info("Enviando nota fiscal em modo contingência.");
-                        notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
+                        ResultadoEnvio resultadoEnvio = (ResultadoEnvio)success.Status;
+
+                        if (resultadoEnvio.NotaFiscal.Identificacao.Status.Status == global::NFe.Core.Entitities.Status.ENVIADA)
+                        {
+                            var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
+                            _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
+                        }
+
+                        var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
+                        MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
                     }
                     else
                     {
-                        log.Info("Enviando nota fiscal em modo online.");
-
-                        var result = await enviarNotaActor.Ask<Status>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(60));
-
-                        if (result is Status.Success success)
-                        {
-                            ResultadoEnvio resultadoEnvio = (ResultadoEnvio)success.Status;
-                            var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
-                            _notaFiscalRepository.Salvar(notaFiscal, xmlNFeProc);
-
-                            var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
-                            MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
-                        }
-                        else
-                        {
-                            Status.Failure failure = (Status.Failure)result;
-                            log.Error("Erro ao enviar nota fiscal", failure.Cause);
-                            throw failure.Cause;
-                        }
+                        Status.Failure failure = (Status.Failure)result;
+                        log.Error("Erro ao enviar nota fiscal", failure.Cause);
+                        throw failure.Cause;
                     }
                 }
                 catch (Exception e)
