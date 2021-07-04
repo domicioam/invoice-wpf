@@ -135,7 +135,7 @@ namespace DgSystems.NFe.ViewModels
 
                         var result = await enviarNotaActor.Ask<Status>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(60));
 
-                        if(result is Status.Success success)
+                        if (result is Status.Success success)
                         {
                             ResultadoEnvio resultadoEnvio = (ResultadoEnvio)success.Status;
                             var xmlNFeProc = GerarNfeProcXml(resultadoEnvio.Nfe, resultadoEnvio.QrCode, resultadoEnvio.Protocolo);
@@ -143,7 +143,8 @@ namespace DgSystems.NFe.ViewModels
 
                             var theEvent = new NotaFiscalEnviadaEvent() { NotaFiscal = notaFiscal };
                             MessagingCenter.Send(this, nameof(NotaFiscalEnviadaEvent), theEvent);
-                        } else
+                        }
+                        else
                         {
                             Status.Failure failure = (Status.Failure)result;
                             log.Error("Erro ao enviar nota fiscal", failure.Cause);
@@ -153,31 +154,13 @@ namespace DgSystems.NFe.ViewModels
                 }
                 catch (Exception e)
                 {
-                    if(e is WebException || e is CommunicationException)
-                    {
-                        log.Error("Erro de conexão ao enviar nota fiscal.", e);
+                    log.Error("Erro ao tentar enviar nota fiscal.", e);
 
-                        // Necessário para não tentar enviar a mesma nota como contingência.
-                        _configuracaoRepository.SalvarPróximoNúmeroSérie(notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.Ambiente);
-
-                        // Stop execution if model 55
-                        if (notaFiscal.Identificacao.Modelo == Modelo.Modelo55)
-                            throw;
-
-                        var message = GetExceptionMessage(e);
-                        PublishInvoiceSentInContigencyModeEvent(notaFiscal, message);
-
-                        notaFiscal = _emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(certificado, config, notaFiscal, cscId, csc, nFeNamespaceName);
-                    } else
-                    {
-                        log.Error("Erro ao tentar enviar nota fiscal.", e);
-
-                        _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
-                        notaFiscal.Identificacao.Status = new StatusEnvio(global::NFe.Core.Entitities.Status.PENDENTE);
-                        var xmlProc = GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
-                        _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
-                        throw;
-                    }
+                    _notaFiscalRepository.SalvarXmlNFeComErro(notaFiscal, xmlNFe.XmlNode);
+                    notaFiscal.Identificacao.Status = new StatusEnvio(global::NFe.Core.Entitities.Status.PENDENTE);
+                    var xmlProc = GerarNfeProcXml(xmlNFe.TNFe, xmlNFe.QrCode);
+                    _notaFiscalRepository.Salvar(notaFiscal, xmlProc);
+                    throw;
                 }
                 finally
                 {
@@ -225,21 +208,10 @@ namespace DgSystems.NFe.ViewModels
         {
             var command = new ImprimirDanfeCommand(notaFiscal, mediator);
             command.ExecuteAsync();
-            if(!command.IsExecuted)
+            if (!command.IsExecuted)
             {
                 log.Error("Danfe não impresso.");
             }
-        }
-
-        private void PublishInvoiceSentInContigencyModeEvent(NotaFiscal notaFiscal, string message)
-        {
-            var modoOnlineActor = actorSystem.ActorSelection("/user/modoOnline");
-            modoOnlineActor.Tell(new ModoOnlineActor.AtivarModoOffline(message, notaFiscal.Identificacao.DataHoraEmissao));
-        }
-
-        private static string GetExceptionMessage(Exception e)
-        {
-            return e.InnerException != null ? e.InnerException.Message : e.Message;
         }
 
         private static IdentificacaoNFe CreateIdentificacaoNFe(NotaFiscalModel notaFiscal, CodigoUfIbge codigoUf, DateTime now,
