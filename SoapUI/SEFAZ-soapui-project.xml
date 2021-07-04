@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b81dafab-a44e-4666-9403-78ff1fe64591" activeEnvironment="Default" name="SEFAZ" resourceRoot="" soapui-version="5.6.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="bc5daf9c-f9fc-46ed-9589-983e3d092a4c" wsaVersion="NONE" name="NFeStatusServico4Soap12" type="wsdl" bindingName="{http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4}NFeStatusServico4Soap12" soapVersion="1_2" anonymous="optional" definition="file:/C:/Users/domic/Documents/Sefaz%20WSDL/NfeStatusServico4.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>https://nfce-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico4.asmx</con:endpoint></con:endpoints><con:operation id="99449cef-8db1-485d-8272-071b3c37c83d" isOneWay="false" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF" name="nfeStatusServicoNF" bindingOperationName="nfeStatusServicoNF" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false"><con:settings/></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="fe75239b-2e3b-486b-98ab-015a0d1218e0" wsaVersion="NONE" name="NFeStatusServico4Soap" type="wsdl" bindingName="{http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4}NFeStatusServico4Soap" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/domic/Documents/Sefaz%20WSDL/NfeStatusServico4.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Users\domic\Documents\Sefaz%20WSDL\NfeStatusServico4.xml"><con:part><con:url>file:\C:\Users\domic\Documents\Sefaz%20WSDL\NfeStatusServico4.xml</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4">
+      <s:element name="nfeDadosMsg">
+        <s:complexType mixed="true">
+          <s:sequence>
+            <s:any/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="nfeResultMsg" nillable="true">
+        <s:complexType mixed="true">
+          <s:sequence>
+            <s:any/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="nfeStatusServicoNFSoapIn">
+    <wsdl:part name="nfeDadosMsg" element="tns:nfeDadosMsg"/>
+  </wsdl:message>
+  <wsdl:message name="nfeStatusServicoNFSoapOut">
+    <wsdl:part name="nfeStatusServicoNFResult" element="tns:nfeResultMsg"/>
+  </wsdl:message>
+  <wsdl:portType name="NFeStatusServico4Soap">
+    <wsdl:operation name="nfeStatusServicoNF">
+      <wsdl:input message="tns:nfeStatusServicoNFSoapIn"/>
+      <wsdl:output message="tns:nfeStatusServicoNFSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NFeStatusServico4Soap" type="tns:NFeStatusServico4Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="nfeStatusServicoNF">
+      <soap:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NFeStatusServico4Soap12" type="tns:NFeStatusServico4Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="nfeStatusServicoNF">
+      <soap12:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NFeStatusServico4">
+    <wsdl:port name="NFeStatusServico4Soap" binding="tns:NFeStatusServico4Soap">
+      <soap:address location="https://nfce-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico4.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="NFeStatusServico4Soap12" binding="tns:NFeStatusServico4Soap12">
+      <soap12:address location="https://nfce-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico4.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://DESKTOP-EKUI4KQ:8088/mockNFeStatusServico4Soap</con:endpoint><con:endpoint>https://nfce-homologacao.svrs.rs.gov.br/ws/NfeStatusServico/NfeStatusServico4.asmx</con:endpoint></con:endpoints><con:operation id="3bab370e-4238-41da-b17c-03bba29d67ff" isOneWay="false" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF" name="nfeStatusServicoNF" bindingOperationName="nfeStatusServicoNF" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cd401a2e-dfb1-4798-99a4-bb1f5ed4e503" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://DESKTOP-EKUI4KQ:8088/mockNFeStatusServico4Soap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfes="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <nfes:nfeDadosMsg>\r
+         e\r
+         <!--You may enter ANY elements at this point-->\r
+         gero\r
+      </nfes:nfeDadosMsg>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:mockService id="810ebe22-1f85-424e-b663-b74b3139a564" port="8088" path="/mockNFeStatusServico4Soap" host="DESKTOP-EKUI4KQ" name="NFeStatusServico4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeStatusServicoNF" id="e3b97a48-bd8b-4f68-af3d-f91967924540" interface="NFeStatusServico4Soap" operation="nfeStatusServicoNF"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="fe51f187-23c6-46ef-be21-cb9589df3be4" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfes="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <nfes:nfeResultMsg>
+         <retConsStatServ xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+			<tpAmb>2</tpAmb>
+			<verAplic>SVRS201805211008</verAplic>
+			<cStat>107</cStat>
+			<xMotivo>Servico em Operacao</xMotivo>
+			<cUF>53</cUF>
+			<dhRecbto>2021-07-04T16:02:37-03:00</dhRecbto>
+			<tMed>1</tMed>
+		</retConsStatServ>
+      </nfes:nfeResultMsg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

@@ -10,6 +10,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using static QRCoder.PayloadGenerator;
 
 namespace DgSystem.NFe.Reports.Nfce
