@@ -132,8 +132,11 @@ namespace DgSystems.NFe.Services.Actors
                     notasNfCe.Add(xml);
             }
 
-            Self.Tell(new TransmiteNFes(notasNfCe, Modelo.Modelo65));
-            Self.Tell(new TransmiteNFes(notasNFe, Modelo.Modelo55));
+            if(notasNfCe.Count == 0)
+                Self.Tell(new TransmiteNFes(notasNfCe, Modelo.Modelo65));
+
+            if(notasNFe.Count == 0)
+                Self.Tell(new TransmiteNFes(notasNFe, Modelo.Modelo55));
         }
 
         private void HandleTransmiteNFes(TransmiteNFes msg)

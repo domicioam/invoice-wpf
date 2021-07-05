@@ -133,10 +133,14 @@ namespace DgSystems.NFe.Services.Actors
         private void HandleAtivarModoOffline(AtivarModoOffline msg)
         {
             var config = _configuracaoRepository.GetConfiguracao();
-            config.IsContingencia = true;
-            config.DataHoraEntradaContingencia = msg.DataHoraContingencia;
-            config.JustificativaContingencia = msg.Justificativa;
-            _configuracaoRepository.Salvar(config);
+
+            if (config.IsContingencia)
+            {
+                config.IsContingencia = true;
+                config.DataHoraEntradaContingencia = msg.DataHoraContingencia;
+                config.JustificativaContingencia = msg.Justificativa;
+                _configuracaoRepository.Salvar(config);
+            }
 
             var theEvent = new ServicoOfflineEvent();
             MessagingCenter.Send(this, nameof(ServicoOfflineEvent), theEvent);
@@ -153,15 +157,11 @@ namespace DgSystems.NFe.Services.Actors
             if (_consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo55)
                 && _consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo65))
             {
-                if (!config.IsContingencia) return;
-
                 Self.Tell(new AtivarModoOnline());
                 log.Info("Modo online ativado.");
             }
             else
             {
-                if (config.IsContingencia) return;
-
                 Self.Tell(new AtivarModoOffline("Serviço indisponível ou sem conexão com a internet", DateTime.Now));
                 log.Info("Modo offline ativado.");
             }
