@@ -71,7 +71,145 @@
          gero\r
       </nfes:nfeDadosMsg>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:mockService id="810ebe22-1f85-424e-b663-b74b3139a564" port="8088" path="/mockNFeStatusServico4Soap" host="DESKTOP-EKUI4KQ" name="NFeStatusServico4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeStatusServicoNF" id="e3b97a48-bd8b-4f68-af3d-f91967924540" interface="NFeStatusServico4Soap" operation="nfeStatusServicoNF"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="fe51f187-23c6-46ef-be21-cb9589df3be4" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfes="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="5f2ac01f-efbb-4ddc-95ba-d0d8e2d78a6f" wsaVersion="NONE" name="NFeAutorizacao4Soap" type="wsdl" bindingName="{http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4}NFeAutorizacao4Soap" soapVersion="1_1" anonymous="optional" definition="file:/C:/Users/domic/source/repos/domicioam/invoice-wpf/SoapUI/Sefaz%20WSDL/NFeAutorizacao4.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://DESKTOP-EKUI4KQ:8088/mockNFeAutorizacao4Soap</con:endpoint><con:endpoint>https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx</con:endpoint></con:endpoints><con:operation id="f54cf816-c8a4-4724-994a-bea0f2094ba5" isOneWay="false" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote" name="nfeAutorizacaoLote" bindingOperationName="nfeAutorizacaoLote" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0297d0ef-2dc8-413a-929a-3561860e4ea5" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <nfe:nfeDadosMsg>\r
+         e\r
+         <!--You may enter ANY elements at this point-->\r
+         gero\r
+      </nfe:nfeDadosMsg>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"/></con:call></con:operation><con:operation id="c20da1d4-3908-4d51-91ab-16325a16ff0a" isOneWay="false" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLoteZip" name="nfeAutorizacaoLoteZip" bindingOperationName="nfeAutorizacaoLoteZip" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="d45d38e3-e2b1-47e1-bbdb-ed5f0ef6a9eb" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <nfe:nfeDadosMsgZip>?</nfe:nfeDadosMsgZip>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLoteZip"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="a47854ad-2ad6-4dc9-8868-7391154c0799" wsaVersion="NONE" name="NFeAutorizacao4Soap12" type="wsdl" bindingName="{http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4}NFeAutorizacao4Soap12" soapVersion="1_2" anonymous="optional" definition="file:/C:/Users/domic/source/repos/domicioam/invoice-wpf/SoapUI/Sefaz%20WSDL/NFeAutorizacao4.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/Users/domic/source/repos/domicioam/invoice-wpf/SoapUI/Sefaz%20WSDL/NFeAutorizacao4.xml"><con:part><con:url>file:/C:/Users/domic/source/repos/domicioam/invoice-wpf/SoapUI/Sefaz%20WSDL/NFeAutorizacao4.xml</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+      <s:element name="nfeDadosMsg">
+        <s:complexType mixed="true">
+          <s:sequence>
+            <s:any/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="nfeResultMsg" nillable="true">
+        <s:complexType mixed="true">
+          <s:sequence>
+            <s:any/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="nfeMonitoria" type="tns:nfeMonitoria"/>
+      <s:complexType name="nfeMonitoria">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="nomeServidor" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="dhServidor" type="s:string"/>
+        </s:sequence>
+        <s:anyAttribute/>
+      </s:complexType>
+      <s:element name="nfeDadosMsgZip" type="s:string"/>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="nfeAutorizacaoLoteSoapIn">
+    <wsdl:part name="nfeDadosMsg" element="tns:nfeDadosMsg"/>
+  </wsdl:message>
+  <wsdl:message name="nfeAutorizacaoLoteSoapOut">
+    <wsdl:part name="nfeAutorizacaoLoteResult" element="tns:nfeResultMsg"/>
+  </wsdl:message>
+  <wsdl:message name="nfeAutorizacaoLotenfeMonitoria">
+    <wsdl:part name="nfeMonitoria" element="tns:nfeMonitoria"/>
+  </wsdl:message>
+  <wsdl:message name="nfeAutorizacaoLoteZipSoapIn">
+    <wsdl:part name="nfeDadosMsgZip" element="tns:nfeDadosMsgZip"/>
+  </wsdl:message>
+  <wsdl:message name="nfeAutorizacaoLoteZipSoapOut">
+    <wsdl:part name="nfeAutorizacaoLoteZipResult" element="tns:nfeResultMsg"/>
+  </wsdl:message>
+  <wsdl:message name="nfeAutorizacaoLoteZipnfeMonitoria">
+    <wsdl:part name="nfeMonitoria" element="tns:nfeMonitoria"/>
+  </wsdl:message>
+  <wsdl:portType name="NFeAutorizacao4Soap">
+    <wsdl:operation name="nfeAutorizacaoLote">
+      <wsdl:input message="tns:nfeAutorizacaoLoteSoapIn"/>
+      <wsdl:output message="tns:nfeAutorizacaoLoteSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="nfeAutorizacaoLoteZip">
+      <wsdl:input message="tns:nfeAutorizacaoLoteZipSoapIn"/>
+      <wsdl:output message="tns:nfeAutorizacaoLoteZipSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NFeAutorizacao4Soap" type="tns:NFeAutorizacao4Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="nfeAutorizacaoLote">
+      <soap:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:nfeAutorizacaoLotenfeMonitoria" part="nfeMonitoria" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="nfeAutorizacaoLoteZip">
+      <soap:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLoteZip" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+        <soap:header message="tns:nfeAutorizacaoLoteZipnfeMonitoria" part="nfeMonitoria" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NFeAutorizacao4Soap12" type="tns:NFeAutorizacao4Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="nfeAutorizacaoLote">
+      <soap12:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+        <soap12:header message="tns:nfeAutorizacaoLotenfeMonitoria" part="nfeMonitoria" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="nfeAutorizacaoLoteZip">
+      <soap12:operation soapAction="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLoteZip" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+        <soap12:header message="tns:nfeAutorizacaoLoteZipnfeMonitoria" part="nfeMonitoria" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NFeAutorizacao4">
+    <wsdl:port name="NFeAutorizacao4Soap" binding="tns:NFeAutorizacao4Soap">
+      <soap:address location="https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="NFeAutorizacao4Soap12" binding="tns:NFeAutorizacao4Soap12">
+      <soap12:address location="https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx</con:endpoint></con:endpoints><con:operation id="71ecab6c-0d50-42eb-9873-b419eadc2660" isOneWay="false" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote" name="nfeAutorizacaoLote" bindingOperationName="nfeAutorizacaoLote" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a3ad29f0-76cb-4604-97fd-4047817b2920" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">\r
+   <soap:Header/>\r
+   <soap:Body>\r
+      <nfe:nfeDadosMsg>\r
+         e\r
+         <!--You may enter ANY elements at this point-->\r
+         gero\r
+      </nfe:nfeDadosMsg>\r
+   </soap:Body>\r
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/NFeAutorizacao4Soap/nfeAutorizacaoLoteRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="ae26c817-a23f-48e5-9588-1eb48c723cc0" isOneWay="false" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLoteZip" name="nfeAutorizacaoLoteZip" bindingOperationName="nfeAutorizacaoLoteZip" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1556db8a-bcab-4bce-b582-3144c0b35030" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">\r
+   <soap:Header/>\r
+   <soap:Body>\r
+      <nfe:nfeDadosMsgZip>?</nfe:nfeDadosMsgZip>\r
+   </soap:Body>\r
+</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/NFeAutorizacao4Soap/nfeAutorizacaoLoteZipRequest"/></con:call></con:operation></con:interface><con:mockService id="810ebe22-1f85-424e-b663-b74b3139a564" port="8088" path="/mockNFeStatusServico4Soap" host="DESKTOP-EKUI4KQ" name="NFeStatusServico4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeStatusServicoNF" id="e3b97a48-bd8b-4f68-af3d-f91967924540" interface="NFeStatusServico4Soap" operation="nfeStatusServicoNF"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="fe51f187-23c6-46ef-be21-cb9589df3be4" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfes="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4">
    <soapenv:Header/>
    <soapenv:Body>
       <nfes:nfeResultMsg>
@@ -86,4 +224,53 @@
 		</retConsStatServ>
       </nfes:nfeResultMsg>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService id="2d53ff21-d360-4318-8b0d-200135a90aeb" port="8088" path="/mockNFeAutorizacao4Soap" host="DESKTOP-EKUI4KQ" name="NFeAutorizacao4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeAutorizacaoLote" id="ae98d741-75f7-45c5-a357-111c3b565cbb" interface="NFeAutorizacao4Soap" operation="nfeAutorizacaoLote"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="590842ee-2aef-40d5-8410-0e35edca4b28" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+   <soapenv:Header>
+      <nfe:nfeMonitoria>
+         <!--Optional:-->
+         <nfe:nomeServidor>?</nfe:nomeServidor>
+         <!--Optional:-->
+         <nfe:dhServidor>?</nfe:dhServidor>
+      </nfe:nfeMonitoria>
+   </soapenv:Header>
+   <soapenv:Body>
+      <nfe:nfeResultMsg>
+         <retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+		    <tpAmb>2</tpAmb>
+		    <verAplic>SVRSnfce202103291658</verAplic>
+		    <cStat>104</cStat>
+		    <xMotivo>Lote processado</xMotivo>
+		    <cUF>53</cUF>
+		    <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		    <protNFe versao= "4.00">
+		        <infProt>
+		            <tpAmb>2</tpAmb>
+		            <verAplic>SVRSnfce202103291658</verAplic>
+		            <chNFe>53210704585789000140650030000006141325009918</chNFe>
+		            <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		            <nProt>353210000029778</nProt>
+		            <digVal>d/kQ4t6qpkXw1i/JQDXstFfcbH0=</digVal>
+		            <cStat>100</cStat>
+		            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+		        </infProt>
+		    </protNFe>
+		</retEnviNFe>
+      </nfe:nfeResultMsg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="nfeAutorizacaoLoteZip" id="8885143b-764b-41f6-9019-d7d3f8a9b108" interface="NFeAutorizacao4Soap" operation="nfeAutorizacaoLoteZip"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="e4bc12e3-dd39-4fd4-b34d-90c4ab2df223" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+   <soapenv:Header>
+      <nfe:nfeMonitoria>
+         <!--Optional:-->
+         <nfe:nomeServidor>?</nfe:nomeServidor>
+         <!--Optional:-->
+         <nfe:dhServidor>?</nfe:dhServidor>
+      </nfe:nfeMonitoria>
+   </soapenv:Header>
+   <soapenv:Body>
+      <nfe:nfeResultMsg>
+         e
+         <!--You may enter ANY elements at this point-->
+         gero
+      </nfe:nfeResultMsg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLoteZip"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
