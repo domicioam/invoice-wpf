@@ -157,7 +157,7 @@ namespace DgSystems.NFe.Services.Actors
 
             var tempoEspera = int.Parse(retornoTransmissao.RetEnviNFeInfRec.tMed) * 1000;
 
-            Self.Tell(new ConsultaRecibos(tempoEspera, retornoTransmissao, msg.Modelo));
+            Self.Tell(new ConsultaRecibos(tempoEspera, retornoTransmissao, msg.Modelo), Sender);
         }
 
         private async Task HandleConsultaRecibosAsync(ConsultaRecibos msg)
@@ -165,7 +165,7 @@ namespace DgSystems.NFe.Services.Actors
             await Task.Delay(msg.TempoEspera);
 
             var resultadoConsulta = ConsultarReciboLoteContingencia(msg.MensagemRetorno.RetEnviNFeInfRec.nRec, msg.Modelo);
-            Self.Tell(new ValidaNFesTransmitidas(resultadoConsulta));
+            Self.Tell(new ValidaNFesTransmitidas(resultadoConsulta), Sender);
         }
 
         private async Task HandleValidaNFesTransmitidas(ValidaNFesTransmitidas msg)
@@ -301,7 +301,7 @@ namespace DgSystems.NFe.Services.Actors
             }
         }
 
-        private List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
+        public virtual List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
         {
             X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
 

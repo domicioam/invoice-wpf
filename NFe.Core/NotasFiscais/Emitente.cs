@@ -6,7 +6,7 @@ namespace NFe.Core.Domain
 {
     public class Emissor
     {
-        private Emissor()
+        public Emissor()
         {
         }
 

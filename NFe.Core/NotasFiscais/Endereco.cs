@@ -20,6 +20,11 @@ namespace NFe.Core.Domain
             UF = uf;
         }
 
+        public Endereco()
+        {
+
+        }
+
         public string Logradouro { get; set; }
         public string Numero { get; set; }
         public string Bairro { get; set; }
