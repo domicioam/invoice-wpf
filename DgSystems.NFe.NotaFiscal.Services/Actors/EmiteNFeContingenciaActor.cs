@@ -132,11 +132,11 @@ namespace DgSystems.NFe.Services.Actors
                     notasNfCe.Add(xml);
             }
 
-            if(notasNfCe.Count == 0)
-                Self.Tell(new TransmiteNFes(notasNfCe, Modelo.Modelo65));
+            if(notasNfCe.Count != 0)
+                Self.Tell(new TransmiteNFes(notasNfCe, Modelo.Modelo65), Sender);
 
-            if(notasNFe.Count == 0)
-                Self.Tell(new TransmiteNFes(notasNFe, Modelo.Modelo55));
+            if(notasNFe.Count != 0)
+                Self.Tell(new TransmiteNFes(notasNFe, Modelo.Modelo55), Sender);
         }
 
         private void HandleTransmiteNFes(TransmiteNFes msg)
@@ -147,10 +147,12 @@ namespace DgSystems.NFe.Services.Actors
             {
                 case TipoMensagem.ErroValidacao:
                     Sender.Tell(new ResultadoNotasTransmitidas(new List<string> { retornoTransmissao.Mensagem }));
-                    break;
+                    log.Error("Erro ao receber retorno da transmissão de lote em contingência: " + retornoTransmissao.Mensagem);
+                    return;
                 case TipoMensagem.ServicoIndisponivel:
                     Sender.Tell(new ResultadoNotasTransmitidas(new List<string> { MensagemErro }));
-                    break;
+                    log.Error("Erro ao receber retorno da transmissão de lote em contingência: " + MensagemErro);
+                    return;
             }
 
             var tempoEspera = int.Parse(retornoTransmissao.RetEnviNFeInfRec.tMed) * 1000;
@@ -238,7 +240,7 @@ namespace DgSystems.NFe.Services.Actors
             Sender.Tell(new ResultadoNotasTransmitidas(erros));
         }
 
-        private MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList, Modelo modelo)
+        public virtual MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList, Modelo modelo)
         {
             var lote = new TEnviNFe
             {
