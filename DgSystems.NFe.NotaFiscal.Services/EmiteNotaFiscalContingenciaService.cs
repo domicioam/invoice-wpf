@@ -82,7 +82,7 @@ namespace NFe.Core.Sefaz.Facades
                     codigoUf = codigoUfEnum,
                     cnpjEmitente = emitente.CNPJ,
                     chaveNFe = notaParaCancelar.Chave,
-                    protocoloAutorizacao = result.Protocolo.infProt.nProt,
+                    protocoloAutorizacao = result.Protocolo.Numero,
                     modeloNota = modelo
                 };
 

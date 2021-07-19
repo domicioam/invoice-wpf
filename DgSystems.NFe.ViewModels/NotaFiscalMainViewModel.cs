@@ -12,7 +12,6 @@ using NFe.Core.Messaging;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
-using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.Utils.Xml;
@@ -154,40 +153,35 @@ namespace DgSystems.NFe.ViewModels
         {
             return Task.Run(async () =>
             {
-                var notaFiscalDb = _notaFiscalRepository.GetNotaFiscalById(idNotaFiscalDb, true);
-                var loadXmlTask = notaFiscalDb.LoadXmlAsync();
-                var document = new XmlDocument();
-                var modelo = notaFiscalDb.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
+                // TODO: Refactor this code into proper class, this logic shouldn't be in the view model.
+                var notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalById(idNotaFiscalDb, true);
+                var modelo = notaFiscalEntity.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55;
 
-                var mensagemRetorno = _nfeConsulta.ConsultarNotaFiscal(notaFiscalDb.Chave, codigoUf, certificado, modelo);
+                var mensagemRetorno = _nfeConsulta.ConsultarNotaFiscal(notaFiscalEntity.Chave, codigoUf, certificado, modelo);
 
                 if (!mensagemRetorno.IsEnviada)
                     return null;
 
-                mensagemRetorno.Protocolo.infProt.Id = null;
-                var protSerialized = XmlUtil.Serialize(mensagemRetorno.Protocolo, "");
-
-                var doc = XDocument.Parse(protSerialized);
+                var doc = XDocument.Parse(mensagemRetorno.Protocolo.Xml);
                 doc.Descendants().Attributes().Where(a => a.IsNamespaceDeclaration).Remove();
 
                 foreach (var element in doc.Descendants())
                     element.Name = element.Name.LocalName;
 
+                var document = new XmlDocument();
                 using (var xmlReader = doc.CreateReader())
-                {
                     document.Load(xmlReader);
-                }
 
-                notaFiscalDb.DataAutorizacao = mensagemRetorno.Protocolo.infProt.dhRecbto;
-                notaFiscalDb.Protocolo = mensagemRetorno.Protocolo.infProt.nProt;
+                notaFiscalEntity.DataAutorizacao = mensagemRetorno.Protocolo.DataRecebimento;
+                notaFiscalEntity.Protocolo = mensagemRetorno.Protocolo.Numero;
 
-                var xml = await loadXmlTask;
-                xml = xml.Replace("<protNFe />", document.OuterXml.Replace("TProtNFe", "protNFe"));
+                var xml = await notaFiscalEntity.LoadXmlAsync();
+                xml = xml.Replace("<protNFe />", document.OuterXml.Replace("TProtNFe", "protNFe")); // TODO: Unify this sorcery with Protocolo class
 
-                notaFiscalDb.Status = (int)global::NFe.Core.Entitities.Status.ENVIADA;
-                _notaFiscalRepository.Salvar(notaFiscalDb, xml);
+                notaFiscalEntity.Status = (int)global::NFe.Core.Entitities.Status.ENVIADA;
+                _notaFiscalRepository.Salvar(notaFiscalEntity, xml);
 
-                return notaFiscalDb;
+                return notaFiscalEntity;
             });
         }
 
@@ -211,14 +205,11 @@ namespace DgSystems.NFe.ViewModels
 
             var config = await _configuracaoService.GetConfiguracaoAsync();
             var modelo = notaPendenteMemento.Tipo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55;
-
-            var app = Application.Current;
-
             if (!_consultaStatusServicoService.ExecutarConsultaStatus(config, modelo))
             {
                 const string mensagem = "Serviço continua indisponível. Aguarde o reestabelecimento da conexão e tente novamente.";
                 const string caption = "Erro de conexão ou serviço indisponível";
-                MessageBox.Show(app.MainWindow, mensagem, caption, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Application.Current.MainWindow, mensagem, caption, MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
@@ -234,17 +225,16 @@ namespace DgSystems.NFe.ViewModels
 
             try
             {
-                var certificado = _certificadoService.GetX509Certificate2();
-                var xmlNFe = new XmlNFe(notaFiscalBo, "http://www.portalfiscal.inf.br/nfe", certificado, config.CscId, config.Csc);
-
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
 
                 var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta, emiteNotaFiscalContingenciaService)));
+                var certificado = _certificadoService.GetX509Certificate2();
+                var xmlNFe = new XmlNFe(notaFiscalBo, "http://www.portalfiscal.inf.br/nfe", certificado, config.CscId, config.Csc);
                 await enviarNotaActor.Ask<ResultadoEnvio>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe), TimeSpan.FromSeconds(40));
 
                 IsBusy = false;
 
-                var mbResult = MessageBox.Show(app.MainWindow, "Nota enviada com sucesso! Deseja imprimí-la?",
+                var mbResult = MessageBox.Show(Application.Current.MainWindow, "Nota enviada com sucesso! Deseja imprimí-la?",
                     "Emissão NFe", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
 
                 if (mbResult == MessageBoxResult.Yes)
@@ -261,14 +251,12 @@ namespace DgSystems.NFe.ViewModels
                 }
 
                 IsBusy = false;
-
-                var notaIndex = NotasFiscais.IndexOf(notaPendenteMemento);
                 Destinatario destinatario;
                 var destinatarioUf = notaFiscalBo.Emitente.Endereco.UF;
 
                 if (notaFiscalBo.Destinatario == null)
                 {
-                    destinatario = new Destinatario("CONSUMIDOR NÃO IDENTIFICADO");
+                    destinatario = new Destinatario("CONSUMIDOR NÃO IDENTIFICADO"); // não é responsabilidade da view model saber que o consumidor não é identificado
                 }
                 else
                 {
@@ -278,6 +266,9 @@ namespace DgSystems.NFe.ViewModels
 
                 var valorTotalProdutos = notaFiscalBo.ValorTotalProdutos.ToString("N2", new CultureInfo("pt-BR"));
 
+                // TODO: Tirar esse código da view model, não é a responsabilidade dela
+
+                var notaIndex = NotasFiscais.IndexOf(notaPendenteMemento);
                 NotasFiscais[notaIndex] = new NotaFiscalMemento(notaFiscalBo.Identificacao.Numero,
                     notaFiscalBo.Identificacao.Modelo, notaFiscalBo.Identificacao.DataHoraEmissao,
                     notaFiscalBo.DataHoraAutorização, destinatario.NomeRazao, destinatarioUf, valorTotalProdutos,
@@ -289,7 +280,7 @@ namespace DgSystems.NFe.ViewModels
             catch (Exception e)
             {
                 log.Error(e);
-                MessageBox.Show(app.MainWindow,
+                MessageBox.Show(Application.Current.MainWindow,
                     "Ocorreram os seguintes erros ao tentar enviar a nota fiscal:\n\n" + e.InnerException.Message,
                     "Erro", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -312,9 +303,7 @@ namespace DgSystems.NFe.ViewModels
 
             if (!string.IsNullOrEmpty(_mensagensErroContingencia))
             {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
-                MessageBox.Show(mainWindow,
+                MessageBox.Show(Application.Current.MainWindow,
                     _mensagensErroContingencia +
                     "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n", "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
                 _mensagensErroContingencia = null;
@@ -322,23 +311,19 @@ namespace DgSystems.NFe.ViewModels
 
             try
             {
-                Task popularListaNfTask = PopularListaNotasFiscaisAsync();
-                Task<List<NotaFiscalEntity>> notasFiscaisPendentesTask = _notaFiscalRepository.GetNotasPendentesAsync(false);
+                await PopularListaNotasFiscaisAsync();
+                var notasFiscaisPendentes = await _notaFiscalRepository.GetNotasPendentesAsync(false);
 
                 var certificado = _certificadoService.GetX509Certificate2();
-                var config = _configuracaoService.GetConfiguracao();
                 var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
-
-                await popularListaNfTask;
-                var notasFiscaisPendentes = await notasFiscaisPendentesTask;
                 await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
             }
             catch (Exception e)
             {
                 log.Error(e);
-                var x509Certificate2 = _certificadoService.GetX509Certificate2();
 
-                if (x509Certificate2.NotAfter < DateTime.Now) MessageBox.Show("Certificado vencido.", "Erro.");
+                if (_certificadoService.GetX509Certificate2().NotAfter < DateTime.Now) 
+                    MessageBox.Show("Certificado vencido.", "Erro.");
             }
         }
 
@@ -355,7 +340,6 @@ namespace DgSystems.NFe.ViewModels
                 await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
                 {
                     var certificado = _certificadoService.GetX509Certificate2();
-                    var config = await _configuracaoService.GetConfiguracaoAsync();
                     var notasFiscaisPendentes = _notaFiscalRepository.GetNotasPendentes(false);
                     var codigoUf = UfToCodigoUfConversor.GetCodigoUf(_emissorService.GetEmissor().Endereco.UF);
                     await AtualizarNotasPendentesAsync(certificado, notasFiscaisPendentes, codigoUf);
@@ -367,15 +351,13 @@ namespace DgSystems.NFe.ViewModels
 
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                var app = Application.Current;
-                var mainWindow = app.MainWindow;
                 var sb = new StringBuilder();
 
                 foreach (var msg in mensagensErro)
                     sb.Append("\n" + msg);
 
                 if (_isLoaded)
-                    MessageBox.Show(mainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
+                    MessageBox.Show(Application.Current.MainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
                         sb, "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                     _mensagensErroContingencia = sb.ToString();

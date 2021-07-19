@@ -245,6 +245,7 @@
     <Compile Include="Certificate.cs" />
     <Compile Include="MensagemRetornoEventoCancelamento.cs" />
     <Compile Include="IIbptManager.cs" />
+    <Compile Include="Protocolo.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="NotasFiscais\StatusEvento.cs" />
     <Compile Include="Email.cs" />

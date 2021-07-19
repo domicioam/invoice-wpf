@@ -228,18 +228,12 @@ namespace DgSystems.NFe.Services.Actors
 
             if (retornoConsulta.IsEnviada)
             {
-                var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, string.Empty)
-                    .Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
-                    .Replace("TProtNFe", "protNFe");
-
-                protSerialized = Regex.Replace(protSerialized, "<infProt (.*?)>", "<infProt>");
-
                 nota.DataAutorizacao = retornoConsulta.DhAutorizacao;
-                nota.Protocolo = retornoConsulta.Protocolo.infProt.nProt;
+                nota.Protocolo = retornoConsulta.Protocolo.Numero;
                 nota.Status = (int)Status.ENVIADA;
 
                 var xml = await nota.LoadXmlAsync();
-                xml = xml.Replace("<protNFe />", protSerialized);
+                xml = xml.Replace("<protNFe />", retornoConsulta.Protocolo.Xml);
 
                 _notaFiscalRepository.Salvar(nota, xml);
             }

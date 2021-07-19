@@ -58,7 +58,7 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
             if (retornoConsulta.cStat == "100")
             {
                 mensagemRetorno.IsEnviada = true;
-                mensagemRetorno.Protocolo = retornoConsulta.protNFe;
+                mensagemRetorno.Protocolo = new Protocolo(retornoConsulta.protNFe);
                 mensagemRetorno.DhAutorizacao = retornoConsulta.protNFe.infProt.dhRecbto; //não é a hora da autorização
             }
             else
