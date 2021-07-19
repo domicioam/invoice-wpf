@@ -124,7 +124,7 @@ namespace DgSystems.NFe.ViewModels
 
                 try
                 {
-                    var result = await enviarNotaActor.Ask<Status>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(60));
+                    var result = await enviarNotaActor.Ask<Status>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscal, cscId, csc, certificado, xmlNFe), TimeSpan.FromSeconds(30));
 
                     if (result is Status.Success success)
                     {

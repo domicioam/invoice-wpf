@@ -52,6 +52,9 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
 
         public XmlNFe XmlNFe { get; private set; }
+
+        private IActorRef replyTo;
+
         public NotaFiscal NotaFiscal { get; private set; }
         public X509Certificate2 Certificado { get; private set; }
 
@@ -69,6 +72,7 @@ namespace DgSystems.NFe.Services.Actors
 
         private async Task HandleEnviarNotaFiscal(EnviarNotaFiscal msg)
         {
+            replyTo = Sender;
             NotaFiscal = msg.NotaFiscal;
             Certificado = msg.Certificado;
             XmlNFe = msg.XmlNFe;
@@ -77,7 +81,7 @@ namespace DgSystems.NFe.Services.Actors
             {
                 const string message = "Nota fiscal inválida.";
                 log.Error(message);
-                Sender.Tell(new Status.Failure(new ArgumentException(message)));
+                replyTo.Tell(new Status.Failure(new ArgumentException(message)));
                 return;
             }
 
@@ -87,7 +91,7 @@ namespace DgSystems.NFe.Services.Actors
             {
                 log.Info("Enviando nota fiscal em modo contingência.");
                 NotaFiscal = emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(msg.Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
-                Sender.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
             else
             {
@@ -110,7 +114,7 @@ namespace DgSystems.NFe.Services.Actors
                 if (IsSuccess(obj.Value))
                 {
                     var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, obj.Value);
-                    Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, obj.Value, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                    replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, obj.Value, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
                 }
                 else
                 {
@@ -122,12 +126,12 @@ namespace DgSystems.NFe.Services.Actors
                         var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
                         var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
-                        Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                        replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
                     }
 
                     //Nota continua com status pendente nesse caso
                     var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", obj.Value.infProt.xMotivo);
-                    Sender.Tell(new Status.Failure(new ArgumentException(mensagem)));
+                    replyTo.Tell(new Status.Failure(new ArgumentException(mensagem)));
                 }
             }
             else
@@ -142,7 +146,7 @@ namespace DgSystems.NFe.Services.Actors
                 }
                 else
                 {
-                    Sender.Tell(new Status.Failure(obj.Exception));
+                    replyTo.Tell(new Status.Failure(obj.Exception));
                 }
 
                 _configuracaoService.SalvarPróximoNúmeroSérie(NotaFiscal.Identificacao.Modelo, NotaFiscal.Identificacao.Ambiente);
@@ -155,7 +159,7 @@ namespace DgSystems.NFe.Services.Actors
             var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
             var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
-            Sender.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+            replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
         }
 
         private async Task HandleReceiveTimeoutAsync(ReceiveTimeout obj)
@@ -181,7 +185,7 @@ namespace DgSystems.NFe.Services.Actors
                 // Stop execution if model 55
                 if (NotaFiscal.Identificacao.Modelo == Modelo.Modelo55)
                 {
-                    Sender.Tell(new Status.Failure(new Exception("Timeout ao enviar nota fiscal.")));
+                    replyTo.Tell(new Status.Failure(new Exception("Timeout ao enviar nota fiscal.")));
                     return;
                 }
 
@@ -192,7 +196,7 @@ namespace DgSystems.NFe.Services.Actors
 
                 NotaFiscal = emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
 
-                Sender.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
         }
 
