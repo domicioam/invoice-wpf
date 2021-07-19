@@ -65,7 +65,8 @@ namespace DgSystems.NFe.Services.Actors
             _nfeConsulta = nfeConsulta;
 
             ReceiveAsync<EnviarNotaFiscal>(HandleEnviarNotaFiscal);
-            Receive<Result<TProtNFe>>(HandlenfeAutorizacaoLoteResult);
+            Receive<Result<TProtNFe>>(msg => msg.IsSuccess, HandleSuccess_nfeAutorizacaoLoteResult);
+            Receive<Result<TProtNFe>>(msg => !msg.IsSuccess, HandleErro_nfeAutorizacaoLoteResult);
             ReceiveAsync<ReceiveTimeout>(HandleReceiveTimeoutAsync);
             this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
         }
@@ -103,56 +104,6 @@ namespace DgSystems.NFe.Services.Actors
             }
         }
 
-        private void HandlenfeAutorizacaoLoteResult(Result<TProtNFe> obj)
-        {
-            log.Info("Resultado do envio da nota fiscal recebido.");
-
-            SetReceiveTimeout(null);
-
-            if (obj.IsSuccess)
-            {
-                if (IsSuccess(obj.Value))
-                {
-                    var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, obj.Value);
-                    replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, obj.Value, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
-                }
-                else
-                {
-                    if (IsInvoiceDuplicated(obj.Value))
-                    {
-                        var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
-
-                        var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, NFE_NAMESPACE);
-                        var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
-
-                        var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
-                        replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
-                    }
-
-                    //Nota continua com status pendente nesse caso
-                    var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", obj.Value.infProt.xMotivo);
-                    replyTo.Tell(new Status.Failure(new ArgumentException(mensagem)));
-                }
-            }
-            else
-            {
-                log.Error(obj.Exception);
-
-                var retorno = VerificaSeNotaFoiEnviada();
-
-                if (retorno.IsEnviada)
-                {
-                    PreencheDadosNotaEnviadaAposErroConexao(retorno);
-                }
-                else
-                {
-                    replyTo.Tell(new Status.Failure(obj.Exception));
-                }
-
-                _configuracaoService.SalvarPróximoNúmeroSérie(NotaFiscal.Identificacao.Modelo, NotaFiscal.Identificacao.Ambiente);
-            }
-        }
-
         private void PreencheDadosNotaEnviadaAposErroConexao(MensagemRetornoConsulta retorno)
         {
             var protSerialized = XmlUtil.Serialize(retorno.Protocolo, NFE_NAMESPACE);
@@ -160,6 +111,56 @@ namespace DgSystems.NFe.Services.Actors
 
             var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
             replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+        }
+
+        private void HandleErro_nfeAutorizacaoLoteResult(Result<TProtNFe> obj)
+        {
+            log.Info("Resultado do envio da nota fiscal recebido.");
+            SetReceiveTimeout(null);
+            
+            log.Error(obj.Exception);
+
+            var retorno = VerificaSeNotaFoiEnviada();
+
+            if (retorno.IsEnviada)
+            {
+                PreencheDadosNotaEnviadaAposErroConexao(retorno);
+            }
+            else
+            {
+                replyTo.Tell(new Status.Failure(obj.Exception));
+            }
+
+            _configuracaoService.SalvarPróximoNúmeroSérie(NotaFiscal.Identificacao.Modelo, NotaFiscal.Identificacao.Ambiente);
+        }
+
+        private void HandleSuccess_nfeAutorizacaoLoteResult(Result<TProtNFe> obj)
+        {
+            log.Info("Resultado do envio da nota fiscal recebido.");
+            SetReceiveTimeout(null);
+
+            if (IsSuccess(obj.Value))
+            {
+                var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, obj.Value);
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, obj.Value, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+            }
+            else
+            {
+                if (IsInvoiceDuplicated(obj.Value))
+                {
+                    var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
+
+                    var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, NFE_NAMESPACE);
+                    var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
+
+                    var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
+                    replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                }
+
+                //Nota continua com status pendente nesse caso
+                var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", obj.Value.infProt.xMotivo);
+                replyTo.Tell(new Status.Failure(new ArgumentException(mensagem)));
+            }
         }
 
         private async Task HandleReceiveTimeoutAsync(ReceiveTimeout obj)
