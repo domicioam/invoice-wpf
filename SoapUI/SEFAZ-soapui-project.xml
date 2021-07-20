@@ -415,7 +415,7 @@
 		</retConsStatServ>
       </nfes:nfeResultMsg>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService id="2d53ff21-d360-4318-8b0d-200135a90aeb" port="8088" path="/mockNFeAutorizacao4Soap" host="DESKTOP-EKUI4KQ" name="NFeAutorizacao4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeAutorizacaoLote" id="ae98d741-75f7-45c5-a357-111c3b565cbb" interface="NFeAutorizacao4Soap" operation="nfeAutorizacaoLote"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="590842ee-2aef-40d5-8410-0e35edca4b28" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService id="2d53ff21-d360-4318-8b0d-200135a90aeb" port="8088" path="/mockNFeAutorizacao4Soap" host="DESKTOP-EKUI4KQ" name="NFeAutorizacao4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeAutorizacaoLote" id="ae98d741-75f7-45c5-a357-111c3b565cbb" interface="NFeAutorizacao4Soap" operation="nfeAutorizacaoLote"><con:settings/><con:defaultResponse>Response envio normal</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:response name="Response envio normal" id="590842ee-2aef-40d5-8410-0e35edca4b28" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
    <soapenv:Header>
       <nfe:nfeMonitoria>
          <!--Optional:-->
@@ -433,6 +433,40 @@
 		    <xMotivo>Lote processado</xMotivo>
 		    <cUF>53</cUF>
 		    <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		    <protNFe versao= "4.00">
+		        <infProt>
+		            <tpAmb>2</tpAmb>
+		            <verAplic>SVRSnfce202103291658</verAplic>
+		            <chNFe>53210704585789000140650030000006141325009918</chNFe>
+		            <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		            <nProt>353210000029778</nProt>
+		            <digVal>d/kQ4t6qpkXw1i/JQDXstFfcbH0=</digVal>
+		            <cStat>100</cStat>
+		            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+		        </infProt>
+		    </protNFe>
+		</retEnviNFe>
+      </nfe:nfeResultMsg>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"/></con:response><con:response name="Responde envio contingencia" id="3dd001c6-6fe0-4758-9beb-a4f9e7f62933" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+   <soapenv:Header>
+      <nfe:nfeMonitoria>
+         <!--Optional:-->
+         <nfe:nomeServidor>?</nfe:nomeServidor>
+         <!--Optional:-->
+         <nfe:dhServidor>?</nfe:dhServidor>
+      </nfe:nfeMonitoria>
+   </soapenv:Header>
+   <soapenv:Body>
+      <nfe:nfeResultMsg>
+         <retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+		    <tpAmb>2</tpAmb>
+		    <verAplic>SVRSnfce202103291658</verAplic>
+		    <cStat>104</cStat>
+		    <xMotivo>Lote processado</xMotivo>
+		    <cUF>53</cUF>
+		    <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		    <!-- Mudar para infRec -->
 		    <protNFe versao= "4.00">
 		        <infProt>
 		            <tpAmb>2</tpAmb>

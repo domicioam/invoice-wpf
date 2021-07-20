@@ -3,12 +3,14 @@ using DgSystems.NFe.Services.Actors;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Domain;
+using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeAutorizacao;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 {
@@ -18,8 +20,12 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         {
             CodigoStatus100,
             Duplicidade,
-            Erro
+            Erro,
+            CorrigeDuplicidade
         }
+
+        public static int PreencheDadosNotaFiscalAposEnvioCount { get; set; }
+        public static int TentaCorrigirNotaDuplicadaCount { get; private set; }
 
         private readonly INotaFiscalRepository notaFiscalRepository;
         private readonly IEmitenteRepository emissorService;
@@ -31,12 +37,12 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         private readonly ResultadoEsperado resultadoEsperado;
 
         public EmiteNFeContingenciaActorMock(
-            INotaFiscalRepository notaFiscalRepository, 
-            IEmitenteRepository emissorService, 
-            IConsultarNotaFiscalService nfeConsulta, 
-            IServiceFactory serviceFactory, 
-            ICertificadoService certificadoService, 
-            SefazSettings sefazSettings, 
+            INotaFiscalRepository notaFiscalRepository,
+            IEmitenteRepository emissorService,
+            IConsultarNotaFiscalService nfeConsulta,
+            IServiceFactory serviceFactory,
+            ICertificadoService certificadoService,
+            SefazSettings sefazSettings,
             TipoMensagem erroValidacao,
             ResultadoEsperado resultadoEsperado)
             : base(notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)
@@ -49,6 +55,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             this.sefazSettings = sefazSettings;
             this.tipoMensagem = erroValidacao;
             this.resultadoEsperado = resultadoEsperado;
+
+            PreencheDadosNotaFiscalAposEnvioCount = 0;
+            TentaCorrigirNotaDuplicadaCount = 0;
         }
 
         public override MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList, Modelo modelo)
@@ -75,7 +84,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                     retorno,
                     retorno
                 };
-            } else if(resultadoEsperado == ResultadoEsperado.Duplicidade)
+            }
+            else if (resultadoEsperado == ResultadoEsperado.Duplicidade || resultadoEsperado == ResultadoEsperado.CorrigeDuplicidade)
             {
                 var fixture = new Fixture();
                 var retorno = fixture.Build<RetornoNotaFiscal>().Create();
@@ -101,6 +111,23 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                     retorno
                 };
             }
+        }
+
+        public override Task<(NotaFiscalEntity, string)> PreencheDadosNotaFiscalAposEnvio(RetornoNotaFiscal resultado, NotaFiscalEntity nota)
+        {
+            PreencheDadosNotaFiscalAposEnvioCount++;
+            (NotaFiscalEntity, string) tuple = (null, null);
+            return Task.FromResult(tuple);
+        }
+
+        public override Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, NotaFiscalEntity nota)
+        {
+            if (resultadoEsperado == ResultadoEsperado.CorrigeDuplicidade)
+            {
+                TentaCorrigirNotaDuplicadaCount++;
+                return Task.CompletedTask;
+            }
+            return base.TentaCorrigirNotaDuplicada(erros, resultado, nota);
         }
     }
 }

@@ -2,6 +2,7 @@
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Domain;
+using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NFeRetAutorizacao4;
@@ -87,7 +88,7 @@ namespace DgSystems.NFe.Services.Actors
         private bool _isFirstTimeResending;
 
         private readonly IEmitenteRepository _emissorService;
-        private readonly IConsultarNotaFiscalService _nfeConsulta;
+        private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly ICertificadoService _certificadoService;
         private readonly SefazSettings _sefazSettings;
@@ -97,7 +98,7 @@ namespace DgSystems.NFe.Services.Actors
         {
             _notaFiscalRepository = notaFiscalRepository;
             _emissorService = emissorService;
-            _nfeConsulta = nfeConsulta;
+            this.nfeConsulta = nfeConsulta;
             _serviceFactory = serviceFactory;
             _certificadoService = certificadoService;
             _sefazSettings = sefazSettings;
@@ -171,26 +172,18 @@ namespace DgSystems.NFe.Services.Actors
 
         private async Task HandleValidaNFesTransmitidas(ValidaNFesTransmitidas msg)
         {
-            var erros = new List<string>();
-
             if (msg.ResultadoConsulta == null)
                 Sender.Tell(new Akka.Actor.Status.Failure(new ConsultaReciboException("Resultado da consulta nulo.")));
 
+            var erros = new List<string>();
             foreach (var resultado in msg.ResultadoConsulta)
             {
                 var nota = _notaFiscalRepository.GetNotaFiscalByChave(resultado.Chave);
 
                 if (resultado.CodigoStatus == "100")
                 {
-                    nota.DataAutorizacao = DateTime.ParseExact(resultado.DataAutorizacao, "yyyy-MM-ddTHH:mm:sszzz",
-                        CultureInfo.InvariantCulture);
-                    nota.Protocolo = resultado.Protocolo;
-                    nota.Status = (int)Status.ENVIADA;
-
-                    var xml = await nota.LoadXmlAsync();
-                    xml = xml.Replace("<protNFe />", resultado.Xml);
-
-                    _notaFiscalRepository.Salvar(nota, xml);
+                    (NotaFiscalEntity, string) dadosPreenchidos = await PreencheDadosNotaFiscalAposEnvio(resultado, nota);
+                    _notaFiscalRepository.Salvar(dadosPreenchidos.Item1, dadosPreenchidos.Item2);
                 }
                 else
                 {
@@ -208,23 +201,33 @@ namespace DgSystems.NFe.Services.Actors
             Sender.Tell(new ResultadoNotasTransmitidas(erros));
         }
 
+        public virtual async Task<(NotaFiscalEntity, string)> PreencheDadosNotaFiscalAposEnvio(RetornoNotaFiscal resultado, NotaFiscalEntity nota)
+        {
+            nota.DataAutorizacao = DateTime.ParseExact(resultado.DataAutorizacao,
+                                      "yyyy-MM-ddTHH:mm:sszzz",
+                                      CultureInfo.InvariantCulture);
+            nota.Protocolo = resultado.Protocolo;
+            nota.Status = (int)Status.ENVIADA;
+
+            var xml = await nota.LoadXmlAsync();
+            xml = xml.Replace("<protNFe />", resultado.Xml);
+            return (nota, xml);
+        }
+
         private static bool IsNotaDuplicada(RetornoNotaFiscal resultado)
         {
             return resultado.Motivo.Contains("Duplicidade");
         }
 
-        private async Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, global::NFe.Core.Entitities.NotaFiscalEntity nota)
+        public virtual async Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, global::NFe.Core.Entitities.NotaFiscalEntity nota)
         {
             X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
             var emitente = _emissorService.GetEmissor();
 
-            var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal
-            (
-                nota.Chave,
-                emitente.Endereco.CodigoUF,
-                certificado,
-                nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55
-            );
+            var retornoConsulta 
+                = nfeConsulta.ConsultarNotaFiscal
+                    (nota.Chave, emitente.Endereco.CodigoUF, certificado,
+                     nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55);
 
             if (retornoConsulta.IsEnviada)
             {
@@ -267,7 +270,7 @@ namespace DgSystems.NFe.Services.Actors
             try
             {
                 var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
-                X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
+                var certificado = _certificadoService.GetX509Certificate2();
                 var servico = _serviceFactory.GetService(modelo, Servico.AUTORIZACAO, codigoUf, certificado);
                 var client = (NFeAutorizacao4SoapClient)servico.SoapClient;
                 var result = client.nfeAutorizacaoLote(node);

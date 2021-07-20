@@ -5,6 +5,7 @@ using DgSystems.NFe.Services.Actors;
 using Moq;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
@@ -101,7 +102,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
-                .Returns(new global::NFe.Core.Entitities.NotaFiscalEntity());
+                .Returns(new NotaFiscalEntity());
 
             var subject =
                 Sys.ActorOf(
@@ -118,8 +119,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 2), TimeSpan.FromSeconds(30));
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 2), TimeSpan.FromSeconds(30));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.Equal(2, msg.Erros.Count), TimeSpan.FromSeconds(30));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.Equal(2, msg.Erros.Count), TimeSpan.FromSeconds(30));
         }
 
         [Fact]
@@ -142,7 +143,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
-                .Returns(new global::NFe.Core.Entitities.NotaFiscalEntity { Chave = "", Modelo = "65" });
+                .Returns(new NotaFiscalEntity { Chave = "", Modelo = "65" });
 
             emissorServiceMock
                 .Setup(e => e.GetEmissor())
@@ -163,8 +164,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 2), TimeSpan.FromSeconds(50));
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 2), TimeSpan.FromSeconds(50));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.Equal(2, msg.Erros.Count), TimeSpan.FromSeconds(50));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.Equal(2, msg.Erros.Count), TimeSpan.FromSeconds(50));
         }
 
         [Fact]
@@ -187,7 +188,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
-                .Returns(new global::NFe.Core.Entitities.NotaFiscalEntity { Chave = "", Modelo = "65" });
+                .Returns(new NotaFiscalEntity { Chave = "", Modelo = "65" });
 
             emissorServiceMock
                 .Setup(e => e.GetEmissor())
@@ -204,12 +205,13 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
-                            ResultadoEsperado.Duplicidade)));
+                            ResultadoEsperado.CorrigeDuplicidade)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 2));
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 2));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
+            Assert.Equal(4, TentaCorrigirNotaDuplicadaCount);
         }
 
         [Fact]
@@ -232,7 +234,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
-                .Returns(new global::NFe.Core.Entitities.NotaFiscalEntity { Chave = "", Modelo = "65" });
+                .Returns(new NotaFiscalEntity { Chave = "", Modelo = "65" });
 
             emissorServiceMock
                 .Setup(e => e.GetEmissor())
@@ -253,8 +255,10 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0));
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
+            notaFiscalRepositoryMock.Verify(n => n.Salvar(It.IsAny<NotaFiscalEntity>(), It.IsAny<string>()));
+            Assert.Equal(4, PreencheDadosNotaFiscalAposEnvioCount);
         }
     }
 }

@@ -106,7 +106,7 @@ namespace DgSystems.NFe.Services.Actors
 
         private void PreencheDadosNotaEnviadaAposErroConexao(MensagemRetornoConsulta retorno)
         {
-            var protSerialized = XmlUtil.Serialize(retorno.Protocolo, NFE_NAMESPACE);
+            var protSerialized = XmlUtil.Serialize(retorno.Protocolo.Xml, NFE_NAMESPACE);
             var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
             var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
@@ -150,7 +150,7 @@ namespace DgSystems.NFe.Services.Actors
                 {
                     var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
 
-                    var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo, NFE_NAMESPACE);
+                    var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo.Xml, NFE_NAMESPACE);
                     var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
                     var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
