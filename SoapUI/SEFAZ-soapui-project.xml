@@ -415,7 +415,25 @@
 		</retConsStatServ>
       </nfes:nfeResultMsg>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService id="2d53ff21-d360-4318-8b0d-200135a90aeb" port="8088" path="/mockNFeAutorizacao4Soap" host="DESKTOP-EKUI4KQ" name="NFeAutorizacao4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeAutorizacaoLote" id="ae98d741-75f7-45c5-a357-111c3b565cbb" interface="NFeAutorizacao4Soap" operation="nfeAutorizacaoLote"><con:settings/><con:defaultResponse>Responde envio contingencia</con:defaultResponse><con:dispatchStyle>QUERY_MATCH</con:dispatchStyle><con:response name="Response envio normal" id="590842ee-2aef-40d5-8410-0e35edca4b28" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeStatusServico4/nfeStatusServicoNF"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService id="2d53ff21-d360-4318-8b0d-200135a90aeb" port="8088" path="/mockNFeAutorizacao4Soap" host="DESKTOP-EKUI4KQ" name="NFeAutorizacao4Soap MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="nfeAutorizacaoLote" id="ae98d741-75f7-45c5-a357-111c3b565cbb" interface="NFeAutorizacao4Soap" operation="nfeAutorizacaoLote"><con:settings/><con:defaultResponse>contingencia</con:defaultResponse><con:dispatchStyle>SCRIPT</con:dispatchStyle><con:dispatchPath>def temp="XX";
+def groovyUtils=new com.eviware.soapui.support.GroovyUtils(context)
+def xml=new XmlSlurper().parseText(mockRequest.requestContent)
+xml.breadthFirst().each{
+        def v=it.toString()
+        log.info("==============="+it.name()+"==================="+it.text());
+        if(it.name()=="tpEmis"){
+                temp=it.text();
+                log.info("===================matching tag=========================="+it.text());
+        }
+}
+//log.info("*temp**"+temp);
+if(temp=='9'){
+        log.info("####### contingencia #########");
+        mockOperation.setDefaultResponse("contingencia");
+}else{
+        log.info("####### NORMAL #######");
+        mockOperation.setDefaultResponse("normal");
+}</con:dispatchPath><con:response name="normal" id="590842ee-2aef-40d5-8410-0e35edca4b28" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
    <soapenv:Header>
       <nfe:nfeMonitoria>
          <!--Optional:-->
@@ -448,7 +466,7 @@
 		</retEnviNFe>
       </nfe:nfeResultMsg>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"/></con:response><con:response name="Responde envio contingencia" id="3dd001c6-6fe0-4758-9beb-a4f9e7f62933" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4/nfeAutorizacaoLote"/></con:response><con:response name="contingencia" id="3dd001c6-6fe0-4758-9beb-a4f9e7f62933" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:nfe="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">
    <soapenv:Header>
       <nfe:nfeMonitoria>
          <!--Optional:-->
