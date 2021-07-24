@@ -312,7 +312,6 @@ namespace DgSystems.NFe.Services.Actors
             node.LoadXml(parametroXml);
             try
             {
-
                 var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
                 X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
                 var servico = _serviceFactory.GetService(modelo, Servico.RetAutorizacao, codigoUf, certificado);
@@ -322,7 +321,7 @@ namespace DgSystems.NFe.Services.Actors
 
                 return retorno.protNFe.Select(protNFe => new RetornoNotaFiscal
                 {
-                    Chave = protNFe.infProt.chNFe,
+                    Chave = protNFe.infProt.chNFe, // chave tem que ser dinâmica
                     CodigoStatus = protNFe.infProt.cStat,
                     DataAutorizacao = protNFe.infProt.dhRecbto,
                     Motivo = protNFe.infProt.xMotivo,
