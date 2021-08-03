@@ -3,6 +3,7 @@ using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
+using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Conversores;
@@ -47,15 +48,14 @@ namespace NFe.Core.Sefaz.Facades
 
         private NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, NotaFiscal notaFiscal)
         {
-            notaFiscal.Identificacao.Numero = _configuracaoService.ObterProximoNumeroNotaFiscal(notaFiscal.Identificacao.Modelo);
-            notaFiscal.Identificacao.DataHoraEntradaContigencia = config.DataHoraEntradaContingencia;
-            notaFiscal.Identificacao.JustificativaContigencia = config.JustificativaContingencia;
-            notaFiscal.Identificacao.TipoEmissao = notaFiscal.Identificacao.Modelo == Modelo.Modelo65
-                ? TipoEmissao.ContigenciaNfce
-                : TipoEmissao.FsDa;
-            notaFiscal.CalcularChave();
-            notaFiscal.Identificacao.Status = new StatusEnvio(Status.CONTINGENCIA);
-            return notaFiscal;
+            var notaContingencia = NotaFiscal.CriarNotaFiscalContingencia(notaFiscal.Emitente, notaFiscal.Destinatario, notaFiscal.Transporte,
+                notaFiscal.TotalNFe, notaFiscal.InfoAdicional, notaFiscal.Produtos, notaFiscal.Identificacao.UF, notaFiscal.Identificacao.DataHoraEmissao,
+                notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.TipoEmissao, notaFiscal.Identificacao.Ambiente,
+                notaFiscal.Identificacao.NaturezaOperacao, notaFiscal.Identificacao.FinalidadeEmissao, notaFiscal.Identificacao.FormatoImpressao,
+                notaFiscal.Identificacao.PresencaComprador, notaFiscal.Identificacao.FinalidadeConsumidor, new NotaFiscalService(), config.DataHoraEntradaContingencia,
+                config.JustificativaContingencia, notaFiscal.Pagamentos);
+
+            return notaContingencia;
         }
 
         public void InutilizarCancelarNotasPendentesContingencia(NotaFiscalEntity notaParaCancelar,

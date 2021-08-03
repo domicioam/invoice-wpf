@@ -2,14 +2,12 @@
 using Akka.Util;
 using NFe.Core.Domain;
 using NFe.Core.Interfaces;
-using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Xml;
-using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using System;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
@@ -130,8 +128,6 @@ namespace DgSystems.NFe.Services.Actors
             {
                 replyTo.Tell(new Status.Failure(obj.Exception));
             }
-
-            _configuracaoService.SalvarPróximoNúmeroSérie(NotaFiscal.Identificacao.Modelo, NotaFiscal.Identificacao.Ambiente);
         }
 
         private void HandleSuccess_nfeAutorizacaoLoteResult(Result<TProtNFe> obj)
@@ -172,16 +168,12 @@ namespace DgSystems.NFe.Services.Actors
             if (retorno.IsEnviada)
             {
                 PreencheDadosNotaEnviadaAposErroConexao(retorno);
-                _configuracaoService.SalvarPróximoNúmeroSérie(NotaFiscal.Identificacao.Modelo, NotaFiscal.Identificacao.Ambiente);
             }
             else
             {
                 // contingência
 
                 log.Error("Erro de conexão ao enviar nota fiscal.");
-
-                // Necessário para não tentar enviar a mesma nota como contingência.
-                _configuracaoService.SalvarPróximoNúmeroSérie(NotaFiscal.Identificacao.Modelo, NotaFiscal.Identificacao.Ambiente);
 
                 // Stop execution if model 55
                 if (NotaFiscal.Identificacao.Modelo == Modelo.Modelo55)

@@ -23,7 +23,7 @@ namespace DgSystems.NFe.Core.UnitTests
                 "1234567898765", "4784900", "Regime Normal", endereçoEmitente, "99999999");
             
             var identificação = new IdentificacaoNFe(CodigoUfIbge.DF, data, emitente.CNPJ, Modelo.Modelo65, 1,
-                "20887", TipoEmissao.Normal, Ambiente.Homologacao, emitente, "Venda", FinalidadeEmissao.Normal, true,
+                "20887", TipoEmissao.Normal, Ambiente.Homologacao, emitente.Endereco.CodigoMunicipio, "Venda", FinalidadeEmissao.Normal, true,
                 PresencaComprador.Presencial, "CPF");
             
             var transporte = new Transporte(Modelo.Modelo65, null, null);

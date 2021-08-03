@@ -61,26 +61,26 @@ namespace NFe.Core.Cadastro.Configuracoes
             return configuracao.Id;
         }
 
-        public void SalvarPróximoNúmeroSérie(Modelo modelo, Ambiente ambiente)
-        {
-            var config = GetConfiguracao();
+        //public void SalvarPróximoNúmeroSérie(Modelo modelo, Ambiente ambiente)
+        //{
+        //    var config = GetConfiguracao();
 
-            if (modelo == Modelo.Modelo55)
-            {
-                config.ProximoNumNFe = (Convert.ToInt32(config.ProximoNumNFe) + 1).ToString();
-            }
-            else
-            {
-                config.ProximoNumNFCe = (Convert.ToInt32(config.ProximoNumNFCe) + 1).ToString();
-            }
+        //    if (modelo == Modelo.Modelo55)
+        //    {
+        //        config.ProximoNumNFe = (Convert.ToInt32(config.ProximoNumNFe) + 1).ToString();
+        //    }
+        //    else
+        //    {
+        //        config.ProximoNumNFCe = (Convert.ToInt32(config.ProximoNumNFCe) + 1).ToString();
+        //    }
 
-            Salvar(config);
-        }
+        //    Salvar(config);
+        //}
 
-        public string ObterProximoNumeroNotaFiscal(Modelo modelo)
-        {
-            var config = GetConfiguracao();
-            return modelo == Modelo.Modelo55 ? config.ProximoNumNFe : config.ProximoNumNFCe;
-        }
+        //public string ObterProximoNumeroNotaFiscal(Modelo modelo)
+        //{
+        //    var config = GetConfiguracao();
+        //    return modelo == Modelo.Modelo55 ? config.ProximoNumNFe : config.ProximoNumNFCe;
+        //}
     }
 }

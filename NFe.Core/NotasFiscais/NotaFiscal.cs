@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NFe.Core.Domain;
+using NFe.Core.Entitities;
+using NFe.Core.NotasFiscais;
 
 namespace NFe.Core.Domain
 {
@@ -89,6 +91,50 @@ namespace NFe.Core.Domain
         public bool ProdutoÉCombustível(int i)
         {
             return Identificacao.Modelo != Modelo.Modelo65 && Produtos[i].Ncm.Equals("27111910");
+        }
+
+        public static NotaFiscal CriarNotaFiscal(
+            Emissor emitente, Destinatario destinatario, Transporte transporte, TotalNFe totalNFe,
+            InfoAdicional infoAdicional, List<Produto> produtos, CodigoUfIbge uf, DateTime dataHoraEmissao,
+            Modelo modelo, TipoEmissao tipoEmissao, Ambiente ambiente, string naturezaOperacao,
+            FinalidadeEmissao finalidade, bool isImpressaoBobina, PresencaComprador indicadorPresenca,
+            string documentoDanfe, NotaFiscalService notaFiscalService, List<Pagamento> pagamentos = null)
+        {
+            var numeracao = notaFiscalService.GerarNumeraçãoPróximaNotaFiscal(modelo);
+
+            var identificação = new IdentificacaoNFe(
+                uf, dataHoraEmissao, emitente.CNPJ, modelo, numeracao.Serie, numeracao.Numero.ToString(), tipoEmissao,
+                ambiente, emitente.Endereco.CodigoMunicipio, naturezaOperacao, finalidade, isImpressaoBobina, indicadorPresenca, documentoDanfe);
+
+            return new NotaFiscal(emitente, destinatario, identificação, transporte, totalNFe, infoAdicional, produtos, pagamentos);
+        }
+
+        public static NotaFiscal CriarNotaFiscalContingencia(
+            Emissor emitente, Destinatario destinatario, Transporte transporte, TotalNFe totalNFe,
+            InfoAdicional infoAdicional, List<Produto> produtos, CodigoUfIbge uf, DateTime dataHoraEmissao,
+            Modelo modelo, TipoEmissao tipoEmissao, Ambiente ambiente, string naturezaOperacao,
+            FinalidadeEmissao finalidade, FormatoImpressao formatoImpressao, PresencaComprador indicadorPresenca,
+            FinalidadeConsumidor finalidadeConsumidor, NotaFiscalService notaFiscalService, DateTime dataHoraEntradaContingencia,
+            string justificativaContingencia, List<Pagamento> pagamentos = null)
+        {
+            var numeracao = notaFiscalService.GerarNumeraçãoPróximaNotaFiscal(modelo);
+
+            var identificação = new IdentificacaoNFe(
+                uf, dataHoraEmissao, emitente.CNPJ, modelo, numeracao.Serie, numeracao.Numero.ToString(), tipoEmissao,
+                ambiente, emitente.Endereco.CodigoMunicipio, naturezaOperacao, finalidade, formatoImpressao, indicadorPresenca, 
+                finalidadeConsumidor);
+            
+            identificação.DataHoraEntradaContigencia = dataHoraEntradaContingencia;
+            identificação.JustificativaContigencia = justificativaContingencia;
+
+            identificação.TipoEmissao = modelo == Modelo.Modelo65
+                ? TipoEmissao.ContigenciaNfce
+                : TipoEmissao.FsDa;
+            identificação.Status = new StatusEnvio(Status.CONTINGENCIA);
+            NotaFiscal notaFiscal = new NotaFiscal(emitente, destinatario, identificação, transporte, totalNFe, infoAdicional, produtos, pagamentos);
+            notaFiscal.CalcularChave(); // verificar se ainda é necessário já que a nota está sendo criada novamente
+
+            return notaFiscal;
         }
     }
 }

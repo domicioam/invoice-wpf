@@ -19,9 +19,7 @@ using NFe.WPF.NotaFiscal.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel;
 using System.Threading.Tasks;
 using NfeProc = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.NfeProc;
 using TNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Envio.TNFe;
@@ -112,8 +110,11 @@ namespace DgSystems.NFe.ViewModels
                 var infoAdicional = new InfoAdicional(produtos, _ibptManager);
                 var transporte = GetTransporte(notaFiscalModel, modelo);
 
-                notaFiscal = new NotaFiscal(emissor, destinatario, identificacao, transporte,
-                    totalNFe, infoAdicional, produtos, pagamentos);
+                notaFiscal = NotaFiscal.CriarNotaFiscal(emissor, destinatario, transporte, totalNFe,
+                    infoAdicional, produtos, identificacao.UF, identificacao.DataHoraEmissao, identificacao.Modelo,
+                    identificacao.TipoEmissao, identificacao.Ambiente, identificacao.NaturezaOperacao, identificacao.FinalidadeEmissao,
+                    notaFiscalModel.IsImpressaoBobina, identificacao.PresencaComprador, documentoDanfe, new NotaFiscalService(),
+                    pagamentos);
 
                 var cscId = config.CscId;
                 var csc = config.Csc;
@@ -215,7 +216,7 @@ namespace DgSystems.NFe.ViewModels
             var finalidadeEmissao = (FinalidadeEmissao)Enum.Parse(typeof(FinalidadeEmissao), Acentuacao.RemoverAcentuacao(notaFiscal.Finalidade));
 
             return new IdentificacaoNFe(codigoUf, now, emitente.CNPJ, modeloNota, serie, numeroNFe,
-                tipoEmissao, ambiente, emitente,
+                tipoEmissao, ambiente, emitente.Endereco.CodigoMunicipio,
                 notaFiscal.NaturezaOperacao, finalidadeEmissao, notaFiscal.IsImpressaoBobina,
                 notaFiscal.IndicadorPresenca, documentoDanfe);
         }

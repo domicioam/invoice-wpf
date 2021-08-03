@@ -13,7 +13,7 @@ namespace NFe.Core.Domain
         }
 
         public IdentificacaoNFe(CodigoUfIbge uf, DateTime dataHoraEmissao, string cnpjEmissor, Modelo modelo, int serie,
-            string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, Emissor emitente,
+            string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, string codigoMunicipio,
             string naturezaOperacao,
             FinalidadeEmissao finalidade, bool isImpressaoBobina, PresencaComprador indicadorPresenca,
             string documentoDanfe)
@@ -29,7 +29,7 @@ namespace NFe.Core.Domain
 
             Chave = new Chave(DataHoraEmissao, Numero, Serie, TipoEmissao, _cnpjEmissor, Modelo, UF);
 
-            CodigoMunicipio = emitente.Endereco.CodigoMunicipio;
+            CodigoMunicipio = codigoMunicipio;
             NaturezaOperacao = naturezaOperacao;
             FinalidadeEmissao = finalidade;
             TipoOperacao = TipoOperacao.Saida;
@@ -38,6 +38,37 @@ namespace NFe.Core.Domain
             FinalidadeConsumidor = documentoDanfe.Contains("CPF") || Modelo == Modelo.Modelo65
                 ? FinalidadeConsumidor.ConsumidorFinal
                 : FinalidadeConsumidor.Normal;
+            PresencaComprador = indicadorPresenca;
+            ProcessoEmissao = ProcessoEmissao.AplicativoContribuinte;
+            VersaoAplicativo = "0.0.0.1";
+
+            Status = new StatusEnvio(Entitities.Status.ENVIADA);
+        }
+
+        public IdentificacaoNFe(CodigoUfIbge uf, DateTime dataHoraEmissao, string cnpjEmissor, Modelo modelo, int serie,
+            string numeroNFe, TipoEmissao tipoEmissao, Ambiente ambiente, string codigoMunicipio,
+            string naturezaOperacao,
+            FinalidadeEmissao finalidade, FormatoImpressao formatoImpressao, PresencaComprador indicadorPresenca,
+            FinalidadeConsumidor finalidadeConsumidor)
+        {
+            _cnpjEmissor = cnpjEmissor;
+            UF = uf;
+            DataHoraEmissao = dataHoraEmissao;
+            Modelo = modelo;
+            Serie = serie;
+            Numero = numeroNFe;
+            TipoEmissao = tipoEmissao;
+            Ambiente = ambiente;
+
+            Chave = new Chave(DataHoraEmissao, Numero, Serie, TipoEmissao, _cnpjEmissor, Modelo, UF);
+
+            CodigoMunicipio = codigoMunicipio;
+            NaturezaOperacao = naturezaOperacao;
+            FinalidadeEmissao = finalidade;
+            TipoOperacao = TipoOperacao.Saida;
+            OperacaoDestino = OperacaoDestino.Interna; //não suporta interestadual ainda
+            FormatoImpressao = formatoImpressao;
+            FinalidadeConsumidor = finalidadeConsumidor;
             PresencaComprador = indicadorPresenca;
             ProcessoEmissao = ProcessoEmissao.AplicativoContribuinte;
             VersaoAplicativo = "0.0.0.1";
