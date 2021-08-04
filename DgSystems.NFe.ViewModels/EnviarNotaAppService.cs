@@ -110,10 +110,10 @@ namespace DgSystems.NFe.ViewModels
                 var infoAdicional = new InfoAdicional(produtos, _ibptManager);
                 var transporte = GetTransporte(notaFiscalModel, modelo);
 
-                notaFiscal = NotaFiscal.CriarNotaFiscal(emissor, destinatario, transporte, totalNFe,
+                notaFiscal = await NotaFiscal.CriarNotaFiscalAsync(emissor, destinatario, transporte, totalNFe,
                     infoAdicional, produtos, identificacao.UF, identificacao.DataHoraEmissao, identificacao.Modelo,
                     identificacao.TipoEmissao, identificacao.Ambiente, identificacao.NaturezaOperacao, identificacao.FinalidadeEmissao,
-                    notaFiscalModel.IsImpressaoBobina, identificacao.PresencaComprador, documentoDanfe, new NotaFiscalService(),
+                    notaFiscalModel.IsImpressaoBobina, identificacao.PresencaComprador, documentoDanfe, new NotaFiscalService(_configuracaoRepository),
                     pagamentos);
 
                 var cscId = config.CscId;

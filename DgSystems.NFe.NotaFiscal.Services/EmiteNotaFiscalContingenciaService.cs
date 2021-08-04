@@ -9,6 +9,7 @@ using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Conversores;
 using System;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace NFe.Core.Sefaz.Facades
 {
@@ -36,9 +37,9 @@ namespace NFe.Core.Sefaz.Facades
             _cancelaNotaFiscalService = cancelaNotaFiscalService;
         }
 
-        public NotaFiscal SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
+        public async Task<NotaFiscal> SaveNotaFiscalContingenciaAsync(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
         {
-            notaFiscal = SetContingenciaFields(config, notaFiscal);
+            notaFiscal = await SetContingenciaFieldsAsync(config, notaFiscal);
             var xmlNFeContingencia = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
             notaFiscal.QrCodeUrl = xmlNFeContingencia.QrCode.ToString();
 
@@ -46,13 +47,13 @@ namespace NFe.Core.Sefaz.Facades
             return notaFiscal;
         }
 
-        private NotaFiscal SetContingenciaFields(ConfiguracaoEntity config, NotaFiscal notaFiscal)
+        private async Task<NotaFiscal> SetContingenciaFieldsAsync(ConfiguracaoEntity config, NotaFiscal notaFiscal)
         {
-            var notaContingencia = NotaFiscal.CriarNotaFiscalContingencia(notaFiscal.Emitente, notaFiscal.Destinatario, notaFiscal.Transporte,
+            var notaContingencia = await NotaFiscal.CriarNotaFiscalContingenciaAsync(notaFiscal.Emitente, notaFiscal.Destinatario, notaFiscal.Transporte,
                 notaFiscal.TotalNFe, notaFiscal.InfoAdicional, notaFiscal.Produtos, notaFiscal.Identificacao.UF, notaFiscal.Identificacao.DataHoraEmissao,
                 notaFiscal.Identificacao.Modelo, notaFiscal.Identificacao.TipoEmissao, notaFiscal.Identificacao.Ambiente,
                 notaFiscal.Identificacao.NaturezaOperacao, notaFiscal.Identificacao.FinalidadeEmissao, notaFiscal.Identificacao.FormatoImpressao,
-                notaFiscal.Identificacao.PresencaComprador, notaFiscal.Identificacao.FinalidadeConsumidor, new NotaFiscalService(), config.DataHoraEntradaContingencia,
+                notaFiscal.Identificacao.PresencaComprador, notaFiscal.Identificacao.FinalidadeConsumidor, new NotaFiscalService(_configuracaoService), config.DataHoraEntradaContingencia,
                 config.JustificativaContingencia, notaFiscal.Pagamentos);
 
             return notaContingencia;

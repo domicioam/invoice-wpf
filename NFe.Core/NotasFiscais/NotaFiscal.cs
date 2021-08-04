@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
@@ -93,14 +94,14 @@ namespace NFe.Core.Domain
             return Identificacao.Modelo != Modelo.Modelo65 && Produtos[i].Ncm.Equals("27111910");
         }
 
-        public static NotaFiscal CriarNotaFiscal(
+        public static async System.Threading.Tasks.Task<NotaFiscal> CriarNotaFiscalAsync(
             Emissor emitente, Destinatario destinatario, Transporte transporte, TotalNFe totalNFe,
             InfoAdicional infoAdicional, List<Produto> produtos, CodigoUfIbge uf, DateTime dataHoraEmissao,
             Modelo modelo, TipoEmissao tipoEmissao, Ambiente ambiente, string naturezaOperacao,
             FinalidadeEmissao finalidade, bool isImpressaoBobina, PresencaComprador indicadorPresenca,
             string documentoDanfe, NotaFiscalService notaFiscalService, List<Pagamento> pagamentos = null)
         {
-            var numeracao = notaFiscalService.GerarNumeraçãoPróximaNotaFiscal(modelo);
+            var numeracao = await notaFiscalService.GerarNumeraçãoPróximaNotaFiscal(modelo);
 
             var identificação = new IdentificacaoNFe(
                 uf, dataHoraEmissao, emitente.CNPJ, modelo, numeracao.Serie, numeracao.Numero.ToString(), tipoEmissao,
@@ -109,7 +110,7 @@ namespace NFe.Core.Domain
             return new NotaFiscal(emitente, destinatario, identificação, transporte, totalNFe, infoAdicional, produtos, pagamentos);
         }
 
-        public static NotaFiscal CriarNotaFiscalContingencia(
+        public static async Task<NotaFiscal> CriarNotaFiscalContingenciaAsync(
             Emissor emitente, Destinatario destinatario, Transporte transporte, TotalNFe totalNFe,
             InfoAdicional infoAdicional, List<Produto> produtos, CodigoUfIbge uf, DateTime dataHoraEmissao,
             Modelo modelo, TipoEmissao tipoEmissao, Ambiente ambiente, string naturezaOperacao,
@@ -117,7 +118,7 @@ namespace NFe.Core.Domain
             FinalidadeConsumidor finalidadeConsumidor, NotaFiscalService notaFiscalService, DateTime dataHoraEntradaContingencia,
             string justificativaContingencia, List<Pagamento> pagamentos = null)
         {
-            var numeracao = notaFiscalService.GerarNumeraçãoPróximaNotaFiscal(modelo);
+            var numeracao = await notaFiscalService.GerarNumeraçãoPróximaNotaFiscal(modelo);
 
             var identificação = new IdentificacaoNFe(
                 uf, dataHoraEmissao, emitente.CNPJ, modelo, numeracao.Serie, numeracao.Numero.ToString(), tipoEmissao,

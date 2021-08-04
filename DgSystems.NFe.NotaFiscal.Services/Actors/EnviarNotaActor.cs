@@ -89,7 +89,7 @@ namespace DgSystems.NFe.Services.Actors
             if (config.IsContingencia)
             {
                 log.Info("Enviando nota fiscal em modo contingência.");
-                NotaFiscal = emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(msg.Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
+                NotaFiscal = await emiteNotaFiscalContingenciaService.SaveNotaFiscalContingenciaAsync(msg.Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
                 replyTo.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
             else
@@ -187,7 +187,7 @@ namespace DgSystems.NFe.Services.Actors
 
                 var config = await _configuracaoService.GetConfiguracaoAsync();
 
-                NotaFiscal = emiteNotaFiscalContingenciaService.SaveNotaFiscalContingencia(Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
+                NotaFiscal = await emiteNotaFiscalContingenciaService.SaveNotaFiscalContingenciaAsync(Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
 
                 replyTo.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
