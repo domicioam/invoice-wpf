@@ -1,10 +1,9 @@
-﻿using System;
+﻿using NFe.Core.Entitities;
+using NFe.Core.NotasFiscais;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NFe.Core.Domain;
-using NFe.Core.Entitities;
-using NFe.Core.NotasFiscais;
 
 namespace NFe.Core.Domain
 {
@@ -94,7 +93,7 @@ namespace NFe.Core.Domain
             return Identificacao.Modelo != Modelo.Modelo65 && Produtos[i].Ncm.Equals("27111910");
         }
 
-        public static async System.Threading.Tasks.Task<NotaFiscal> CriarNotaFiscalAsync(
+        public static async Task<NotaFiscal> CriarNotaFiscalAsync(
             Emissor emitente, Destinatario destinatario, Transporte transporte, TotalNFe totalNFe,
             InfoAdicional infoAdicional, List<Produto> produtos, CodigoUfIbge uf, DateTime dataHoraEmissao,
             Modelo modelo, TipoEmissao tipoEmissao, Ambiente ambiente, string naturezaOperacao,
@@ -122,16 +121,17 @@ namespace NFe.Core.Domain
 
             var identificação = new IdentificacaoNFe(
                 uf, dataHoraEmissao, emitente.CNPJ, modelo, numeracao.Serie, numeracao.Numero.ToString(), tipoEmissao,
-                ambiente, emitente.Endereco.CodigoMunicipio, naturezaOperacao, finalidade, formatoImpressao, indicadorPresenca, 
-                finalidadeConsumidor);
-            
-            identificação.DataHoraEntradaContigencia = dataHoraEntradaContingencia;
-            identificação.JustificativaContigencia = justificativaContingencia;
+                ambiente, emitente.Endereco.CodigoMunicipio, naturezaOperacao, finalidade, formatoImpressao, indicadorPresenca,
+                finalidadeConsumidor)
+            {
+                DataHoraEntradaContigencia = dataHoraEntradaContingencia,
+                JustificativaContigencia = justificativaContingencia,
 
-            identificação.TipoEmissao = modelo == Modelo.Modelo65
+                TipoEmissao = modelo == Modelo.Modelo65
                 ? TipoEmissao.ContigenciaNfce
-                : TipoEmissao.FsDa;
-            identificação.Status = new StatusEnvio(Status.CONTINGENCIA);
+                : TipoEmissao.FsDa,
+                Status = new StatusEnvio(Status.CONTINGENCIA)
+            };
             NotaFiscal notaFiscal = new NotaFiscal(emitente, destinatario, identificação, transporte, totalNFe, infoAdicional, produtos, pagamentos);
             notaFiscal.CalcularChave(); // verificar se ainda é necessário já que a nota está sendo criada novamente
 
