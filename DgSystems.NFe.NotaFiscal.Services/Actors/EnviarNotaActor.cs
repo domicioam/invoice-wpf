@@ -56,7 +56,9 @@ namespace DgSystems.NFe.Services.Actors
         public NotaFiscal NotaFiscal { get; private set; }
         public X509Certificate2 Certificado { get; private set; }
 
-        public EnviarNotaActor(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+        public EnviarNotaActor(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory,
+            IConsultarNotaFiscalService nfeConsulta,
+            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             _configuracaoService = configuracaoService;
             _serviceFactory = serviceFactory;
