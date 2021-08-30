@@ -6,6 +6,7 @@ using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz.Facades;
+using System;
 using Xunit;
 
 namespace DgSystems.NFe.Core.UnitTests.Services.Actors
@@ -17,6 +18,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public EnviarNotaActorTest(NotaFiscalFixture fixture)
         {
             this.fixture = fixture;
+            AppContext.SetSwitch("Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms", true);
+            AppContext.SetSwitch("Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms", true);
         }
 
         [Fact]
