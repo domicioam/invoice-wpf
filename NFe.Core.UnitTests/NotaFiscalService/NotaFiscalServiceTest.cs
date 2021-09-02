@@ -55,7 +55,7 @@
 //            var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
 //            var emissorService = new Mock<IEmitenteRepository>().Object;
-//            var certificadoService = new Mock<ICertificadoService>().Object;
+//            var certificadoService = new Mock<CertificadoService>().Object;
 //            var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
 //            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
@@ -136,7 +136,7 @@
 //            // Arrange
 
 //            Mock<ICertificadoRepository> certificadoRepositoryMock;
-//            Mock<ICertificadoService> certificadoManagerMock;
+//            Mock<CertificadoService> certificadoManagerMock;
 //            ConfigurarCertificadoDigital(out certificadoRepositoryMock, out certificadoManagerMock);
 
 //            var serviceFactoryMock = ConfigurarServiceFactoryMock();
@@ -153,7 +153,7 @@
 //            var consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>().Object;
 
 //            var emissorService = new Mock<IEmitenteRepository>().Object;
-//            var certificadoService = new Mock<ICertificadoService>().Object;
+//            var certificadoService = new Mock<CertificadoService>().Object;
 //            var notaInutilizadaFacade = new Mock<InutilizarNotaFiscalService>().Object;
 //            var cancelaNotaFiscalService = new Mock<ICancelaNotaFiscalService>().Object;
 
@@ -220,14 +220,14 @@
 //            return serviceFactoryMock;
 //        }
 
-//        private void ConfigurarCertificadoDigital(out Mock<ICertificadoRepository> certificadoRepositoryMock, out Mock<ICertificadoService> certificadoManagerMock)
+//        private void ConfigurarCertificadoDigital(out Mock<ICertificadoRepository> certificadoRepositoryMock, out Mock<CertificadoService> certificadoManagerMock)
 //        {
 //            certificadoRepositoryMock = new Mock<ICertificadoRepository>();
 //            certificadoRepositoryMock
 //                .Setup(m => m.GetCertificado())
 //                .Returns(() => _fixture.CertificadoEntity );
 
-//            certificadoManagerMock = new Mock<ICertificadoService>();
+//            certificadoManagerMock = new Mock<CertificadoService>();
 //            certificadoManagerMock
 //                .Setup(m => m.GetX509Certificate2())
 //                .Returns(() => _fixture.X509Certificate2);

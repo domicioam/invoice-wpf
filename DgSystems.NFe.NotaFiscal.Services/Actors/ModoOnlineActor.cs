@@ -43,13 +43,13 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IEmitenteRepository emissorService;
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory serviceFactory;
-        private readonly ICertificadoService certificadoService;
+        private readonly CertificadoService certificadoService;
         private readonly SefazSettings sefazSettings;
         private IActorRef emiteNfeContingenciaActor;
 
         public ModoOnlineActor(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, IEmitenteRepository emissorService,
-            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, SefazSettings sefazSettings)
+            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _configuracaoRepository = configuracaoRepository;

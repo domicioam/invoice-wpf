@@ -89,11 +89,11 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IEmitenteRepository _emissorService;
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
-        private readonly ICertificadoService _certificadoService;
+        private readonly CertificadoService _certificadoService;
         private readonly SefazSettings _sefazSettings;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        public EmiteNFeContingenciaActor(INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, SefazSettings sefazSettings)
+        public EmiteNFeContingenciaActor(INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _emissorService = emissorService;

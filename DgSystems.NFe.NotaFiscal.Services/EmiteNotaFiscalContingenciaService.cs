@@ -22,11 +22,11 @@ namespace NFe.Core.Sefaz.Facades
 
         private readonly IEmitenteRepository _emissorService;
         private readonly IConsultarNotaFiscalService _nfeConsulta;
-        private readonly ICertificadoService _certificadoService;
+        private readonly CertificadoService _certificadoService;
         private readonly InutilizarNotaFiscalService _notaInutilizadaFacade;
         private readonly ICancelaNotaFiscalService _cancelaNotaFiscalService;
 
-        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, ICertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService)
+        public EmiteNotaFiscalContingenciaFacade(IConfiguracaoRepository configuracaoService, INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, CertificadoService certificadoService, InutilizarNotaFiscalService notaInutilizadaFacade, ICancelaNotaFiscalService cancelaNotaFiscalService)
         {
             _configuracaoService = configuracaoService;
             _notaFiscalRepository = notaFiscalRepository;

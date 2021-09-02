@@ -41,7 +41,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var eventoService = new Mock<IEventoRepository>();
 
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(notaFiscalRepository.Object, eventoService.Object, new Mock<CertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
 
             var fixture = new Fixture();
 
@@ -81,7 +81,7 @@ namespace NFe.Core.UnitTests.Facades
 
             var notaFiscalRepository = new Mock<INotaFiscalRepository>();
             var eventoService = new Mock<IEventoRepository>();
-            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(notaFiscalRepository.Object, eventoService.Object, new Mock<ICertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
+            var cancelaNotaFiscalFacade = new CancelaNotaFiscalService(notaFiscalRepository.Object, eventoService.Object, new Mock<CertificadoService>().Object, new Mock<IServiceFactory>().Object, new Core.Sefaz.SefazSettings());
 
             var fixture = new Fixture();
             var dadosNotaParaCancelar = fixture.Build<DadosNotaParaCancelar>().Create();

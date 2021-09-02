@@ -38,7 +38,7 @@ namespace DgSystems.NFe.ViewModels
     public class NotaFiscalMainViewModel : ViewModelBaseValidation
     {
         public NotaFiscalMainViewModel(IConfiguracaoRepository configuracaoService,
-            ICertificadoService certificadoService, IProdutoRepository produtoRepository,
+            CertificadoService certificadoService, IProdutoRepository produtoRepository,
             IConsultaStatusServicoSefazService consultaStatusServicoService, IEmitenteRepository emissorService,
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
@@ -73,7 +73,7 @@ namespace DgSystems.NFe.ViewModels
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private string _busyContent;
-        private readonly ICertificadoService _certificadoService;
+        private readonly CertificadoService _certificadoService;
         private readonly IConfiguracaoRepository _configuracaoService;
         private readonly IConsultaStatusServicoSefazService _consultaStatusServicoService;
         private readonly IEmitenteRepository _emissorService;

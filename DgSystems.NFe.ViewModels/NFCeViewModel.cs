@@ -19,7 +19,7 @@ namespace DgSystems.NFe.ViewModels
 {
     public class NFCeViewModel : NotaFiscalModel
     {
-        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, IDestinatarioRepository destinatarioService, ICertificadoService certificadoRepository, IEmitenteRepository emissorService) : base(enviarNotaAppService, dialogService, emissorService, certificadoRepository)
+        public NFCeViewModel(IDialogService dialogService, IEnviarNotaAppService enviarNotaAppService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, IDestinatarioRepository destinatarioService, CertificadoService certificadoRepository, IEmitenteRepository emissorService) : base(enviarNotaAppService, dialogService, emissorService, certificadoRepository)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();

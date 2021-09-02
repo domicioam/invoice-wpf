@@ -26,13 +26,13 @@ namespace NFe.Core.NotasFiscais.Services
     {
         private readonly IEventoRepository _eventoService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
-        private readonly ICertificadoService _certificadoService;
+        private readonly CertificadoService _certificadoService;
         private readonly IServiceFactory _serviceFactory;
         private readonly SefazSettings _sefazSettings;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CancelaNotaFiscalService(INotaFiscalRepository notaFiscalRepository,
-            IEventoRepository eventoService, ICertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
+            IEventoRepository eventoService, CertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
         {
             _notaFiscalRepository = notaFiscalRepository;
             _eventoService = eventoService;

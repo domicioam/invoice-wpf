@@ -33,7 +33,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emissorServiceMock = new Mock<IEmitenteRepository>();
             var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
             var serviceFactoryMock = new Mock<IServiceFactory>();
-            var certificadoServiceMock = new Mock<ICertificadoService>();
+            var certificadoServiceMock = new Mock<CertificadoService>();
             var sefazSettingsMock = new Mock<SefazSettings>();
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
@@ -65,7 +65,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emissorServiceMock = new Mock<IEmitenteRepository>();
             var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
             var serviceFactoryMock = new Mock<IServiceFactory>();
-            var certificadoServiceMock = new Mock<ICertificadoService>();
+            var certificadoServiceMock = new Mock<CertificadoService>();
             var sefazSettingsMock = new Mock<SefazSettings>();
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
@@ -96,7 +96,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emissorServiceMock = new Mock<IEmitenteRepository>();
             var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
             var serviceFactoryMock = new Mock<IServiceFactory>();
-            var certificadoServiceMock = new Mock<ICertificadoService>();
+            var certificadoServiceMock = new Mock<CertificadoService>();
             var sefazSettingsMock = new Mock<SefazSettings>();
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
@@ -130,7 +130,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emissorServiceMock = new Mock<IEmitenteRepository>();
             var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
             var serviceFactoryMock = new Mock<IServiceFactory>();
-            var certificadoServiceMock = new Mock<ICertificadoService>();
+            var certificadoServiceMock = new Mock<CertificadoService>();
             var sefazSettingsMock = new Mock<SefazSettings>();
 
             nfeConsultaMock
@@ -175,7 +175,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emissorServiceMock = new Mock<IEmitenteRepository>();
             var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
             var serviceFactoryMock = new Mock<IServiceFactory>();
-            var certificadoServiceMock = new Mock<ICertificadoService>();
+            var certificadoServiceMock = new Mock<CertificadoService>();
             var sefazSettingsMock = new Mock<SefazSettings>();
 
             nfeConsultaMock
@@ -221,7 +221,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emissorServiceMock = new Mock<IEmitenteRepository>();
             var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
             var serviceFactoryMock = new Mock<IServiceFactory>();
-            var certificadoServiceMock = new Mock<ICertificadoService>();
+            var certificadoServiceMock = new Mock<CertificadoService>();
             var sefazSettingsMock = new Mock<SefazSettings>();
 
             nfeConsultaMock

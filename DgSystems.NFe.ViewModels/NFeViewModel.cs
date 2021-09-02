@@ -28,7 +28,7 @@ namespace DgSystems.NFe.ViewModels
     {
         private const string DEFAULT_NATUREZA_OPERACAO = "Devolução";
 
-        public NFeViewModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmitenteRepository emissorService, IMunicipioRepository municipioService, ITransportadoraRepository transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, ICertificadoService certificadoRepository) : base(enviarNotaAppService, dialogService, emissorService, certificadoRepository)
+        public NFeViewModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IProdutoRepository produtoRepository, IEstadoRepository estadoService, IEmitenteRepository emissorService, IMunicipioRepository municipioService, ITransportadoraRepository transportadoraService, IDestinatarioRepository destinatarioService, INaturezaOperacaoRepository naturezaOperacaoService, IConfiguracaoRepository configuracaoService, DestinatarioViewModel destinatarioViewModel, CertificadoService certificadoRepository) : base(enviarNotaAppService, dialogService, emissorService, certificadoRepository)
         {
             Pagamento = new PagamentoModel();
             Produto = new ProdutoModel();

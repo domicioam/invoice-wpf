@@ -102,7 +102,7 @@ namespace DgSystems.NFe.ViewModels
         }
 
         private readonly ICertificadoRepository _certificadoRepository;
-        private readonly ICertificadoService _certificateManager;
+        private readonly CertificadoService _certificateManager;
 
         public ObservableCollection<Certificate> CertificadosInstalados { get; set; }
 
@@ -111,7 +111,7 @@ namespace DgSystems.NFe.ViewModels
         public ICommand SalvarCmd { get; set; }
         public ICommand LoadedCmd { get; set; }
 
-        public CertificadoViewModel(ICertificadoRepository certificadoService, ICertificadoService certificateManager)
+        public CertificadoViewModel(ICertificadoRepository certificadoService, CertificadoService certificateManager)
         {
             CertificadosInstalados = new ObservableCollection<Certificate>(certificateManager.GetFriendlyCertificates());
             AdicionarSenhaCmd = new RelayCommand<PasswordBox>(AdicionarSenhaCmd_Execute, null);

@@ -31,7 +31,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         private readonly IEmitenteRepository emissorService;
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory serviceFactory;
-        private readonly ICertificadoService certificadoService;
+        private readonly CertificadoService certificadoService;
         private readonly SefazSettings sefazSettings;
         private readonly TipoMensagem tipoMensagem;
         private readonly ResultadoEsperado resultadoEsperado;
@@ -41,7 +41,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             IEmitenteRepository emissorService,
             IConsultarNotaFiscalService nfeConsulta,
             IServiceFactory serviceFactory,
-            ICertificadoService certificadoService,
+            CertificadoService certificadoService,
             SefazSettings sefazSettings,
             TipoMensagem erroValidacao,
             ResultadoEsperado resultadoEsperado)

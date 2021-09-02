@@ -17,10 +17,10 @@ namespace NFe.Core.Sefaz.Facades
     {
         private readonly INotaInutilizadaRepository _notaInutilizadaService;
         private readonly SefazSettings _sefazSettings;
-        private readonly ICertificadoService _certificadoService;
+        private readonly CertificadoService _certificadoService;
         private readonly IServiceFactory _serviceFactory;
 
-        public InutilizarNotaFiscalService(INotaInutilizadaRepository notaInutilizadaService, SefazSettings sefazSettings, ICertificadoService certificadoService, IServiceFactory serviceFactory)
+        public InutilizarNotaFiscalService(INotaInutilizadaRepository notaInutilizadaService, SefazSettings sefazSettings, CertificadoService certificadoService, IServiceFactory serviceFactory)
         {
             _notaInutilizadaService = notaInutilizadaService;
             _sefazSettings = sefazSettings;

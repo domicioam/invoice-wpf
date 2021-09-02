@@ -44,7 +44,7 @@ namespace NFe.WPF.NotaFiscal.Model
         private PagamentoModel _pagamento;
         private bool _isBusy;
         private string _busyContent;
-        private ICertificadoService _certificadoRepository;
+        private CertificadoService _certificadoRepository;
         private IEnviarNotaAppService _enviarNotaAppService;
         protected IDialogService _dialogService;
         protected IEmitenteRepository _emissorService;
@@ -327,7 +327,7 @@ namespace NFe.WPF.NotaFiscal.Model
             }
         }
 
-        protected NotaFiscalModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IEmitenteRepository emissorService, ICertificadoService certificadoRepository)
+        protected NotaFiscalModel(IEnviarNotaAppService enviarNotaAppService, IDialogService dialogService, IEmitenteRepository emissorService, CertificadoService certificadoRepository)
         {
             _certificadoRepository = certificadoRepository;
             _enviarNotaAppService = enviarNotaAppService;

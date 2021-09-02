@@ -28,7 +28,7 @@ namespace EmissorNFe.ViewModel
 
         private readonly IEmitenteRepository emissorService;
         private readonly IServiceFactory serviceFactory;
-        private readonly ICertificadoService certificadoService;
+        private readonly CertificadoService certificadoService;
         private readonly ActorSystem actorSystem;
         private readonly IConsultaStatusServicoSefazService consultaStatusServicoService;
         private readonly SefazSettings sefazSettings;
@@ -43,7 +43,7 @@ namespace EmissorNFe.ViewModel
 
         public MainViewModel(MailManager mailManager, IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, ActorSystem actorSystem,
-            IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, ICertificadoService certificadoService, SefazSettings sefazSettings)
+            IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _mailManager = mailManager;

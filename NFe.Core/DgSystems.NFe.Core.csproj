@@ -234,7 +234,6 @@
     <Compile Include="AssinaturaDigital.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="GerarDanfeNfceEmail.cs" />
-    <Compile Include="ICertificadoService.cs" />
     <Compile Include="Conversores\Enums\Autorizacao\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\StatusServico\TCodUfIBGEConversor.cs" />
     <Compile Include="Conversores\Enums\TUfConversor.cs" />

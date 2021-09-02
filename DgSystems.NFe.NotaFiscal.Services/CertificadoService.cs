@@ -1,26 +1,25 @@
-﻿using System;
+﻿using NFe.Core.Interfaces;
+using NFe.Core.Utils;
+using NFe.Core.Utils.Assinatura;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
-using NFe.Core.Interfaces;
-using NFe.Core.Utils;
-using NFe.Core.Utils.Assinatura;
 
 namespace NFe.Core.Cadastro.Certificado
 {
-    public class CertificadoService : ICertificadoService
+    public class CertificadoService
     {
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private ICertificadoRepository _certificadoRepository;
-        private RijndaelManagedEncryption _encryptor;
+        private readonly ICertificadoRepository certificadoRepository;
+        private readonly RijndaelManagedEncryption encryptor;
 
         public CertificadoService(ICertificadoRepository certificadoRepository, RijndaelManagedEncryption encryptor)
         {
-            _certificadoRepository = certificadoRepository;
-            _encryptor = encryptor;
+            this.certificadoRepository = certificadoRepository;
+            this.encryptor = encryptor;
 
             //TODO: Add the correct certificates to the runtime
             ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) =>
@@ -32,41 +31,34 @@ namespace NFe.Core.Cadastro.Certificado
         public X509Certificate2 GetX509Certificate2()
         {
             X509Certificate2 certificado;
-            var certificadoEntity = _certificadoRepository.GetCertificado();
+            var certificadoEntity = certificadoRepository.GetCertificado();
 
             if (certificadoEntity == null) return null;
 
             if (!string.IsNullOrWhiteSpace(certificadoEntity.Caminho))
                 certificado = GetCertificateByPath(certificadoEntity.Caminho,
-                    _encryptor.DecryptRijndael(certificadoEntity.Senha));
+                    encryptor.DecryptRijndael(certificadoEntity.Senha));
             else
                 certificado = GetCertificateBySerialNumber(certificadoEntity.NumeroSerial, false);
 
             return certificado;
         }
 
-        public X509Certificate2 GetCertificateByPath(string caminho, string senha)
+        private X509Certificate2 GetCertificateByPath(string caminho, string senha)
         {
             return new X509Certificate2(@caminho, senha);
         }
 
         public X509Certificate2 GetCertificateBySerialNumber(string serialNumber, bool usaWService)
         {
-            X509Certificate2 _X509Cert = new X509Certificate2();
-
             try
             {
-                X509Certificate2Collection collection2 = GetCertificateCollection(usaWService);
-
-                X509Certificate2Collection scollection = collection2.Find(X509FindType.FindBySerialNumber, serialNumber, false);
-                if (scollection.Count == 0)
-                {
+                X509Certificate2Collection certCollection = GetCertificateCollection(usaWService).Find(X509FindType.FindBySerialNumber, serialNumber, false);
+                X509Certificate2 _X509Cert = new X509Certificate2();
+                if (certCollection.Count == 0)
                     _X509Cert = null;
-                }
                 else
-                {
-                    _X509Cert = scollection[0];
-                }
+                    _X509Cert = certCollection[0];
 
                 return _X509Cert;
             }
@@ -79,39 +71,31 @@ namespace NFe.Core.Cadastro.Certificado
 
         private X509Certificate2Collection GetCertificateCollection(bool usaWService)
         {
-            StoreLocation StLocation = StoreLocation.CurrentUser;
+            StoreLocation storeLocation = StoreLocation.CurrentUser;
 
             if (usaWService)
-                StLocation = StoreLocation.LocalMachine;
+                storeLocation = StoreLocation.LocalMachine;
 
-            X509Store store = new X509Store("MY", StLocation);
+            X509Store store = new X509Store("MY", storeLocation);
             store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-            X509Certificate2Collection collection = store.Certificates;
-            X509Certificate2Collection collection1 = collection.Find(X509FindType.FindByTimeValid, DateTime.Now, true);
-            X509Certificate2Collection collection2 = collection1.Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true);
+            X509Certificate2Collection collection2 = 
+                store.Certificates.Find(X509FindType.FindByTimeValid, DateTime.Now, true)
+                .Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true);
 
             store.Close();
-
             return collection2;
         }
 
         public X509Certificate2 GetCertificateByName(string certificateName, bool usaWService)
         {
-            X509Certificate2 _X509Cert = new X509Certificate2();
-
             try
             {
-                X509Certificate2Collection collection2 = GetCertificateCollection(usaWService);
-
-                X509Certificate2Collection scollection = collection2.Find(X509FindType.FindBySubjectDistinguishedName, certificateName, false);
+                X509Certificate2Collection scollection = GetCertificateCollection(usaWService).Find(X509FindType.FindBySubjectDistinguishedName, certificateName, false);
+                X509Certificate2 _X509Cert = new X509Certificate2();
                 if (scollection.Count == 0)
-                {
                     _X509Cert = null;
-                }
                 else
-                {
                     _X509Cert = scollection[0];
-                }
 
                 return _X509Cert;
             }
@@ -138,7 +122,6 @@ namespace NFe.Core.Cadastro.Certificado
 
             friendlyCertificate.FriendlySubjectName = resultSubject;
             friendlyCertificate.SerialNumber = certificate.SerialNumber;
-
 
             return friendlyCertificate;
         }

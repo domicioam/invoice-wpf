@@ -20,11 +20,11 @@ namespace NFe.Core.NotasFiscais.Services
 
         private const string SEFAZ_ENVIRONMENT = "production";
         private readonly ICertificadoRepository _certificadoRepository;
-        private readonly ICertificadoService _certificateManager;
+        private readonly CertificadoService _certificateManager;
         private readonly IEmitenteRepository _emissorService;
 
         public ConsultaStatusServicoSefazService(IEmitenteRepository emissorService, ICertificadoRepository certificadoService,
-            ICertificadoService certificateManager)
+            CertificadoService certificateManager)
         {
             _emissorService = emissorService;
             _certificadoRepository = certificadoService;
