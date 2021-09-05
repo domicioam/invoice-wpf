@@ -3,7 +3,6 @@ using NFe.Core.Domain;
 using NFe.Core.Interfaces;
 using NFe.Core.NFeInutilizacao4;
 using NFe.Core.NotasFiscais;
-using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
 using System;
@@ -69,7 +68,7 @@ namespace NFe.Core.Sefaz.Facades
             {
                 tpAmb = (Envio.TAmb)(int)ambiente,
                 xServ = Envio.TInutNFeInfInutXServ.INUTILIZAR,
-                cUF = (Envio.TCodUfIBGE)(int)UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(ufEmitente),
+                cUF = (Envio.TCodUfIBGE)(int)codigoUf.ToTCOrgaoIBGE(),
                 ano = DateTime.Now.ToString("yy"),
                 CNPJ = cnpjEmitente,
                 mod = (Envio.TMod)(int)modeloNota,

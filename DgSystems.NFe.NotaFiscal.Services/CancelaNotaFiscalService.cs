@@ -71,7 +71,7 @@ namespace NFe.Core.NotasFiscais.Services
             {
                 var infEvento = new TEventoInfEvento
                 {
-                    cOrgao = UfToTCOrgaoIBGEConversor.GetTCOrgaoIBGE(dadosNotaParaCancelar.ufEmitente),
+                    cOrgao = dadosNotaParaCancelar.codigoUf.ToTCOrgaoIBGE(),
                     tpAmb = (XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TAmb)(int)_sefazSettings.Ambiente,
                     Item = dadosNotaParaCancelar.cnpjEmitente,
                     ItemElementName = XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.ItemChoiceType.CNPJ,

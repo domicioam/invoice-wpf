@@ -240,7 +240,7 @@
     <Compile Include="Conversores\Enums\TUfDestConversor.cs" />
     <Compile Include="Conversores\Enums\TUfEmiConversor.cs" />
     <Compile Include="Conversores\UfToCodigoUfConversor.cs" />
-    <Compile Include="Conversores\UfToTCOrgaoIBGEConversor.cs" />
+    <Compile Include="Conversores\CodigoIbgeExtensions.cs" />
     <Compile Include="Certificate.cs" />
     <Compile Include="MensagemRetornoEventoCancelamento.cs" />
     <Compile Include="IIbptManager.cs" />
