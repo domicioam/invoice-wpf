@@ -16,6 +16,8 @@ namespace NFe.Core.Cadastro.Certificado
         private readonly ICertificadoRepository certificadoRepository;
         private readonly RijndaelManagedEncryption encryptor;
 
+        protected CertificadoService() { }
+
         public CertificadoService(ICertificadoRepository certificadoRepository, RijndaelManagedEncryption encryptor)
         {
             this.certificadoRepository = certificadoRepository;
