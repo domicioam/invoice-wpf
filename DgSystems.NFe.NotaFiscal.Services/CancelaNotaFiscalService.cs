@@ -1,24 +1,22 @@
-﻿using System;
-using System.Globalization;
+﻿using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
-using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
-using NFe.Core.Sefaz.Facades;
 using NFe.Core.NFeRecepcaoEvento4;
-using NFe.Core.Domain;
+using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.Sefaz;
+using NFe.Core.Sefaz.Facades;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
 using NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio;
 using NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Xml;
 using Proc = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;
 using TEvento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TEvento;
 using TEventoInfEvento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TEventoInfEvento;
 using TEventoInfEventoDetEvento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Envio.TEventoInfEventoDetEvento;
-using NFe.Core.Cadastro.Certificado;
-using System.Xml;
-using System.Linq;
-using System.IO;
 
 namespace NFe.Core.NotasFiscais.Services
 {
@@ -64,7 +62,6 @@ namespace NFe.Core.NotasFiscais.Services
 
             notaFiscalEntity.Status = (int)Status.CANCELADA;
             _notaFiscalRepository.Salvar(notaFiscalEntity, null);
-
             return resultadoCancelamento;
         }
 
@@ -83,7 +80,6 @@ namespace NFe.Core.NotasFiscais.Services
                     tpEvento = TEventoInfEventoTpEvento.Item110111,
                     nSeqEvento = "1",
                     verEvento = TEventoInfEventoVerEvento.Item100,
-
                     detEvento = new TEventoInfEventoDetEvento()
                 };
                 infEvento.detEvento.versao = TEventoInfEventoDetEventoVersao.Item100;
@@ -106,30 +102,24 @@ namespace NFe.Core.NotasFiscais.Services
                 };
 
                 var xml = XmlUtil.Serialize(envioEvento, "http://www.portalfiscal.inf.br/nfe");
-
                 var certificado = _certificadoService.GetX509Certificate2();
-
                 XmlNode node = AssinaturaDigital.AssinarEvento(xml, "#" + infEvento.Id, certificado);
 
                 //var resultadoValidacao = ValidadorXml.ValidarXml(node.OuterXml, "envEventoCancNFe_v1.00.xsd");
 
                 var servico = _serviceFactory.GetService(dadosNotaParaCancelar.modeloNota,
-                                                Servico.CANCELAMENTO, dadosNotaParaCancelar.codigoUf, certificado);
+                    Servico.CANCELAMENTO, dadosNotaParaCancelar.codigoUf, certificado);
 
                 var client = (NFeRecepcaoEvento4SoapClient)servico.SoapClient;
-
                 var result = client.nfeRecepcaoEvento(node);
-
                 var retorno = (TRetEnvEvento)XmlUtil.Deserialize<TRetEnvEvento>(result.OuterXml);
 
                 if (retorno.cStat.Equals("128"))
                 {
                     var retEvento = retorno.retEvento;
-
                     if (retEvento.Length > 0)
                     {
                         var retInfEvento = retEvento[0].infEvento;
-
                         if (retInfEvento.cStat.Equals("135"))
                         {
                             var procEvento = new Proc.TProcEvento();
@@ -180,17 +170,11 @@ namespace NFe.Core.NotasFiscais.Services
                 string sDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EmissorNFeDir");
 
                 if (!Directory.Exists(sDirectory))
-                {
                     Directory.CreateDirectory(sDirectory);
-                }
 
                 using (FileStream stream = File.Create(Path.Combine(sDirectory, "cancelarNotaErro.txt")))
-                {
                     using (StreamWriter writer = new StreamWriter(stream))
-                    {
                         writer.WriteLine(e.ToString());
-                    }
-                }
 
                 return new MensagemRetornoEventoCancelamento()
                 {
