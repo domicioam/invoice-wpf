@@ -21,6 +21,13 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 
         public MensagemRetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Modelo modelo)
         {
+            string endpoint;
+            if (modelo == Modelo.Modelo55)
+                endpoint = "NfeConsulta2";
+            else
+                endpoint = "NfceConsulta2";
+
+            string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
             var parametro = new TConsSitNFe
             {
                 chNFe = chave,
@@ -28,24 +35,11 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
                 versao = Envio.TVerConsSitNFe.Item400,
                 xServ = TConsSitNFeXServ.CONSULTAR
             };
-
-            string nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
             string parametroXML = XmlUtil.Serialize(parametro, nFeNamespaceName);
-
-            XmlDocument doc = new XmlDocument();
             XmlReader reader = XmlReader.Create(new StringReader(parametroXML));
             reader.MoveToContent();
-
+            XmlDocument doc = new XmlDocument();
             XmlNode node = doc.ReadNode(reader);
-            string endpoint;
-            if (modelo == Modelo.Modelo55)
-            {
-                endpoint = "NfeConsulta2";
-            }
-            else
-            {
-                endpoint = "NfceConsulta2";
-            }
 
             var soapClient = new NFeConsultaProtocolo4SoapClient(endpoint);
             soapClient.ClientCredentials.ClientCertificate.Certificate = certificado;
