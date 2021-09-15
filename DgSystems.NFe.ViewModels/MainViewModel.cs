@@ -36,7 +36,7 @@ namespace EmissorNFe.ViewModel
 
         private void LoadedCmd_Execute()
         {
-            Func<IUntypedActorContext, IActorRef> maker = _ => actorSystem.ActorOf(Props.Create(() => new EmiteNFeContingenciaActor(NotaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)));
+            Func<IUntypedActorContext, IActorRef> maker = ctx => ctx.ActorOf(Props.Create(() => new EmiteNFeContingenciaActor(NotaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)));
             var modoOnlineActor = actorSystem.ActorOf(Props.Create(() => new ModoOnlineActor(configuracaoRepository, consultaStatusServicoService, NotaFiscalRepository, emiteNotaFiscalContingenciaService, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings, maker)), "modoOnline");
             modoOnlineActor.Tell(new ModoOnlineActor.Start());
 
