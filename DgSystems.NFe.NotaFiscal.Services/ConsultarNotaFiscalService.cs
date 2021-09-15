@@ -41,11 +41,8 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
             XmlDocument doc = new XmlDocument();
             XmlNode node = doc.ReadNode(reader);
 
-            var soapClient = new NFeConsultaProtocolo4SoapClient(endpoint);
-            soapClient.ClientCredentials.ClientCertificate.Certificate = certificado;
-            XmlNode result = soapClient.nfeConsultaNF(node);
-            var retornoConsulta = (TRetConsSitNFe)XmlUtil.Deserialize<TRetConsSitNFe>(result.OuterXml);
-            
+            TRetConsSitNFe retornoConsulta = ExecutaConsulta(certificado, endpoint, node);
+
             if (retornoConsulta.cStat != "100") return new MensagemRetornoConsulta { IsEnviada = false };
 
             return new MensagemRetornoConsulta
@@ -54,6 +51,14 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
                 Protocolo = new Protocolo(retornoConsulta.protNFe),
                 DhAutorizacao = retornoConsulta.protNFe.infProt.dhRecbto //não é a hora da autorização
             };
+        }
+
+        protected virtual TRetConsSitNFe ExecutaConsulta(X509Certificate2 certificado, string endpoint, XmlNode node)
+        {
+            var soapClient = new NFeConsultaProtocolo4SoapClient(endpoint);
+            soapClient.ClientCredentials.ClientCertificate.Certificate = certificado;
+            XmlNode result = soapClient.nfeConsultaNF(node);
+            return (TRetConsSitNFe)XmlUtil.Deserialize<TRetConsSitNFe>(result.OuterXml);
         }
     }
 }
