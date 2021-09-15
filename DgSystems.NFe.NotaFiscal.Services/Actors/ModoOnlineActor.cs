@@ -36,7 +36,7 @@ namespace DgSystems.NFe.Services.Actors
 
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly IConfiguracaoRepository _configuracaoRepository;
+        private readonly IConfiguracaoRepository configuracaoRepository;
         private readonly IConsultaStatusServicoSefazService _consultaStatusServicoService;
         private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
         private readonly INotaFiscalRepository _notaFiscalRepository;
@@ -45,14 +45,16 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IServiceFactory serviceFactory;
         private readonly CertificadoService certificadoService;
         private readonly SefazSettings sefazSettings;
+        private readonly Func<IUntypedActorContext, IActorRef> contingenciaMaker;
         private IActorRef emiteNfeContingenciaActor;
 
         public ModoOnlineActor(IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, IEmitenteRepository emissorService,
-            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings)
+            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings,
+            Func<IUntypedActorContext, IActorRef> contingenciaMaker)
         {
             _notaFiscalRepository = notaFiscalRepository;
-            _configuracaoRepository = configuracaoRepository;
+            this.configuracaoRepository = configuracaoRepository;
             _consultaStatusServicoService = consultaStatusServicoService;
 
             _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
@@ -62,7 +64,7 @@ namespace DgSystems.NFe.Services.Actors
             this.serviceFactory = serviceFactory;
             this.certificadoService = certificadoService;
             this.sefazSettings = sefazSettings;
-
+            this.contingenciaMaker = contingenciaMaker;
             Receive<Start>(HandleStart);
             Receive<Tick>(HandleTick);
             Receive<AtivarModoOffline>(HandleAtivarModoOffline);
@@ -85,7 +87,7 @@ namespace DgSystems.NFe.Services.Actors
         {
             try
             {
-                var configuração = _configuracaoRepository.GetConfiguracao();
+                var configuração = configuracaoRepository.GetConfiguracao();
 
                 if (msg.Erros != null)
                 {
@@ -120,26 +122,26 @@ namespace DgSystems.NFe.Services.Actors
 
         private void HandleAtivarModoOnline(AtivarModoOnline msg)
         {
-            var configuração = _configuracaoRepository.GetConfiguracao();
+            var configuração = configuracaoRepository.GetConfiguracao();
 
             configuração.IsContingencia = false;
-            _configuracaoRepository.Salvar(configuração);
+            configuracaoRepository.Salvar(configuração);
 
             SetReceiveTimeout(TimeSpan.FromSeconds(30));
-            emiteNfeContingenciaActor = Context.ActorOf(Props.Create(() => new EmiteNFeContingenciaActor(_notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)));
+            emiteNfeContingenciaActor = contingenciaMaker(Context);
             emiteNfeContingenciaActor.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
         }
 
         private void HandleAtivarModoOffline(AtivarModoOffline msg)
         {
-            var config = _configuracaoRepository.GetConfiguracao();
+            var config = configuracaoRepository.GetConfiguracao();
 
             if (config.IsContingencia)
             {
                 config.IsContingencia = true;
                 config.DataHoraEntradaContingencia = msg.DataHoraContingencia;
                 config.JustificativaContingencia = msg.Justificativa;
-                _configuracaoRepository.Salvar(config);
+                configuracaoRepository.Salvar(config);
             }
 
             var theEvent = new ServicoOfflineEvent();
@@ -149,7 +151,7 @@ namespace DgSystems.NFe.Services.Actors
         private void HandleTick(Tick obj)
         {
             log.Info("Verificando estado do serviço da Sefaz.");
-            var config = _configuracaoRepository.GetConfiguracao();
+            var config = configuracaoRepository.GetConfiguracao();
 
             if (config == null)
                 return;
