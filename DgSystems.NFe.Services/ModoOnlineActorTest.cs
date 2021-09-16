@@ -17,6 +17,8 @@ using Akka.Actor;
 using DgSystems.NFe.Services.Actors;
 using NFe.Core.Cadastro.Configuracoes;
 using NFe.Core.Domain;
+using NFe.Core.Messaging;
+using NFe.Core.Events;
 
 namespace DgSystems.NFe.Services.UnitTests
 {
@@ -84,6 +86,43 @@ namespace DgSystems.NFe.Services.UnitTests
             contingenciaActor.ExpectMsg<EmiteNFeContingenciaActor.TransmitirNFeEmContingencia>();
             configuracaoRepository.Verify(c => c.Salvar(It.Is<ConfiguracaoEntity>(config => config.IsContingencia == false)), Times.Once);
             configuracaoRepository.Verify(c => c.GetConfiguracao(), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void Should_activate_modo_offline_when_started_and_service_is_down()
+        {
+            // Given
+            Mock<IConfiguracaoRepository> configuracaoRepository = new Mock<IConfiguracaoRepository>();
+            Mock<IConsultaStatusServicoSefazService> consultaStatusServicoService = new Mock<IConsultaStatusServicoSefazService>();
+            Mock<INotaFiscalRepository> notaFiscalRepository = new Mock<INotaFiscalRepository>();
+            Mock<IEmiteNotaFiscalContingenciaFacade> emiteNotaFiscalContingenciaService = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            Mock<IEmitenteRepository> emissorService = new Mock<IEmitenteRepository>();
+            Mock<IConsultarNotaFiscalService> nfeConsulta = new Mock<IConsultarNotaFiscalService>();
+            Mock<IServiceFactory> serviceFactory = new Mock<IServiceFactory>();
+            Mock<CertificadoService> certificadoService = new Mock<CertificadoService>();
+            Mock<SefazSettings> sefazSettings = new Mock<SefazSettings>();
+
+            configuracaoRepository.Setup(c => c.GetConfiguracao()).Returns(new ConfiguracaoEntity() { IsContingencia = false, JustificativaContingencia = null });
+            consultaStatusServicoService.Setup(c => c.ExecutarConsultaStatus(It.IsAny<ConfiguracaoEntity>(), It.IsAny<Modelo>())).Returns(false);
+            int count = 0;
+            MessagingCenter.Subscribe<ModoOnlineActor, ServicoOfflineEvent>(this, nameof(ServicoOfflineEvent), (s, e) => count++);
+
+            var contingenciaActor = CreateTestProbe();
+
+            var subject = Sys.ActorOf(Props.Create(() => new ModoOnlineActor(
+                configuracaoRepository.Object, consultaStatusServicoService.Object, notaFiscalRepository.Object,
+                emiteNotaFiscalContingenciaService.Object, emissorService.Object, nfeConsulta.Object,
+                serviceFactory.Object, certificadoService.Object, sefazSettings.Object, _ => contingenciaActor.Ref)));
+
+            // When
+            subject.Tell(new ModoOnlineActor.Start());
+
+            // Then
+            contingenciaActor.ExpectNoMsg();
+            configuracaoRepository.Verify(c => c.Salvar(It.Is<ConfiguracaoEntity>(config => config.IsContingencia && !string.IsNullOrEmpty(config.JustificativaContingencia))), Times.Once);
+            configuracaoRepository.Verify(c => c.GetConfiguracao(), Times.Exactly(2));
+            Task.Delay(TimeSpan.FromSeconds(2)).Wait();
+            Assert.Equal(1, count);
         }
     }
 }

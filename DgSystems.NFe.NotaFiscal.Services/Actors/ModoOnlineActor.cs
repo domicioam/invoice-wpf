@@ -136,7 +136,7 @@ namespace DgSystems.NFe.Services.Actors
         {
             var config = configuracaoRepository.GetConfiguracao();
 
-            if (config.IsContingencia)
+            if (!config.IsContingencia)
             {
                 config.IsContingencia = true;
                 config.DataHoraEntradaContingencia = msg.DataHoraContingencia;

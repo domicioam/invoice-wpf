@@ -132,6 +132,10 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DgSystems.NFe.Extensions\DgSystems.NFe.Extensions.csproj">
+      <Project>{4FC78899-460B-4AE0-98E5-E3997CF9A110}</Project>
+      <Name>DgSystems.NFe.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DgSystems.NFe.NotaFiscal.Services\DgSystems.NFe.Services.csproj">
       <Project>{ecdf9d2b-0867-4dc3-a82f-00fa86d0ed10}</Project>
       <Name>DgSystems.NFe.Services</Name>
