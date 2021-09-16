@@ -37,9 +37,9 @@ namespace DgSystems.NFe.Services.Actors
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IConfiguracaoRepository configuracaoRepository;
-        private readonly IConsultaStatusServicoSefazService _consultaStatusServicoService;
-        private readonly IEmiteNotaFiscalContingenciaFacade _emiteNotaFiscalContingenciaService;
-        private readonly INotaFiscalRepository _notaFiscalRepository;
+        private readonly IConsultaStatusServicoSefazService consultaStatusServicoService;
+        private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
+        private readonly INotaFiscalRepository notaFiscalRepository;
         private readonly IEmitenteRepository emissorService;
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory serviceFactory;
@@ -53,18 +53,17 @@ namespace DgSystems.NFe.Services.Actors
             IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings,
             Func<IUntypedActorContext, IActorRef> contingenciaMaker)
         {
-            _notaFiscalRepository = notaFiscalRepository;
+            this.notaFiscalRepository = notaFiscalRepository;
             this.configuracaoRepository = configuracaoRepository;
-            _consultaStatusServicoService = consultaStatusServicoService;
-
-            _emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
-
+            this.consultaStatusServicoService = consultaStatusServicoService;
+            this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             this.emissorService = emissorService;
             this.nfeConsulta = nfeConsulta;
             this.serviceFactory = serviceFactory;
             this.certificadoService = certificadoService;
             this.sefazSettings = sefazSettings;
             this.contingenciaMaker = contingenciaMaker;
+
             Receive<Start>(HandleStart);
             Receive<Tick>(HandleTick);
             Receive<AtivarModoOffline>(HandleAtivarModoOffline);
@@ -87,26 +86,23 @@ namespace DgSystems.NFe.Services.Actors
         {
             try
             {
+                if (msg.Erros == null) return;
+                
                 var configuração = configuracaoRepository.GetConfiguracao();
+                NotaFiscalEntity primeiraNotaContingencia = notaFiscalRepository.GetPrimeiraNotaEmitidaEmContingencia(configuração.DataHoraEntradaContingencia, DateTime.Now);
+                NotaFiscalEntity notaParaCancelar = null;
 
-                if (msg.Erros != null)
+                if (primeiraNotaContingencia != null)
                 {
-                    var primeiraNotaContingencia = _notaFiscalRepository.GetPrimeiraNotaEmitidaEmContingencia(configuração.DataHoraEntradaContingencia, DateTime.Now);
-
-                    NotaFiscalEntity notaParaCancelar = null;
-
-                    if (primeiraNotaContingencia != null)
-                    {
-                        var numero = int.Parse(primeiraNotaContingencia.Numero) - 1;
-                        notaParaCancelar = _notaFiscalRepository.GetNota(numero.ToString(), primeiraNotaContingencia.Serie,
-                            primeiraNotaContingencia.Modelo);
-                    }
-
-                    _emiteNotaFiscalContingenciaService.InutilizarCancelarNotasPendentesContingencia(notaParaCancelar, _notaFiscalRepository);
-
-                    var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = msg.Erros };
-                    MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
+                    int numero = int.Parse(primeiraNotaContingencia.Numero) - 1;
+                    notaParaCancelar = notaFiscalRepository.GetNota(numero.ToString(), primeiraNotaContingencia.Serie,
+                        primeiraNotaContingencia.Modelo);
                 }
+
+                emiteNotaFiscalContingenciaService.InutilizarCancelarNotasPendentesContingencia(notaParaCancelar, notaFiscalRepository);
+
+                var theEvent = new NotasFiscaisTransmitidasEvent() { MensagensErro = msg.Erros };
+                MessagingCenter.Send(this, nameof(NotasFiscaisTransmitidasEvent), theEvent);
             }
             catch (Exception e)
             {
@@ -156,8 +152,8 @@ namespace DgSystems.NFe.Services.Actors
             if (config == null)
                 return;
 
-            if (_consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo55)
-                && _consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo65))
+            if (consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo55)
+                && consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo65))
             {
                 Self.Tell(new AtivarModoOnline());
                 log.Info("Modo online ativado.");
