@@ -112,7 +112,8 @@ namespace DgSystems.NFe.Services.Actors
             }
             finally
             {
-                Context.Stop(emiteNfeContingenciaActor);
+                if(emiteNfeContingenciaActor != null)
+                    Context.Stop(emiteNfeContingenciaActor);
             }
         }
 
