@@ -12,6 +12,7 @@ using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace DgSystems.NFe.Services.Actors
 {
@@ -153,8 +154,8 @@ namespace DgSystems.NFe.Services.Actors
             if (config == null)
                 return;
 
-            if (consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo55)
-                && consultaStatusServicoService.ExecutarConsultaStatus(config, Modelo.Modelo65))
+            if (consultaStatusServicoService.ExecutarConsultaStatus(Modelo.Modelo55, ConfigurationManager.AppSettings["sefazEnvironment"])
+                && consultaStatusServicoService.ExecutarConsultaStatus(Modelo.Modelo65, ConfigurationManager.AppSettings["sefazEnvironment"]))
             {
                 Self.Tell(new AtivarModoOnline());
                 log.Info("Modo online ativado.");

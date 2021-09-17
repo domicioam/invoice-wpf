@@ -30,7 +30,7 @@ namespace NFe.Core.Cadastro.Certificado
             };
         }
 
-        public X509Certificate2 GetX509Certificate2()
+        public virtual X509Certificate2 GetX509Certificate2()
         {
             X509Certificate2 certificado;
             var certificadoEntity = certificadoRepository.GetCertificado();

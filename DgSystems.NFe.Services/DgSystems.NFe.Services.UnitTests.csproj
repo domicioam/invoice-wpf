@@ -116,8 +116,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateFixture.cs" />
     <Compile Include="ConsultarNotaFiscalServiceMock.cs" />
     <Compile Include="ConsultarNotaFiscalServiceTest.cs" />
+    <Compile Include="ConsultaStatusServicoSefazServiceMock.cs" />
+    <Compile Include="ConsultaStatusServicoSefazServiceTest.cs" />
     <Compile Include="ModoOnlineActorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -22,6 +22,7 @@ using NFe.WPF.ViewModel.Mementos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -79,10 +80,10 @@ namespace DgSystems.NFe.ViewModels
         private readonly IEmitenteRepository _emissorService;
         private readonly EnviarEmailViewModel _enviarEmailViewModel;
 
-        private bool _isBusy;
-        private bool _isLoaded;
+        private bool isBusy;
+        private bool isLoaded;
 
-        private bool _isNotasPendentesVerificadas;
+        private bool isNotasPendentesVerificadas;
         private string _mensagensErroContingencia;
         private readonly IConsultarNotaFiscalService _nfeConsulta;
         private readonly INotaFiscalRepository _notaFiscalRepository;
@@ -110,8 +111,8 @@ namespace DgSystems.NFe.ViewModels
 
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
         }
 
         public string BusyContent
@@ -122,10 +123,10 @@ namespace DgSystems.NFe.ViewModels
 
         private async Task AtualizarNotasPendentesAsync(X509Certificate2 certificado, List<NotaFiscalEntity> notasFiscaisPendentes, string codigoUf)
         {
-            if (_isNotasPendentesVerificadas || NotasFiscais.Count == 0)
+            if (isNotasPendentesVerificadas || NotasFiscais.Count == 0)
                 return;
 
-            _isNotasPendentesVerificadas = true;
+            isNotasPendentesVerificadas = true;
 
             if (notasFiscaisPendentes.Count == 0) return;
 
@@ -202,10 +203,8 @@ namespace DgSystems.NFe.ViewModels
         {
             IsBusy = true;
             BusyContent = "Enviando...";
-
-            var config = await _configuracaoService.GetConfiguracaoAsync();
             var modelo = notaPendenteMemento.Tipo == "NFC-e" ? Modelo.Modelo65 : Modelo.Modelo55;
-            if (!_consultaStatusServicoService.ExecutarConsultaStatus(config, modelo))
+            if (!_consultaStatusServicoService.ExecutarConsultaStatus(modelo, ConfigurationManager.AppSettings["sefazEnvironment"]))
             {
                 const string mensagem = "Serviço continua indisponível. Aguarde o reestabelecimento da conexão e tente novamente.";
                 const string caption = "Erro de conexão ou serviço indisponível";
@@ -229,6 +228,8 @@ namespace DgSystems.NFe.ViewModels
 
                 var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta, emiteNotaFiscalContingenciaService)));
                 var certificado = _certificadoService.GetX509Certificate2();
+
+                var config = await _configuracaoService.GetConfiguracaoAsync();
                 var xmlNFe = new XmlNFe(notaFiscalBo, "http://www.portalfiscal.inf.br/nfe", certificado, config.CscId, config.Csc);
                 await enviarNotaActor.Ask<ResultadoEnvio>(new EnviarNotaActor.EnviarNotaFiscal(notaFiscalBo, config.CscId, config.Csc, certificado, xmlNFe), TimeSpan.FromSeconds(40));
 
@@ -245,9 +246,7 @@ namespace DgSystems.NFe.ViewModels
                     var command = new ImprimirDanfeCommand(notaFiscalBo, mediator);
                     command.ExecuteAsync();
                     if (!command.IsExecuted)
-                    {
                         log.Error("Danfe não impresso.");
-                    }
                 }
 
                 IsBusy = false;
@@ -255,14 +254,10 @@ namespace DgSystems.NFe.ViewModels
                 var destinatarioUf = notaFiscalBo.Emitente.Endereco.UF;
 
                 if (notaFiscalBo.Destinatario == null)
-                {
                     destinatario = new Destinatario("CONSUMIDOR NÃO IDENTIFICADO"); // não é responsabilidade da view model saber que o consumidor não é identificado
-                }
                 else
-                {
                     destinatario = notaFiscalBo.Destinatario;
                     destinatarioUf = destinatario.Endereco != null ? destinatario.Endereco.UF : destinatarioUf;
-                }
 
                 var valorTotalProdutos = notaFiscalBo.ValorTotalProdutos.ToString("N2", new CultureInfo("pt-BR"));
 
@@ -299,7 +294,7 @@ namespace DgSystems.NFe.ViewModels
 
         private async void LoadedCmd_Execute()
         {
-            _isLoaded = true;
+            isLoaded = true;
 
             if (!string.IsNullOrEmpty(_mensagensErroContingencia))
             {
@@ -334,7 +329,7 @@ namespace DgSystems.NFe.ViewModels
 
         private async void ModoOnlineService_NotasTransmitidasEventHandler(List<string> mensagensErro)
         {
-            if (_isLoaded)
+            if (isLoaded)
             {
                 await PopularListaNotasFiscaisAsync();
                 await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(async () =>
@@ -356,7 +351,7 @@ namespace DgSystems.NFe.ViewModels
                 foreach (var msg in mensagensErro)
                     sb.Append("\n" + msg);
 
-                if (_isLoaded)
+                if (isLoaded)
                     MessageBox.Show(Application.Current.MainWindow, "Ocorreram os seguintes erros ao transmitir as notas em contingência:\n" +
                         sb, "Erro contingência", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
@@ -390,8 +385,7 @@ namespace DgSystems.NFe.ViewModels
         {
             return Task.Run(async () =>
             {
-                var notasDb = await _notaFiscalRepository.TakeAsync(100, page);
-
+                List<NotaFiscalEntity> notasDb = await _notaFiscalRepository.TakeAsync(100, page);
                 if (notasDb == null) return;
 
                 var notaFiscalMementos = notasDb

@@ -20,6 +20,7 @@ using NFe.Core.Domain;
 using NFe.Core.Messaging;
 using NFe.Core.Events;
 using NFe.Core.Entitities;
+using System.Configuration;
 
 namespace DgSystems.NFe.Services.UnitTests
 {
@@ -70,7 +71,7 @@ namespace DgSystems.NFe.Services.UnitTests
             Mock<SefazSettings> sefazSettings = new Mock<SefazSettings>();
 
             configuracaoRepository.Setup(c => c.GetConfiguracao()).Returns(new ConfiguracaoEntity());
-            consultaStatusServicoService.Setup(c => c.ExecutarConsultaStatus(It.IsAny<ConfiguracaoEntity>(), It.IsAny<Modelo>())).Returns(true);
+            consultaStatusServicoService.Setup(c => c.ExecutarConsultaStatus(It.IsAny<Modelo>(), ConfigurationManager.AppSettings["sefazEnvironment"])).Returns(true);
 
             var contingenciaActor = CreateTestProbe();
 
@@ -102,7 +103,7 @@ namespace DgSystems.NFe.Services.UnitTests
             Mock<SefazSettings> sefazSettings = new Mock<SefazSettings>();
 
             configuracaoRepository.Setup(c => c.GetConfiguracao()).Returns(new ConfiguracaoEntity() { IsContingencia = false, JustificativaContingencia = null });
-            consultaStatusServicoService.Setup(c => c.ExecutarConsultaStatus(It.IsAny<ConfiguracaoEntity>(), It.IsAny<Modelo>())).Returns(false);
+            consultaStatusServicoService.Setup(c => c.ExecutarConsultaStatus(It.IsAny<Modelo>(), ConfigurationManager.AppSettings["sefazEnvironment"])).Returns(false);
             int count = 0;
             MessagingCenter.Subscribe<ModoOnlineActor, ServicoOfflineEvent>(this, nameof(ServicoOfflineEvent), (s, e) => count++);
 

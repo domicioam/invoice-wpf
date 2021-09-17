@@ -2,18 +2,19 @@
 using NFe.Core.Domain;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DgSystems.NFe.Services.UnitTests
 {
-    public class ConsultarNotaFiscalServiceTest
+    public class ConsultarNotaFiscalServiceTest : IClassFixture<CertificateFixture>
     {
+        private readonly CertificateFixture certificateFixture;
+
+        public ConsultarNotaFiscalServiceTest(CertificateFixture certificateFixture)
+        {
+            this.certificateFixture = certificateFixture;
+        }
+
         [Theory]
         [InlineData(Modelo.Modelo55)]
         [InlineData(Modelo.Modelo65)]
@@ -24,7 +25,8 @@ namespace DgSystems.NFe.Services.UnitTests
             var consultaService = new ConsultarNotaFiscalServiceMock(sefazSettings, "100");
 
             // When
-            MensagemRetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(), X509Certificate2, modelo);
+            MensagemRetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(),
+                certificateFixture.X509Certificate2, modelo);
 
             // Then
             Assert.True(retorno.IsEnviada);
@@ -41,19 +43,12 @@ namespace DgSystems.NFe.Services.UnitTests
             var consultaService = new ConsultarNotaFiscalServiceMock(sefazSettings, "500");
 
             // When
-            MensagemRetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(), X509Certificate2, modelo);
+            MensagemRetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(),
+                certificateFixture.X509Certificate2, modelo);
 
             // Then
             Assert.False(retorno.IsEnviada);
             Assert.Null(retorno.Protocolo);
-        }
-
-        public X509Certificate2 X509Certificate2
-        {
-            get
-            {
-                return new X509Certificate2("MyDevCert.pfx", "SuperS3cret!");
-            }
         }
     }
 }
