@@ -8,22 +8,18 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento;
 using NFe.Core.NotasFiscais.Services;
 using NFe.Core.Sefaz;
-using NFe.Core.Sefaz.Facades;
-using System;
-using System.Globalization;
 using Xunit;
 
 namespace NFe.Core.UnitTests.Facades
 {
-    public class CancelaNotaFiscalServiceTests : IClassFixture<CertificateFixture>, IClassFixture<CancelaNotaFiscalFixture>
+    public class CancelaNotaFiscalServiceTest : IClassFixture<CertificateFixture>, IClassFixture<CancelaNotaFiscalFixture>
     {
-        public CancelaNotaFiscalServiceTests(CertificateFixture fixture, CancelaNotaFiscalFixture cancelaNotaFiscalFixture)
+        public CancelaNotaFiscalServiceTest(CertificateFixture fixture, CancelaNotaFiscalFixture cancelaNotaFiscalFixture)
         {
             this.fixture = fixture;
             this.cancelaNotaFiscalFixture = cancelaNotaFiscalFixture;
         }
 
-        private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
         private readonly CertificateFixture fixture;
         private readonly CancelaNotaFiscalFixture cancelaNotaFiscalFixture;
 
