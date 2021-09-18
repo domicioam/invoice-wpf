@@ -124,6 +124,7 @@
     <Compile Include="ImportadorXmlService.cs" />
     <Compile Include="InutilizarNotaFiscalService.cs" />
     <Compile Include="ConsultarNotaFiscalService.cs" />
+    <Compile Include="MapperProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory.cs" />
   </ItemGroup>

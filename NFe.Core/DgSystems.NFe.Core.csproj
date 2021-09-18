@@ -242,7 +242,7 @@
     <Compile Include="Conversores\UfToCodigoUfConversor.cs" />
     <Compile Include="Conversores\CodigoIbgeExtensions.cs" />
     <Compile Include="Certificate.cs" />
-    <Compile Include="MensagemRetornoEventoCancelamento.cs" />
+    <Compile Include="RetornoEventoCancelamento.cs" />
     <Compile Include="IIbptManager.cs" />
     <Compile Include="NotasFiscais\NotaFiscalService.cs" />
     <Compile Include="NotasFiscais\Numeracao.cs" />

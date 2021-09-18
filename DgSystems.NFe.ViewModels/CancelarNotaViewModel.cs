@@ -52,15 +52,8 @@ namespace NFe.WPF.ViewModel
 
             if (!HasErrors)
             {
-                var dadosNotaParaCancelar = new DadosNotaParaCancelar()
-                {
-                    chaveNFe = Chave,
-                    cnpjEmitente = Cnpj,
-                    codigoUf = CodigoUF,
-                    ufEmitente = UF,
-                    modeloNota = ModeloNota,
-                    protocoloAutorizacao = Protocolo
-                };
+                var dadosNotaParaCancelar = new DadosNotaParaCancelar(UF, CodigoUF, Cnpj, Chave,
+                    Protocolo, ModeloNota);
 
                 var mensagemRetorno = _cancelaNotaFiscalService.CancelarNotaFiscal(dadosNotaParaCancelar, MotivoCancelamento);
 

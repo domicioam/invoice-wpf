@@ -9,6 +9,16 @@ namespace NFe.Core.Sefaz.Facades
 {
     public class DadosNotaParaCancelar
     {
+        public DadosNotaParaCancelar(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, string chaveNFe, string protocoloAutorizacao, Modelo modeloNota)
+        {
+            this.ufEmitente = ufEmitente;
+            this.codigoUf = codigoUf;
+            this.cnpjEmitente = cnpjEmitente;
+            this.chaveNFe = chaveNFe;
+            this.protocoloAutorizacao = protocoloAutorizacao;
+            this.modeloNota = modeloNota;
+        }
+
         public string ufEmitente { get; set; }
         public CodigoUfIbge codigoUf { get; set; }
         public string cnpjEmitente { get; set; }

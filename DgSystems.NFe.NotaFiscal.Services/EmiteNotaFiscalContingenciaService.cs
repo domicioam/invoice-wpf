@@ -77,15 +77,8 @@ namespace NFe.Core.Sefaz.Facades
 
             if (result.IsEnviada)
             {
-                var dadosNotaParaCancelar = new DadosNotaParaCancelar
-                {
-                    ufEmitente = ufEmissor,
-                    codigoUf = codigoUfEnum,
-                    cnpjEmitente = emitente.CNPJ,
-                    chaveNFe = notaParaCancelar.Chave,
-                    protocoloAutorizacao = result.Protocolo.Numero,
-                    modeloNota = modelo
-                };
+                var dadosNotaParaCancelar = new DadosNotaParaCancelar(ufEmissor, codigoUfEnum, emitente.CNPJ, notaParaCancelar.Chave, 
+                    result.Protocolo.Numero, modelo);
 
                 _cancelaNotaFiscalService.CancelarNotaFiscal(dadosNotaParaCancelar, "Nota duplicada em contingência");
             }

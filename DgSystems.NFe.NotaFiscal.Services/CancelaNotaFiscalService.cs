@@ -33,8 +33,9 @@ namespace NFe.Core.NotasFiscais.Services
         private readonly IMapper mapper;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public CancelaNotaFiscalService(INotaFiscalRepository notaFiscalRepository,
-            IEventoRepository eventoService, CertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings, IMapper mapper)
+        public CancelaNotaFiscalService(INotaFiscalRepository notaFiscalRepository, IEventoRepository eventoService,
+            CertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings,
+            IMapper mapper)
         {
             this.notaFiscalRepository = notaFiscalRepository;
             this.eventoService = eventoService;

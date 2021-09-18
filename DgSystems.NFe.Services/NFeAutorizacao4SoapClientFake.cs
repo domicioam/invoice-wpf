@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using NFe.Core.NFeAutorizacao4;
 using System.Net;
+using System.ServiceModel;
 
 namespace NFe.Core.UnitTests.NotaFiscalService
 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public class NFeAutorizacao4SoapClientFake : System.ServiceModel.ClientBase<NFe.Core.NFeAutorizacao4.NFeAutorizacao4Soap>, NFe.Core.NFeAutorizacao4.NFeAutorizacao4Soap
+    public class NFeAutorizacao4SoapClientFake : ClientBase<NFe.Core.NFeAutorizacao4.NFeAutorizacao4Soap>, NFe.Core.NFeAutorizacao4.NFeAutorizacao4Soap
     {
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]

@@ -50,14 +50,24 @@
     <Reference Include="Akka.TestKit.Xunit2, Version=1.4.25.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Akka.TestKit.Xunit2.1.4.25\lib\netstandard2.0\Akka.TestKit.Xunit2.dll</HintPath>
     </Reference>
+    <Reference Include="AutoFixture, Version=4.17.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.4.17.0\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Moq, Version=4.15.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.15.2\lib\net45\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -66,6 +76,7 @@
     <Reference Include="System.Collections.Immutable, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.5.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.ConfigurationManager, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Configuration.ConfigurationManager.5.0.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
@@ -95,6 +106,7 @@
     <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -116,13 +128,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CancelaNotaFiscalServiceTest.cs" />
+    <Compile Include="Actors\EmiteNFeContingenciaActorMock.cs" />
+    <Compile Include="Actors\EmiteNFeContingenciaActorTest.cs" />
+    <Compile Include="Actors\EmiteNFeContingenciaFixture.cs" />
+    <Compile Include="Actors\EnviarNotaActorTest.cs" />
+    <Compile Include="CancelaNotaFiscalFixture.cs" />
+    <Compile Include="CancelaNotaFiscalServiceMock.cs" />
+    <Compile Include="CancelaNotaFiscalServiceTests.cs" />
     <Compile Include="CertificateFixture.cs" />
+    <Compile Include="ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ConsultarNotaFiscalServiceMock.cs" />
     <Compile Include="ConsultarNotaFiscalServiceTest.cs" />
     <Compile Include="ConsultaStatusServicoSefazServiceMock.cs" />
     <Compile Include="ConsultaStatusServicoSefazServiceTest.cs" />
+    <Compile Include="EmiteNotaFiscalContingenciaServiceTests.cs" />
     <Compile Include="ModoOnlineActorTest.cs" />
+    <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
+    <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
+    <Compile Include="NFeAutorizacao4SoapClientFake.cs" />
+    <Compile Include="NotaFiscalFixture.cs" />
+    <Compile Include="NotaFiscalRepositoryFake.cs" />
+    <Compile Include="NotaFiscalServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
