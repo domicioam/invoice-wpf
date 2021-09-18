@@ -7,6 +7,6 @@ namespace NFe.Core.NotasFiscais.Services
 {
     public interface ICancelaNotaFiscalService
     {
-        MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa);
+        RetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa);
     }
 }

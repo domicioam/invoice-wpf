@@ -22,36 +22,34 @@ namespace NFe.Core.NotasFiscais.Services
 {
     public class CancelaNotaFiscalService : ICancelaNotaFiscalService
     {
-        private readonly IEventoRepository _eventoService;
-        private readonly INotaFiscalRepository _notaFiscalRepository;
-        private readonly CertificadoService _certificadoService;
-        private readonly IServiceFactory _serviceFactory;
+        private const string NamespaceName = "http://www.portalfiscal.inf.br/nfe";
+        private readonly IEventoRepository eventoService;
+        private readonly INotaFiscalRepository notaFiscalRepository;
+        private readonly CertificadoService certificadoService;
+        private readonly IServiceFactory serviceFactory;
         private readonly SefazSettings _sefazSettings;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public CancelaNotaFiscalService(INotaFiscalRepository notaFiscalRepository,
             IEventoRepository eventoService, CertificadoService certificadoService, IServiceFactory serviceFactory, SefazSettings sefazSettings)
         {
-            _notaFiscalRepository = notaFiscalRepository;
-            _eventoService = eventoService;
-            _certificadoService = certificadoService;
-            _serviceFactory = serviceFactory;
+            this.notaFiscalRepository = notaFiscalRepository;
+            this.eventoService = eventoService;
+            this.certificadoService = certificadoService;
+            this.serviceFactory = serviceFactory;
             _sefazSettings = sefazSettings;
         }
 
-        public MensagemRetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
+        public RetornoEventoCancelamento CancelarNotaFiscal(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
         {
             var resultadoCancelamento = CancelarNotaFiscalInternalMethod(dadosNotaParaCancelar, justificativa);
-
             if (resultadoCancelamento.Status != StatusEvento.SUCESSO)
                 return resultadoCancelamento;
 
-            var notaFiscalEntity = _notaFiscalRepository.GetNotaFiscalByChave(dadosNotaParaCancelar.chaveNFe);
-
-            _eventoService.Salvar(new EventoEntity
+            var notaFiscalEntity = notaFiscalRepository.GetNotaFiscalByChave(dadosNotaParaCancelar.chaveNFe);
+            eventoService.Salvar(new EventoEntity
             {
-                DataEvento = DateTime.ParseExact(resultadoCancelamento.DataEvento, "yyyy-MM-ddTHH:mm:sszzz",
-                    CultureInfo.InvariantCulture),
+                DataEvento = DateTime.ParseExact(resultadoCancelamento.DataEvento, "yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture),
                 TipoEvento = resultadoCancelamento.TipoEvento,
                 Xml = resultadoCancelamento.Xml,
                 NotaId = notaFiscalEntity.Id,
@@ -61,11 +59,11 @@ namespace NFe.Core.NotasFiscais.Services
             });
 
             notaFiscalEntity.Status = (int)Status.CANCELADA;
-            _notaFiscalRepository.Salvar(notaFiscalEntity, null);
+            notaFiscalRepository.Salvar(notaFiscalEntity, null);
             return resultadoCancelamento;
         }
 
-        private MensagemRetornoEventoCancelamento CancelarNotaFiscalInternalMethod(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
+        private RetornoEventoCancelamento CancelarNotaFiscalInternalMethod(DadosNotaParaCancelar dadosNotaParaCancelar, string justificativa)
         {
             try
             {
@@ -101,67 +99,51 @@ namespace NFe.Core.NotasFiscais.Services
                     evento = new TEvento[] { evento }
                 };
 
-                var xml = XmlUtil.Serialize(envioEvento, "http://www.portalfiscal.inf.br/nfe");
-                var certificado = _certificadoService.GetX509Certificate2();
+                var xml = XmlUtil.Serialize(envioEvento, NamespaceName);
+                var certificado = certificadoService.GetX509Certificate2();
                 XmlNode node = AssinaturaDigital.AssinarEvento(xml, "#" + infEvento.Id, certificado);
 
                 //var resultadoValidacao = ValidadorXml.ValidarXml(node.OuterXml, "envEventoCancNFe_v1.00.xsd");
 
-                var servico = _serviceFactory.GetService(dadosNotaParaCancelar.modeloNota,
+                var servico = serviceFactory.GetService(dadosNotaParaCancelar.modeloNota,
                     Servico.CANCELAMENTO, dadosNotaParaCancelar.codigoUf, certificado);
 
                 var client = (NFeRecepcaoEvento4SoapClient)servico.SoapClient;
                 var result = client.nfeRecepcaoEvento(node);
                 var retorno = (TRetEnvEvento)XmlUtil.Deserialize<TRetEnvEvento>(result.OuterXml);
 
-                if (retorno.cStat.Equals("128"))
+                if (!retorno.cStat.Equals("128") || retorno.retEvento.Length == 0)
                 {
-                    var retEvento = retorno.retEvento;
-                    if (retEvento.Length > 0)
+                    return new RetornoEventoCancelamento()
                     {
-                        var retInfEvento = retEvento[0].infEvento;
-                        if (retInfEvento.cStat.Equals("135"))
-                        {
-                            var procEvento = new Proc.TProcEvento();
-
-                            TEnvEvento envEvento = (TEnvEvento)XmlUtil.Deserialize<TEnvEvento>(node.OuterXml);
-                            var eventoSerialized = XmlUtil.Serialize(envEvento.evento[0], "");
-                            procEvento.evento = (Proc.TEvento)XmlUtil.Deserialize<Proc.TEvento>(eventoSerialized);
-
-                            var retEventoSerialized = XmlUtil.Serialize(retEvento[0], "");
-                            procEvento.retEvento = (Proc.TRetEvento)XmlUtil.Deserialize<Proc.TRetEvento>(retEventoSerialized);
-
-                            procEvento.versao = "1.00";
-                            var procSerialized = XmlUtil.Serialize(procEvento, "http://www.portalfiscal.inf.br/nfe");
-
-                            return new MensagemRetornoEventoCancelamento()
-                            {
-                                Status = StatusEvento.SUCESSO,
-                                DataEvento = retInfEvento.dhRegEvento,
-                                TipoEvento = retInfEvento.tpEvento,
-                                Mensagem = retInfEvento.xMotivo,
-                                Xml = procSerialized,
-                                IdEvento = infEvento.Id,
-                                MotivoCancelamento = justificativa,
-                                ProtocoloCancelamento = retInfEvento.nProt
-                            };
-                        }
-                        else
-                        {
-                            return new MensagemRetornoEventoCancelamento()
-                            {
-                                Status = StatusEvento.ERRO,
-                                Mensagem = retInfEvento.xMotivo,
-                            };
-                        }
-                    }
+                        Status = StatusEvento.ERRO,
+                        Mensagem = "Erro desconhecido. Foi gerado um registro com o erro. Contate o suporte.",
+                        Xml = ""
+                    };
                 }
 
-                return new MensagemRetornoEventoCancelamento()
+                var retInfEvento = retorno.retEvento[0].infEvento;
+                if (!retInfEvento.cStat.Equals("135"))
+                    return new RetornoEventoCancelamento { Status = StatusEvento.ERRO, Mensagem = retInfEvento.xMotivo };
+
+                TEnvEvento envEvento = (TEnvEvento)XmlUtil.Deserialize<TEnvEvento>(node.OuterXml);
+                var procEvento = new Proc.TProcEvento
                 {
-                    Status = StatusEvento.ERRO,
-                    Mensagem = "Erro desconhecido. Foi gerado um registro com o erro. Contate o suporte.",
-                    Xml = ""
+                    evento = (Proc.TEvento)XmlUtil.Deserialize<Proc.TEvento>(XmlUtil.Serialize(envEvento.evento[0], "")),
+                    retEvento = (Proc.TRetEvento)XmlUtil.Deserialize<Proc.TRetEvento>(XmlUtil.Serialize(retorno.retEvento[0], "")),
+                    versao = "1.00"
+                };
+
+                return new RetornoEventoCancelamento()
+                {
+                    Status = StatusEvento.SUCESSO,
+                    DataEvento = retInfEvento.dhRegEvento,
+                    TipoEvento = retInfEvento.tpEvento,
+                    Mensagem = retInfEvento.xMotivo,
+                    Xml = XmlUtil.Serialize(procEvento, NamespaceName),
+                    IdEvento = infEvento.Id,
+                    MotivoCancelamento = justificativa,
+                    ProtocoloCancelamento = retInfEvento.nProt
                 };
             }
             catch (Exception e)
@@ -173,10 +155,10 @@ namespace NFe.Core.NotasFiscais.Services
                     Directory.CreateDirectory(sDirectory);
 
                 using (FileStream stream = File.Create(Path.Combine(sDirectory, "cancelarNotaErro.txt")))
-                    using (StreamWriter writer = new StreamWriter(stream))
-                        writer.WriteLine(e.ToString());
+                using (StreamWriter writer = new StreamWriter(stream))
+                    writer.WriteLine(e.ToString());
 
-                return new MensagemRetornoEventoCancelamento()
+                return new RetornoEventoCancelamento()
                 {
                     Status = StatusEvento.ERRO,
                     Mensagem = "Erro ao tentar contactar SEFAZ. Verifique sua conexão.",

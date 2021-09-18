@@ -16,14 +16,14 @@ namespace NFe.Core.UnitTests.Facades
     public class CancelaNotaFiscalServiceTests
     {
         private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
-        private MensagemRetornoEventoCancelamento ResultadoCancelamentoSucesso => new MensagemRetornoEventoCancelamento()
+        private RetornoEventoCancelamento ResultadoCancelamentoSucesso => new RetornoEventoCancelamento()
         {
             Status = StatusEvento.SUCESSO,
             DataEvento = new DateTime(20, 10, 20).ToString(DATE_STRING_FORMAT),
             IdEvento = "ID12345667899"
         };
 
-        private MensagemRetornoEventoCancelamento ResultadoCancelamentoErro => new MensagemRetornoEventoCancelamento()
+        private RetornoEventoCancelamento ResultadoCancelamentoErro => new RetornoEventoCancelamento()
         {
             Status = StatusEvento.ERRO,
             DataEvento = new DateTime(20, 10, 20).ToString(DATE_STRING_FORMAT),

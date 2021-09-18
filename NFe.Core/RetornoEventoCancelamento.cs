@@ -1,6 +1,6 @@
 ﻿namespace NFe.Core.NotasFiscais.Sefaz.NfeRecepcaoEvento
 {
-    public class MensagemRetornoEventoCancelamento
+    public class RetornoEventoCancelamento
     {
         public StatusEvento Status { get; set; }
         public string Mensagem { get; set; }
