@@ -96,9 +96,13 @@ namespace DgSystem.NFe.IoC
 
             container.RegisterInstance<ActorSystem>(actorSystem);
 
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<DgSystems.NFe.Services.MapperProfile>();
+            });
 
+            container.RegisterInstance(config.CreateMapper());
             container.BuildMediator(GetAssemblies());
-
             container.Verify();
 
             Container = container;

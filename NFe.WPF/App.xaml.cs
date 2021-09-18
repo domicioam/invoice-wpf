@@ -1,15 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using System.Threading;
-using System.Reflection;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-
-using DgSystem.NFe.IoC;
+﻿using DgSystem.NFe.IoC;
 using DgSystems.NFe.ViewModels;
-using EmissorNFe.ViewModel;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace EmissorNFe
 {
@@ -38,7 +36,7 @@ namespace EmissorNFe
         /// </summary>
         /// <param name="frmMain">main form</param>
         /// <returns>true if no previous instance is running</returns>
-        public static bool Run(EmissorNFe.App app)
+        public static bool Run(App app)
         {
             if (IsAlreadyRunning())
             {
@@ -63,8 +61,7 @@ namespace EmissorNFe
             DependencyResolver.RegisterTypes();
 
             var locator = new ViewModelLocator(DependencyResolver.Container);
-            this.Resources.Add("Locator", locator);
-
+            Resources.Add("Locator", locator);
 
             base.OnStartup(e);
         }
