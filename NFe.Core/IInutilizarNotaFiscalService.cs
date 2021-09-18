@@ -3,7 +3,7 @@ using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 
 namespace NFe.Core.Sefaz.Facades
 {
-    public class MensagemRetornoInutilizacao
+    public class RetornoInutilizacao
     {
         public Status Status { get; set; }
         public string Mensagem { get; set; }
@@ -16,6 +16,6 @@ namespace NFe.Core.Sefaz.Facades
 
     public interface IInutilizarNotaFiscalService
     {
-        MensagemRetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota, string serie, string numeroInicial, string numeroFinal);
+        RetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota, string serie, string numeroInicial, string numeroFinal);
     }
 }

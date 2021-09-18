@@ -128,13 +128,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actors\EmiteNFeContingenciaActorMock.cs" />
-    <Compile Include="Actors\EmiteNFeContingenciaActorTest.cs" />
-    <Compile Include="Actors\EmiteNFeContingenciaFixture.cs" />
-    <Compile Include="Actors\EnviarNotaActorTest.cs" />
+    <Compile Include="EmiteNFeContingenciaActorMock.cs" />
+    <Compile Include="EmiteNFeContingenciaActorTest.cs" />
+    <Compile Include="EmiteNFeContingenciaFixture.cs" />
+    <Compile Include="EnviarNotaActorTest.cs" />
     <Compile Include="CancelaNotaFiscalFixture.cs" />
     <Compile Include="CancelaNotaFiscalServiceMock.cs" />
-    <Compile Include="CancelaNotaFiscalServiceTests.cs" />
+    <Compile Include="CancelaNotaFiscalServiceTest.cs" />
     <Compile Include="CertificateFixture.cs" />
     <Compile Include="ConfiguracaoRepositoryFake.cs" />
     <Compile Include="ConsultarNotaFiscalServiceMock.cs" />
@@ -142,9 +142,8 @@
     <Compile Include="ConsultaStatusServicoSefazServiceMock.cs" />
     <Compile Include="ConsultaStatusServicoSefazServiceTest.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaServiceTests.cs" />
+    <Compile Include="InutilizarNotaFiscalServiceTest.cs" />
     <Compile Include="ModoOnlineActorTest.cs" />
-    <Compile Include="ModoOnlineService\ConfiguracaoRepositoryFake.cs" />
-    <Compile Include="ModoOnlineService\ModoOnlineServiceTest.cs" />
     <Compile Include="NFeAutorizacao4SoapClientFake.cs" />
     <Compile Include="NotaFiscalFixture.cs" />
     <Compile Include="NotaFiscalRepositoryFake.cs" />
