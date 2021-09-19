@@ -128,27 +128,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmiteNFeContingenciaActorMock.cs" />
-    <Compile Include="EmiteNFeContingenciaActorTest.cs" />
-    <Compile Include="EmiteNFeContingenciaFixture.cs" />
-    <Compile Include="EnviarNotaActorTest.cs" />
-    <Compile Include="CancelaNotaFiscalFixture.cs" />
-    <Compile Include="CancelaNotaFiscalServiceMock.cs" />
-    <Compile Include="CancelaNotaFiscalServiceTest.cs" />
+    <Compile Include="Contingencia\EmiteNFeContingenciaActorMock.cs" />
+    <Compile Include="Contingencia\EmiteNFeContingenciaActorTest.cs" />
+    <Compile Include="Contingencia\EmiteNFeContingenciaFixture.cs" />
+    <Compile Include="Autorizacao\EnviarNotaActorTest.cs" />
+    <Compile Include="Cancelamento\CancelaNotaFiscalFixture.cs" />
+    <Compile Include="Cancelamento\CancelaNotaFiscalServiceMock.cs" />
+    <Compile Include="Cancelamento\CancelaNotaFiscalServiceTest.cs" />
     <Compile Include="CertificateFixture.cs" />
     <Compile Include="ConfiguracaoRepositoryFake.cs" />
-    <Compile Include="ConsultarNotaFiscalServiceMock.cs" />
-    <Compile Include="ConsultarNotaFiscalServiceTest.cs" />
-    <Compile Include="ConsultaStatusServicoSefazServiceMock.cs" />
-    <Compile Include="ConsultaStatusServicoSefazServiceTest.cs" />
-    <Compile Include="EmiteNotaFiscalContingenciaServiceTests.cs" />
-    <Compile Include="InutilizarNotaFiscalServiceMock.cs" />
-    <Compile Include="InutilizarNotaFiscalServiceTest.cs" />
-    <Compile Include="ModoOnlineActorTest.cs" />
-    <Compile Include="NFeAutorizacao4SoapClientFake.cs" />
+    <Compile Include="Consulta\ConsultarNotaFiscalServiceMock.cs" />
+    <Compile Include="Consulta\ConsultarNotaFiscalServiceTest.cs" />
+    <Compile Include="Status\ConsultaStatusServicoSefazServiceMock.cs" />
+    <Compile Include="Status\ConsultaStatusServicoSefazServiceTest.cs" />
+    <Compile Include="Contingencia\EmiteNotaFiscalContingenciaServiceTests.cs" />
+    <Compile Include="Inutilizacao\InutilizarNotaFiscalServiceMock.cs" />
+    <Compile Include="Inutilizacao\InutilizarNotaFiscalServiceTest.cs" />
+    <Compile Include="Status\ModoOnlineActorTest.cs" />
+    <Compile Include="Autorizacao\NFeAutorizacao4SoapClientFake.cs" />
     <Compile Include="NotaFiscalFixture.cs" />
     <Compile Include="NotaFiscalRepositoryFake.cs" />
-    <Compile Include="NotaFiscalServiceTest.cs" />
+    <Compile Include="Autorizacao\NotaFiscalServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
