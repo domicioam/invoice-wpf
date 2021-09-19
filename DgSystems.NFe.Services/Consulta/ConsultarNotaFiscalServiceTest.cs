@@ -25,7 +25,7 @@ namespace DgSystems.NFe.Services.UnitTests
             var consultaService = new ConsultarNotaFiscalServiceMock(sefazSettings, "100");
 
             // When
-            MensagemRetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(),
+            RetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(),
                 certificateFixture.X509Certificate2, modelo);
 
             // Then
@@ -43,7 +43,7 @@ namespace DgSystems.NFe.Services.UnitTests
             var consultaService = new ConsultarNotaFiscalServiceMock(sefazSettings, "500");
 
             // When
-            MensagemRetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(),
+            RetornoConsulta retorno = consultaService.ConsultarNotaFiscal(It.IsAny<string>(), It.IsAny<string>(),
                 certificateFixture.X509Certificate2, modelo);
 
             // Then

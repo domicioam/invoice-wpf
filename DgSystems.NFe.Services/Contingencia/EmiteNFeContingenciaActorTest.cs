@@ -138,7 +138,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
                     It.IsAny<global::NFe.Core.Domain.Modelo>()))
-                .Returns(new MensagemRetornoConsulta());
+                .Returns(new RetornoConsulta());
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock
@@ -183,7 +183,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
                     It.IsAny<global::NFe.Core.Domain.Modelo>()))
-                .Returns(new MensagemRetornoConsulta() { IsEnviada = true });
+                .Returns(new RetornoConsulta() { IsEnviada = true });
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock
@@ -229,7 +229,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
                     It.IsAny<global::NFe.Core.Domain.Modelo>()))
-                .Returns(new MensagemRetornoConsulta() { IsEnviada = true });
+                .Returns(new RetornoConsulta() { IsEnviada = true });
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
             notaFiscalRepositoryMock

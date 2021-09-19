@@ -1,9 +1,17 @@
 ﻿using NFe.Core.Entitities;
 using NFe.Core.NotasFiscais;
+using NFe.Core.Sefaz;
+using NFe.Core.Sefaz.Facades;
+using NFe.Core.Utils.Assinatura;
+using NFe.Core.Utils.Xml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace NFe.Core.Domain
 {
@@ -91,6 +99,46 @@ namespace NFe.Core.Domain
         public bool ProdutoÉCombustível(int i)
         {
             return Identificacao.Modelo != Modelo.Modelo65 && Produtos[i].Ncm.Equals("27111910");
+        }
+
+        public bool IsNotaFiscalValida(string cscId, string csc, X509Certificate2 certificado, string NFE_NAMESPACE)
+        {
+            string digVal = "";
+            var refUri = "#NFe" + Identificacao.Chave;
+            string xml = Regex.Replace(XmlUtil.GerarXmlLoteNFe(this, NFE_NAMESPACE), "<motDesICMS>1</motDesICMS>", string.Empty);
+            XmlNode node = AssinaturaDigital.AssinarLoteComUmaNota(xml, refUri, certificado, ref digVal);
+
+            try
+            {
+                string newNodeXml;
+                if (Identificacao.Modelo == Modelo.Modelo65)
+                {
+                    QrCode qrCode = new QrCode();
+                    qrCode.GerarQrCodeNFe(Identificacao.Chave, Destinatario, digVal,
+                        Identificacao.Ambiente,
+                        Identificacao.DataHoraEmissao,
+                        GetTotal().ToString("F", CultureInfo.InvariantCulture),
+                        GetTotalIcms().ToString("F", CultureInfo.InvariantCulture), cscId,
+                        csc, Identificacao.TipoEmissao);
+
+                    newNodeXml = node.InnerXml.Replace("<qrCode />", "<qrCode>" + qrCode + "</qrCode>");
+                }
+                else
+                {
+                    newNodeXml = node.InnerXml;
+                }
+
+                var document = new XmlDocument();
+                document.LoadXml(newNodeXml);
+                node = document.DocumentElement;
+
+                ValidadorXml.ValidarXml(node.OuterXml, "enviNFe_v4.00.xsd");
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static async Task<NotaFiscal> CriarNotaFiscalAsync(

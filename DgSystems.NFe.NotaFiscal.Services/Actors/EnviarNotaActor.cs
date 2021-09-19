@@ -6,14 +6,10 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
-using NFe.Core.Utils.Assinatura;
-using NFe.Core.Utils.Xml;
 using System;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 using TProtNFe = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno.TProtNFe;
 
 
@@ -44,8 +40,8 @@ namespace DgSystems.NFe.Services.Actors
         private const string DATE_STRING_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
         private const string NFE_NAMESPACE = "http://www.portalfiscal.inf.br/nfe";
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IConfiguracaoRepository _configuracaoService;
-        private readonly IConsultarNotaFiscalService _nfeConsulta;
+        private readonly IConfiguracaoRepository configuracaoService;
+        private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
 
@@ -60,9 +56,9 @@ namespace DgSystems.NFe.Services.Actors
             IConsultarNotaFiscalService nfeConsulta,
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
-            _configuracaoService = configuracaoService;
+            this.configuracaoService = configuracaoService;
             _serviceFactory = serviceFactory;
-            _nfeConsulta = nfeConsulta;
+            this.nfeConsulta = nfeConsulta;
 
             ReceiveAsync<EnviarNotaFiscal>(HandleEnviarNotaFiscal);
             Receive<Result<TProtNFe>>(msg => msg.IsSuccess, HandleSuccess_nfeAutorizacaoLoteResult);
@@ -78,7 +74,7 @@ namespace DgSystems.NFe.Services.Actors
             Certificado = msg.Certificado;
             XmlNFe = msg.XmlNFe;
 
-            if (!IsNotaFiscalValida(msg.NotaFiscal, msg.CscId, msg.Csc, msg.Certificado))
+            if (!msg.NotaFiscal.IsNotaFiscalValida(msg.CscId, msg.Csc, msg.Certificado, NFE_NAMESPACE))
             {
                 const string message = "Nota fiscal inválida.";
                 log.Error(message);
@@ -86,7 +82,7 @@ namespace DgSystems.NFe.Services.Actors
                 return;
             }
 
-            var config = await _configuracaoService.GetConfiguracaoAsync();
+            var config = await configuracaoService.GetConfiguracaoAsync();
 
             if (config.IsContingencia)
             {
@@ -104,12 +100,12 @@ namespace DgSystems.NFe.Services.Actors
             }
         }
 
-        private void PreencheDadosNotaEnviadaAposErroConexao(MensagemRetornoConsulta retorno)
+        private void PreencheDadosNotaEnviadaAposErroConexao(RetornoConsulta retorno)
         {
             var protSerialized = XmlUtil.Serialize(retorno.Protocolo.Xml, NFE_NAMESPACE);
             var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
-            var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
+            NotaFiscal notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
             replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
         }
 
@@ -117,56 +113,47 @@ namespace DgSystems.NFe.Services.Actors
         {
             log.Info("Resultado do envio da nota fiscal recebido.");
             SetReceiveTimeout(null);
-            
+
             log.Error(obj.Exception);
 
-            var retorno = VerificaSeNotaFoiEnviada();
-
+            RetornoConsulta retorno = VerificaSeNotaFoiEnviada();
             if (retorno.IsEnviada)
-            {
                 PreencheDadosNotaEnviadaAposErroConexao(retorno);
-            }
             else
-            {
                 replyTo.Tell(new Status.Failure(obj.Exception));
-            }
         }
 
-        private void HandleSuccess_nfeAutorizacaoLoteResult(Result<TProtNFe> obj)
+        private void HandleSuccess_nfeAutorizacaoLoteResult(Result<TProtNFe> msg)
         {
             log.Info("Resultado do envio da nota fiscal recebido.");
             SetReceiveTimeout(null);
 
-            if (IsSuccess(obj.Value))
+            if (IsSuccess(msg.Value))
             {
-                var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, obj.Value);
-                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, obj.Value, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, msg.Value);
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, msg.Value, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                return;
             }
-            else
+
+            if (IsInvoiceDuplicated(msg.Value))
             {
-                if (IsInvoiceDuplicated(obj.Value))
-                {
-                    var retornoConsulta = _nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
-
-                    var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo.Xml, NFE_NAMESPACE);
-                    var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
-
-                    var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
-                    replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
-                }
-
-                //Nota continua com status pendente nesse caso
-                var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", obj.Value.infProt.xMotivo);
-                replyTo.Tell(new Status.Failure(new ArgumentException(mensagem)));
+                var retornoConsulta = nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
+                var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo.Xml, NFE_NAMESPACE);
+                var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
+                var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
+
+            //Nota continua com status pendente nesse caso
+            var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", msg.Value.infProt.xMotivo);
+            replyTo.Tell(new Status.Failure(new ArgumentException(mensagem)));
         }
 
         private async Task HandleReceiveTimeoutAsync(ReceiveTimeout obj)
         {
             SetReceiveTimeout(null);
-
-            var retorno = VerificaSeNotaFoiEnviada();
-
+            
+            RetornoConsulta retorno = VerificaSeNotaFoiEnviada();
             if (retorno.IsEnviada)
             {
                 PreencheDadosNotaEnviadaAposErroConexao(retorno);
@@ -187,22 +174,21 @@ namespace DgSystems.NFe.Services.Actors
                 var modoOnlineActor = Context.System.ActorSelection("/user/modoOnline");
                 modoOnlineActor.Tell(new ModoOnlineActor.AtivarModoOffline("Timeout ao enviar nota fiscal.", NotaFiscal.Identificacao.DataHoraEmissao));
 
-                var config = await _configuracaoService.GetConfiguracaoAsync();
-
+                var config = await configuracaoService.GetConfiguracaoAsync();
                 NotaFiscal = await emiteNotaFiscalContingenciaService.SaveNotaFiscalContingenciaAsync(Certificado, config, NotaFiscal, config.CscId, config.Csc, NFE_NAMESPACE);
 
                 replyTo.Tell(new Status.Success(new ResultadoEnvio(NotaFiscal, null, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
         }
 
-        private MensagemRetornoConsulta VerificaSeNotaFoiEnviada()
+        private RetornoConsulta VerificaSeNotaFoiEnviada()
         {
-            MensagemRetornoConsulta retorno = new MensagemRetornoConsulta() { IsEnviada = false };
+            RetornoConsulta retorno = new RetornoConsulta() { IsEnviada = false };
 
             try
             {
                 log.Info("Tentando verificar se a nota foi enviada após um erro de conexão.");
-                retorno = _nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
+                retorno = nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
             }
             catch (Exception e)
             {
@@ -232,52 +218,6 @@ namespace DgSystems.NFe.Services.Actors
             notaFiscal.DataHoraAutorização = dataAutorizacao;
             notaFiscal.ProtocoloAutorizacao = protocolo.infProt.nProt;
             return notaFiscal;
-        }
-
-        public bool IsNotaFiscalValida(NotaFiscal notaFiscal, string cscId, string csc, X509Certificate2 certificado)
-        {
-            var refUri = "#NFe" + notaFiscal.Identificacao.Chave;
-            var digVal = "";
-            var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
-
-            var xml = Regex.Replace(XmlUtil.GerarXmlLoteNFe(notaFiscal, nFeNamespaceName), "<motDesICMS>1</motDesICMS>",
-                string.Empty);
-
-            XmlNode node = AssinaturaDigital.AssinarLoteComUmaNota(xml, refUri, certificado, ref digVal);
-
-            try
-            {
-                string newNodeXml;
-                if (notaFiscal.Identificacao.Modelo == Modelo.Modelo65)
-                {
-                    QrCode qrCode = new QrCode();
-                    qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario, digVal,
-                        notaFiscal.Identificacao.Ambiente,
-                        notaFiscal.Identificacao.DataHoraEmissao,
-                        notaFiscal.GetTotal().ToString("F", CultureInfo.InvariantCulture),
-                        notaFiscal.GetTotalIcms().ToString("F", CultureInfo.InvariantCulture), cscId,
-                        csc, notaFiscal.Identificacao.TipoEmissao);
-
-                    newNodeXml = node.InnerXml.Replace("<qrCode />", "<qrCode>" + qrCode + "</qrCode>");
-                }
-                else
-                {
-                    newNodeXml = node.InnerXml;
-                }
-
-                var document = new XmlDocument();
-                document.LoadXml(newNodeXml);
-                node = document.DocumentElement;
-
-                ValidadorXml.ValidarXml(node.OuterXml, "enviNFe_v4.00.xsd");
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                log.Error(e);
-                return false;
-            }
         }
     }
 }

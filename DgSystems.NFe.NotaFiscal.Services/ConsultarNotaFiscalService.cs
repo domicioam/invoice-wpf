@@ -19,7 +19,7 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
             this.sefazSettings = sefazSettings;
         }
 
-        public MensagemRetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Modelo modelo)
+        public RetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Modelo modelo)
         {
             string endpoint;
             if (modelo == Modelo.Modelo55)
@@ -43,9 +43,9 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 
             TRetConsSitNFe retornoConsulta = ExecutaConsulta(certificado, endpoint, node);
 
-            if (retornoConsulta.cStat != "100") return new MensagemRetornoConsulta { IsEnviada = false };
+            if (retornoConsulta.cStat != "100") return new RetornoConsulta { IsEnviada = false };
 
-            return new MensagemRetornoConsulta
+            return new RetornoConsulta
             {
                 IsEnviada = true,
                 Protocolo = new Protocolo(retornoConsulta.protNFe),

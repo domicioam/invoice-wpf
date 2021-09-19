@@ -4,7 +4,7 @@ using NFe.Core.Domain;
 
 namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 {
-    public struct MensagemRetornoConsulta
+    public struct RetornoConsulta
     {
         public bool IsEnviada { get; set; }
         public DateTime DhAutorizacao { get; set; }
@@ -13,6 +13,6 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 
     public interface IConsultarNotaFiscalService
     {
-        MensagemRetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Modelo modelo);
+        RetornoConsulta ConsultarNotaFiscal(string chave, string codigoUf, X509Certificate2 certificado, Modelo modelo);
     }
 }
