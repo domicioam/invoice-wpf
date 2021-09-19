@@ -1,5 +1,4 @@
-﻿using DgSystems.NFe.Core.UnitTests;
-using Moq;
+﻿using Moq;
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Domain;
 using NFe.Core.Interfaces;
@@ -7,11 +6,6 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2;
 using NFe.Core.Sefaz;
 using NFe.Core.Sefaz.Facades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DgSystems.NFe.Services.UnitTests

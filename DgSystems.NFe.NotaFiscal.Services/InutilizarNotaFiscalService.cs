@@ -9,7 +9,6 @@ using NFe.Core.XmlSchemas.NfeInutilizacao2.Retorno;
 using System;
 using System.Xml;
 using Envio = NFe.Core.XmlSchemas.NfeInutilizacao2.Envio;
-using Retorno = NFe.Core.XmlSchemas.NfeInutilizacao2.Retorno;
 using Status = NFe.Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status;
 
 namespace NFe.Core.Sefaz.Facades
@@ -31,7 +30,6 @@ namespace NFe.Core.Sefaz.Facades
 
         protected InutilizarNotaFiscalService()
         {
-
         }
 
         public virtual RetornoInutilizacao InutilizarNotaFiscal(CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota, string serie,
