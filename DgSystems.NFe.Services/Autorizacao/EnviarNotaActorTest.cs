@@ -78,5 +78,32 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             subject.Tell(message);
             ExpectMsg<Status.Success>(TimeSpan.FromSeconds(10));
         }
+
+        [Fact]
+        public void Should_emitir_em_contingencia_quando_contingencia_ativada()
+        {
+            // Given
+            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
+            var serviceFactoryMock = new Mock<IServiceFactory>();
+            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
+            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
+
+            configuracaoRepositoryMock.Setup(c => c.GetConfiguracaoAsync()).Returns(Task.FromResult(new ConfiguracaoEntity() { IsContingencia = true}));
+            serviceFactoryMock.Setup(s => s.GetService(It.IsAny<Modelo>(), It.IsAny<Servico>(), It.IsAny<CodigoUfIbge>(), It.IsAny<X509Certificate2>()))
+                .Returns(new Service() { SoapClient = nfeAutorizacaoSoapMock.Object });
+
+            XmlNFe xmlNFe = new XmlNFe(fixture.NotaFiscal, fixture.NfeNamespaceName, fixture.X509Certificate2, fixture.CscId, fixture.Csc);
+            var message = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
+            var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object, nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object)));
+
+            // When
+            subject.Tell(message);
+
+            // Then
+            ExpectMsg<Status.Success>(TimeSpan.FromSeconds(10));
+            emiteNotaContingenciaServiceMock.Verify(e => e.SaveNotaFiscalContingenciaAsync(It.IsAny<X509Certificate2>(),
+                It.IsAny<ConfiguracaoEntity>(), It.IsAny<NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+        }
     }
 }

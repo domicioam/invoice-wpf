@@ -15,8 +15,6 @@ namespace DgSystems.NFe.Core.UnitTests
             NotaFiscal = CreateNotaFiscal();
         }
 
-
-
         private NotaFiscal CreateNotaFiscal()
         {
             var endereçoEmitente = new Endereco("QUADRA 200 CONJUNTO 20", "20", "BRASILIA", "BRASILIA", "70000000", "DF");

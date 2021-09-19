@@ -42,7 +42,7 @@ namespace DgSystems.NFe.Services.Actors
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IConfiguracaoRepository configuracaoService;
         private readonly IConsultarNotaFiscalService nfeConsulta;
-        private readonly IServiceFactory _serviceFactory;
+        private readonly IServiceFactory serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
 
         public XmlNFe XmlNFe { get; private set; }
@@ -57,7 +57,7 @@ namespace DgSystems.NFe.Services.Actors
             IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
         {
             this.configuracaoService = configuracaoService;
-            _serviceFactory = serviceFactory;
+            this.serviceFactory = serviceFactory;
             this.nfeConsulta = nfeConsulta;
 
             ReceiveAsync<EnviarNotaFiscal>(HandleEnviarNotaFiscal);
@@ -94,7 +94,7 @@ namespace DgSystems.NFe.Services.Actors
             {
                 var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), msg.NotaFiscal.Emitente.Endereco.UF);
 
-                var sefazActor = Context.ActorOf(Props.Create(() => new SefazActor(_serviceFactory)));
+                var sefazActor = Context.ActorOf(Props.Create(() => new SefazActor(serviceFactory)));
                 sefazActor.Tell(new SefazActor.nfeAutorizacaoLote(msg.XmlNFe.XmlNode, msg.NotaFiscal, msg.Certificado, codigoUf));
                 SetReceiveTimeout(TimeSpan.FromSeconds(30));
             }
