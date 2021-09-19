@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.TestKit.Xunit2;
+using Akka.Util;
 using DgSystems.NFe.Services.Actors;
 using Moq;
 using NFe.Core.Cadastro.Configuracoes;
@@ -9,7 +10,9 @@ using NFe.Core.NFeAutorizacao4;
 using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz.Facades;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using System;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Xml;
@@ -37,32 +40,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
             var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
 
-            string xml = @"<retEnviNFe versao='4.00' xmlns='http://www.portalfiscal.inf.br/nfe'>
-		                    <tpAmb>2</tpAmb>
-		                    <verAplic>SVRSnfce202103291658</verAplic>
-		                    <cStat>104</cStat>
-		                    <xMotivo>Lote processado</xMotivo>
-		                    <cUF>53</cUF>
-		                    <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
-		                    <protNFe versao= '4.00'>
-		                        <infProt>
-		                            <tpAmb>2</tpAmb>
-		                            <verAplic>SVRSnfce202103291658</verAplic>
-		                            <chNFe>53210704585789000140650030000006141325009918</chNFe>
-		                            <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
-		                            <nProt>353210000029778</nProt>
-		                            <digVal>d/kQ4t6qpkXw1i/JQDXstFfcbH0=</digVal>
-		                            <cStat>100</cStat>
-		                            <xMotivo>Autorizado o uso da NF-e</xMotivo>
-		                        </infProt>
-		                    </protNFe>
-		                </retEnviNFe>";
-
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(xml);
-
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
-                .Returns(new nfeAutorizacaoLoteResponse() { nfeResultMsg = xmlDocument });
+                .Returns(new nfeAutorizacaoLoteResponse() { nfeResultMsg = fixture.nfeResultMsg });
 
             configuracaoRepositoryMock.Setup(c => c.GetConfiguracaoAsync()).Returns(Task.FromResult(new ConfiguracaoEntity()));
             serviceFactoryMock.Setup(s =>
@@ -104,6 +83,40 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             ExpectMsg<Status.Success>(TimeSpan.FromSeconds(10));
             emiteNotaContingenciaServiceMock.Verify(e => e.SaveNotaFiscalContingenciaAsync(It.IsAny<X509Certificate2>(),
                 It.IsAny<ConfiguracaoEntity>(), It.IsAny<NotaFiscal>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+        }
+
+        [Fact]
+        public void Should_retornar_sucesso_apos_resposta_sefaz_actor_success()
+        {
+            // Given
+            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
+            var serviceFactoryMock = new Mock<IServiceFactory>();
+            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
+            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
+
+            nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
+                .Returns(new nfeAutorizacaoLoteResponse() { nfeResultMsg = fixture.nfeResultMsg });
+
+            configuracaoRepositoryMock.Setup(c => c.GetConfiguracaoAsync()).Returns(Task.FromResult(new ConfiguracaoEntity()));
+            serviceFactoryMock.Setup(s => s.GetService(It.IsAny<Modelo>(), It.IsAny<Servico>(), It.IsAny<CodigoUfIbge>(), It.IsAny<X509Certificate2>()))
+                .Returns(new Service() { SoapClient = nfeAutorizacaoSoapMock.Object });
+
+            XmlNFe xmlNFe = new XmlNFe(fixture.NotaFiscal, fixture.NfeNamespaceName, fixture.X509Certificate2, fixture.CscId, fixture.Csc);
+            var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
+            var response = new Result<TProtNFe>(fixture.ProtNFe);
+            var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object, nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object)));
+
+            // When
+            subject.Tell(request);
+            subject.Tell(response);
+
+            // Then
+            var resultadoEnvio = ExpectMsg<Status.Success>(TimeSpan.FromSeconds(10)).Status as ResultadoEnvio;
+            Assert.NotNull(resultadoEnvio);
+            Assert.Equal(fixture.ProtNFe.infProt.nProt, resultadoEnvio.NotaFiscal.ProtocoloAutorizacao);
+            Assert.Equal(DateTime.ParseExact(fixture.ProtNFe.infProt.dhRecbto, NotaFiscalFixture.DATE_STRING_SEFAZ_FORMAT, CultureInfo.InvariantCulture), resultadoEnvio.NotaFiscal.DataHoraAutorização);
+            Assert.Equal(global::NFe.Core.Entitities.Status.ENVIADA, resultadoEnvio.NotaFiscal.Identificacao.Status.Status);
         }
     }
 }

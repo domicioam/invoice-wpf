@@ -2,18 +2,65 @@
 using NFe.Core.Cadastro.Certificado;
 using NFe.Core.Cadastro.Ibpt;
 using NFe.Core.Domain;
+using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml;
 
 namespace DgSystems.NFe.Core.UnitTests
 {
     public class NotaFiscalFixture
     {
+        public const string DATE_STRING_FORMAT = "dd/MM/yyyy HH:mm:ss";
+        public const string DATE_STRING_SEFAZ_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
+
         public NotaFiscalFixture()
         {
             NotaFiscal = CreateNotaFiscal();
         }
+
+        public TProtNFe ProtNFe => new TProtNFe()
+        {
+            infProt = new TProtNFeInfProt()
+            {
+                cStat = "100",
+                dhRecbto = new DateTime(20, 10, 20).ToString(DATE_STRING_SEFAZ_FORMAT),
+                nProt = "12345"
+            }
+        };
+
+        public XmlDocument nfeResultMsg
+        {
+            get
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(Xml);
+                return xmlDocument;
+            }
+        }
+
+        public string Xml => @"<retEnviNFe versao='4.00' xmlns='http://www.portalfiscal.inf.br/nfe'>
+		                    <tpAmb>2</tpAmb>
+		                    <verAplic>SVRSnfce202103291658</verAplic>
+		                    <cStat>104</cStat>
+		                    <xMotivo>Lote processado</xMotivo>
+		                    <cUF>53</cUF>
+		                    <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		                    <protNFe versao= '4.00'>
+		                        <infProt>
+		                            <tpAmb>2</tpAmb>
+		                            <verAplic>SVRSnfce202103291658</verAplic>
+		                            <chNFe>53210704585789000140650030000006141325009918</chNFe>
+		                            <dhRecbto>2021-07-05T18:30:42-03:00</dhRecbto>
+		                            <nProt>353210000029778</nProt>
+		                            <digVal>d/kQ4t6qpkXw1i/JQDXstFfcbH0=</digVal>
+		                            <cStat>100</cStat>
+		                            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+		                        </infProt>
+		                    </protNFe>
+		                </retEnviNFe>";
+
 
         private NotaFiscal CreateNotaFiscal()
         {

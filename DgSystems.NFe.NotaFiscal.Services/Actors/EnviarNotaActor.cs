@@ -144,7 +144,6 @@ namespace DgSystems.NFe.Services.Actors
                 replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
 
-            //Nota continua com status pendente nesse caso
             var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", msg.Value.infProt.xMotivo);
             replyTo.Tell(new Status.Failure(new ArgumentException(mensagem)));
         }
