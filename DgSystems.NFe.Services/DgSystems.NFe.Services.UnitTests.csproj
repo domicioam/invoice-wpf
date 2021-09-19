@@ -142,6 +142,7 @@
     <Compile Include="ConsultaStatusServicoSefazServiceMock.cs" />
     <Compile Include="ConsultaStatusServicoSefazServiceTest.cs" />
     <Compile Include="EmiteNotaFiscalContingenciaServiceTests.cs" />
+    <Compile Include="InutilizarNotaFiscalServiceMock.cs" />
     <Compile Include="InutilizarNotaFiscalServiceTest.cs" />
     <Compile Include="ModoOnlineActorTest.cs" />
     <Compile Include="NFeAutorizacao4SoapClientFake.cs" />

@@ -84,9 +84,9 @@ namespace NFe.Core.Sefaz.Facades
             }
             else
             {
-                var resultadoInutilizacao = _notaInutilizadaFacade.InutilizarNotaFiscal(ufEmissor, codigoUfEnum,
-                    emitente.CNPJ, modelo, notaParaCancelar.Serie,
-                    notaParaCancelar.Numero, notaParaCancelar.Numero);
+                var resultadoInutilizacao = _notaInutilizadaFacade.InutilizarNotaFiscal(codigoUfEnum, emitente.CNPJ,
+                    modelo, notaParaCancelar.Serie, notaParaCancelar.Numero,
+                    notaParaCancelar.Numero);
 
                 if (resultadoInutilizacao.Status != NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     _notaFiscalRepository.ExcluirNota(notaParaCancelar.Chave);

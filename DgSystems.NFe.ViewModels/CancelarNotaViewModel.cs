@@ -114,8 +114,8 @@ namespace NFe.WPF.ViewModel
                 }
                 else //caso o número atual seja diferente, é necessário inutilizar
                 {
-                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, emitente.CNPJ, modeloNota,
-                        serie, numero, numero);
+                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(codigoUF, emitente.CNPJ, modeloNota, serie,
+                        numero, numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {
@@ -150,8 +150,8 @@ namespace NFe.WPF.ViewModel
                 }
                 else
                 {
-                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(emitente.Endereco.UF, codigoUF, emitente.CNPJ, modeloNota,
-                         serie, numero, numero);
+                    var mensagemRetorno = _notaInutilizadaFacade.InutilizarNotaFiscal(codigoUF, emitente.CNPJ, modeloNota, serie,
+                         numero, numero);
 
                     if (mensagemRetorno.Status != Core.NotasFiscais.Sefaz.NfeInutilizacao2.Status.ERRO)
                     {

@@ -16,6 +16,6 @@ namespace NFe.Core.Sefaz.Facades
 
     public interface IInutilizarNotaFiscalService
     {
-        RetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota, string serie, string numeroInicial, string numeroFinal);
+        RetornoInutilizacao InutilizarNotaFiscal(CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota, string serie, string numeroInicial, string numeroFinal);
     }
 }

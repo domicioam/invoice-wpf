@@ -5,6 +5,7 @@ using NFe.Core.NFeInutilizacao4;
 using NFe.Core.NotasFiscais;
 using NFe.Core.Utils.Assinatura;
 using NFe.Core.Utils.Conversores;
+using NFe.Core.XmlSchemas.NfeInutilizacao2.Retorno;
 using System;
 using System.Xml;
 using Envio = NFe.Core.XmlSchemas.NfeInutilizacao2.Envio;
@@ -18,14 +19,14 @@ namespace NFe.Core.Sefaz.Facades
         private readonly INotaInutilizadaRepository _notaInutilizadaService;
         private readonly SefazSettings _sefazSettings;
         private readonly CertificadoService _certificadoService;
-        private readonly IServiceFactory _serviceFactory;
+        private readonly IServiceFactory serviceFactory;
 
         public InutilizarNotaFiscalService(INotaInutilizadaRepository notaInutilizadaService, SefazSettings sefazSettings, CertificadoService certificadoService, IServiceFactory serviceFactory)
         {
             _notaInutilizadaService = notaInutilizadaService;
             _sefazSettings = sefazSettings;
             _certificadoService = certificadoService;
-            _serviceFactory = serviceFactory;
+            this.serviceFactory = serviceFactory;
         }
 
         protected InutilizarNotaFiscalService()
@@ -33,8 +34,8 @@ namespace NFe.Core.Sefaz.Facades
 
         }
 
-        public virtual RetornoInutilizacao InutilizarNotaFiscal(string ufEmitente, CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota,
-            string serie, string numeroInicial, string numeroFinal)
+        public virtual RetornoInutilizacao InutilizarNotaFiscal(CodigoUfIbge codigoUf, string cnpjEmitente, Modelo modeloNota, string serie,
+            string numeroInicial, string numeroFinal)
         {
             RetornoInutilizacao retorno = InutilizarNotaFiscal(codigoUf, _sefazSettings.Ambiente, cnpjEmitente, modeloNota, serie, numeroInicial, numeroFinal);
 
@@ -79,19 +80,11 @@ namespace NFe.Core.Sefaz.Facades
 
             infInut.Id = $"ID{cUF}{infInut.ano}{cnpjEmitente}{modelo}{int.Parse(serie):D3}{int.Parse(numeroInicial):D9}{int.Parse(numeroFinal):D9}";
 
-            var inutNFe = new Envio.TInutNFe { versao = "4.00", infInut = infInut };
-            var xml = XmlUtil.Serialize(inutNFe, "http://www.portalfiscal.inf.br/nfe");
-            var certificado = _certificadoService.GetX509Certificate2();
-            XmlDocument node = AssinaturaDigital.AssinarInutilizacao(xml, "#" + infInut.Id, certificado);
-
-            var servico = _serviceFactory.GetService(modeloNota, Servico.INUTILIZACAO, codigoUf, certificado);
-            var client = servico.SoapClient as NFeInutilizacao4SoapClient;
-            var result = client.nfeInutilizacaoNF(node);
-            var retorno = XmlUtil.Deserialize<Retorno.TRetInutNFe>(result.OuterXml) as Retorno.TRetInutNFe;
+            (XmlDocument node, XmlNode result, TRetInutNFe retorno) = ExecuteInutilizacao(codigoUf, modeloNota, infInut);
 
             if (!retorno.infInut.cStat.Equals("102"))
                 return new RetornoInutilizacao { Status = Status.ERRO, Mensagem = retorno.infInut.xMotivo };
-            
+
             var procSerialized = "<?xml version=\"1.0\" encoding=\"utf-8\"?><ProcInutNFe versao=\"4.00\" xmlns=\"http://www.portalfiscal.inf.br/nfe\">"
                 + node.OuterXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
                 + result.OuterXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
@@ -107,6 +100,19 @@ namespace NFe.Core.Sefaz.Facades
                 ProtocoloInutilizacao = retorno.infInut.nProt,
                 Xml = procSerialized
             };
+        }
+
+        protected virtual (XmlDocument node, XmlNode result, TRetInutNFe retorno) ExecuteInutilizacao(CodigoUfIbge codigoUf, Modelo modeloNota, Envio.TInutNFeInfInut infInut)
+        {
+            var inutNFe = new Envio.TInutNFe { versao = "4.00", infInut = infInut };
+            var xml = XmlUtil.Serialize(inutNFe, "http://www.portalfiscal.inf.br/nfe");
+            var certificado = _certificadoService.GetX509Certificate2();
+            var node = AssinaturaDigital.AssinarInutilizacao(xml, "#" + infInut.Id, certificado);
+            var servico = serviceFactory.GetService(modeloNota, Servico.INUTILIZACAO, codigoUf, certificado);
+            var client = servico.SoapClient as NFeInutilizacao4SoapClient;
+            var result = client.nfeInutilizacaoNF(node);
+            var retorno = XmlUtil.Deserialize<TRetInutNFe>(result.OuterXml) as TRetInutNFe;
+            return (node, result, retorno);
         }
     }
 }
