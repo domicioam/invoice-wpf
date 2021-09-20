@@ -5,8 +5,12 @@ using NFe.Core.Domain;
 using NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
+using Autorizacao = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
+using Cancelamento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;
+using Consulta = NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 
 namespace DgSystems.NFe.Core.UnitTests
 {
@@ -14,19 +18,54 @@ namespace DgSystems.NFe.Core.UnitTests
     {
         public const string DATE_STRING_FORMAT = "dd/MM/yyyy HH:mm:ss";
         public const string DATE_STRING_SEFAZ_FORMAT = "yyyy-MM-ddTHH:mm:sszzz";
+        private const string DATE = "2021-07-05T18:30:42-03:00";
+        private DateTime dateTime = DateTime.ParseExact(DATE, DATE_STRING_SEFAZ_FORMAT, CultureInfo.InvariantCulture);
 
         public NotaFiscalFixture()
         {
             NotaFiscal = CreateNotaFiscal();
         }
 
-        public TProtNFe ProtNFe => new TProtNFe()
+        public TProtNFe ProtNFe
+        {
+            get
+            {
+                return new TProtNFe()
+                {
+                    infProt = new TProtNFeInfProt()
+                    {
+                        cStat = "100",
+                        dhRecbto = DATE,
+                        nProt = "353210000029778"
+                    }
+                };
+            }
+        }
+
+        public Consulta.TProtNFe ProtNFeConsulta
+        {
+            get
+            {
+                return new Consulta.TProtNFe()
+                {
+                    infProt = new Consulta.TProtNFeInfProt()
+                    {
+                        cStat = "100",
+                        dhRecbto = dateTime,
+                        nProt = "353210000029778"
+                    }
+                };
+            }
+        }
+
+        public TProtNFe ProtNFeMotivoDuplicada => new TProtNFe()
         {
             infProt = new TProtNFeInfProt()
             {
-                cStat = "100",
-                dhRecbto = new DateTime(20, 10, 20).ToString(DATE_STRING_SEFAZ_FORMAT),
-                nProt = "12345"
+                cStat = "400",
+                dhRecbto = DATE,
+                nProt = "353210000029778",
+                xMotivo = "Duplicidade"
             }
         };
 

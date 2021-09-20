@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Akka.Util;
+using AutoMapper;
 using NFe.Core.Domain;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
@@ -44,6 +45,7 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
+        private readonly IMapper mapper;
 
         public XmlNFe XmlNFe { get; private set; }
 
@@ -53,8 +55,8 @@ namespace DgSystems.NFe.Services.Actors
         public X509Certificate2 Certificado { get; private set; }
 
         public EnviarNotaActor(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory,
-            IConsultarNotaFiscalService nfeConsulta,
-            IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+            IConsultarNotaFiscalService nfeConsulta, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService,
+            IMapper mapper)
         {
             this.configuracaoService = configuracaoService;
             this.serviceFactory = serviceFactory;
@@ -65,6 +67,7 @@ namespace DgSystems.NFe.Services.Actors
             Receive<Result<TProtNFe>>(msg => !msg.IsSuccess, HandleErro_nfeAutorizacaoLoteResult);
             ReceiveAsync<ReceiveTimeout>(HandleReceiveTimeoutAsync);
             this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
+            this.mapper = mapper;
         }
 
         private async Task HandleEnviarNotaFiscal(EnviarNotaFiscal msg)
@@ -138,10 +141,8 @@ namespace DgSystems.NFe.Services.Actors
             if (IsInvoiceDuplicated(msg.Value))
             {
                 var retornoConsulta = nfeConsulta.ConsultarNotaFiscal(NotaFiscal.Identificacao.Chave.ToString(), NotaFiscal.Emitente.Endereco.CodigoUF, Certificado, NotaFiscal.Identificacao.Modelo);
-                var protSerialized = XmlUtil.Serialize(retornoConsulta.Protocolo.Xml, NFE_NAMESPACE);
-                var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
-                var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
-                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+                var notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, mapper.Map<TProtNFe>(retornoConsulta.Protocolo.protNFe));
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, mapper.Map<TProtNFe>(retornoConsulta.Protocolo.protNFe), XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
 
             var mensagem = string.Concat("O xml informado é inválido de acordo com o validar da SEFAZ. Nota Fiscal não enviada!", "\n", msg.Value.infProt.xMotivo);

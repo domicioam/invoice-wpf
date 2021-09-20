@@ -7,7 +7,7 @@ namespace NFe.Core.NotasFiscais.Sefaz.NfeConsulta2
 {
     public class Protocolo
     {
-        private readonly TProtNFe protNFe;
+        public TProtNFe protNFe { get; }
 
         public Protocolo(TProtNFe protNFe)
         {

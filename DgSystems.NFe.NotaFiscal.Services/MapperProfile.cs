@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Proc = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;
+using Autorizacao = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
+using Cancelamento = NFe.Core.XmlSchemas.NfeRecepcaoEvento.Cancelamento.Retorno.Proc;
+using Consulta = NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 
 namespace DgSystems.NFe.Services
 {
@@ -13,8 +10,10 @@ namespace DgSystems.NFe.Services
     {
         public MapperProfile()
         {
-            CreateMap<TEvento, Proc.TEvento>();
-            CreateMap<TRetEvento, Proc.TRetEvento>();
+            CreateMap<TEvento, Cancelamento.TEvento>();
+            CreateMap<TRetEvento, Cancelamento.TRetEvento>();
+            CreateMap<Consulta.TProtNFe, Autorizacao.TProtNFe>();
+            CreateMap<Consulta.TProtNFeInfProt, Autorizacao.TProtNFeInfProt>();
         }
     }
 }
