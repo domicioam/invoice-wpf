@@ -63,7 +63,6 @@ namespace EmissorNFe
 
             var locator = new ViewModelLocator(DependencyResolver.Container);
             Resources.Add("Locator", locator);
-            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             base.OnStartup(e);
         }
 

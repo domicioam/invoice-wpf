@@ -22,12 +22,6 @@ namespace NFe.Core.Cadastro.Certificado
         {
             this.certificadoRepository = certificadoRepository;
             this.encryptor = encryptor;
-
-            //TODO: Add the correct certificates to the runtime
-            ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) =>
-            {
-                return c.Subject.Contains("ARSERPRO") || c.Subject.Contains("outlook.com");
-            };
         }
 
         public virtual X509Certificate2 GetX509Certificate2()
