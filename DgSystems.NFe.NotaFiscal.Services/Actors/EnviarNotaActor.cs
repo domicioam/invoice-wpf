@@ -99,17 +99,17 @@ namespace DgSystems.NFe.Services.Actors
 
                 var sefazActor = Context.ActorOf(Props.Create(() => new SefazActor(serviceFactory)));
                 sefazActor.Tell(new SefazActor.nfeAutorizacaoLote(msg.XmlNFe.XmlNode, msg.NotaFiscal, msg.Certificado, codigoUf));
-                SetReceiveTimeout(TimeSpan.FromSeconds(30));
+                SetReceiveTimeout(TimeSpan.FromSeconds(20));
             }
         }
 
-        private void PreencheDadosNotaEnviadaAposErroConexao(RetornoConsulta retorno)
+        private (NotaFiscal notafiscal, TProtNFe protDeserialized) PreencheDadosNotaEnviadaAposErroConexao(RetornoConsulta retorno)
         {
             var protSerialized = XmlUtil.Serialize(retorno.Protocolo.Xml, NFE_NAMESPACE);
             var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
 
             NotaFiscal notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
-            replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+            return (notaFiscal, protDeserialized);
         }
 
         private void HandleErro_nfeAutorizacaoLoteResult(Result<TProtNFe> obj)
@@ -121,9 +121,14 @@ namespace DgSystems.NFe.Services.Actors
 
             RetornoConsulta retorno = VerificaSeNotaFoiEnviada();
             if (retorno.IsEnviada)
-                PreencheDadosNotaEnviadaAposErroConexao(retorno);
+            {
+                (NotaFiscal notaFiscal, TProtNFe protDeserialized) = PreencheDadosNotaEnviadaAposErroConexao(retorno);
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
+            }
             else
+            {
                 replyTo.Tell(new Status.Failure(obj.Exception));
+            }
         }
 
         private void HandleSuccess_nfeAutorizacaoLoteResult(Result<TProtNFe> msg)
@@ -156,7 +161,8 @@ namespace DgSystems.NFe.Services.Actors
             RetornoConsulta retorno = VerificaSeNotaFoiEnviada();
             if (retorno.IsEnviada)
             {
-                PreencheDadosNotaEnviadaAposErroConexao(retorno);
+                (NotaFiscal notaFiscal, TProtNFe protDeserialized) = PreencheDadosNotaEnviadaAposErroConexao(retorno);
+                replyTo.Tell(new Status.Success(new ResultadoEnvio(notaFiscal, protDeserialized, XmlNFe.QrCode, XmlNFe.TNFe, XmlNFe.XmlNode)));
             }
             else
             {

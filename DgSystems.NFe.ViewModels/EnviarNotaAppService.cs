@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using AutoMapper;
 using DgSystems.NFe.Services.Actors;
 using GalaSoft.MvvmLight.Views;
 using MediatR;
@@ -41,9 +42,10 @@ namespace DgSystems.NFe.ViewModels
         private readonly IServiceFactory serviceFactory;
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly ActorSystem actorSystem;
+        private readonly IMapper mapper;
 
         public EnviarNotaAppService(IConfiguracaoRepository configuracaoService, IProdutoRepository produtoRepository, SefazSettings sefazSettings, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService,
-            INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta, ActorSystem actorSystem)
+            INotaFiscalRepository notaFiscalRepository, IIbptManager ibptManager, IMediator mediator, IServiceFactory serviceFactory, IConsultarNotaFiscalService nfeConsulta, ActorSystem actorSystem, IMapper mapper)
         {
             _configuracaoRepository = configuracaoService;
             _produtoRepository = produtoRepository;
@@ -55,6 +57,7 @@ namespace DgSystems.NFe.ViewModels
             this.serviceFactory = serviceFactory;
             this.nfeConsulta = nfeConsulta;
             this.actorSystem = actorSystem;
+            this.mapper = mapper;
         }
 
         public async Task<NotaFiscal> EnviarNotaAsync(NotaFiscalModel notaFiscalModel, Modelo modelo, Emissor emissor, X509Certificate2 certificado, IDialogService dialogService)
@@ -121,7 +124,7 @@ namespace DgSystems.NFe.ViewModels
                 var nFeNamespaceName = "http://www.portalfiscal.inf.br/nfe";
 
                 XmlNFe xmlNFe = new XmlNFe(notaFiscal, nFeNamespaceName, certificado, cscId, csc);
-                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoRepository, serviceFactory, nfeConsulta, _emiteNotaFiscalContingenciaService)));
+                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoRepository, serviceFactory, nfeConsulta, _emiteNotaFiscalContingenciaService, mapper)));
 
                 try
                 {

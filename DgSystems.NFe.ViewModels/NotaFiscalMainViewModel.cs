@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using AutoMapper;
 using DgSystems.NFe.Services.Actors;
 using GalaSoft.MvvmLight.CommandWpf;
 using MediatR;
@@ -44,7 +45,8 @@ namespace DgSystems.NFe.ViewModels
             VisualizarNotaEnviadaViewModel visualizarNotaEnviadaViewModel,
             EnviarEmailViewModel enviarEmailViewModel,
             INotaFiscalRepository notaFiscalRepository,
-            IConsultarNotaFiscalService nfeConsulta, IMediator mediator, ActorSystem actorSystem, IServiceFactory serviceFactory, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService)
+            IConsultarNotaFiscalService nfeConsulta, IMediator mediator, ActorSystem actorSystem, 
+            IServiceFactory serviceFactory, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, IMapper mapper)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             VisualizarNotaCmd = new RelayCommand<NotaFiscalMemento>(VisualizarNotaCmd_ExecuteAsync, null);
@@ -69,6 +71,7 @@ namespace DgSystems.NFe.ViewModels
             this.actorSystem = actorSystem;
             this.serviceFactory = serviceFactory;
             this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
+            this.mapper = mapper;
         }
 
         static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -95,6 +98,7 @@ namespace DgSystems.NFe.ViewModels
         private readonly ActorSystem actorSystem;
         private readonly IServiceFactory serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
+        private readonly IMapper mapper;
 
         public ObservableCollection<NotaFiscalMemento> NotasFiscais
         {
@@ -226,7 +230,7 @@ namespace DgSystems.NFe.ViewModels
             {
                 _notaFiscalRepository.ExcluirNota(notaPendenteMemento.Chave);
 
-                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta, emiteNotaFiscalContingenciaService)));
+                var enviarNotaActor = actorSystem.ActorOf(Props.Create(() => new EnviarNotaActor(_configuracaoService, serviceFactory, _nfeConsulta, emiteNotaFiscalContingenciaService, mapper)));
                 var certificado = _certificadoService.GetX509Certificate2();
 
                 var config = await _configuracaoService.GetConfiguracaoAsync();

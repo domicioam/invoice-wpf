@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -62,7 +63,7 @@ namespace EmissorNFe
 
             var locator = new ViewModelLocator(DependencyResolver.Container);
             Resources.Add("Locator", locator);
-
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             base.OnStartup(e);
         }
 
