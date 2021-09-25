@@ -1,6 +1,5 @@
 ﻿using Akka.Actor;
 using Akka.TestKit.Xunit2;
-using AutoFixture;
 using DgSystems.NFe.Services.Actors;
 using Moq;
 using NFe.Core;
@@ -38,14 +37,14 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
 
-            var subject = 
+            var subject =
                 Sys.ActorOf(
-                    Props.Create(() => 
+                    Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
                             notaFiscalRepositoryMock.Object,
-                            emissorServiceMock.Object, 
-                            nfeConsultaMock.Object, 
-                            serviceFactoryMock.Object, 
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.ErroValidacao,
@@ -53,8 +52,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count != 0)); 
-            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count != 0)); 
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count != 0));
+            ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count != 0));
         }
 
         [Fact]

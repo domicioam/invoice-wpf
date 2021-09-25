@@ -3,7 +3,6 @@ using NFe.Core.Utils;
 using NFe.Core.Utils.Assinatura;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
@@ -11,12 +10,14 @@ namespace NFe.Core.Cadastro.Certificado
 {
     public class CertificadoService
     {
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ICertificadoRepository certificadoRepository;
         private readonly RijndaelManagedEncryption encryptor;
 
-        protected CertificadoService() { }
+        protected CertificadoService()
+        {
+        }
 
         public CertificadoService(ICertificadoRepository certificadoRepository, RijndaelManagedEncryption encryptor)
         {
@@ -74,7 +75,7 @@ namespace NFe.Core.Cadastro.Certificado
 
             X509Store store = new X509Store("MY", storeLocation);
             store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-            X509Certificate2Collection collection2 = 
+            X509Certificate2Collection collection2 =
                 store.Certificates.Find(X509FindType.FindByTimeValid, DateTime.Now, true)
                 .Find(X509FindType.FindByKeyUsage, X509KeyUsageFlags.DigitalSignature, true);
 

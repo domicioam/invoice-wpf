@@ -30,7 +30,9 @@ namespace DgSystems.NFe.Services.Actors
     public class EmiteNFeContingenciaActor : ReceiveActor
     {
         #region Messages
+
         public class TransmitirNFeEmContingencia { }
+
         private class TransmiteNFes
         {
             public TransmiteNFes(List<string> nfe, Modelo modelo)
@@ -59,7 +61,6 @@ namespace DgSystems.NFe.Services.Actors
 
         private class ValidaNFesTransmitidas
         {
-
             public ValidaNFesTransmitidas(List<RetornoNotaFiscal> resultadoConsulta)
             {
                 ResultadoConsulta = resultadoConsulta;
@@ -77,11 +78,12 @@ namespace DgSystems.NFe.Services.Actors
 
             public List<string> Erros { get; }
         }
-        #endregion
+
+        #endregion Messages
 
         private const string MensagemErro = "Tentativa de transmissão de notas em contingência falhou. Serviço continua indisponível.";
         private const string NFE_NAMESPACE = "http://www.portalfiscal.inf.br/nfe";
-        static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private bool _isFirstTimeRecheckingRecipts;
         private bool _isFirstTimeResending;
@@ -133,10 +135,10 @@ namespace DgSystems.NFe.Services.Actors
                     notasNfCe.Add(xml);
             }
 
-            if(notasNfCe.Count != 0)
+            if (notasNfCe.Count != 0)
                 Self.Tell(new TransmiteNFes(notasNfCe, Modelo.Modelo65), Sender);
 
-            if(notasNFe.Count != 0)
+            if (notasNFe.Count != 0)
                 Self.Tell(new TransmiteNFes(notasNFe, Modelo.Modelo55), Sender);
         }
 
@@ -150,6 +152,7 @@ namespace DgSystems.NFe.Services.Actors
                     Sender.Tell(new ResultadoNotasTransmitidas(new List<string> { retornoTransmissao.Mensagem }));
                     log.Error("Erro ao receber retorno da transmissão de lote em contingência: " + retornoTransmissao.Mensagem);
                     return;
+
                 case TipoMensagem.ServicoIndisponivel:
                     Sender.Tell(new ResultadoNotasTransmitidas(new List<string> { MensagemErro }));
                     log.Error("Erro ao receber retorno da transmissão de lote em contingência: " + MensagemErro);
@@ -202,9 +205,7 @@ namespace DgSystems.NFe.Services.Actors
 
         public virtual async Task<(NotaFiscalEntity, string)> PreencheDadosNotaFiscalAposEnvio(RetornoNotaFiscal resultado, NotaFiscalEntity nota)
         {
-            nota.DataAutorizacao = DateTime.ParseExact(resultado.DataAutorizacao,
-                                      "yyyy-MM-ddTHH:mm:sszzz",
-                                      CultureInfo.InvariantCulture);
+            nota.DataAutorizacao = DateTime.ParseExact(resultado.DataAutorizacao, "yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
             nota.Protocolo = resultado.Protocolo;
             nota.Status = (int)Status.ENVIADA;
 
@@ -218,12 +219,12 @@ namespace DgSystems.NFe.Services.Actors
             return resultado.Motivo.Contains("Duplicidade");
         }
 
-        public virtual async Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, global::NFe.Core.Entitities.NotaFiscalEntity nota)
+        public virtual async Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, NotaFiscalEntity nota)
         {
             X509Certificate2 certificado = _certificadoService.GetX509Certificate2();
             var emitente = _emissorService.GetEmissor();
 
-            var retornoConsulta 
+            var retornoConsulta
                 = nfeConsulta.ConsultarNotaFiscal
                     (nota.Chave, emitente.Endereco.CodigoUF, certificado,
                      nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55);
@@ -288,9 +289,7 @@ namespace DgSystems.NFe.Services.Actors
                 {
                     _isFirstTimeResending = true;
 
-
                     //TODO: Refactor to use states to avoid if else
-
 
                     return TransmitirLoteNotasFiscaisContingencia(nfeList, modelo);
                 }
@@ -333,9 +332,7 @@ namespace DgSystems.NFe.Services.Actors
             }
             catch (Exception e)
             {
-
                 //TODO: Refactor to use states to avoid if else
-
 
                 log.Error(e);
                 if (!_isFirstTimeRecheckingRecipts)

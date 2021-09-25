@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -81,7 +80,7 @@ namespace EmissorNFe
             });
         }
 
-        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             // put your tracing or logging code here (I put a message box as an example)
             MessageBox.Show(e.ExceptionObject.ToString());
@@ -120,12 +119,11 @@ namespace EmissorNFe
             return !bCreatedNew;
         }
 
-        static Mutex mutex;
-        const int SW_RESTORE = 9;
-
+        private static Mutex mutex;
+        private const int SW_RESTORE = 9;
 
         /// <summary>
-        /// Imports 
+        /// Imports
         /// </summary>
 
         [DllImport("user32.dll")]
@@ -163,6 +161,7 @@ namespace EmissorNFe
             }
             return hWnd;
         }
+
         /// <summary>
         /// SwitchToCurrentInstance
         /// </summary>
@@ -183,7 +182,5 @@ namespace EmissorNFe
                 SetForegroundWindow(hWnd);
             }
         }
-
-
     }
 }
