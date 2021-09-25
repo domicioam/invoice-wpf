@@ -85,6 +85,7 @@ namespace DgSystems.NFe.Services.UnitTests.Autorizacao
                 configuracaoRepository.Object, serviceFactoryMock.Object, nfeConsulta.Object,
                 emiteNotaFiscalContingenciaService.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor)));
             notaFiscalActor.Tell(message);
+            // modoOnlineActor.Expect(GetStatus)
             ExpectNoMsg();
             nfeAutorizacaoSoapMock.Verify(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()), Times.Never);
 
