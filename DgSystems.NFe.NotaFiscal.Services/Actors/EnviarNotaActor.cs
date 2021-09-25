@@ -64,7 +64,7 @@ namespace DgSystems.NFe.Services.Actors
 
             ReceiveAsync<EnviarNotaFiscal>(HandleEnviarNotaFiscal);
             Receive<Result<TProtNFe>>(msg => msg.IsSuccess, HandleSuccess_nfeAutorizacaoLoteResult);
-            Receive<Result<TProtNFe>>(msg => !msg.IsSuccess, HandleErro_nfeAutorizacaoLoteResult);
+            Receive<Result<TProtNFe>>(HandleErro_nfeAutorizacaoLoteResult);
             ReceiveAsync<ReceiveTimeout>(HandleReceiveTimeoutAsync);
             this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             this.mapper = mapper;
@@ -105,9 +105,7 @@ namespace DgSystems.NFe.Services.Actors
 
         private (NotaFiscal notafiscal, TProtNFe protDeserialized) PreencheDadosNotaEnviadaAposErroConexao(RetornoConsulta retorno)
         {
-            var protSerialized = XmlUtil.Serialize(retorno.Protocolo.Xml, NFE_NAMESPACE);
-            var protDeserialized = (TProtNFe)XmlUtil.Deserialize<TProtNFe>(protSerialized);
-
+            var protDeserialized = mapper.Map<TProtNFe>(retorno.Protocolo.protNFe);
             NotaFiscal notaFiscal = AtribuirValoresApósEnvioComSucesso(NotaFiscal, XmlNFe.QrCode, protDeserialized);
             return (notaFiscal, protDeserialized);
         }
