@@ -128,6 +128,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Autorizacao\EnviarNotaActorIntegrationTest.cs" />
     <Compile Include="Contingencia\EmiteNFeContingenciaActorMock.cs" />
     <Compile Include="Contingencia\EmiteNFeContingenciaActorTest.cs" />
     <Compile Include="Autorizacao\EnviarNotaActorTest.cs" />
