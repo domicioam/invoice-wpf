@@ -46,6 +46,8 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IServiceFactory serviceFactory;
         private readonly IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService;
         private readonly IMapper mapper;
+        private readonly Func<IUntypedActorContext, IActorRef> contingenciaMaker;
+        private readonly IActorRef modoOnlineActor;
 
         public XmlNFe XmlNFe { get; private set; }
 
@@ -56,7 +58,7 @@ namespace DgSystems.NFe.Services.Actors
 
         public EnviarNotaActor(IConfiguracaoRepository configuracaoService, IServiceFactory serviceFactory,
             IConsultarNotaFiscalService nfeConsulta, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService,
-            IMapper mapper)
+            IMapper mapper, Func<IUntypedActorContext, IActorRef> contingenciaMaker, IActorRef modoOnlineActor)
         {
             this.configuracaoService = configuracaoService;
             this.serviceFactory = serviceFactory;
@@ -68,6 +70,8 @@ namespace DgSystems.NFe.Services.Actors
             ReceiveAsync<ReceiveTimeout>(HandleReceiveTimeoutAsync);
             this.emiteNotaFiscalContingenciaService = emiteNotaFiscalContingenciaService;
             this.mapper = mapper;
+            this.contingenciaMaker = contingenciaMaker;
+            this.modoOnlineActor = modoOnlineActor;
         }
 
         private async Task HandleEnviarNotaFiscal(EnviarNotaFiscal msg)

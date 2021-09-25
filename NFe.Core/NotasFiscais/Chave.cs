@@ -144,5 +144,32 @@ namespace NFe.Core.Domain
         {
             return _chave;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Chave chave &&
+                   _chave == chave._chave &&
+                   _dataHoraEmissao == chave._dataHoraEmissao &&
+                   _serie == chave._serie &&
+                   _numero == chave._numero &&
+                   _tipoEmissao == chave._tipoEmissao &&
+                   _cnpjEmissor == chave._cnpjEmissor &&
+                   _modelo == chave._modelo &&
+                   _uf == chave._uf;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -602202973;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_chave);
+            hashCode = hashCode * -1521134295 + _dataHoraEmissao.GetHashCode();
+            hashCode = hashCode * -1521134295 + _serie.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_numero);
+            hashCode = hashCode * -1521134295 + _tipoEmissao.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_cnpjEmissor);
+            hashCode = hashCode * -1521134295 + _modelo.GetHashCode();
+            hashCode = hashCode * -1521134295 + _uf.GetHashCode();
+            return hashCode;
+        }
     }
 }

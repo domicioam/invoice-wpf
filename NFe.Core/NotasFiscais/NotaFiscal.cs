@@ -184,6 +184,17 @@ namespace NFe.Core.Domain
 
             return notaFiscal;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is NotaFiscal fiscal &&
+                   EqualityComparer<IdentificacaoNFe>.Default.Equals(Identificacao, fiscal.Identificacao);
+        }
+
+        public override int GetHashCode()
+        {
+            return -1723724354 + EqualityComparer<IdentificacaoNFe>.Default.GetHashCode(Identificacao);
+        }
     }
 }
  

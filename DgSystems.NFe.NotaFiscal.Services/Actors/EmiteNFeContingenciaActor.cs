@@ -27,6 +27,7 @@ using Status = NFe.Core.Entitities.Status;
 using Consulta = NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 using AutoMapper;
 using RetAutorizacao = NFe.Core.XmlSchemas.NfeRetAutorizacao;
+using NFe.Core.Cadastro.Configuracoes;
 
 namespace DgSystems.NFe.Services.Actors
 {
@@ -35,6 +36,26 @@ namespace DgSystems.NFe.Services.Actors
         #region Messages
 
         public class TransmitirNFeEmContingencia { }
+        public class SaveNotaFiscalContingencia
+        {
+            public SaveNotaFiscalContingencia(X509Certificate2 certificado, ConfiguracaoEntity config, NotaFiscal notaFiscal, string cscId, string csc, string nFeNamespaceName)
+            {
+                this.certificado = certificado;
+                this.config = config;
+                this.notaFiscal = notaFiscal;
+                this.cscId = cscId;
+                this.csc = csc;
+                this.nFeNamespaceName = nFeNamespaceName;
+            }
+
+            public X509Certificate2 certificado { get; }
+            public ConfiguracaoEntity config { get; }
+            public NotaFiscal notaFiscal { get; }
+            public string cscId { get; }
+            public string csc { get; }
+            public string nFeNamespaceName { get; }
+
+        }
 
         private class TransmiteNFes
         {
@@ -225,7 +246,7 @@ namespace DgSystems.NFe.Services.Actors
             X509Certificate2 certificado = certificadoService.GetX509Certificate2();
             Emissor emitente = _emissorService.GetEmissor();
 
-            RetornoConsulta retornoConsulta  = nfeConsulta.ConsultarNotaFiscal(
+            RetornoConsulta retornoConsulta = nfeConsulta.ConsultarNotaFiscal(
                 nota.Chave, emitente.Endereco.CodigoUF, certificado,
                 nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55);
 

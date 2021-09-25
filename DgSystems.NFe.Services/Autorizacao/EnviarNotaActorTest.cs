@@ -16,16 +16,21 @@ using System;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Xml;
 using Xunit;
-using Consulta = NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 using Autorizacao = NFe.Core.XmlSchemas.NfeAutorizacao.Retorno;
+using Consulta = NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 
 namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 {
     public class EnviarNotaActorTest : TestKit, IClassFixture<NotaFiscalFixture>
     {
         private readonly NotaFiscalFixture fixture;
+        Mock<IConfiguracaoRepository> configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
+        Mock<IServiceFactory> serviceFactoryMock = new Mock<IServiceFactory>();
+        Mock<IConsultarNotaFiscalService> nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
+        Mock<IEmiteNotaFiscalContingenciaFacade> emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
+        Mock<NFeAutorizacao4Soap> nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
+        Mock<IMapper> mapper = new Mock<IMapper>();
 
         public EnviarNotaActorTest(NotaFiscalFixture fixture)
         {
@@ -37,12 +42,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         [Fact]
         public void Should_send_nota_to_sefaz_when_nota_is_valid()
         {
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
                 .Returns(new nfeAutorizacaoLoteResponse() { nfeResultMsg = fixture.nfeResultMsg });
@@ -57,7 +58,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(
                 configuracaoRepositoryMock.Object, serviceFactoryMock.Object, nfeConsultaMock.Object,
-                emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
             subject.Tell(message);
             ExpectMsg<Status.Success>(TimeSpan.FromSeconds(10));
         }
@@ -66,12 +67,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_emitir_em_contingencia_quando_contingencia_ativada()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
 
             configuracaoRepositoryMock.Setup(c => c.GetConfiguracaoAsync()).Returns(Task.FromResult(new ConfiguracaoEntity() { IsContingencia = true}));
             serviceFactoryMock.Setup(s => s.GetService(It.IsAny<Modelo>(), It.IsAny<Servico>(), It.IsAny<CodigoUfIbge>(), It.IsAny<X509Certificate2>()))
@@ -80,7 +77,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             XmlNFe xmlNFe = new XmlNFe(fixture.NotaFiscal, fixture.NfeNamespaceName, fixture.X509Certificate2, fixture.CscId, fixture.Csc);
             var message = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(message);
@@ -95,12 +92,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_retornar_sucesso_apos_resposta_sefaz_actor_success()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
+
             mapper.Setup(m => m.Map<Autorizacao.TProtNFe>(It.IsAny<Consulta.TProtNFe>())).Returns(fixture.ProtNFe);
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
@@ -114,7 +108,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var response = new Result<TProtNFe>(fixture.ProtNFe);
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(request);
@@ -133,12 +127,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_fix_nota_when_sent_but_no_success_response()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
+
             mapper.Setup(m => m.Map<Autorizacao.TProtNFe>(It.IsAny<Consulta.TProtNFe>())).Returns(fixture.ProtNFe);
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
@@ -155,7 +146,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var response = Result.Failure<TProtNFe>(new Exception());
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(request);
@@ -173,12 +164,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_reply_failure_when_nota_not_sent()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
+
             mapper.Setup(m => m.Map<Autorizacao.TProtNFe>(It.IsAny<Consulta.TProtNFe>())).Returns(fixture.ProtNFe);
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
@@ -195,7 +183,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var response = Result.Failure<TProtNFe>(new Exception());
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(request);
@@ -209,12 +197,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_fix_nota_duplicada()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
+
             mapper.Setup(m => m.Map<Autorizacao.TProtNFe>(It.IsAny<Consulta.TProtNFe>())).Returns(fixture.ProtNFe);
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
@@ -231,7 +216,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var response = new Result<TProtNFe>(fixture.ProtNFeMotivoDuplicada);
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(request);
@@ -249,12 +234,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_fix_nota_fiscal_already_sent()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
+
             mapper.Setup(m => m.Map<Autorizacao.TProtNFe>(It.IsAny<Consulta.TProtNFe>())).Returns(fixture.ProtNFe);
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
@@ -271,7 +253,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var response = new Result<Exception>(new Exception());
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(request);
@@ -289,12 +271,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         public void Should_return_failure_when_nota_fiscal_not_sent()
         {
             // Given
-            var configuracaoRepositoryMock = new Mock<IConfiguracaoRepository>();
-            var serviceFactoryMock = new Mock<IServiceFactory>();
-            var nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
-            var emiteNotaContingenciaServiceMock = new Mock<IEmiteNotaFiscalContingenciaFacade>();
-            var nfeAutorizacaoSoapMock = new Mock<NFeAutorizacao4Soap>();
-            var mapper = new Mock<IMapper>();
+            var contingenciaActor = CreateTestProbe();
+            var modoOnlineActor = CreateTestProbe();
+
             mapper.Setup(m => m.Map<Autorizacao.TProtNFe>(It.IsAny<Consulta.TProtNFe>())).Returns(fixture.ProtNFe);
 
             nfeAutorizacaoSoapMock.Setup(n => n.nfeAutorizacaoLote(It.IsAny<nfeAutorizacaoLoteRequest>()))
@@ -311,7 +290,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             var request = new EnviarNotaActor.EnviarNotaFiscal(fixture.NotaFiscal, fixture.CscId, fixture.Csc, fixture.X509Certificate2, xmlNFe);
             var response = Result.Failure<Exception>(new Exception());
             var subject = Sys.ActorOf(Props.Create(() => new EnviarNotaActor(configuracaoRepositoryMock.Object, serviceFactoryMock.Object,
-                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object)));
+                nfeConsultaMock.Object, emiteNotaContingenciaServiceMock.Object, mapper.Object, _ => contingenciaActor.Ref, modoOnlineActor.Ref)));
 
             // When
             subject.Tell(request);

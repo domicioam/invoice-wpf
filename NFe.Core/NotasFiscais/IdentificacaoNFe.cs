@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NFe.Core.Domain
 {
@@ -143,5 +144,72 @@ namespace NFe.Core.Domain
         public string LinkConsultaChave { get; set; } = @"http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx";
 
         public byte[] QrCodeImage { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is IdentificacaoNFe fe &&
+                   _cnpjEmissor == fe._cnpjEmissor &&
+                   _numero == fe._numero &&
+                   UF == fe.UF &&
+                   Numero == fe.Numero &&
+                   NaturezaOperacao == fe.NaturezaOperacao &&
+                   Modelo == fe.Modelo &&
+                   Serie == fe.Serie &&
+                   DataHoraEmissao == fe.DataHoraEmissao &&
+                   TipoOperacao == fe.TipoOperacao &&
+                   OperacaoDestino == fe.OperacaoDestino &&
+                   CodigoMunicipio == fe.CodigoMunicipio &&
+                   FormatoImpressao == fe.FormatoImpressao &&
+                   TipoEmissao == fe.TipoEmissao &&
+                   EqualityComparer<StatusEnvio>.Default.Equals(Status, fe.Status) &&
+                   TipoOperacaooTexto == fe.TipoOperacaooTexto &&
+                   Ambiente == fe.Ambiente &&
+                   FinalidadeEmissao == fe.FinalidadeEmissao &&
+                   FinalidadeConsumidor == fe.FinalidadeConsumidor &&
+                   PresencaComprador == fe.PresencaComprador &&
+                   ProcessoEmissao == fe.ProcessoEmissao &&
+                   VersaoAplicativo == fe.VersaoAplicativo &&
+                   DataHoraEntradaContigencia == fe.DataHoraEntradaContigencia &&
+                   JustificativaContigencia == fe.JustificativaContigencia &&
+                   EqualityComparer<Chave>.Default.Equals(Chave, fe.Chave) &&
+                   MensagemInteresseContribuinte == fe.MensagemInteresseContribuinte &&
+                   DataEmissao == fe.DataEmissao &&
+                   DataSaida == fe.DataSaida &&
+                   HoraSaida == fe.HoraSaida;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1251487820;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_cnpjEmissor);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(_numero);
+            hashCode = hashCode * -1521134295 + UF.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Numero);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(NaturezaOperacao);
+            hashCode = hashCode * -1521134295 + Modelo.GetHashCode();
+            hashCode = hashCode * -1521134295 + Serie.GetHashCode();
+            hashCode = hashCode * -1521134295 + DataHoraEmissao.GetHashCode();
+            hashCode = hashCode * -1521134295 + TipoOperacao.GetHashCode();
+            hashCode = hashCode * -1521134295 + OperacaoDestino.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CodigoMunicipio);
+            hashCode = hashCode * -1521134295 + FormatoImpressao.GetHashCode();
+            hashCode = hashCode * -1521134295 + TipoEmissao.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<StatusEnvio>.Default.GetHashCode(Status);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TipoOperacaooTexto);
+            hashCode = hashCode * -1521134295 + Ambiente.GetHashCode();
+            hashCode = hashCode * -1521134295 + FinalidadeEmissao.GetHashCode();
+            hashCode = hashCode * -1521134295 + FinalidadeConsumidor.GetHashCode();
+            hashCode = hashCode * -1521134295 + PresencaComprador.GetHashCode();
+            hashCode = hashCode * -1521134295 + ProcessoEmissao.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VersaoAplicativo);
+            hashCode = hashCode * -1521134295 + DataHoraEntradaContigencia.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(JustificativaContigencia);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Chave>.Default.GetHashCode(Chave);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MensagemInteresseContribuinte);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DataEmissao);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DataSaida);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(HoraSaida);
+            return hashCode;
+        }
     }
 }
