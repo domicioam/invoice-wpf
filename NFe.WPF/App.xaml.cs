@@ -51,6 +51,7 @@ namespace EmissorNFe
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             TraceSource traceSource = new TraceSource("EmissorNFe");
