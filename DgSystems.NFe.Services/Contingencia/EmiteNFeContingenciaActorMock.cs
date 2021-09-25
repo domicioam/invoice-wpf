@@ -74,7 +74,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 };
         }
 
-        protected override List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
+        protected override IEnumerable<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
         {
             if (resultadoEsperado == ResultadoEsperado.Erro)
             {

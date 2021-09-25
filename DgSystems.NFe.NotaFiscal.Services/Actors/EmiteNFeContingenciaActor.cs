@@ -26,6 +26,7 @@ using System.Xml;
 using Status = NFe.Core.Entitities.Status;
 using Consulta = NFe.Core.XmlSchemas.NfeConsulta2.Retorno;
 using AutoMapper;
+using RetAutorizacao = NFe.Core.XmlSchemas.NfeRetAutorizacao;
 
 namespace DgSystems.NFe.Services.Actors
 {
@@ -63,12 +64,12 @@ namespace DgSystems.NFe.Services.Actors
 
         private class ValidaNFesTransmitidas
         {
-            public ValidaNFesTransmitidas(List<RetornoNotaFiscal> resultadoConsulta)
+            public ValidaNFesTransmitidas(IEnumerable<RetornoNotaFiscal> resultadoConsulta)
             {
                 ResultadoConsulta = resultadoConsulta;
             }
 
-            public List<RetornoNotaFiscal> ResultadoConsulta { get; }
+            public IEnumerable<RetornoNotaFiscal> ResultadoConsulta { get; }
         }
 
         public class ResultadoNotasTransmitidas // mudar para Success ou Failure (Result.Ok, Result.Error)
@@ -87,9 +88,6 @@ namespace DgSystems.NFe.Services.Actors
         private const string NFE_NAMESPACE = "http://www.portalfiscal.inf.br/nfe";
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private bool _isFirstTimeRecheckingRecipts;
-        private bool _isFirstTimeResending;
-
         private readonly IEmitenteRepository _emissorService;
         private readonly IConsultarNotaFiscalService nfeConsulta;
         private readonly IServiceFactory _serviceFactory;
@@ -98,8 +96,8 @@ namespace DgSystems.NFe.Services.Actors
         private readonly IMapper mapper;
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        public EmiteNFeContingenciaActor(INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService, 
-            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, 
+        public EmiteNFeContingenciaActor(INotaFiscalRepository notaFiscalRepository, IEmitenteRepository emissorService,
+            IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService,
             SefazSettings sefazSettings, IMapper mapper)
         {
             _notaFiscalRepository = notaFiscalRepository;
@@ -185,7 +183,7 @@ namespace DgSystems.NFe.Services.Actors
 
             var erros = new List<string>();
 
-            msg.ResultadoConsulta.ForEach(async resultado =>
+            msg.ResultadoConsulta.ToList().ForEach(async resultado =>
             {
                 var nota = _notaFiscalRepository.GetNotaFiscalByChave(resultado.Chave);
 
@@ -225,12 +223,11 @@ namespace DgSystems.NFe.Services.Actors
         protected virtual async Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, NotaFiscalEntity nota)
         {
             X509Certificate2 certificado = certificadoService.GetX509Certificate2();
-            var emitente = _emissorService.GetEmissor();
+            Emissor emitente = _emissorService.GetEmissor();
 
-            var retornoConsulta
-                = nfeConsulta.ConsultarNotaFiscal
-                    (nota.Chave, emitente.Endereco.CodigoUF, certificado,
-                     nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55);
+            RetornoConsulta retornoConsulta  = nfeConsulta.ConsultarNotaFiscal(
+                nota.Chave, emitente.Endereco.CodigoUF, certificado,
+                nota.Modelo.Equals("65") ? Modelo.Modelo65 : Modelo.Modelo55);
 
             if (retornoConsulta.IsEnviada)
             {
@@ -275,100 +272,63 @@ namespace DgSystems.NFe.Services.Actors
             var document = new XmlDocument();
             document.LoadXml(parametroXml);
             var node = document.DocumentElement;
-            try
+
+            var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
+            var certificado = certificadoService.GetX509Certificate2();
+            var servico = _serviceFactory.GetService(modelo, Servico.AUTORIZACAO, codigoUf, certificado);
+            var client = (NFeAutorizacao4SoapClient)servico.SoapClient;
+            var result = client.nfeAutorizacaoLote(node);
+            var retorno = (TRetEnviNFe)XmlUtil.Deserialize<TRetEnviNFe>(result.OuterXml);
+
+            return new MensagemRetornoTransmissaoNotasContingencia
             {
-                var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
-                var certificado = certificadoService.GetX509Certificate2();
-                var servico = _serviceFactory.GetService(modelo, Servico.AUTORIZACAO, codigoUf, certificado);
-                var client = (NFeAutorizacao4SoapClient)servico.SoapClient;
-                var result = client.nfeAutorizacaoLote(node);
-                var retorno = (TRetEnviNFe)XmlUtil.Deserialize<TRetEnviNFe>(result.OuterXml);
-
-                return new MensagemRetornoTransmissaoNotasContingencia
-                {
-                    RetEnviNFeInfRec = (TRetEnviNFeInfRec)retorno.Item,
-                    TipoMensagem = TipoMensagem.Sucesso
-                };
-            }
-            catch (Exception e)
-            {
-                log.Error("Erro ao tentar acessar o serviço de autorização ao transmitir notas fiscais emitidas em contingência.", e);
-                if (!_isFirstTimeResending)
-                {
-                    _isFirstTimeResending = true;
-
-                    //TODO: Refactor to use states to avoid if else
-
-                    return TransmitirLoteNotasFiscaisContingencia(nfeList, modelo);
-                }
-
-                _isFirstTimeResending = false;
-
-                return new MensagemRetornoTransmissaoNotasContingencia
-                {
-                    TipoMensagem = TipoMensagem.ServicoIndisponivel
-                };
-            }
+                RetEnviNFeInfRec = (TRetEnviNFeInfRec)retorno.Item,
+                TipoMensagem = TipoMensagem.Sucesso
+            };
         }
 
-        protected virtual List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
+        protected virtual IEnumerable<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
         {
             var recibo = new TConsReciNFe
             {
                 versao = "4.00",
-                tpAmb = _sefazSettings.Ambiente == Ambiente.Producao ? global::NFe.Core.XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item1 : global::NFe.Core.XmlSchemas.NfeRetAutorizacao.Envio.TAmb.Item2,
+                tpAmb = _sefazSettings.Ambiente == Ambiente.Producao ?
+                    RetAutorizacao.Envio.TAmb.Item1 : RetAutorizacao.Envio.TAmb.Item2,
                 nRec = nRec
             };
 
             var node = new XmlDocument();
             node.LoadXml(XmlUtil.Serialize(recibo, NFE_NAMESPACE));
 
-            try
+            var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
+            X509Certificate2 certificado = certificadoService.GetX509Certificate2();
+            var servico = _serviceFactory.GetService(modelo, Servico.RetAutorizacao, codigoUf, certificado);
+            var client = servico.SoapClient as NFeRetAutorizacao4SoapClient;
+            var result = client.nfeRetAutorizacaoLote(node);
+            var retorno = XmlUtil.Deserialize<TRetConsReciNFe>(result.OuterXml) as TRetConsReciNFe;
+
+            return retorno.protNFe.Select(protNFe => new RetornoNotaFiscal
             {
-                var codigoUf = (CodigoUfIbge)Enum.Parse(typeof(CodigoUfIbge), _emissorService.GetEmissor().Endereco.UF);
-                X509Certificate2 certificado = certificadoService.GetX509Certificate2();
-                var servico = _serviceFactory.GetService(modelo, Servico.RetAutorizacao, codigoUf, certificado);
-                var client = servico.SoapClient as NFeRetAutorizacao4SoapClient;
-                var result = client.nfeRetAutorizacaoLote(node);
-                var retorno = XmlUtil.Deserialize<TRetConsReciNFe>(result.OuterXml) as TRetConsReciNFe;
-
-                return retorno.protNFe.Select(protNFe => new RetornoNotaFiscal
-                {
-                    Chave = protNFe.infProt.chNFe, // chave tem que ser dinâmica
-                    CodigoStatus = protNFe.infProt.cStat,
-                    DataAutorizacao = protNFe.infProt.dhRecbto,
-                    Motivo = protNFe.infProt.xMotivo,
-                    Protocolo = new Protocolo(mapper.Map<Consulta.TProtNFe>(protNFe)),
-                    Xml = XmlUtil.Serialize(protNFe, string.Empty)
-                            .Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
-                            .Replace("TProtNFe", "protNFe")
-                            .Replace("<infProt xmlns=\"http://www.portalfiscal.inf.br/nfe\">", "<infProt>")
-                }).ToList();
-            }
-            catch (Exception e)
-            {
-                //TODO: Refactor to use states to avoid if else
-
-                log.Error(e);
-                if (!_isFirstTimeRecheckingRecipts)
-                {
-                    _isFirstTimeRecheckingRecipts = true;
-                    return ConsultarReciboLoteContingencia(nRec, modelo);
-                }
-
-                _isFirstTimeRecheckingRecipts = false;
-                return null;
-            }
+                Chave = protNFe.infProt.chNFe,
+                CodigoStatus = protNFe.infProt.cStat,
+                DataAutorizacao = protNFe.infProt.dhRecbto,
+                Motivo = protNFe.infProt.xMotivo,
+                Protocolo = new Protocolo(mapper.Map<Consulta.TProtNFe>(protNFe)),
+                Xml = XmlUtil.Serialize(protNFe, string.Empty)
+                        .Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", string.Empty)
+                        .Replace("TProtNFe", "protNFe")
+                        .Replace("<infProt xmlns=\"http://www.portalfiscal.inf.br/nfe\">", "<infProt>")
+            });
         }
 
-        public static string GerarXmlListaNFe(List<string> notasFiscais)
+        public static string GerarXmlListaNFe(IEnumerable<string> notasFiscais)
         {
             var notasConcatenadas = new StringBuilder();
 
-            for (var i = 0; i < notasFiscais.Count; i++)
+            foreach (string nota in notasFiscais)
             {
                 var nfeProc = new XmlDocument();
-                nfeProc.LoadXml(notasFiscais[i]);
+                nfeProc.LoadXml(nota);
                 notasConcatenadas.Append(nfeProc.GetElementsByTagName("NFe")[0].OuterXml);
             }
 
