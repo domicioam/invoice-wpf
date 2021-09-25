@@ -1,9 +1,11 @@
 ﻿using Akka.Actor;
 using Akka.TestKit.Xunit2;
+using AutoMapper;
 using DgSystems.NFe.Services.Actors;
 using Moq;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
+using NFe.Core.Domain;
 using NFe.Core.Entitities;
 using NFe.Core.Interfaces;
 using NFe.Core.NotasFiscais;
@@ -16,19 +18,28 @@ using static DgSystems.NFe.Core.UnitTests.Services.Actors.EmiteNFeContingenciaAc
 
 namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 {
-    public class EmiteNFeContingenciaActorTest : TestKit
+    public class EmiteNFeContingenciaActorTest : TestKit, IClassFixture<NotaFiscalFixture>
     {
+        private readonly NotaFiscalFixture fixture;
+
         public Mock<INotaFiscalRepository> notaFiscalRepositoryMock = new Mock<INotaFiscalRepository>();
         public Mock<IEmitenteRepository> emissorServiceMock = new Mock<IEmitenteRepository>();
         public Mock<IConsultarNotaFiscalService> nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
         public Mock<IServiceFactory> serviceFactoryMock = new Mock<IServiceFactory>();
         public Mock<CertificadoService> certificadoServiceMock = new Mock<CertificadoService>();
         public Mock<SefazSettings> sefazSettingsMock = new Mock<SefazSettings>();
+        public Mock<IMapper> mapperMock = new Mock<IMapper>();
 
-        public List<NotaFiscalEntity> NotasContingencia => new List<NotaFiscalEntity> {
-                    new NotaFiscalEntity { Modelo = "55" },
-                    new NotaFiscalEntity { Modelo = "65" }
-                };
+        public List<NotaFiscalEntity> NotasContingencia =>
+            new List<NotaFiscalEntity> {
+                new NotaFiscalEntity { Modelo = "55" },
+                new NotaFiscalEntity { Modelo = "65" }
+        };
+
+        public EmiteNFeContingenciaActorTest(NotaFiscalFixture fixture)
+        {
+            this.fixture = fixture;
+        }
 
         [Fact]
         public void Deve_responder_erro_quando_validacao_falha()
@@ -46,7 +57,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.ErroValidacao,
-                            ResultadoEsperado.Erro)));
+                            ResultadoEsperado.Erro,
+                            mapperMock.Object)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
@@ -70,7 +82,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.ServicoIndisponivel,
-                            ResultadoEsperado.Erro)));
+                            ResultadoEsperado.Erro,
+                            mapperMock.Object)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
@@ -97,7 +110,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
-                            ResultadoEsperado.Erro)));
+                            ResultadoEsperado.Erro,
+                            mapperMock.Object)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
@@ -112,7 +126,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 .Setup(n =>
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
-                    It.IsAny<global::NFe.Core.Domain.Modelo>()))
+                    It.IsAny<Modelo>()))
                 .Returns(new RetornoConsulta());
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
@@ -122,7 +136,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             emissorServiceMock
                 .Setup(e => e.GetEmissor())
-                .Returns(new global::NFe.Core.Domain.Emissor { Endereco = new global::NFe.Core.Domain.Endereco() });
+                .Returns(new Emissor { Endereco = new Endereco() });
 
             var subject =
                 Sys.ActorOf(
@@ -135,7 +149,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
-                            ResultadoEsperado.Duplicidade)));
+                            ResultadoEsperado.Duplicidade,
+                            mapperMock.Object)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
@@ -150,8 +165,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 .Setup(n =>
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
-                    It.IsAny<global::NFe.Core.Domain.Modelo>()))
-                .Returns(new RetornoConsulta() { IsEnviada = true });
+                    It.IsAny<Modelo>()))
+                .Returns(new RetornoConsulta() { IsEnviada = true, Protocolo = new Protocolo(fixture.ProtNFeConsulta) });
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
             notaFiscalRepositoryMock
@@ -160,7 +175,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             emissorServiceMock
                 .Setup(e => e.GetEmissor())
-                .Returns(new global::NFe.Core.Domain.Emissor { Endereco = new global::NFe.Core.Domain.Endereco() });
+                .Returns(new Emissor { Endereco = new Endereco() });
 
             var subject =
                 Sys.ActorOf(
@@ -173,13 +188,15 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
-                            ResultadoEsperado.CorrigeDuplicidade)));
+                            ResultadoEsperado.CorrigeDuplicidade,
+                            mapperMock.Object)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 
             ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
             ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
             Assert.Equal(4, TentaCorrigirNotaDuplicadaCount);
+            notaFiscalRepositoryMock.Verify(n => n.Salvar(It.IsAny<NotaFiscalEntity>(), It.IsAny<string>()), Times.Exactly(4));
         }
 
         [Fact]
@@ -189,7 +206,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 .Setup(n =>
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
-                    It.IsAny<global::NFe.Core.Domain.Modelo>()))
+                    It.IsAny<Modelo>()))
                 .Returns(new RetornoConsulta() { IsEnviada = true });
 
             notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
@@ -199,7 +216,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             emissorServiceMock
                 .Setup(e => e.GetEmissor())
-                .Returns(new global::NFe.Core.Domain.Emissor { Endereco = new global::NFe.Core.Domain.Endereco() });
+                .Returns(new Emissor { Endereco = new Endereco() });
 
             var subject =
                 Sys.ActorOf(
@@ -212,7 +229,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                             certificadoServiceMock.Object,
                             sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
-                            ResultadoEsperado.CodigoStatus100)));
+                            ResultadoEsperado.CodigoStatus100,
+                            mapperMock.Object)));
 
             subject.Tell(new EmiteNFeContingenciaActor.TransmitirNFeEmContingencia());
 

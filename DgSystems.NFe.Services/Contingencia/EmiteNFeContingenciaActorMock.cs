@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using AutoMapper;
 using DgSystems.NFe.Services.Actors;
 using NFe.Core;
 using NFe.Core.Cadastro.Certificado;
@@ -44,8 +45,9 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             CertificadoService certificadoService,
             SefazSettings sefazSettings,
             TipoMensagem erroValidacao,
-            ResultadoEsperado resultadoEsperado)
-            : base(notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)
+            ResultadoEsperado resultadoEsperado,
+            IMapper mapper)
+            : base(notaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings, mapper)
         {
             this.notaFiscalRepository = notaFiscalRepository;
             this.emissorService = emissorService;
@@ -60,7 +62,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             TentaCorrigirNotaDuplicadaCount = 0;
         }
 
-        public override MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList, Modelo modelo)
+        protected override MensagemRetornoTransmissaoNotasContingencia TransmitirLoteNotasFiscaisContingencia(List<string> nfeList, Modelo modelo)
         {
             if (tipoMensagem != TipoMensagem.Sucesso)
                 return new MensagemRetornoTransmissaoNotasContingencia { TipoMensagem = tipoMensagem };
@@ -72,7 +74,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 };
         }
 
-        public override List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
+        protected override List<RetornoNotaFiscal> ConsultarReciboLoteContingencia(string nRec, Modelo modelo)
         {
             if (resultadoEsperado == ResultadoEsperado.Erro)
             {
@@ -113,21 +115,22 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
             }
         }
 
-        public override Task<(NotaFiscalEntity, string)> PreencheDadosNotaFiscalAposEnvio(RetornoNotaFiscal resultado, NotaFiscalEntity nota)
+        protected override Task<(NotaFiscalEntity, string)> PreencheDadosNotaFiscalAposEnvio(RetornoNotaFiscal resultado, NotaFiscalEntity nota)
         {
             PreencheDadosNotaFiscalAposEnvioCount++;
-            (NotaFiscalEntity, string) tuple = (null, null);
-            return Task.FromResult(tuple);
+            return base.PreencheDadosNotaFiscalAposEnvio(resultado, nota);
         }
 
-        public override Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, NotaFiscalEntity nota)
+        protected override Task TentaCorrigirNotaDuplicada(List<string> erros, RetornoNotaFiscal resultado, NotaFiscalEntity nota)
         {
             if (resultadoEsperado == ResultadoEsperado.CorrigeDuplicidade)
-            {
                 TentaCorrigirNotaDuplicadaCount++;
-                return Task.CompletedTask;
-            }
             return base.TentaCorrigirNotaDuplicada(erros, resultado, nota);
+        }
+
+        protected override Task<string> LoadXmlAsync(NotaFiscalEntity nota, Protocolo retornoConsulta)
+        {
+            return Task.FromResult("");
         }
     }
 }

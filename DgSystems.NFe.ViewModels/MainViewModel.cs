@@ -1,4 +1,5 @@
 using Akka.Actor;
+using AutoMapper;
 using DgSystems.NFe.Services.Actors;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -33,10 +34,11 @@ namespace EmissorNFe.ViewModel
         private readonly ActorSystem actorSystem;
         private readonly IConsultaStatusServicoSefazService consultaStatusServicoService;
         private readonly SefazSettings sefazSettings;
+        private readonly IMapper mapper;
 
         private void LoadedCmd_Execute()
         {
-            Func<IUntypedActorContext, IActorRef> maker = ctx => ctx.ActorOf(Props.Create(() => new EmiteNFeContingenciaActor(NotaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings)));
+            Func<IUntypedActorContext, IActorRef> maker = ctx => ctx.ActorOf(Props.Create(() => new EmiteNFeContingenciaActor(NotaFiscalRepository, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings, mapper)));
             var modoOnlineActor = actorSystem.ActorOf(Props.Create(() => new ModoOnlineActor(configuracaoRepository, consultaStatusServicoService, NotaFiscalRepository, emiteNotaFiscalContingenciaService, emissorService, nfeConsulta, serviceFactory, certificadoService, sefazSettings, maker)), "modoOnline");
             modoOnlineActor.Tell(new ModoOnlineActor.Start());
 
@@ -45,7 +47,7 @@ namespace EmissorNFe.ViewModel
 
         public MainViewModel(MailManager mailManager, IConfiguracaoRepository configuracaoRepository, IConsultaStatusServicoSefazService consultaStatusServicoService,
             INotaFiscalRepository notaFiscalRepository, IEmiteNotaFiscalContingenciaFacade emiteNotaFiscalContingenciaService, ActorSystem actorSystem,
-            IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings)
+            IEmitenteRepository emissorService, IConsultarNotaFiscalService nfeConsulta, IServiceFactory serviceFactory, CertificadoService certificadoService, SefazSettings sefazSettings, IMapper mapper)
         {
             LoadedCmd = new RelayCommand(LoadedCmd_Execute, null);
             _mailManager = mailManager;
@@ -59,6 +61,7 @@ namespace EmissorNFe.ViewModel
             this.actorSystem = actorSystem;
             this.consultaStatusServicoService = consultaStatusServicoService;
             this.sefazSettings = sefazSettings;
+            this.mapper = mapper;
         }
     }
 }
