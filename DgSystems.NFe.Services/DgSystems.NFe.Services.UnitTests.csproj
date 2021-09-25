@@ -130,7 +130,6 @@
   <ItemGroup>
     <Compile Include="Contingencia\EmiteNFeContingenciaActorMock.cs" />
     <Compile Include="Contingencia\EmiteNFeContingenciaActorTest.cs" />
-    <Compile Include="Contingencia\EmiteNFeContingenciaFixture.cs" />
     <Compile Include="Autorizacao\EnviarNotaActorTest.cs" />
     <Compile Include="Cancelamento\CancelaNotaFiscalFixture.cs" />
     <Compile Include="Cancelamento\CancelaNotaFiscalServiceMock.cs" />

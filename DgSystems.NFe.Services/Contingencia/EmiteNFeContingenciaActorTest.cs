@@ -10,36 +10,41 @@ using NFe.Core.NotasFiscais;
 using NFe.Core.NotasFiscais.Sefaz.NfeConsulta2;
 using NFe.Core.Sefaz;
 using System;
+using System.Collections.Generic;
 using Xunit;
 using static DgSystems.NFe.Core.UnitTests.Services.Actors.EmiteNFeContingenciaActorMock;
 
 namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 {
-    public class EmiteNFeContingenciaActorTest : TestKit, IClassFixture<EmiteNFeContingenciaFixture>
+    public class EmiteNFeContingenciaActorTest : TestKit
     {
-        private readonly EmiteNFeContingenciaFixture fixture;
+        public Mock<INotaFiscalRepository> notaFiscalRepositoryMock = new Mock<INotaFiscalRepository>();
+        public Mock<IEmitenteRepository> emissorServiceMock = new Mock<IEmitenteRepository>();
+        public Mock<IConsultarNotaFiscalService> nfeConsultaMock = new Mock<IConsultarNotaFiscalService>();
+        public Mock<IServiceFactory> serviceFactoryMock = new Mock<IServiceFactory>();
+        public Mock<CertificadoService> certificadoServiceMock = new Mock<CertificadoService>();
+        public Mock<SefazSettings> sefazSettingsMock = new Mock<SefazSettings>();
 
-        public EmiteNFeContingenciaActorTest(EmiteNFeContingenciaFixture fixture)
-        {
-            this.fixture = fixture;
-        }
+        public List<NotaFiscalEntity> NotasContingencia => new List<NotaFiscalEntity> {
+                    new NotaFiscalEntity { Modelo = "55" },
+                    new NotaFiscalEntity { Modelo = "65" }
+                };
 
         [Fact]
         public void Deve_responder_erro_quando_validacao_falha()
         {
-
-            fixture.notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
+            notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
 
             var subject =
                 Sys.ActorOf(
                     Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
-                            fixture.notaFiscalRepositoryMock.Object,
-                            fixture.emissorServiceMock.Object,
-                            fixture.nfeConsultaMock.Object,
-                            fixture.serviceFactoryMock.Object,
-                            fixture.certificadoServiceMock.Object,
-                            fixture.sefazSettingsMock.Object,
+                            notaFiscalRepositoryMock.Object,
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
+                            certificadoServiceMock.Object,
+                            sefazSettingsMock.Object,
                             TipoMensagem.ErroValidacao,
                             ResultadoEsperado.Erro)));
 
@@ -52,18 +57,18 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         [Fact]
         public void Deve_responder_erro_quando_servico_indisponivel()
         {
-            fixture.notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
+            notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
 
             var subject =
                 Sys.ActorOf(
                     Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
-                            fixture.notaFiscalRepositoryMock.Object,
-                            fixture.emissorServiceMock.Object,
-                            fixture.nfeConsultaMock.Object,
-                            fixture.serviceFactoryMock.Object,
-                            fixture.certificadoServiceMock.Object,
-                            fixture.sefazSettingsMock.Object,
+                            notaFiscalRepositoryMock.Object,
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
+                            certificadoServiceMock.Object,
+                            sefazSettingsMock.Object,
                             TipoMensagem.ServicoIndisponivel,
                             ResultadoEsperado.Erro)));
 
@@ -76,8 +81,8 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         [Fact]
         public void Deve_consultar_recibos_e_retornar_erro()
         {
-            fixture.notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
-            fixture.notaFiscalRepositoryMock
+            notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
+            notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
                 .Returns(new NotaFiscalEntity());
 
@@ -85,12 +90,12 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 Sys.ActorOf(
                     Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
-                            fixture.notaFiscalRepositoryMock.Object,
-                            fixture.emissorServiceMock.Object,
-                            fixture.nfeConsultaMock.Object,
-                            fixture.serviceFactoryMock.Object,
-                            fixture.certificadoServiceMock.Object,
-                            fixture.sefazSettingsMock.Object,
+                            notaFiscalRepositoryMock.Object,
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
+                            certificadoServiceMock.Object,
+                            sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
                             ResultadoEsperado.Erro)));
 
@@ -103,19 +108,19 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         [Fact]
         public void Deve_retornar_erro_duplicidade()
         {
-            fixture.nfeConsultaMock
+            nfeConsultaMock
                 .Setup(n =>
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
                     It.IsAny<global::NFe.Core.Domain.Modelo>()))
                 .Returns(new RetornoConsulta());
 
-            fixture.notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
-            fixture.notaFiscalRepositoryMock
+            notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
+            notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
                 .Returns(new NotaFiscalEntity { Chave = "", Modelo = "65" });
 
-            fixture.emissorServiceMock
+            emissorServiceMock
                 .Setup(e => e.GetEmissor())
                 .Returns(new global::NFe.Core.Domain.Emissor { Endereco = new global::NFe.Core.Domain.Endereco() });
 
@@ -123,12 +128,12 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 Sys.ActorOf(
                     Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
-                            fixture.notaFiscalRepositoryMock.Object,
-                            fixture.emissorServiceMock.Object,
-                            fixture.nfeConsultaMock.Object,
-                            fixture.serviceFactoryMock.Object,
-                            fixture.certificadoServiceMock.Object,
-                            fixture.sefazSettingsMock.Object,
+                            notaFiscalRepositoryMock.Object,
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
+                            certificadoServiceMock.Object,
+                            sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
                             ResultadoEsperado.Duplicidade)));
 
@@ -141,19 +146,19 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         [Fact]
         public void Deve_corrigir_nota_duplicada()
         {
-            fixture.nfeConsultaMock
+            nfeConsultaMock
                 .Setup(n =>
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
                     It.IsAny<global::NFe.Core.Domain.Modelo>()))
                 .Returns(new RetornoConsulta() { IsEnviada = true });
 
-            fixture.notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
-            fixture.notaFiscalRepositoryMock
+            notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
+            notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
                 .Returns(new NotaFiscalEntity { Chave = "", Modelo = "65" });
 
-            fixture.emissorServiceMock
+            emissorServiceMock
                 .Setup(e => e.GetEmissor())
                 .Returns(new global::NFe.Core.Domain.Emissor { Endereco = new global::NFe.Core.Domain.Endereco() });
 
@@ -161,12 +166,12 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 Sys.ActorOf(
                     Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
-                            fixture.notaFiscalRepositoryMock.Object,
-                            fixture.emissorServiceMock.Object,
-                            fixture.nfeConsultaMock.Object,
-                            fixture.serviceFactoryMock.Object,
-                            fixture.certificadoServiceMock.Object,
-                            fixture.sefazSettingsMock.Object,
+                            notaFiscalRepositoryMock.Object,
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
+                            certificadoServiceMock.Object,
+                            sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
                             ResultadoEsperado.CorrigeDuplicidade)));
 
@@ -180,19 +185,19 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
         [Fact]
         public void Deve_enviar_nota_quando_codigo_status_100()
         {
-            fixture.nfeConsultaMock
+            nfeConsultaMock
                 .Setup(n =>
                     n.ConsultarNotaFiscal(It.IsAny<string>(),
                     It.IsAny<string>(), null,
                     It.IsAny<global::NFe.Core.Domain.Modelo>()))
                 .Returns(new RetornoConsulta() { IsEnviada = true });
 
-            fixture.notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(fixture.NotasContingencia);
-            fixture.notaFiscalRepositoryMock
+            notaFiscalRepositoryMock.Setup(n => n.GetNotasContingencia()).Returns(NotasContingencia);
+            notaFiscalRepositoryMock
                 .Setup(n => n.GetNotaFiscalByChave(It.IsAny<string>()))
                 .Returns(new NotaFiscalEntity { Chave = "", Modelo = "65" });
 
-            fixture.emissorServiceMock
+            emissorServiceMock
                 .Setup(e => e.GetEmissor())
                 .Returns(new global::NFe.Core.Domain.Emissor { Endereco = new global::NFe.Core.Domain.Endereco() });
 
@@ -200,12 +205,12 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
                 Sys.ActorOf(
                     Props.Create(() =>
                         new EmiteNFeContingenciaActorMock(
-                            fixture.notaFiscalRepositoryMock.Object,
-                            fixture.emissorServiceMock.Object,
-                            fixture.nfeConsultaMock.Object,
-                            fixture.serviceFactoryMock.Object,
-                            fixture.certificadoServiceMock.Object,
-                            fixture.sefazSettingsMock.Object,
+                            notaFiscalRepositoryMock.Object,
+                            emissorServiceMock.Object,
+                            nfeConsultaMock.Object,
+                            serviceFactoryMock.Object,
+                            certificadoServiceMock.Object,
+                            sefazSettingsMock.Object,
                             TipoMensagem.Sucesso,
                             ResultadoEsperado.CodigoStatus100)));
 
@@ -213,7 +218,7 @@ namespace DgSystems.NFe.Core.UnitTests.Services.Actors
 
             ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
             ExpectMsg<EmiteNFeContingenciaActor.ResultadoNotasTransmitidas>(msg => Assert.True(msg.Erros.Count == 0), TimeSpan.FromSeconds(50));
-            fixture.notaFiscalRepositoryMock.Verify(n => n.Salvar(It.IsAny<NotaFiscalEntity>(), It.IsAny<string>()));
+            notaFiscalRepositoryMock.Verify(n => n.Salvar(It.IsAny<NotaFiscalEntity>(), It.IsAny<string>()));
             Assert.Equal(4, PreencheDadosNotaFiscalAposEnvioCount);
         }
     }
