@@ -46,10 +46,10 @@ namespace NFe.Core.Sefaz.Facades
         {
             QrCode qrCode = new QrCode();
 
-            qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, notaFiscal.Destinatario,
-               digVal, notaFiscal.Identificacao.Ambiente,
-               notaFiscal.Identificacao.DataHoraEmissao,
-               notaFiscal.GetTotal().ToString("F", CultureInfo.InvariantCulture), notaFiscal.GetTotalIcms().ToString("F", CultureInfo.InvariantCulture), cscId, csc, notaFiscal.Identificacao.TipoEmissao);
+            qrCode.GerarQrCodeNFe(notaFiscal.Identificacao.Chave, digVal,
+               notaFiscal.Identificacao.Ambiente, notaFiscal.Identificacao.DataHoraEmissao,
+               notaFiscal.GetTotal().ToString("F", CultureInfo.InvariantCulture),
+               cscId, csc, notaFiscal.Identificacao.TipoEmissao);
 
             return qrCode;
         }

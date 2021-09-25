@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NFe.Core.Domain;
+using System;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using NFe.Core.Domain;
 
 namespace NFe.Core.Sefaz.Facades
 {
@@ -17,8 +14,8 @@ namespace NFe.Core.Sefaz.Facades
             _qrCode = string.Empty;
         }
 
-        public void GerarQrCodeNFe(Chave chave, Destinatario destinatario, string digestValue, Ambiente ambiente, DateTime dhEmissao,
-            string valorNF, string valorICMS, string cIdToken, string csc, TipoEmissao tipoEmissão)
+        public void GerarQrCodeNFe(Chave chave, string digestValue, Ambiente ambiente, DateTime dhEmissao, string valorNF,
+            string cIdToken, string csc, TipoEmissao tipoEmissão)
         {
             if (tipoEmissão == TipoEmissao.Normal)
             {
@@ -33,8 +30,6 @@ namespace NFe.Core.Sefaz.Facades
         private string GerarQrCodeNFeEmissãoOnline(Chave chave, Ambiente ambiente, string cscId, string csc)
         {
             string versãoQrCode = "2";
-            int ambienteNum = (int)ambiente + 1;
-
             string entradaSHA1 = $"{chave}|{versãoQrCode}|{(int)ambiente + 1}|{Int32.Parse(cscId)}";
 
             string saidaSHA1;
@@ -48,7 +43,8 @@ namespace NFe.Core.Sefaz.Facades
             return "http://dec.fazenda.df.gov.br/ConsultarNFCe.aspx?p=" + $"{entradaSHA1}|{saidaSHA1}";
         }
 
-        private string GerarQrCodeNFeEmissãoOffline(Chave chave, string digestValue, Ambiente ambiente, int diaEmissão, string valorNF, string cIdToken, string csc)
+        private string GerarQrCodeNFeEmissãoOffline(Chave chave, string digestValue, Ambiente ambiente, int diaEmissão, string valorNF,
+            string cIdToken, string csc)
         {
             string versãoQrCode = "2";
             var digValHex = BitConverter.ToString(Encoding.UTF8.GetBytes(digestValue)).Replace("-", "").ToLower();

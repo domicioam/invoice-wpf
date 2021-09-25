@@ -114,11 +114,10 @@ namespace NFe.Core.Domain
                 if (Identificacao.Modelo == Modelo.Modelo65)
                 {
                     QrCode qrCode = new QrCode();
-                    qrCode.GerarQrCodeNFe(Identificacao.Chave, Destinatario, digVal,
-                        Identificacao.Ambiente,
+                    qrCode.GerarQrCodeNFe(Identificacao.Chave, digVal, Identificacao.Ambiente,
                         Identificacao.DataHoraEmissao,
                         GetTotal().ToString("F", CultureInfo.InvariantCulture),
-                        GetTotalIcms().ToString("F", CultureInfo.InvariantCulture), cscId,
+                        cscId,
                         csc, Identificacao.TipoEmissao);
 
                     newNodeXml = node.InnerXml.Replace("<qrCode />", "<qrCode>" + qrCode + "</qrCode>");
